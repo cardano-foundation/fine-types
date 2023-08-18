@@ -6,3 +6,6 @@ index-state:
 
 packages:
     lib/fine-types/
+
+tests:
+  True
