@@ -49,14 +49,17 @@ library
     src
   build-depends:
     base >=4.14.3.0
+    , bytestring
     , containers
     , megaparsec ^>= 9.2.1
     , parser-combinators
+    , text
   exposed-modules:
     Language.FineTypes
     Language.FineTypes.Module
     Language.FineTypes.Parser
     Language.FineTypes.Typ
+    Language.FineTypes.Value
 
 test-suite unit
   import:      language, opts-exe
