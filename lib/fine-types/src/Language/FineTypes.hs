@@ -1,1 +1,1 @@
-module Language.FineTypes where
+module Language.FineTypes () where
