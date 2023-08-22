@@ -51,3 +51,16 @@ library
     base >=4.14.3.0
   exposed-modules:
     Language.FineTypes
+
+test-suite unit
+  import:      language, opts-exe
+  type:        exitcode-stdio-1.0
+  hs-source-dirs:
+    test
+  build-tool-depends:
+    hspec-discover:hspec-discover == 2.*
+  build-depends:
+    base
+    , fine-types
+  main-is:
+    Spec.hs
