@@ -64,6 +64,7 @@ library
     Language.FineTypes.Typ
     Language.FineTypes.Typ.Gen
     Language.FineTypes.Value
+    Language.FineTypes.Value.Gen
 
 test-suite unit
   import:      language, opts-exe
