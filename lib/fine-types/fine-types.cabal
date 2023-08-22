@@ -50,6 +50,7 @@ library
   build-depends:
     , aeson ^>= 2.1.2
     , base >=4.14.3.0
+    , base16 >= 1.0
     , bytestring
     , containers
     , deepseq >= 1.4.4
@@ -64,6 +65,7 @@ library
   exposed-modules:
     Language.FineTypes
     Language.FineTypes.Export.OpenAPI.Typ
+    Language.FineTypes.Export.OpenAPI.Value
     Language.FineTypes.Module
     Language.FineTypes.Module.Gen
     Language.FineTypes.Module.PrettyPrinter
