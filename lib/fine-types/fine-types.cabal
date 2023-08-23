@@ -48,17 +48,21 @@ library
   hs-source-dirs:
     src
   build-depends:
-    base >=4.14.3.0
+    , base >=4.14.3.0
     , bytestring
     , containers
     , megaparsec ^>= 9.2.1
     , parser-combinators
+    , pretty-simple
+    , QuickCheck
     , text
+    , transformers
   exposed-modules:
     Language.FineTypes
     Language.FineTypes.Module
     Language.FineTypes.Parser
     Language.FineTypes.Typ
+    Language.FineTypes.Typ.Gen
     Language.FineTypes.Value
 
 test-suite unit
