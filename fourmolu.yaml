@@ -18,4 +18,4 @@ indentation: 4
 let-style: auto
 newlines-between-decls: 1
 record-brace-space: false
-respectful: true
+column-limit: 80

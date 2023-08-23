@@ -14,8 +14,8 @@ category:           Language
 extra-doc-files:
   CHANGELOG.md
   README.md
--- extra-source-files:
-
+extra-source-files:
+  test/data/*.fine
 
 common language
   default-language:
@@ -49,8 +49,17 @@ library
     src
   build-depends:
     base >=4.14.3.0
+    , bytestring
+    , containers
+    , megaparsec ^>= 9.2.1
+    , parser-combinators
+    , text
   exposed-modules:
     Language.FineTypes
+    Language.FineTypes.Module
+    Language.FineTypes.Parser
+    Language.FineTypes.Typ
+    Language.FineTypes.Value
 
 test-suite unit
   import:      language, opts-exe
@@ -61,6 +70,11 @@ test-suite unit
     hspec-discover:hspec-discover == 2.*
   build-depends:
     base
+    , containers
     , fine-types
+    , hspec ^>= 2.11.0
   main-is:
     Spec.hs
+  other-modules:
+    Language.FineTypes.ParserSpec
+

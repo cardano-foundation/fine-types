@@ -19,6 +19,6 @@ test:
     cabal test -v0 -O0 -j unit
 
 repl: 
-    cabal repl -v0 -O0 -j
+    cabal repl -v0 -O0 -j fine-types
 
 prepare: format lint build0 test

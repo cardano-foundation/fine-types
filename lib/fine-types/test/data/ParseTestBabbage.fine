@@ -1,0 +1,161 @@
+{-----------------------------------------------------------------------------
+    FineTypes parser test case
+------------------------------------------------------------------------------}
+module ParseTestBabbage where
+
+Slot    = _;
+Network = _;
+Ix      = ℕ;
+
+Coin    = ℕ;
+
+ByteString = Bytes;
+
+{-----------------------------------------------------------------------------
+    Addresses
+------------------------------------------------------------------------------}
+Addr     = _; -- simplified in this document
+Addr_rwd = Addr;
+
+DCert    = _; -- simplified in this document
+
+{-----------------------------------------------------------------------------
+    Cryptographic definitions
+    Shelley spec, Figure 2, filtered
+------------------------------------------------------------------------------}
+VKey = _;
+Sig  = _;
+
+{-----------------------------------------------------------------------------
+    Hashes
+    Shelley spec, Section A.1 Hashing
+------------------------------------------------------------------------------}
+Hash28 = _; -- 28 bytes. BLAKE2b-224
+Hash32 = _; -- 32 bytes. BLAKE2b-256
+
+{-----------------------------------------------------------------------------
+    Hashes
+    Alonzo spec, Figure 21
+------------------------------------------------------------------------------}
+ScriptHash = Hash28;
+KeyHash    = Hash28;
+DataHash   = Hash32;
+TxId       = _; -- simplified in this document
+
+{-----------------------------------------------------------------------------
+    Simple scripts
+------------------------------------------------------------------------------}
+Script^ph1 = _; -- simplified in this document
+
+{-----------------------------------------------------------------------------
+    Protocol parameters
+    Babbage spec, Figure 1
+------------------------------------------------------------------------------}
+ExUnits = ℕ × ℕ;
+
+{-----------------------------------------------------------------------------
+    Protocol parameters update
+------------------------------------------------------------------------------}
+Update = _; -- simplified in this document
+
+{-----------------------------------------------------------------------------
+    Plutus
+    Alonzo Spec, Figure 2
+------------------------------------------------------------------------------}
+-- Abstract types
+ScriptIntegrityHash = Hash32;       -- `script_data_hash` in babbage.cddl
+Script_plc = _;
+Data       = _;
+
+-- Script types
+Script^ph2 = Script_plc;
+Script     = Script^ph1 ⊎ Script^ph2;
+IsValid    = Bool;
+Datum      = Data;
+Redeemer   = Data;
+
+-- Derived types
+ValidityInterval = Slot? × Slot?;
+-- TxOut -- defined in Babbage
+Tag        = _; -- FIXME. Enum
+RdmrPtr    = Tag × Ix;
+ScriptHash = Hash28;                -- `scripthash` in babbage.cddl
+
+{-----------------------------------------------------------------------------
+    Value and Token Algebra
+    Mary spec, Figure 3, filtered
+------------------------------------------------------------------------------}
+AssetName = ByteString;
+PolicyID  = ScriptHash;
+AdaIDType = _;
+AssetID   = AdaIDType ⊎ (PolicyID × AssetName);
+Quantity  = ℤ;
+Value     = AssetID ↦0 Quantity;
+
+{-----------------------------------------------------------------------------
+    Transactions
+    Shelley spec, Figure 10, filtered
+------------------------------------------------------------------------------}
+-- Abstract types
+-- TxId -- defined elsewhere
+Metadatum = _;
+
+-- Derived types
+TxIn        = TxId × Ix;
+UTxO        = TxIn ↦ TxOut;
+Wdrl        = Addr_rwd ↦ Coin;
+Metadata    = ℕ ↦ Metadatum; 
+
+{-----------------------------------------------------------------------------
+    Transaction Body
+    Babbage spec, Figure 1
+------------------------------------------------------------------------------}
+TxOut = Addr × Value × (Datum ⊎ DataHash)? × Script?;
+
+TxBody =
+  { spendInputs         : ℙ TxIn
+  , collInputs          : ℙ TxIn
+  , refInputs           : ℙ TxIn
+  , txouts              : (Ix →∗ TxOut)
+  , collRet             : TxOut?
+  , txcoll              : Coin?
+  , txcerts             : DCert*
+  , mint                : Value
+  , txfee               : Coin
+  , txvldt              : ValidityInterval
+  , txwdrls             : Wdrl
+  , txUpdates           : Update?
+  , reqSignerHashes     : ℙ KeyHash
+  , scriptIntegrityHash : ScriptIntegrityHash?
+  , txADhash            : AuxiliaryDataHash?
+  , txnetworkid         : Network?
+  };
+
+{-----------------------------------------------------------------------------
+    AuxiliaryData
+    Mary spec, Figure 5, filtered
+------------------------------------------------------------------------------}
+AuxiliaryData =
+  { scripts : ℙ Script
+  , md      : Metadata? 
+  };
+
+AuxiliaryDataHash = Hash32; -- `auxiliary_data_hash` in babbage.cddl
+
+{-----------------------------------------------------------------------------
+    Transaction and witness
+    Alonzo spec, Figure 3, filtered
+------------------------------------------------------------------------------}
+TxWitness =
+  { txwitsVKey : VKey ↦ Sig
+  , txscripts  : ScriptHash ↦ Script
+  , txdats     : DataHash ↦ Datum
+  , txrdmrs    : RdmrPtr ↦ (Redeemer × ExUnits)
+  };
+
+Tx =
+  { txbody        : TxBody
+  , txwits        : TxWitness
+  , isValid       : IsValid
+  , auxiliaryData : AuxiliaryData?
+  };
