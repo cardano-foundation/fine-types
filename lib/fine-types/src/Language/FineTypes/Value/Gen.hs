@@ -4,6 +4,7 @@
 module Language.FineTypes.Value.Gen
     ( genTypValue
     , genTypValue'
+    , genValue
     )
 where
 
@@ -30,6 +31,7 @@ import Test.QuickCheck
     , listOf
     , oneof
     )
+import Language.FineTypes.Typ.Gen (Concrete (..), DepthGen (..), genTyp)
 
 import qualified Data.ByteString as B
 import qualified Data.Map as Map
@@ -119,3 +121,9 @@ genTypValue' typ = do
     case r of
         Left typ' -> error $ "typeValueGenE: " <> show typ'
         Right v -> pure v
+
+genValue :: DepthGen -> Gen (Typ, Either Typ Value)
+genValue dg = do
+    typ <- genTyp Concrete dg
+    r <- genTypValue typ
+    pure (typ, r)
