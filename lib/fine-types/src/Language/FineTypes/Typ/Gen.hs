@@ -1,4 +1,3 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE LambdaCase #-}
 
 module Language.FineTypes.Typ.Gen where
@@ -20,6 +19,7 @@ import Language.FineTypes.Typ
 import Test.QuickCheck
     ( Gen
     , elements
+    , frequency
     , listOf1
     , oneof
     , scale
@@ -40,18 +40,15 @@ patchNoData Complete =
 
 -- | Minimum depth of the generated 'Typ'. Shorter than depth branches are still
 -- possible if the actual  'Typ' is Zero or Abstract or Var
-newtype DepthGen = DepthGen Int
-    deriving (Eq, Ord, Show, Num)
+type DepthGen = Int
 
-shaping :: DepthGen -> Gen Bool
-shaping (DepthGen n)
-    | n > 0 = pure True
-    | otherwise = elements $ True : replicate (negate n) False
+willBranch :: DepthGen -> Gen Bool
+willBranch n = frequency [(1, pure True), (max 0 $ negate n, pure False)]
 
 -- | Generate a random 'Typ'.
 genTyp :: Concrete -> DepthGen -> Gen Typ
 genTyp f n = do
-    b <- shaping n
+    b <- willBranch n
     oneof
         $ patchNoData f
         $ if b
@@ -64,8 +61,7 @@ genTyp f n = do
                 ]
             else [Zero <$> genConst]
   where
-    genTyp' = genTyp f n'
-    n' = n - 1
+    genTyp' = genTyp f $ n - 1
     genTagged :: Gen [a] -> Gen [(a, Typ)]
     genTagged gen = do
         names <- gen
@@ -128,4 +124,4 @@ genFields = genNames
 logScale :: Double -> Gen a -> Gen a
 logScale n = scale logN
   where
-    logN x = round $ logBase n (fromIntegral x)
+    logN x = floor $ logBase n $ 1 + fromIntegral x
