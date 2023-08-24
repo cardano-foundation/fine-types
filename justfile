@@ -1,3 +1,5 @@
+seed := "0"
+
 default:
     just list
 
@@ -17,6 +19,10 @@ build0:
 
 test:
     cabal test -v0 -O0 -j unit
+
+test-seed:
+    echo {{seed}}
+    cabal test -v0 -O0 -j unit --test-options="--seed {{seed}}"
 
 repl: 
     cabal repl -v0 -O0 -j fine-types

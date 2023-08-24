@@ -16,6 +16,12 @@ import Control.Monad.Trans.Except (ExceptT (..), runExceptT)
 import Data.ByteString (ByteString)
 import Data.Text (Text)
 import Language.FineTypes.Typ (Typ)
+import Language.FineTypes.Typ.Gen
+    ( Concrete (..)
+    , DepthGen
+    , genTyp
+    , logScale
+    )
 import Language.FineTypes.Value
     ( OneF (..)
     , TwoF (..)
@@ -31,7 +37,6 @@ import Test.QuickCheck
     , listOf
     , oneof
     )
-import Language.FineTypes.Typ.Gen (Concrete (..), DepthGen (..), genTyp)
 
 import qualified Data.ByteString as B
 import qualified Data.Map as Map
@@ -54,7 +59,7 @@ exceptGenValue = ExceptT . genTypValue
 -- | Generate a random list of the given length under a monad transformer.
 listOfT :: (Monad (t Gen), MonadTrans t) => t Gen a -> t Gen [a]
 listOfT f = do
-    l <- lift getSize
+    l <- lift $ logScale 2 getSize
     replicateM l f
 
 -- | Generate a random 'Value' of the given 'Typ' or report the first 'Typ' that

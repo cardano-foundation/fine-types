@@ -78,8 +78,10 @@ test-suite unit
     , containers
     , fine-types
     , hspec ^>= 2.11.0
+    , QuickCheck
   main-is:
     Spec.hs
   other-modules:
     Language.FineTypes.ParserSpec
+    Language.FineTypes.ValueSpec
 
