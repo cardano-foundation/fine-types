@@ -57,9 +57,11 @@ library
     , QuickCheck
     , text
     , transformers
+    , prettyprinter
   exposed-modules:
     Language.FineTypes
     Language.FineTypes.Module
+    Language.FineTypes.Module.PrettyPrinter
     Language.FineTypes.Parser
     Language.FineTypes.Typ
     Language.FineTypes.Typ.Gen

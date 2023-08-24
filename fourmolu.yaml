@@ -10,6 +10,7 @@ fixities:
   - infixl 0 $, $! 
   - infixl 4 <*>, <*, *>, <**> 
   - infixl 6 <> 
+  - infixl 7 <+> 
   - infixl 3 <|> 
   - infixr 5 :|
 haddock-style: single-line
