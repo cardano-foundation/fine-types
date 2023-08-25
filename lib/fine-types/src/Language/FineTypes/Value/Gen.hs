@@ -17,8 +17,8 @@ import Data.ByteString (ByteString)
 import Data.Text (Text)
 import Language.FineTypes.Typ (Typ)
 import Language.FineTypes.Typ.Gen
-    ( Concrete (..)
-    , DepthGen
+    ( DepthGen
+    , Mode (..)
     , genTyp
     , logScale
     )
