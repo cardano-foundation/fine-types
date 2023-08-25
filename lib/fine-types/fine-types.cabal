@@ -61,6 +61,7 @@ library
   exposed-modules:
     Language.FineTypes
     Language.FineTypes.Module
+    Language.FineTypes.Module.Gen
     Language.FineTypes.Module.PrettyPrinter
     Language.FineTypes.Parser
     Language.FineTypes.Typ
