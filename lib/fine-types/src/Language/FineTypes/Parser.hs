@@ -1,6 +1,7 @@
 -- | Parser for a FineTypes 'Module'.
 module Language.FineTypes.Parser
     ( parseFineTypes
+    , parseFineTypes'
     ) where
 
 import Prelude
@@ -22,10 +23,12 @@ import Language.FineTypes.Typ
     , TypName
     )
 import Text.Megaparsec
-    ( Parsec
+    ( ParseErrorBundle
+    , Parsec
     , between
     , endBy
     , many
+    , parse
     , parseMaybe
     , satisfy
     , sepBy
@@ -47,6 +50,9 @@ import qualified Text.Megaparsec.Char.Lexer as L
 -- as they appears in the Cardano ledger specification.
 parseFineTypes :: String -> Maybe Module
 parseFineTypes = parseMaybe document
+
+parseFineTypes' :: String -> Either (ParseErrorBundle String Void) Module
+parseFineTypes' = parse document ""
 
 {-----------------------------------------------------------------------------
     Parser
