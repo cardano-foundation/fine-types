@@ -53,7 +53,6 @@ library
     , containers
     , megaparsec ^>= 9.2.1
     , parser-combinators
-    , pretty-simple
     , QuickCheck
     , text
     , transformers
