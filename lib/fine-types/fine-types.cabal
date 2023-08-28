@@ -51,6 +51,7 @@ library
     , base >=4.14.3.0
     , bytestring
     , containers
+    , lens
     , megaparsec ^>= 9.2.1
     , parser-combinators
     , pretty-simple
@@ -62,6 +63,7 @@ library
     Language.FineTypes
     Language.FineTypes.Module
     Language.FineTypes.Module.Gen
+    Language.FineTypes.Module.Graph
     Language.FineTypes.Module.PrettyPrinter
     Language.FineTypes.Parser
     Language.FineTypes.Typ
