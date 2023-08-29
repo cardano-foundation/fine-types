@@ -23,6 +23,7 @@ common language
   default-extensions:
     NoImplicitPrelude
   other-extensions:
+    NamedFieldPuns
     OverloadedStrings
 
 common opts-lib
