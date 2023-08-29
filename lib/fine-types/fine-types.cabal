@@ -61,6 +61,7 @@ library
   exposed-modules:
     Language.FineTypes
     Language.FineTypes.Module
+    Language.FineTypes.Module.Gen
     Language.FineTypes.Module.PrettyPrinter
     Language.FineTypes.Parser
     Language.FineTypes.Typ
@@ -81,6 +82,7 @@ test-suite unit
     , fine-types
     , hspec ^>= 2.11.0
     , QuickCheck
+    , pretty-simple
   main-is:
     Spec.hs
   other-modules:

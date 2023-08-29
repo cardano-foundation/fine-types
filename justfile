@@ -18,11 +18,15 @@ build0:
     cabal build -v0 -O0 -j fine-types
 
 test:
-    cabal test -v0 -O0 -j unit
+    @cabal test -v0 -O0 unit \
+        --test-show-details=direct \
+        --test-options="--format=checks --color"
 
 test-seed:
-    echo {{seed}}
-    cabal test -v0 -O0 -j unit --test-options="--seed {{seed}}"
+    @cabal test -v0 -O0 -j unit \
+        --test-show-details=direct \
+        --test-options="--format=checks --color" \
+        --test-options="--seed {{seed}}"
 
 repl: 
     cabal repl -v0 -O0 -j fine-types
