@@ -10,6 +10,7 @@ import Data.Maybe
 import Language.FineTypes.Module
     ( collectNotInScope
     )
+import Language.FineTypes.Module.PrettyPrinter (prettyPrintModule)
 import Language.FineTypes.Parser
     ( parseFineTypes
     )
@@ -37,3 +38,10 @@ spec = do
             file <- readFile "test/data/ParseTestBabbage.fine"
             Just m <- pure $ parseFineTypes file
             collectNotInScope m `shouldBe` Set.empty
+    describe "pretty print + parse idempotency" $ do
+        it "holds for the ParseTestBabbage.fine file" $ do
+            file <- readFile "test/data/ParseTestBabbage.fine"
+            Just m <- pure $ parseFineTypes file
+            let output = prettyPrintModule m
+                m' = parseFineTypes output
+            m' `shouldBe` Just m
