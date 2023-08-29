@@ -1,0 +1,31 @@
+module PParams where
+
+
+{-----------------------------------------------------------------------------
+    Protocol parameters
+    Shelley spec, Figure 7
+------------------------------------------------------------------------------}
+
+Coin = ℤ; -- unit of value
+Epoch = ℕ;  -- epoch number
+Seed = ℕ; -- seed for random number generator
+ProtVer = ℕ × ℕ; -- protocol version
+
+PParams = 
+    { a : ℤ  -- min fee factor
+    , b : ℤ  -- min fee constant
+    , maxBlockSize : ℕ  -- max block body size
+    , maxTxSize : ℕ  -- max transaction size
+    , maxHeaderSize : ℕ  -- max block header size
+    , poolDeposit : Coin  -- stake pool deposit
+    , Emax : Epoch  -- epoch bound on pool retirement
+    , nopt : { x : ℕ | x > 0 }  -- desired number of pools
+    , a0 : { x : ℚ | x ∈ [0, ∞) }  -- pool influence
+    , τ :  { y : ℚ | y ∈ [0, 1] }  -- treasury expansion
+    , ρ : { x : ℚ | x ∈ [0, 1] }  -- monetary expansion
+    , d : { x : ℚ | x ∈ {0 , 1/100, 2/100, .... , 1} }  -- decentralization parameter
+    , extraEntropy : Seed  -- extra entropy
+    , pv : ProtVer  -- protocol version
+    , minUTxOValue : Coin  -- minimum allowed value of a new TxOut
+    , minPoolCost : Coin  -- minimum allowed stake pool cost
+    };

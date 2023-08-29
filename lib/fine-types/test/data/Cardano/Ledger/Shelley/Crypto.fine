@@ -1,0 +1,7 @@
+module Crypto where 
+
+VKey = _ ; -- public verifying key
+KeyHash = _ ; -- hash of a public key
+ScriptHash = _ ; -- hash of a script
+Script = _ ; -- multi-signature script
+Sig = _ ; -- signature

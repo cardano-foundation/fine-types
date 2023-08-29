@@ -97,5 +97,6 @@ test-suite unit
     Spec.hs
   other-modules:
     Language.FineTypes.Export.OpenAPI.TypSpec
+    Language.FineTypes.Cardano.Ledger.ShelleySpec
     Language.FineTypes.ParserSpec
     Language.FineTypes.ValueSpec

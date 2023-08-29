@@ -1,0 +1,42 @@
+module Block where
+
+import Crypto(VKey,Sig);
+import PParams(Slot,Seed,ProtVer);
+import Tx(Tx);
+
+HashHeader = _;  -- hash of a block header
+HashBBody = _; -- hash of a block body
+BlockNo = _; -- block number
+Proof = _; -- VRF proof
+KESPeriod = _; -- KES period
+VKey-ev = _; -- public verifying key
+
+-- Operational Certificate
+OCert = 
+    { vkhot : VKey-ev -- operational (hot) key
+    , n : ℕ -- certificate issue number
+    , c0 : KESPeriod -- start KES period
+    , σ : Sig -- cold key signature
+    };
+
+-- Block Header Body
+BHBody = 
+    { prev : HashHeader? -- hash of previous block header
+    , vk : VKey -- block issuer
+    , vrfVk : VKey  -- VRF verification key
+    , blockno : BlockNo -- block number
+    , slot : Slot -- block slot
+    , η : Seed -- nonce
+    , prf-η : Proof -- nonce proof
+    , ℓ : {x : ℚ | x ∈ [0, 1]}  -- leader election value
+    , prf-ℓ : Proof -- leader election proof
+    , bsize : ℕ -- size of the block body
+    , bhash : HashBBody -- block body hash
+    , oc : OCert -- operational certificate
+    , pv : ProtVer -- protocol version
+    };
+
+-- Block Types
+
+BHeader = BHBody × Sig;
+Block = BHeader × Tx∗;

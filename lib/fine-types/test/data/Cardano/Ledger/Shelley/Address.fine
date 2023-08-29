@@ -1,0 +1,60 @@
+module Address where 
+
+import PParams(Slot, Ix);
+import Crypto(KeyHash, ScriptHash);
+
+{-----------------------------------------------------------------------------
+    Addresses, Shelley spec , fig 6
+------------------------------------------------------------------------------}
+
+Ix = ℕ; -- index
+Slot = ℕ; -- absolute slot number
+
+Network = 
+    Σ{ testnet : Unit
+     , mainnet : Unit
+     };
+
+Credential = KeyHash + ScriptHash;
+
+-- certificate pointer
+Ptr = Slot × Ix × Ix; 
+
+-- base address
+Addr-base = 
+    { network : Network
+    , credential-pay : Credential
+    , credential-stake : Credential
+    };
+
+-- pointer address
+Addr-ptr = 
+    { network : Network
+    , credential-pay : Credential
+    , ptr : Ptr
+    };
+
+-- enterprise address
+Addr-enterprise = 
+    { network : Network
+    , credential-pay : Credential
+    };
+
+-- bootstrap address
+Addr-bootstrap = 
+    { network : Network
+    , key-hash-pay : KeyHash
+    };
+
+-- reward account
+Addr-rwd = 
+    { network : Network
+    , credential-stake : Credential
+    };
+
+-- output address
+Addr = Addr-base 
+    + Addr-ptr 
+    + Addr-enterprise 
+    + Addr-bootstrap 
+    + Addr-rwd;

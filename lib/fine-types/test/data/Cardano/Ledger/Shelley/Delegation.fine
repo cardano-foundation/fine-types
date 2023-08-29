@@ -1,0 +1,82 @@
+module Delegation where 
+
+import Address(Addr-rwd, Credential);
+import PParams(Coin, Epoch);
+import Crypto(KeyHash);
+
+
+Credential-stake = _;
+KeyHash-vrf = _;
+KeyHashG = _;
+PoolMDHash = _;
+Url = _ ; -- URL
+ReservesMIR = _ ; -- reserves pot
+TreasuryMIR = _ ; -- treasury pot
+
+MIRPot = ReservesMIR + TreasuryMIR;
+
+DCert-regkey = 
+    { regCred : Credential
+    };
+
+DCert-deregkey = 
+    { cwitness : Credential
+    };
+
+DCert-delegate = 
+    { cwitness : Credential
+    , dpool : KeyHash
+    };
+
+DCert-regpool = 
+    { cwitness : Credential 
+    , poolParam : PoolParam
+    };
+
+DCert-retirepool = 
+    { cwitness : Credential
+    , retire : Epoch
+    };
+
+DCert-genesis = 
+    { cwitness : Credential
+    , genesisDeleg : KeyHashG × KeyHash × KeyHash-vrf
+    };
+
+DCert-mir = 
+    { credCoinMap : Credential-stake → Coin
+    , mirPot : MIRPot
+    };
+
+-- Delegation Certificate types
+DCert 
+    = DCert-regkey 
+    + DCert-deregkey 
+    + DCert-delegate
+    + DCert-regpool 
+    + DCert-retirepool 
+    + DCert-genesis
+    + DCert-mir;
+
+-- stake pool metadata
+PoolMD = Url × PoolMDHash; -- stake pool metadata
+
+-- Stake pool parameters
+PoolParam 
+    = ℙ KeyHash 
+    × Coin 
+    × {x : ℚ | [0, 1]}
+    × Coin
+    × Addr-rwd 
+    × KeyHash-vrf
+    × Url*
+    × PoolMD?; 
+
+PoolParam = 
+    { poolOwners : ℙ KeyHash -- stake pool owners
+    , poolCost : Coin -- stake pool cost
+    , poolMargin : {x : ℚ | [0, 1]} -- stake pool margin
+    , poolPledge : Coin -- stake pool pledge
+    , poolRAcnt : Addr-rwd -- stake pool reward account
+    , poolVRF : KeyHash-vrf -- stake pool VRF key hash
+    };
