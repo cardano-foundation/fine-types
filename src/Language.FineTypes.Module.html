@@ -35,7 +35,7 @@
 </span><span id="line-34"></span><span>    </span><span class="hs-special">,</span><span> </span><span id="moduleDeclarations"><span class="annot"><span class="annottext">Module -&gt; Declarations
 </span><a href="Language.FineTypes.Module.html#moduleDeclarations"><span class="hs-identifier hs-var hs-var">moduleDeclarations</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Declarations"><span class="hs-identifier hs-type">Declarations</span></a></span><span>
 </span><span id="line-35"></span><span>    </span><span class="hs-special">}</span><span>
-</span><span id="line-36"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679065733"><span id="local-6989586621679065741"><span class="annot"><span class="annottext">Module -&gt; Module -&gt; Bool
+</span><span id="line-36"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679065903"><span id="local-6989586621679065911"><span class="annot"><span class="annottext">Module -&gt; Module -&gt; Bool
 (Module -&gt; Module -&gt; Bool)
 -&gt; (Module -&gt; Module -&gt; Bool) -&gt; Eq Module
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -43,7 +43,7 @@ $c== :: Module -&gt; Module -&gt; Bool
 == :: Module -&gt; Module -&gt; Bool
 $c/= :: Module -&gt; Module -&gt; Bool
 /= :: Module -&gt; Module -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679065748"><span id="local-6989586621679065758"><span id="local-6989586621679065762"><span class="annot"><span class="annottext">Int -&gt; Module -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679065918"><span id="local-6989586621679065928"><span id="local-6989586621679065932"><span class="annot"><span class="annottext">Int -&gt; Module -&gt; ShowS
 [Module] -&gt; ShowS
 Module -&gt; TypName
 (Int -&gt; Module -&gt; ShowS)
@@ -70,50 +70,50 @@ showList :: [Module] -&gt; ShowS
 </span><span id="line-47"></span><span class="hs-comment">-- This function will loop in the case of recursive definitions.</span><span>
 </span><span id="line-48"></span><span class="annot"><a href="Language.FineTypes.Module.html#resolveVars"><span class="hs-identifier hs-type">resolveVars</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Declarations"><span class="hs-identifier hs-type">Declarations</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span>
 </span><span id="line-49"></span><span id="resolveVars"><span class="annot"><span class="annottext">resolveVars :: Declarations -&gt; Typ -&gt; Typ
-</span><a href="Language.FineTypes.Module.html#resolveVars"><span class="hs-identifier hs-var hs-var">resolveVars</span></a></span></span><span> </span><span id="local-6989586621679065767"><span class="annot"><span class="annottext">Declarations
-</span><a href="#local-6989586621679065767"><span class="hs-identifier hs-var">declarations</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Typ -&gt; Typ) -&gt; Typ -&gt; Typ
+</span><a href="Language.FineTypes.Module.html#resolveVars"><span class="hs-identifier hs-var hs-var">resolveVars</span></a></span></span><span> </span><span id="local-6989586621679065937"><span class="annot"><span class="annottext">Declarations
+</span><a href="#local-6989586621679065937"><span class="hs-identifier hs-var">declarations</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Typ -&gt; Typ) -&gt; Typ -&gt; Typ
 </span><a href="Language.FineTypes.Typ.html#everywhere"><span class="hs-identifier hs-var">everywhere</span></a></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Typ
-</span><a href="#local-6989586621679065768"><span class="hs-identifier hs-var">resolve</span></a></span><span>
+</span><a href="#local-6989586621679065938"><span class="hs-identifier hs-var">resolve</span></a></span><span>
 </span><span id="line-50"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-51"></span><span>    </span><span id="local-6989586621679065768"><span class="annot"><span class="annottext">resolve :: Typ -&gt; Typ
-</span><a href="#local-6989586621679065768"><span class="hs-identifier hs-var hs-var">resolve</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-type">Var</span></a></span><span> </span><span id="local-6989586621679065772"><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679065772"><span class="hs-identifier hs-var">name</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">TypName -&gt; Declarations -&gt; Maybe Typ
+</span><span id="line-51"></span><span>    </span><span id="local-6989586621679065938"><span class="annot"><span class="annottext">resolve :: Typ -&gt; Typ
+</span><a href="#local-6989586621679065938"><span class="hs-identifier hs-var hs-var">resolve</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-type">Var</span></a></span><span> </span><span id="local-6989586621679065942"><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679065942"><span class="hs-identifier hs-var">name</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">TypName -&gt; Declarations -&gt; Maybe Typ
 forall k a. Ord k =&gt; k -&gt; Map k a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Map.lookup</span></span><span> </span><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679065772"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">Declarations
-</span><a href="#local-6989586621679065767"><span class="hs-identifier hs-var">declarations</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621679065942"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">Declarations
+</span><a href="#local-6989586621679065937"><span class="hs-identifier hs-var">declarations</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-52"></span><span>        </span><span class="annot"><span class="annottext">Maybe Typ
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">TypName -&gt; Typ
 </span><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-var">Var</span></a></span><span> </span><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679065772"><span class="hs-identifier hs-var">name</span></a></span><span>
-</span><span id="line-53"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679065774"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679065774"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(Typ -&gt; Typ) -&gt; Typ -&gt; Typ
+</span><a href="#local-6989586621679065942"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-53"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679065944"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679065944"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">(Typ -&gt; Typ) -&gt; Typ -&gt; Typ
 </span><a href="Language.FineTypes.Typ.html#everywhere"><span class="hs-identifier hs-var">everywhere</span></a></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Typ
-</span><a href="#local-6989586621679065768"><span class="hs-identifier hs-var">resolve</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679065774"><span class="hs-identifier hs-var">typ</span></a></span><span>
-</span><span id="line-54"></span><span>    </span><span class="annot"><a href="#local-6989586621679065768"><span class="hs-identifier hs-var">resolve</span></a></span><span> </span><span id="local-6989586621679065775"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679065775"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679065775"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><a href="#local-6989586621679065938"><span class="hs-identifier hs-var">resolve</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679065944"><span class="hs-identifier hs-var">typ</span></a></span><span>
+</span><span id="line-54"></span><span>    </span><span class="annot"><a href="#local-6989586621679065938"><span class="hs-identifier hs-var">resolve</span></a></span><span> </span><span id="local-6989586621679065945"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679065945"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679065945"><span class="hs-identifier hs-var">a</span></a></span><span>
 </span><span id="line-55"></span><span>
 </span><span id="line-56"></span><span class="annot"><span class="hs-comment">-- | Collect all 'Typ' names that have not been defined in the 'Module'.</span></span><span>
 </span><span id="line-57"></span><span class="annot"><a href="Language.FineTypes.Module.html#collectNotInScope"><span class="hs-identifier hs-type">collectNotInScope</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
 </span><span id="line-58"></span><span id="collectNotInScope"><span class="annot"><span class="annottext">collectNotInScope :: Module -&gt; Set TypName
 </span><a href="Language.FineTypes.Module.html#collectNotInScope"><span class="hs-identifier hs-var hs-var">collectNotInScope</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span class="hs-special">{</span><span class="annot"><span class="annottext">moduleDeclarations :: Module -&gt; Declarations
-</span><a href="Language.FineTypes.Module.html#moduleDeclarations"><span class="hs-identifier hs-var">moduleDeclarations</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="local-6989586621679065776"><span class="annot"><span class="annottext">Declarations
-</span><a href="#local-6989586621679065776"><span class="hs-identifier hs-var">declarations</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Language.FineTypes.Module.html#moduleDeclarations"><span class="hs-identifier hs-var">moduleDeclarations</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="local-6989586621679065946"><span class="annot"><span class="annottext">Declarations
+</span><a href="#local-6989586621679065946"><span class="hs-identifier hs-var">declarations</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-59"></span><span>    </span><span class="annot"><span class="annottext">Set TypName
-</span><a href="#local-6989586621679065777"><span class="hs-identifier hs-var">rhs</span></a></span><span> </span><span class="annot"><span class="annottext">Set TypName -&gt; Set TypName -&gt; Set TypName
+</span><a href="#local-6989586621679065947"><span class="hs-identifier hs-var">rhs</span></a></span><span> </span><span class="annot"><span class="annottext">Set TypName -&gt; Set TypName -&gt; Set TypName
 forall a. Ord a =&gt; Set a -&gt; Set a -&gt; Set a
 </span><span class="hs-operator hs-var">Set.\\</span></span><span> </span><span class="annot"><span class="annottext">Set TypName
-</span><a href="#local-6989586621679065779"><span class="hs-identifier hs-var">lhs</span></a></span><span>
+</span><a href="#local-6989586621679065949"><span class="hs-identifier hs-var">lhs</span></a></span><span>
 </span><span id="line-60"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-61"></span><span>    </span><span id="local-6989586621679065779"><span class="annot"><span class="annottext">lhs :: Set TypName
-</span><a href="#local-6989586621679065779"><span class="hs-identifier hs-var hs-var">lhs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Declarations -&gt; Set TypName
+</span><span id="line-61"></span><span>    </span><span id="local-6989586621679065949"><span class="annot"><span class="annottext">lhs :: Set TypName
+</span><a href="#local-6989586621679065949"><span class="hs-identifier hs-var hs-var">lhs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Declarations -&gt; Set TypName
 forall k a. Map k a -&gt; Set k
 </span><span class="hs-identifier hs-var">Map.keysSet</span></span><span> </span><span class="annot"><span class="annottext">Declarations
-</span><a href="#local-6989586621679065776"><span class="hs-identifier hs-var">declarations</span></a></span><span>
-</span><span id="line-62"></span><span>    </span><span id="local-6989586621679065777"><span class="annot"><span class="annottext">rhs :: Set TypName
-</span><a href="#local-6989586621679065777"><span class="hs-identifier hs-var hs-var">rhs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Set TypName] -&gt; Set TypName
+</span><a href="#local-6989586621679065946"><span class="hs-identifier hs-var">declarations</span></a></span><span>
+</span><span id="line-62"></span><span>    </span><span id="local-6989586621679065947"><span class="annot"><span class="annottext">rhs :: Set TypName
+</span><a href="#local-6989586621679065947"><span class="hs-identifier hs-var hs-var">rhs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Set TypName] -&gt; Set TypName
 forall a. Monoid a =&gt; [a] -&gt; a
 </span><span class="hs-identifier hs-var">mconcat</span></span><span> </span><span class="annot"><span class="annottext">([Set TypName] -&gt; Set TypName)
 -&gt; ([Typ] -&gt; [Set TypName]) -&gt; [Typ] -&gt; Set TypName
@@ -126,7 +126,7 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Declarations -&gt; [Typ]
 forall k a. Map k a -&gt; [a]
 </span><span class="hs-identifier hs-var">Map.elems</span></span><span> </span><span class="annot"><span class="annottext">Declarations
-</span><a href="#local-6989586621679065776"><span class="hs-identifier hs-var">declarations</span></a></span><span>
+</span><a href="#local-6989586621679065946"><span class="hs-identifier hs-var">declarations</span></a></span><span>
 </span><span id="line-63"></span><span>
 </span><span id="line-64"></span><span class="annot"><span class="hs-comment">-- | Collect all 'Var' in a 'Typ'.</span></span><span>
 </span><span id="line-65"></span><span class="annot"><a href="Language.FineTypes.Module.html#collectVars"><span class="hs-identifier hs-type">collectVars</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
@@ -137,15 +137,15 @@ forall r. (r -&gt; r -&gt; r) -&gt; (Typ -&gt; r) -&gt; Typ -&gt; r
 </span><a href="Language.FineTypes.Typ.html#everything"><span class="hs-identifier hs-var">everything</span></a></span><span> </span><span class="annot"><span class="annottext">Set TypName -&gt; Set TypName -&gt; Set TypName
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">(&lt;&gt;)</span></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Set TypName
-</span><a href="#local-6989586621679065788"><span class="hs-identifier hs-var">vars</span></a></span><span>
+</span><a href="#local-6989586621679065958"><span class="hs-identifier hs-var">vars</span></a></span><span>
 </span><span id="line-67"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-68"></span><span>    </span><span id="local-6989586621679065788"><span class="annot"><span class="annottext">vars :: Typ -&gt; Set TypName
-</span><a href="#local-6989586621679065788"><span class="hs-identifier hs-var hs-var">vars</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-type">Var</span></a></span><span> </span><span id="local-6989586621679065789"><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679065789"><span class="hs-identifier hs-var">name</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TypName -&gt; Set TypName
+</span><span id="line-68"></span><span>    </span><span id="local-6989586621679065958"><span class="annot"><span class="annottext">vars :: Typ -&gt; Set TypName
+</span><a href="#local-6989586621679065958"><span class="hs-identifier hs-var hs-var">vars</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-type">Var</span></a></span><span> </span><span id="local-6989586621679065959"><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679065959"><span class="hs-identifier hs-var">name</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TypName -&gt; Set TypName
 forall a. a -&gt; Set a
 </span><span class="hs-identifier hs-var">Set.singleton</span></span><span> </span><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679065789"><span class="hs-identifier hs-var">name</span></a></span><span>
-</span><span id="line-69"></span><span>    </span><span class="annot"><a href="#local-6989586621679065788"><span class="hs-identifier hs-var">vars</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679065959"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-69"></span><span>    </span><span class="annot"><a href="#local-6989586621679065958"><span class="hs-identifier hs-var">vars</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Set TypName
 forall a. Set a
 </span><span class="hs-identifier hs-var">Set.empty</span></span><span>

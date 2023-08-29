@@ -159,7 +159,7 @@ forall k a. k -&gt; a -&gt; Map k a
 -&gt; ParsecT Void [Char] Identity (Typ -&gt; Declarations)
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity [Char]
-</span><a href="#local-6989586621679066035"><span class="hs-identifier hs-var">lhs</span></a></span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity (Typ -&gt; Declarations)
+</span><a href="#local-6989586621679066205"><span class="hs-identifier hs-var">lhs</span></a></span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity (Typ -&gt; Declarations)
 -&gt; ParsecT Void [Char] Identity [Char]
 -&gt; ParsecT Void [Char] Identity (Typ -&gt; Declarations)
 forall a b.
@@ -176,13 +176,13 @@ ParsecT Void [Char] Identity (a -&gt; b)
 -&gt; ParsecT Void [Char] Identity a -&gt; ParsecT Void [Char] Identity b
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity Typ
-</span><a href="#local-6989586621679066036"><span class="hs-identifier hs-var">rhs</span></a></span><span>
+</span><a href="#local-6989586621679066206"><span class="hs-identifier hs-var">rhs</span></a></span><span>
 </span><span id="line-86"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-87"></span><span>    </span><span id="local-6989586621679066035"><span class="annot"><span class="annottext">lhs :: ParsecT Void [Char] Identity [Char]
-</span><a href="#local-6989586621679066035"><span class="hs-identifier hs-var hs-var">lhs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity [Char]
+</span><span id="line-87"></span><span>    </span><span id="local-6989586621679066205"><span class="annot"><span class="annottext">lhs :: ParsecT Void [Char] Identity [Char]
+</span><a href="#local-6989586621679066205"><span class="hs-identifier hs-var hs-var">lhs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity [Char]
 </span><a href="Language.FineTypes.Parser.html#typName"><span class="hs-identifier hs-var">typName</span></a></span><span>
-</span><span id="line-88"></span><span>    </span><span id="local-6989586621679066036"><span class="annot"><span class="annottext">rhs :: ParsecT Void [Char] Identity Typ
-</span><a href="#local-6989586621679066036"><span class="hs-identifier hs-var hs-var">rhs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity Typ
+</span><span id="line-88"></span><span>    </span><span id="local-6989586621679066206"><span class="annot"><span class="annottext">rhs :: ParsecT Void [Char] Identity Typ
+</span><a href="#local-6989586621679066206"><span class="hs-identifier hs-var hs-var">rhs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity Typ
 -&gt; ParsecT Void [Char] Identity Typ
 forall a.
 ParsecT Void [Char] Identity a -&gt; ParsecT Void [Char] Identity a
@@ -600,16 +600,16 @@ forall a.
 </span><span id="line-144"></span><span>        </span><span class="hs-special">]</span><span>
 </span><span id="line-145"></span><span>    </span><span class="hs-special">]</span><span>
 </span><span id="line-146"></span><span>
-</span><span id="line-147"></span><span id="local-6989586621679065869"><span class="annot"><a href="Language.FineTypes.Parser.html#binaryR"><span class="hs-identifier hs-type">binaryR</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679065869"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679065869"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679065869"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Parser.Expr.Operator</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679065869"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-147"></span><span id="local-6989586621679066039"><span class="annot"><a href="Language.FineTypes.Parser.html#binaryR"><span class="hs-identifier hs-type">binaryR</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679066039"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679066039"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679066039"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Parser.Expr.Operator</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066039"><span class="hs-identifier hs-type">a</span></a></span></span><span>
 </span><span id="line-148"></span><span id="binaryR"><span class="annot"><span class="annottext">binaryR :: forall a.
 [Char]
 -&gt; (a -&gt; a -&gt; a) -&gt; Operator (ParsecT Void [Char] Identity) a
-</span><a href="Language.FineTypes.Parser.html#binaryR"><span class="hs-identifier hs-var hs-var">binaryR</span></a></span></span><span> </span><span id="local-6989586621679066086"><span class="annot"><span class="annottext">[Char]
-</span><a href="#local-6989586621679066086"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621679066087"><span class="annot"><span class="annottext">a -&gt; a -&gt; a
-</span><a href="#local-6989586621679066087"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Parser (a -&gt; a -&gt; a) -&gt; Operator (ParsecT Void [Char] Identity) a
+</span><a href="Language.FineTypes.Parser.html#binaryR"><span class="hs-identifier hs-var hs-var">binaryR</span></a></span></span><span> </span><span id="local-6989586621679066256"><span class="annot"><span class="annottext">[Char]
+</span><a href="#local-6989586621679066256"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621679066257"><span class="annot"><span class="annottext">a -&gt; a -&gt; a
+</span><a href="#local-6989586621679066257"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Parser (a -&gt; a -&gt; a) -&gt; Operator (ParsecT Void [Char] Identity) a
 forall (m :: * -&gt; *) a. m (a -&gt; a -&gt; a) -&gt; Operator m a
 </span><span class="hs-identifier hs-var">Parser.Expr.InfixR</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a -&gt; a -&gt; a
-</span><a href="#local-6989586621679066087"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(a -&gt; a -&gt; a)
+</span><a href="#local-6989586621679066257"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(a -&gt; a -&gt; a)
 -&gt; ParsecT Void [Char] Identity [Char] -&gt; Parser (a -&gt; a -&gt; a)
 forall a b.
 a
@@ -617,41 +617,41 @@ a
 forall (f :: * -&gt; *) a b. Functor f =&gt; a -&gt; f b -&gt; f a
 </span><span class="hs-operator hs-var">&lt;$</span></span><span> </span><span class="annot"><span class="annottext">[Char] -&gt; ParsecT Void [Char] Identity [Char]
 </span><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">[Char]
-</span><a href="#local-6989586621679066086"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679066256"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-149"></span><span>
-</span><span id="line-150"></span><span id="local-6989586621679065867"><span class="annot"><a href="Language.FineTypes.Parser.html#prefix"><span class="hs-identifier hs-type">prefix</span></a></span><span>
+</span><span id="line-150"></span><span id="local-6989586621679066037"><span class="annot"><a href="Language.FineTypes.Parser.html#prefix"><span class="hs-identifier hs-type">prefix</span></a></span><span>
 </span><span id="line-151"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#postfix"><span class="hs-identifier hs-type">postfix</span></a></span><span>
-</span><span id="line-152"></span><span>        </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679065867"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679065867"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Parser.Expr.Operator</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679065867"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-152"></span><span>        </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679066037"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679066037"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Parser.Expr.Operator</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066037"><span class="hs-identifier hs-type">a</span></a></span></span><span>
 </span><span id="line-153"></span><span id="prefix"><span class="annot"><span class="annottext">prefix :: forall a.
 [Char] -&gt; (a -&gt; a) -&gt; Operator (ParsecT Void [Char] Identity) a
-</span><a href="Language.FineTypes.Parser.html#prefix"><span class="hs-identifier hs-var hs-var">prefix</span></a></span></span><span> </span><span id="local-6989586621679066090"><span class="annot"><span class="annottext">[Char]
-</span><a href="#local-6989586621679066090"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621679066091"><span class="annot"><span class="annottext">a -&gt; a
-</span><a href="#local-6989586621679066091"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Parser (a -&gt; a) -&gt; Operator (ParsecT Void [Char] Identity) a
+</span><a href="Language.FineTypes.Parser.html#prefix"><span class="hs-identifier hs-var hs-var">prefix</span></a></span></span><span> </span><span id="local-6989586621679066260"><span class="annot"><span class="annottext">[Char]
+</span><a href="#local-6989586621679066260"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621679066261"><span class="annot"><span class="annottext">a -&gt; a
+</span><a href="#local-6989586621679066261"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Parser (a -&gt; a) -&gt; Operator (ParsecT Void [Char] Identity) a
 forall (m :: * -&gt; *) a. m (a -&gt; a) -&gt; Operator m a
 </span><span class="hs-identifier hs-var">Parser.Expr.Prefix</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a -&gt; a
-</span><a href="#local-6989586621679066091"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(a -&gt; a) -&gt; ParsecT Void [Char] Identity [Char] -&gt; Parser (a -&gt; a)
+</span><a href="#local-6989586621679066261"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(a -&gt; a) -&gt; ParsecT Void [Char] Identity [Char] -&gt; Parser (a -&gt; a)
 forall a b.
 a
 -&gt; ParsecT Void [Char] Identity b -&gt; ParsecT Void [Char] Identity a
 forall (f :: * -&gt; *) a b. Functor f =&gt; a -&gt; f b -&gt; f a
 </span><span class="hs-operator hs-var">&lt;$</span></span><span> </span><span class="annot"><span class="annottext">[Char] -&gt; ParsecT Void [Char] Identity [Char]
 </span><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">[Char]
-</span><a href="#local-6989586621679066090"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679066260"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-154"></span><span id="postfix"><span class="annot"><span class="annottext">postfix :: forall a.
 [Char] -&gt; (a -&gt; a) -&gt; Operator (ParsecT Void [Char] Identity) a
-</span><a href="Language.FineTypes.Parser.html#postfix"><span class="hs-identifier hs-var hs-var">postfix</span></a></span></span><span> </span><span id="local-6989586621679066094"><span class="annot"><span class="annottext">[Char]
-</span><a href="#local-6989586621679066094"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621679066095"><span class="annot"><span class="annottext">a -&gt; a
-</span><a href="#local-6989586621679066095"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Parser (a -&gt; a) -&gt; Operator (ParsecT Void [Char] Identity) a
+</span><a href="Language.FineTypes.Parser.html#postfix"><span class="hs-identifier hs-var hs-var">postfix</span></a></span></span><span> </span><span id="local-6989586621679066264"><span class="annot"><span class="annottext">[Char]
+</span><a href="#local-6989586621679066264"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621679066265"><span class="annot"><span class="annottext">a -&gt; a
+</span><a href="#local-6989586621679066265"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Parser (a -&gt; a) -&gt; Operator (ParsecT Void [Char] Identity) a
 forall (m :: * -&gt; *) a. m (a -&gt; a) -&gt; Operator m a
 </span><span class="hs-identifier hs-var">Parser.Expr.Postfix</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a -&gt; a
-</span><a href="#local-6989586621679066095"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(a -&gt; a) -&gt; ParsecT Void [Char] Identity [Char] -&gt; Parser (a -&gt; a)
+</span><a href="#local-6989586621679066265"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(a -&gt; a) -&gt; ParsecT Void [Char] Identity [Char] -&gt; Parser (a -&gt; a)
 forall a b.
 a
 -&gt; ParsecT Void [Char] Identity b -&gt; ParsecT Void [Char] Identity a
 forall (f :: * -&gt; *) a b. Functor f =&gt; a -&gt; f b -&gt; f a
 </span><span class="hs-operator hs-var">&lt;$</span></span><span> </span><span class="annot"><span class="annottext">[Char] -&gt; ParsecT Void [Char] Identity [Char]
 </span><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">[Char]
-</span><a href="#local-6989586621679066094"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679066264"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-155"></span><span>
 </span><span id="line-156"></span><span class="hs-comment">{-----------------------------------------------------------------------------
     Lexer
@@ -830,7 +830,7 @@ forall (t :: * -&gt; *) a. (Foldable t, Eq a) =&gt; a -&gt; t a -&gt; Bool
 [Token [Char]]
 </span><span class="hs-string">&quot;_^&quot;</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
 </span><span id="line-190"></span><span>
-</span><span id="line-191"></span><span id="local-6989586621679066109"><span class="annot"><a href="Language.FineTypes.Parser.html#parens"><span class="hs-identifier hs-type">parens</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066109"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066109"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-191"></span><span id="local-6989586621679066279"><span class="annot"><a href="Language.FineTypes.Parser.html#parens"><span class="hs-identifier hs-type">parens</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066279"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066279"><span class="hs-identifier hs-type">a</span></a></span></span><span>
 </span><span id="line-192"></span><span id="parens"><span class="annot"><span class="annottext">parens :: forall a.
 ParsecT Void [Char] Identity a -&gt; ParsecT Void [Char] Identity a
 </span><a href="Language.FineTypes.Parser.html#parens"><span class="hs-identifier hs-var hs-var">parens</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity [Char]
@@ -846,7 +846,7 @@ m open -&gt; m close -&gt; m a -&gt; m a
 </span><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">[Char]
 </span><span class="hs-string">&quot;)&quot;</span></span><span class="hs-special">)</span><span>
 </span><span id="line-193"></span><span>
-</span><span id="line-194"></span><span id="local-6989586621679066111"><span class="annot"><a href="Language.FineTypes.Parser.html#braces"><span class="hs-identifier hs-type">braces</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066111"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066111"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-194"></span><span id="local-6989586621679066281"><span class="annot"><a href="Language.FineTypes.Parser.html#braces"><span class="hs-identifier hs-type">braces</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066281"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066281"><span class="hs-identifier hs-type">a</span></a></span></span><span>
 </span><span id="line-195"></span><span id="braces"><span class="annot"><span class="annottext">braces :: forall a.
 ParsecT Void [Char] Identity a -&gt; ParsecT Void [Char] Identity a
 </span><a href="Language.FineTypes.Parser.html#braces"><span class="hs-identifier hs-var hs-var">braces</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity [Char]
@@ -862,7 +862,7 @@ m open -&gt; m close -&gt; m a -&gt; m a
 </span><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">[Char]
 </span><span class="hs-string">&quot;}&quot;</span></span><span class="hs-special">)</span><span>
 </span><span id="line-196"></span><span>
-</span><span id="line-197"></span><span id="local-6989586621679066113"><span class="annot"><a href="Language.FineTypes.Parser.html#sumBraces"><span class="hs-identifier hs-type">sumBraces</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066113"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066113"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-197"></span><span id="local-6989586621679066283"><span class="annot"><a href="Language.FineTypes.Parser.html#sumBraces"><span class="hs-identifier hs-type">sumBraces</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066283"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679066283"><span class="hs-identifier hs-type">a</span></a></span></span><span>
 </span><span id="line-198"></span><span id="sumBraces"><span class="annot"><span class="annottext">sumBraces :: forall a.
 ParsecT Void [Char] Identity a -&gt; ParsecT Void [Char] Identity a
 </span><a href="Language.FineTypes.Parser.html#sumBraces"><span class="hs-identifier hs-var hs-var">sumBraces</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity [Char]
