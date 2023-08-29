@@ -52,14 +52,14 @@
 </span><span id="line-52"></span><span>      </span><span id="ProductN"><span class="annot"><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-var">ProductN</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#FieldName"><span class="hs-identifier hs-type">FieldName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
 </span><span id="line-53"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Disjoint union with constructor names.</span></span><span>
 </span><span id="line-54"></span><span>      </span><span id="SumN"><span class="annot"><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-var">SumN</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#ConstructorName"><span class="hs-identifier hs-type">ConstructorName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
-</span><span id="line-55"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679054766"><span id="local-6989586621679054784"><span class="annot"><span class="annottext">Typ -&gt; Typ -&gt; Bool
+</span><span id="line-55"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679063233"><span id="local-6989586621679063251"><span class="annot"><span class="annottext">Typ -&gt; Typ -&gt; Bool
 (Typ -&gt; Typ -&gt; Bool) -&gt; (Typ -&gt; Typ -&gt; Bool) -&gt; Eq Typ
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c== :: Typ -&gt; Typ -&gt; Bool
 == :: Typ -&gt; Typ -&gt; Bool
 $c/= :: Typ -&gt; Typ -&gt; Bool
 /= :: Typ -&gt; Typ -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679054792"><span id="local-6989586621679054810"><span id="local-6989586621679054813"><span id="local-6989586621679054816"><span id="local-6989586621679054819"><span id="local-6989586621679054822"><span id="local-6989586621679054825"><span class="annot"><span class="annottext">Eq Typ
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679063259"><span id="local-6989586621679063277"><span id="local-6989586621679063280"><span id="local-6989586621679063283"><span id="local-6989586621679063286"><span id="local-6989586621679063289"><span id="local-6989586621679063292"><span class="annot"><span class="annottext">Eq Typ
 Eq Typ =&gt;
 (Typ -&gt; Typ -&gt; Ordering)
 -&gt; (Typ -&gt; Typ -&gt; Bool)
@@ -96,7 +96,7 @@ $cmax :: Typ -&gt; Typ -&gt; Typ
 max :: Typ -&gt; Typ -&gt; Typ
 $cmin :: Typ -&gt; Typ -&gt; Typ
 min :: Typ -&gt; Typ -&gt; Typ
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679054831"><span id="local-6989586621679054856"><span id="local-6989586621679054859"><span class="annot"><span class="annottext">Int -&gt; Typ -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679063298"><span id="local-6989586621679063323"><span id="local-6989586621679063326"><span class="annot"><span class="annottext">Int -&gt; Typ -&gt; ShowS
 [Typ] -&gt; ShowS
 Typ -&gt; TypName
 (Int -&gt; Typ -&gt; ShowS)
@@ -125,7 +125,7 @@ showList :: [Typ] -&gt; ShowS
 </span><span id="line-68"></span><span>      </span><span id="Text"><span class="annot"><a href="Language.FineTypes.Typ.html#Text"><span class="hs-identifier hs-var">Text</span></a></span></span><span>
 </span><span id="line-69"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Type with a single element, @Unit@.</span></span><span>
 </span><span id="line-70"></span><span>      </span><span id="Unit"><span class="annot"><a href="Language.FineTypes.Typ.html#Unit"><span class="hs-identifier hs-var">Unit</span></a></span></span><span>
-</span><span id="line-71"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679054871"><span id="local-6989586621679054873"><span class="annot"><span class="annottext">TypConst -&gt; TypConst -&gt; Bool
+</span><span id="line-71"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679063338"><span id="local-6989586621679063340"><span class="annot"><span class="annottext">TypConst -&gt; TypConst -&gt; Bool
 (TypConst -&gt; TypConst -&gt; Bool)
 -&gt; (TypConst -&gt; TypConst -&gt; Bool) -&gt; Eq TypConst
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -133,7 +133,7 @@ $c== :: TypConst -&gt; TypConst -&gt; Bool
 == :: TypConst -&gt; TypConst -&gt; Bool
 $c/= :: TypConst -&gt; TypConst -&gt; Bool
 /= :: TypConst -&gt; TypConst -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679054878"><span id="local-6989586621679054880"><span id="local-6989586621679054882"><span id="local-6989586621679054885"><span id="local-6989586621679054888"><span id="local-6989586621679054891"><span id="local-6989586621679054894"><span class="annot"><span class="annottext">Eq TypConst
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679063345"><span id="local-6989586621679063347"><span id="local-6989586621679063349"><span id="local-6989586621679063352"><span id="local-6989586621679063355"><span id="local-6989586621679063358"><span id="local-6989586621679063361"><span class="annot"><span class="annottext">Eq TypConst
 Eq TypConst =&gt;
 (TypConst -&gt; TypConst -&gt; Ordering)
 -&gt; (TypConst -&gt; TypConst -&gt; Bool)
@@ -170,7 +170,7 @@ $cmax :: TypConst -&gt; TypConst -&gt; TypConst
 max :: TypConst -&gt; TypConst -&gt; TypConst
 $cmin :: TypConst -&gt; TypConst -&gt; TypConst
 min :: TypConst -&gt; TypConst -&gt; TypConst
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679054897"><span id="local-6989586621679054899"><span id="local-6989586621679054902"><span class="annot"><span class="annottext">Int -&gt; TypConst -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679063364"><span id="local-6989586621679063366"><span id="local-6989586621679063369"><span class="annot"><span class="annottext">Int -&gt; TypConst -&gt; ShowS
 [TypConst] -&gt; ShowS
 TypConst -&gt; TypName
 (Int -&gt; TypConst -&gt; ShowS)
@@ -195,14 +195,14 @@ showList :: [TypConst] -&gt; ShowS
 </span><span id="line-80"></span><span>      </span><span id="Sequence"><span class="annot"><a href="Language.FineTypes.Typ.html#Sequence"><span class="hs-identifier hs-var">Sequence</span></a></span></span><span>
 </span><span id="line-81"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Given a set A, &#8473; A is the set of all the subsets of A.</span></span><span>
 </span><span id="line-82"></span><span>      </span><span id="PowerSet"><span class="annot"><a href="Language.FineTypes.Typ.html#PowerSet"><span class="hs-identifier hs-var">PowerSet</span></a></span></span><span>
-</span><span id="line-83"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679054908"><span id="local-6989586621679054910"><span class="annot"><span class="annottext">OpOne -&gt; OpOne -&gt; Bool
+</span><span id="line-83"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679063375"><span id="local-6989586621679063377"><span class="annot"><span class="annottext">OpOne -&gt; OpOne -&gt; Bool
 (OpOne -&gt; OpOne -&gt; Bool) -&gt; (OpOne -&gt; OpOne -&gt; Bool) -&gt; Eq OpOne
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c== :: OpOne -&gt; OpOne -&gt; Bool
 == :: OpOne -&gt; OpOne -&gt; Bool
 $c/= :: OpOne -&gt; OpOne -&gt; Bool
 /= :: OpOne -&gt; OpOne -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679054915"><span id="local-6989586621679054917"><span id="local-6989586621679054919"><span id="local-6989586621679054922"><span id="local-6989586621679054925"><span id="local-6989586621679054928"><span id="local-6989586621679054931"><span class="annot"><span class="annottext">Eq OpOne
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679063382"><span id="local-6989586621679063384"><span id="local-6989586621679063386"><span id="local-6989586621679063389"><span id="local-6989586621679063392"><span id="local-6989586621679063395"><span id="local-6989586621679063398"><span class="annot"><span class="annottext">Eq OpOne
 Eq OpOne =&gt;
 (OpOne -&gt; OpOne -&gt; Ordering)
 -&gt; (OpOne -&gt; OpOne -&gt; Bool)
@@ -239,7 +239,7 @@ $cmax :: OpOne -&gt; OpOne -&gt; OpOne
 max :: OpOne -&gt; OpOne -&gt; OpOne
 $cmin :: OpOne -&gt; OpOne -&gt; OpOne
 min :: OpOne -&gt; OpOne -&gt; OpOne
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679054934"><span id="local-6989586621679054936"><span id="local-6989586621679054939"><span class="annot"><span class="annottext">Int -&gt; OpOne -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679063401"><span id="local-6989586621679063403"><span id="local-6989586621679063406"><span class="annot"><span class="annottext">Int -&gt; OpOne -&gt; ShowS
 [OpOne] -&gt; ShowS
 OpOne -&gt; TypName
 (Int -&gt; OpOne -&gt; ShowS)
@@ -266,14 +266,14 @@ showList :: [OpOne] -&gt; ShowS
 </span><span id="line-94"></span><span>      </span><span id="PartialFunction"><span class="annot"><a href="Language.FineTypes.Typ.html#PartialFunction"><span class="hs-identifier hs-var">PartialFunction</span></a></span></span><span>
 </span><span id="line-95"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | A &#8594;&#8727; B denotes a finitely supported partial function.</span></span><span>
 </span><span id="line-96"></span><span>      </span><span id="FiniteSupport"><span class="annot"><a href="Language.FineTypes.Typ.html#FiniteSupport"><span class="hs-identifier hs-var">FiniteSupport</span></a></span></span><span>
-</span><span id="line-97"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679054946"><span id="local-6989586621679054948"><span class="annot"><span class="annottext">OpTwo -&gt; OpTwo -&gt; Bool
+</span><span id="line-97"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679063413"><span id="local-6989586621679063415"><span class="annot"><span class="annottext">OpTwo -&gt; OpTwo -&gt; Bool
 (OpTwo -&gt; OpTwo -&gt; Bool) -&gt; (OpTwo -&gt; OpTwo -&gt; Bool) -&gt; Eq OpTwo
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
 $c== :: OpTwo -&gt; OpTwo -&gt; Bool
 == :: OpTwo -&gt; OpTwo -&gt; Bool
 $c/= :: OpTwo -&gt; OpTwo -&gt; Bool
 /= :: OpTwo -&gt; OpTwo -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679054953"><span id="local-6989586621679054955"><span id="local-6989586621679054957"><span id="local-6989586621679054960"><span id="local-6989586621679054963"><span id="local-6989586621679054966"><span id="local-6989586621679054969"><span class="annot"><span class="annottext">Eq OpTwo
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679063420"><span id="local-6989586621679063422"><span id="local-6989586621679063424"><span id="local-6989586621679063427"><span id="local-6989586621679063430"><span id="local-6989586621679063433"><span id="local-6989586621679063436"><span class="annot"><span class="annottext">Eq OpTwo
 Eq OpTwo =&gt;
 (OpTwo -&gt; OpTwo -&gt; Ordering)
 -&gt; (OpTwo -&gt; OpTwo -&gt; Bool)
@@ -310,7 +310,7 @@ $cmax :: OpTwo -&gt; OpTwo -&gt; OpTwo
 max :: OpTwo -&gt; OpTwo -&gt; OpTwo
 $cmin :: OpTwo -&gt; OpTwo -&gt; OpTwo
 min :: OpTwo -&gt; OpTwo -&gt; OpTwo
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679054972"><span id="local-6989586621679054974"><span id="local-6989586621679054977"><span class="annot"><span class="annottext">Int -&gt; OpTwo -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679063439"><span id="local-6989586621679063441"><span id="local-6989586621679063444"><span class="annot"><span class="annottext">Int -&gt; OpTwo -&gt; ShowS
 [OpTwo] -&gt; ShowS
 OpTwo -&gt; TypName
 (Int -&gt; OpTwo -&gt; ShowS)
@@ -335,155 +335,155 @@ showList :: [OpTwo] -&gt; ShowS
 </span><span id="line-106"></span><span class="annot"><span class="hs-comment">-- | Apply a transformation everywhere; bottom-up.</span></span><span>
 </span><span id="line-107"></span><span class="annot"><a href="Language.FineTypes.Typ.html#everywhere"><span class="hs-identifier hs-type">everywhere</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span>
 </span><span id="line-108"></span><span id="everywhere"><span class="annot"><span class="annottext">everywhere :: (Typ -&gt; Typ) -&gt; Typ -&gt; Typ
-</span><a href="Language.FineTypes.Typ.html#everywhere"><span class="hs-identifier hs-var hs-var">everywhere</span></a></span></span><span> </span><span id="local-6989586621679054979"><span class="annot"><span class="annottext">Typ -&gt; Typ
-</span><a href="#local-6989586621679054979"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Typ
-</span><a href="#local-6989586621679054980"><span class="hs-identifier hs-var">every</span></a></span><span>
+</span><a href="Language.FineTypes.Typ.html#everywhere"><span class="hs-identifier hs-var hs-var">everywhere</span></a></span></span><span> </span><span id="local-6989586621679063446"><span class="annot"><span class="annottext">Typ -&gt; Typ
+</span><a href="#local-6989586621679063446"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Typ
+</span><a href="#local-6989586621679063447"><span class="hs-identifier hs-var">every</span></a></span><span>
 </span><span id="line-109"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-110"></span><span>    </span><span id="local-6989586621679054980"><span class="annot"><span class="annottext">every :: Typ -&gt; Typ
-</span><a href="#local-6989586621679054980"><span class="hs-identifier hs-var hs-var">every</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Typ
-</span><a href="#local-6989586621679054979"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(Typ -&gt; Typ) -&gt; (Typ -&gt; Typ) -&gt; Typ -&gt; Typ
+</span><span id="line-110"></span><span>    </span><span id="local-6989586621679063447"><span class="annot"><span class="annottext">every :: Typ -&gt; Typ
+</span><a href="#local-6989586621679063447"><span class="hs-identifier hs-var hs-var">every</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Typ
+</span><a href="#local-6989586621679063446"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(Typ -&gt; Typ) -&gt; (Typ -&gt; Typ) -&gt; Typ -&gt; Typ
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Typ
-</span><a href="#local-6989586621679054981"><span class="hs-identifier hs-var">recurse</span></a></span><span>
+</span><a href="#local-6989586621679063448"><span class="hs-identifier hs-var">recurse</span></a></span><span>
 </span><span id="line-111"></span><span>
-</span><span id="line-112"></span><span>    </span><span id="local-6989586621679054981"><span class="annot"><span class="annottext">recurse :: Typ -&gt; Typ
-</span><a href="#local-6989586621679054981"><span class="hs-identifier hs-var hs-var">recurse</span></a></span></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><span id="line-112"></span><span>    </span><span id="local-6989586621679063448"><span class="annot"><span class="annottext">recurse :: Typ -&gt; Typ
+</span><a href="#local-6989586621679063448"><span class="hs-identifier hs-var hs-var">recurse</span></a></span></span><span> </span><span class="annot"><span class="annottext">Typ
 </span><a href="Language.FineTypes.Typ.html#Abstract"><span class="hs-identifier hs-var">Abstract</span></a></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-113"></span><span>        </span><span class="annot"><span class="annottext">Typ
 </span><a href="Language.FineTypes.Typ.html#Abstract"><span class="hs-identifier hs-var">Abstract</span></a></span><span>
-</span><span id="line-114"></span><span>    </span><span class="annot"><a href="#local-6989586621679054981"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679054982"><span class="annot"><span class="annottext">a :: Typ
-</span><a href="#local-6989586621679054982"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-type">Var</span></a></span><span> </span><span class="annot"><span class="annottext">TypName
+</span><span id="line-114"></span><span>    </span><span class="annot"><a href="#local-6989586621679063448"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679063449"><span class="annot"><span class="annottext">a :: Typ
+</span><a href="#local-6989586621679063449"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-type">Var</span></a></span><span> </span><span class="annot"><span class="annottext">TypName
 </span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-115"></span><span>        </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679054982"><span class="hs-identifier hs-var">a</span></a></span><span>
-</span><span id="line-116"></span><span>    </span><span class="annot"><a href="#local-6989586621679054981"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679054983"><span class="annot"><span class="annottext">a :: Typ
-</span><a href="#local-6989586621679054983"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Zero"><span class="hs-identifier hs-type">Zero</span></a></span><span> </span><span class="annot"><span class="annottext">TypConst
+</span><a href="#local-6989586621679063449"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-116"></span><span>    </span><span class="annot"><a href="#local-6989586621679063448"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679063450"><span class="annot"><span class="annottext">a :: Typ
+</span><a href="#local-6989586621679063450"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Zero"><span class="hs-identifier hs-type">Zero</span></a></span><span> </span><span class="annot"><span class="annottext">TypConst
 </span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-117"></span><span>        </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679054983"><span class="hs-identifier hs-var">a</span></a></span><span>
-</span><span id="line-118"></span><span>    </span><span class="annot"><a href="#local-6989586621679054981"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#One"><span class="hs-identifier hs-type">One</span></a></span><span> </span><span id="local-6989586621679054984"><span class="annot"><span class="annottext">OpOne
-</span><a href="#local-6989586621679054984"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679054985"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679054985"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621679063450"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-118"></span><span>    </span><span class="annot"><a href="#local-6989586621679063448"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#One"><span class="hs-identifier hs-type">One</span></a></span><span> </span><span id="local-6989586621679063451"><span class="annot"><span class="annottext">OpOne
+</span><a href="#local-6989586621679063451"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679063452"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063452"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-119"></span><span>        </span><span class="annot"><span class="annottext">OpOne -&gt; Typ -&gt; Typ
 </span><a href="Language.FineTypes.Typ.html#One"><span class="hs-identifier hs-var">One</span></a></span><span> </span><span class="annot"><span class="annottext">OpOne
-</span><a href="#local-6989586621679054984"><span class="hs-identifier hs-var">op</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; Typ
-</span><a href="#local-6989586621679054980"><span class="hs-identifier hs-var">every</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679054985"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-120"></span><span>    </span><span class="annot"><a href="#local-6989586621679054981"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Two"><span class="hs-identifier hs-type">Two</span></a></span><span> </span><span id="local-6989586621679054986"><span class="annot"><span class="annottext">OpTwo
-</span><a href="#local-6989586621679054986"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679054987"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679054987"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679054988"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679054988"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621679063451"><span class="hs-identifier hs-var">op</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; Typ
+</span><a href="#local-6989586621679063447"><span class="hs-identifier hs-var">every</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063452"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-120"></span><span>    </span><span class="annot"><a href="#local-6989586621679063448"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Two"><span class="hs-identifier hs-type">Two</span></a></span><span> </span><span id="local-6989586621679063453"><span class="annot"><span class="annottext">OpTwo
+</span><a href="#local-6989586621679063453"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679063454"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063454"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679063455"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063455"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-121"></span><span>        </span><span class="annot"><span class="annottext">OpTwo -&gt; Typ -&gt; Typ -&gt; Typ
 </span><a href="Language.FineTypes.Typ.html#Two"><span class="hs-identifier hs-var">Two</span></a></span><span> </span><span class="annot"><span class="annottext">OpTwo
-</span><a href="#local-6989586621679054986"><span class="hs-identifier hs-var">op</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; Typ
-</span><a href="#local-6989586621679054980"><span class="hs-identifier hs-var">every</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679054987"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; Typ
-</span><a href="#local-6989586621679054980"><span class="hs-identifier hs-var">every</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679054988"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-122"></span><span>    </span><span class="annot"><a href="#local-6989586621679054981"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-type">ProductN</span></a></span><span> </span><span id="local-6989586621679054989"><span class="annot"><span class="annottext">[(TypName, Typ)]
-</span><a href="#local-6989586621679054989"><span class="hs-identifier hs-var">nas</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621679063453"><span class="hs-identifier hs-var">op</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; Typ
+</span><a href="#local-6989586621679063447"><span class="hs-identifier hs-var">every</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063454"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; Typ
+</span><a href="#local-6989586621679063447"><span class="hs-identifier hs-var">every</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063455"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-122"></span><span>    </span><span class="annot"><a href="#local-6989586621679063448"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-type">ProductN</span></a></span><span> </span><span id="local-6989586621679063456"><span class="annot"><span class="annottext">[(TypName, Typ)]
+</span><a href="#local-6989586621679063456"><span class="hs-identifier hs-var">nas</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-123"></span><span>        </span><span class="annot"><span class="annottext">[(TypName, Typ)] -&gt; Typ
 </span><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-var">ProductN</span></a></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679054990"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Typ
-</span><a href="#local-6989586621679054980"><span class="hs-identifier hs-var">every</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679054991"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679054990"><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679054990"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679054991"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679054991"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(TypName, Typ)]
-</span><a href="#local-6989586621679054989"><span class="hs-identifier hs-var">nas</span></a></span><span class="hs-special">]</span><span>
-</span><span id="line-124"></span><span>    </span><span class="annot"><a href="#local-6989586621679054981"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-type">SumN</span></a></span><span> </span><span id="local-6989586621679054992"><span class="annot"><span class="annottext">[(TypName, Typ)]
-</span><a href="#local-6989586621679054992"><span class="hs-identifier hs-var">nas</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621679063457"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Typ
+</span><a href="#local-6989586621679063447"><span class="hs-identifier hs-var">every</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063458"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679063457"><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679063457"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679063458"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063458"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(TypName, Typ)]
+</span><a href="#local-6989586621679063456"><span class="hs-identifier hs-var">nas</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-124"></span><span>    </span><span class="annot"><a href="#local-6989586621679063448"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-type">SumN</span></a></span><span> </span><span id="local-6989586621679063459"><span class="annot"><span class="annottext">[(TypName, Typ)]
+</span><a href="#local-6989586621679063459"><span class="hs-identifier hs-var">nas</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-125"></span><span>        </span><span class="annot"><span class="annottext">[(TypName, Typ)] -&gt; Typ
 </span><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-var">SumN</span></a></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679054993"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Typ
-</span><a href="#local-6989586621679054980"><span class="hs-identifier hs-var">every</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679054994"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679054993"><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679054993"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679054994"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679054994"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(TypName, Typ)]
-</span><a href="#local-6989586621679054992"><span class="hs-identifier hs-var">nas</span></a></span><span class="hs-special">]</span><span>
+</span><a href="#local-6989586621679063460"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Typ
+</span><a href="#local-6989586621679063447"><span class="hs-identifier hs-var">every</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063461"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679063460"><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679063460"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679063461"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063461"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(TypName, Typ)]
+</span><a href="#local-6989586621679063459"><span class="hs-identifier hs-var">nas</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-126"></span><span>
 </span><span id="line-127"></span><span class="annot"><span class="hs-comment">-- | Summarise all nodes; top-down, left-to-right.</span></span><span>
-</span><span id="line-128"></span><span id="local-6989586621679054748"><span class="annot"><a href="Language.FineTypes.Typ.html#everything"><span class="hs-identifier hs-type">everything</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679054748"><span class="hs-identifier hs-type">r</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679054748"><span class="hs-identifier hs-type">r</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679054748"><span class="hs-identifier hs-type">r</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679054748"><span class="hs-identifier hs-type">r</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679054748"><span class="hs-identifier hs-type">r</span></a></span><span class="hs-special">)</span></span><span>
+</span><span id="line-128"></span><span id="local-6989586621679063215"><span class="annot"><a href="Language.FineTypes.Typ.html#everything"><span class="hs-identifier hs-type">everything</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679063215"><span class="hs-identifier hs-type">r</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679063215"><span class="hs-identifier hs-type">r</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679063215"><span class="hs-identifier hs-type">r</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679063215"><span class="hs-identifier hs-type">r</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679063215"><span class="hs-identifier hs-type">r</span></a></span><span class="hs-special">)</span></span><span>
 </span><span id="line-129"></span><span id="everything"><span class="annot"><span class="annottext">everything :: forall r. (r -&gt; r -&gt; r) -&gt; (Typ -&gt; r) -&gt; Typ -&gt; r
-</span><a href="Language.FineTypes.Typ.html#everything"><span class="hs-identifier hs-var hs-var">everything</span></a></span></span><span> </span><span id="local-6989586621679054995"><span class="annot"><span class="annottext">r -&gt; r -&gt; r
-</span><a href="#local-6989586621679054995"><span class="hs-identifier hs-var">combine</span></a></span></span><span> </span><span id="local-6989586621679054996"><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054996"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054997"><span class="hs-identifier hs-var">recurse</span></a></span><span>
+</span><a href="Language.FineTypes.Typ.html#everything"><span class="hs-identifier hs-var hs-var">everything</span></a></span></span><span> </span><span id="local-6989586621679063462"><span class="annot"><span class="annottext">r -&gt; r -&gt; r
+</span><a href="#local-6989586621679063462"><span class="hs-identifier hs-var">combine</span></a></span></span><span> </span><span id="local-6989586621679063463"><span class="annot"><span class="annottext">Typ -&gt; r
+</span><a href="#local-6989586621679063463"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; r
+</span><a href="#local-6989586621679063464"><span class="hs-identifier hs-var">recurse</span></a></span><span>
 </span><span id="line-130"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-131"></span><span>    </span><span id="local-6989586621679054997"><span class="annot"><span class="annottext">recurse :: Typ -&gt; r
-</span><a href="#local-6989586621679054997"><span class="hs-identifier hs-var hs-var">recurse</span></a></span></span><span> </span><span id="local-6989586621679055001"><span class="annot"><span class="annottext">x :: Typ
-</span><a href="#local-6989586621679055001"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="annot"><span class="annottext">Typ
+</span><span id="line-131"></span><span>    </span><span id="local-6989586621679063464"><span class="annot"><span class="annottext">recurse :: Typ -&gt; r
+</span><a href="#local-6989586621679063464"><span class="hs-identifier hs-var hs-var">recurse</span></a></span></span><span> </span><span id="local-6989586621679063468"><span class="annot"><span class="annottext">x :: Typ
+</span><a href="#local-6989586621679063468"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="annot"><span class="annottext">Typ
 </span><a href="Language.FineTypes.Typ.html#Abstract"><span class="hs-identifier hs-var">Abstract</span></a></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-132"></span><span>        </span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054996"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055001"><span class="hs-identifier hs-var">x</span></a></span><span>
-</span><span id="line-133"></span><span>    </span><span class="annot"><a href="#local-6989586621679054997"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679055002"><span class="annot"><span class="annottext">x :: Typ
-</span><a href="#local-6989586621679055002"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-type">Var</span></a></span><span> </span><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679063463"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063468"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-133"></span><span>    </span><span class="annot"><a href="#local-6989586621679063464"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679063469"><span class="annot"><span class="annottext">x :: Typ
+</span><a href="#local-6989586621679063469"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-type">Var</span></a></span><span> </span><span class="annot"><span class="annottext">TypName
 </span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-134"></span><span>        </span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054996"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055002"><span class="hs-identifier hs-var">x</span></a></span><span>
-</span><span id="line-135"></span><span>    </span><span class="annot"><a href="#local-6989586621679054997"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679055003"><span class="annot"><span class="annottext">x :: Typ
-</span><a href="#local-6989586621679055003"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Zero"><span class="hs-identifier hs-type">Zero</span></a></span><span> </span><span class="annot"><span class="annottext">TypConst
+</span><a href="#local-6989586621679063463"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063469"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-135"></span><span>    </span><span class="annot"><a href="#local-6989586621679063464"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679063470"><span class="annot"><span class="annottext">x :: Typ
+</span><a href="#local-6989586621679063470"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Zero"><span class="hs-identifier hs-type">Zero</span></a></span><span> </span><span class="annot"><span class="annottext">TypConst
 </span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-136"></span><span>        </span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054996"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055003"><span class="hs-identifier hs-var">x</span></a></span><span>
-</span><span id="line-137"></span><span>    </span><span class="annot"><a href="#local-6989586621679054997"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679055004"><span class="annot"><span class="annottext">x :: Typ
-</span><a href="#local-6989586621679055004"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#One"><span class="hs-identifier hs-type">One</span></a></span><span> </span><span class="annot"><span class="annottext">OpOne
-</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679055005"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055005"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621679063463"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063470"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-137"></span><span>    </span><span class="annot"><a href="#local-6989586621679063464"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679063471"><span class="annot"><span class="annottext">x :: Typ
+</span><a href="#local-6989586621679063471"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#One"><span class="hs-identifier hs-type">One</span></a></span><span> </span><span class="annot"><span class="annottext">OpOne
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679063472"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063472"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-138"></span><span>        </span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054996"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055004"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">r -&gt; r -&gt; r
-</span><a href="#local-6989586621679054995"><span class="hs-operator hs-var">`combine`</span></a></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054997"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055005"><span class="hs-identifier hs-var">a</span></a></span><span>
-</span><span id="line-139"></span><span>    </span><span class="annot"><a href="#local-6989586621679054997"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679055006"><span class="annot"><span class="annottext">x :: Typ
-</span><a href="#local-6989586621679055006"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Two"><span class="hs-identifier hs-type">Two</span></a></span><span> </span><span class="annot"><span class="annottext">OpTwo
-</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679055007"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055007"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679055008"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055008"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621679063463"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063471"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">r -&gt; r -&gt; r
+</span><a href="#local-6989586621679063462"><span class="hs-operator hs-var">`combine`</span></a></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; r
+</span><a href="#local-6989586621679063464"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063472"><span class="hs-identifier hs-var">a</span></a></span><span>
+</span><span id="line-139"></span><span>    </span><span class="annot"><a href="#local-6989586621679063464"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679063473"><span class="annot"><span class="annottext">x :: Typ
+</span><a href="#local-6989586621679063473"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Two"><span class="hs-identifier hs-type">Two</span></a></span><span> </span><span class="annot"><span class="annottext">OpTwo
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679063474"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063474"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679063475"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063475"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-140"></span><span>        </span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054996"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055006"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">r -&gt; r -&gt; r
-</span><a href="#local-6989586621679054995"><span class="hs-operator hs-var">`combine`</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054997"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055007"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">r -&gt; r -&gt; r
-</span><a href="#local-6989586621679054995"><span class="hs-operator hs-var">`combine`</span></a></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054997"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055008"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-141"></span><span>    </span><span class="annot"><a href="#local-6989586621679054997"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679055009"><span class="annot"><span class="annottext">x :: Typ
-</span><a href="#local-6989586621679055009"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-type">ProductN</span></a></span><span> </span><span id="local-6989586621679055010"><span class="annot"><span class="annottext">[(TypName, Typ)]
-</span><a href="#local-6989586621679055010"><span class="hs-identifier hs-var">nas</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621679063463"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063473"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">r -&gt; r -&gt; r
+</span><a href="#local-6989586621679063462"><span class="hs-operator hs-var">`combine`</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; r
+</span><a href="#local-6989586621679063464"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063474"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">r -&gt; r -&gt; r
+</span><a href="#local-6989586621679063462"><span class="hs-operator hs-var">`combine`</span></a></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; r
+</span><a href="#local-6989586621679063464"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063475"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-141"></span><span>    </span><span class="annot"><a href="#local-6989586621679063464"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679063476"><span class="annot"><span class="annottext">x :: Typ
+</span><a href="#local-6989586621679063476"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-type">ProductN</span></a></span><span> </span><span id="local-6989586621679063477"><span class="annot"><span class="annottext">[(TypName, Typ)]
+</span><a href="#local-6989586621679063477"><span class="hs-identifier hs-var">nas</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-142"></span><span>        </span><span class="annot"><span class="annottext">(r -&gt; r -&gt; r) -&gt; r -&gt; [r] -&gt; r
 forall b a. (b -&gt; a -&gt; b) -&gt; b -&gt; [a] -&gt; b
 forall (t :: * -&gt; *) b a.
 Foldable t =&gt;
 (b -&gt; a -&gt; b) -&gt; b -&gt; t a -&gt; b
 </span><span class="hs-identifier hs-var">L.foldl'</span></span><span> </span><span class="annot"><span class="annottext">r -&gt; r -&gt; r
-</span><a href="#local-6989586621679054995"><span class="hs-identifier hs-var">combine</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054996"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055009"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054997"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055012"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">TypName
-</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679055012"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055012"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(TypName, Typ)]
-</span><a href="#local-6989586621679055010"><span class="hs-identifier hs-var">nas</span></a></span><span class="hs-special">]</span><span>
-</span><span id="line-143"></span><span>    </span><span class="annot"><a href="#local-6989586621679054997"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679055013"><span class="annot"><span class="annottext">x :: Typ
-</span><a href="#local-6989586621679055013"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-type">SumN</span></a></span><span> </span><span id="local-6989586621679055014"><span class="annot"><span class="annottext">[(TypName, Typ)]
-</span><a href="#local-6989586621679055014"><span class="hs-identifier hs-var">nas</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="#local-6989586621679063462"><span class="hs-identifier hs-var">combine</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; r
+</span><a href="#local-6989586621679063463"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063476"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Typ -&gt; r
+</span><a href="#local-6989586621679063464"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063479"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">TypName
+</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679063479"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063479"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(TypName, Typ)]
+</span><a href="#local-6989586621679063477"><span class="hs-identifier hs-var">nas</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-143"></span><span>    </span><span class="annot"><a href="#local-6989586621679063464"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span id="local-6989586621679063480"><span class="annot"><span class="annottext">x :: Typ
+</span><a href="#local-6989586621679063480"><span class="hs-identifier hs-var">x</span></a></span></span><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-type">SumN</span></a></span><span> </span><span id="local-6989586621679063481"><span class="annot"><span class="annottext">[(TypName, Typ)]
+</span><a href="#local-6989586621679063481"><span class="hs-identifier hs-var">nas</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-144"></span><span>        </span><span class="annot"><span class="annottext">(r -&gt; r -&gt; r) -&gt; r -&gt; [r] -&gt; r
 forall b a. (b -&gt; a -&gt; b) -&gt; b -&gt; [a] -&gt; b
 forall (t :: * -&gt; *) b a.
 Foldable t =&gt;
 (b -&gt; a -&gt; b) -&gt; b -&gt; t a -&gt; b
 </span><span class="hs-identifier hs-var">L.foldl'</span></span><span> </span><span class="annot"><span class="annottext">r -&gt; r -&gt; r
-</span><a href="#local-6989586621679054995"><span class="hs-identifier hs-var">combine</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054996"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055013"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Typ -&gt; r
-</span><a href="#local-6989586621679054997"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055015"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">TypName
-</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679055015"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679055015"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(TypName, Typ)]
-</span><a href="#local-6989586621679055014"><span class="hs-identifier hs-var">nas</span></a></span><span class="hs-special">]</span><span>
+</span><a href="#local-6989586621679063462"><span class="hs-identifier hs-var">combine</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; r
+</span><a href="#local-6989586621679063463"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063480"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Typ -&gt; r
+</span><a href="#local-6989586621679063464"><span class="hs-identifier hs-var">recurse</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063482"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">TypName
+</span><span class="hs-identifier">_</span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679063482"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679063482"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(TypName, Typ)]
+</span><a href="#local-6989586621679063481"><span class="hs-identifier hs-var">nas</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-145"></span></pre></body></html>

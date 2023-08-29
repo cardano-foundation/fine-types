@@ -59,8 +59,8 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span id="line-44"></span><span>
 </span><span id="line-45"></span><span class="annot"><a href="Language.FineTypes.Typ.Gen.html#willBranch"><span class="hs-identifier hs-type">willBranch</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.Gen.html#DepthGen"><span class="hs-identifier hs-type">DepthGen</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
 </span><span id="line-46"></span><span id="willBranch"><span class="annot"><span class="annottext">willBranch :: Int -&gt; Gen Bool
-</span><a href="Language.FineTypes.Typ.Gen.html#willBranch"><span class="hs-identifier hs-var hs-var">willBranch</span></a></span></span><span> </span><span id="local-6989586621679055557"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055557"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[(Int, Gen Bool)] -&gt; Gen Bool
+</span><a href="Language.FineTypes.Typ.Gen.html#willBranch"><span class="hs-identifier hs-var hs-var">willBranch</span></a></span></span><span> </span><span id="local-6989586621679064024"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679064024"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[(Int, Gen Bool)] -&gt; Gen Bool
 forall a. [(Int, Gen a)] -&gt; Gen a
 </span><span class="hs-identifier hs-var">frequency</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">1</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Gen Bool
@@ -75,7 +75,7 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a
 </span><span class="hs-identifier hs-var">negate</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055557"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Gen Bool
+</span><a href="#local-6989586621679064024"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Gen Bool
 forall a. a -&gt; Gen a
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">Bool
@@ -84,13 +84,13 @@ forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span id="line-48"></span><span class="annot"><span class="hs-comment">-- | Generate a random 'Typ'.</span></span><span>
 </span><span id="line-49"></span><span class="annot"><a href="Language.FineTypes.Typ.Gen.html#genTyp"><span class="hs-identifier hs-type">genTyp</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.Gen.html#Concrete"><span class="hs-identifier hs-type">Concrete</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.Gen.html#DepthGen"><span class="hs-identifier hs-type">DepthGen</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span>
 </span><span id="line-50"></span><span id="genTyp"><span class="annot"><span class="annottext">genTyp :: Concrete -&gt; Int -&gt; Gen Typ
-</span><a href="Language.FineTypes.Typ.Gen.html#genTyp"><span class="hs-identifier hs-var hs-var">genTyp</span></a></span></span><span> </span><span id="local-6989586621679055560"><span class="annot"><span class="annottext">Concrete
-</span><a href="#local-6989586621679055560"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679055561"><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055561"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-51"></span><span>    </span><span id="local-6989586621679055562"><span class="annot"><span class="annottext">Bool
-</span><a href="#local-6989586621679055562"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Gen Bool
+</span><a href="Language.FineTypes.Typ.Gen.html#genTyp"><span class="hs-identifier hs-var hs-var">genTyp</span></a></span></span><span> </span><span id="local-6989586621679064027"><span class="annot"><span class="annottext">Concrete
+</span><a href="#local-6989586621679064027"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679064028"><span class="annot"><span class="annottext">Int
+</span><a href="#local-6989586621679064028"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-51"></span><span>    </span><span id="local-6989586621679064029"><span class="annot"><span class="annottext">Bool
+</span><a href="#local-6989586621679064029"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Gen Bool
 </span><a href="Language.FineTypes.Typ.Gen.html#willBranch"><span class="hs-identifier hs-var">willBranch</span></a></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055561"><span class="hs-identifier hs-var">n</span></a></span><span>
+</span><a href="#local-6989586621679064028"><span class="hs-identifier hs-var">n</span></a></span><span>
 </span><span id="line-52"></span><span>    </span><span class="annot"><span class="annottext">[Gen Typ] -&gt; Gen Typ
 forall a. [Gen a] -&gt; Gen a
 </span><span class="hs-identifier hs-var">oneof</span></span><span>
@@ -98,11 +98,11 @@ forall a. [Gen a] -&gt; Gen a
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Concrete -&gt; [Gen Typ] -&gt; [Gen Typ]
 </span><a href="Language.FineTypes.Typ.Gen.html#patchNoData"><span class="hs-identifier hs-var">patchNoData</span></a></span><span> </span><span class="annot"><span class="annottext">Concrete
-</span><a href="#local-6989586621679055560"><span class="hs-identifier hs-var">f</span></a></span><span>
+</span><a href="#local-6989586621679064027"><span class="hs-identifier hs-var">f</span></a></span><span>
 </span><span id="line-54"></span><span>        </span><span class="annot"><span class="annottext">([Gen Typ] -&gt; [Gen Typ]) -&gt; [Gen Typ] -&gt; [Gen Typ]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Bool
-</span><a href="#local-6989586621679055562"><span class="hs-identifier hs-var">b</span></a></span><span>
+</span><a href="#local-6989586621679064029"><span class="hs-identifier hs-var">b</span></a></span><span>
 </span><span id="line-55"></span><span>            </span><span class="hs-keyword">then</span><span>
 </span><span id="line-56"></span><span>                </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">TypConst -&gt; Typ
 </span><a href="Language.FineTypes.Typ.html#Zero"><span class="hs-identifier hs-var">Zero</span></a></span><span> </span><span class="annot"><span class="annottext">(TypConst -&gt; Typ) -&gt; Gen TypConst -&gt; Gen Typ
@@ -117,7 +117,7 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 forall a b. Gen (a -&gt; b) -&gt; Gen a -&gt; Gen b
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">Gen Typ
-</span><a href="#local-6989586621679055565"><span class="hs-identifier hs-var">genTyp'</span></a></span><span>
+</span><a href="#local-6989586621679064032"><span class="hs-identifier hs-var">genTyp'</span></a></span><span>
 </span><span id="line-58"></span><span>                </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">OpTwo -&gt; Typ -&gt; Typ -&gt; Typ
 </span><a href="Language.FineTypes.Typ.html#Two"><span class="hs-identifier hs-var">Two</span></a></span><span> </span><span class="annot"><span class="annottext">(OpTwo -&gt; Typ -&gt; Typ -&gt; Typ)
 -&gt; Gen OpTwo -&gt; Gen (Typ -&gt; Typ -&gt; Typ)
@@ -127,24 +127,24 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 forall a b. Gen (a -&gt; b) -&gt; Gen a -&gt; Gen b
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">Gen Typ
-</span><a href="#local-6989586621679055565"><span class="hs-identifier hs-var">genTyp'</span></a></span><span> </span><span class="annot"><span class="annottext">Gen (Typ -&gt; Typ) -&gt; Gen Typ -&gt; Gen Typ
+</span><a href="#local-6989586621679064032"><span class="hs-identifier hs-var">genTyp'</span></a></span><span> </span><span class="annot"><span class="annottext">Gen (Typ -&gt; Typ) -&gt; Gen Typ -&gt; Gen Typ
 forall a b. Gen (a -&gt; b) -&gt; Gen a -&gt; Gen b
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">Gen Typ
-</span><a href="#local-6989586621679055565"><span class="hs-identifier hs-var">genTyp'</span></a></span><span>
+</span><a href="#local-6989586621679064032"><span class="hs-identifier hs-var">genTyp'</span></a></span><span>
 </span><span id="line-59"></span><span>                </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[(String, Typ)] -&gt; Typ
 </span><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-var">ProductN</span></a></span><span> </span><span class="annot"><span class="annottext">([(String, Typ)] -&gt; Typ) -&gt; Gen [(String, Typ)] -&gt; Gen Typ
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Gen [String] -&gt; Gen [(String, Typ)]
 forall a. Gen [a] -&gt; Gen [(a, Typ)]
-</span><a href="#local-6989586621679055567"><span class="hs-identifier hs-var">genTagged</span></a></span><span> </span><span class="annot"><span class="annottext">Gen [String]
+</span><a href="#local-6989586621679064034"><span class="hs-identifier hs-var">genTagged</span></a></span><span> </span><span class="annot"><span class="annottext">Gen [String]
 </span><a href="Language.FineTypes.Typ.Gen.html#genFields"><span class="hs-identifier hs-var">genFields</span></a></span><span>
 </span><span id="line-60"></span><span>                </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">[(String, Typ)] -&gt; Typ
 </span><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-var">SumN</span></a></span><span> </span><span class="annot"><span class="annottext">([(String, Typ)] -&gt; Typ) -&gt; Gen [(String, Typ)] -&gt; Gen Typ
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Gen [String] -&gt; Gen [(String, Typ)]
 forall a. Gen [a] -&gt; Gen [(a, Typ)]
-</span><a href="#local-6989586621679055567"><span class="hs-identifier hs-var">genTagged</span></a></span><span> </span><span class="annot"><span class="annottext">Gen [String]
+</span><a href="#local-6989586621679064034"><span class="hs-identifier hs-var">genTagged</span></a></span><span> </span><span class="annot"><span class="annottext">Gen [String]
 </span><a href="Language.FineTypes.Typ.Gen.html#genConstructors"><span class="hs-identifier hs-var">genConstructors</span></a></span><span>
 </span><span id="line-61"></span><span>                </span><span class="hs-special">]</span><span>
 </span><span id="line-62"></span><span>            </span><span class="hs-keyword">else</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">TypConst -&gt; Typ
@@ -153,37 +153,37 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Gen TypConst
 </span><a href="Language.FineTypes.Typ.Gen.html#genConst"><span class="hs-identifier hs-var">genConst</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-63"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-64"></span><span>    </span><span id="local-6989586621679055565"><span class="annot"><span class="annottext">genTyp' :: Gen Typ
-</span><a href="#local-6989586621679055565"><span class="hs-identifier hs-var hs-var">genTyp'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Concrete -&gt; Int -&gt; Gen Typ
+</span><span id="line-64"></span><span>    </span><span id="local-6989586621679064032"><span class="annot"><span class="annottext">genTyp' :: Gen Typ
+</span><a href="#local-6989586621679064032"><span class="hs-identifier hs-var hs-var">genTyp'</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Concrete -&gt; Int -&gt; Gen Typ
 </span><a href="Language.FineTypes.Typ.Gen.html#genTyp"><span class="hs-identifier hs-var">genTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Concrete
-</span><a href="#local-6989586621679055560"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(Int -&gt; Gen Typ) -&gt; Int -&gt; Gen Typ
+</span><a href="#local-6989586621679064027"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(Int -&gt; Gen Typ) -&gt; Int -&gt; Gen Typ
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Int
-</span><a href="#local-6989586621679055561"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
+</span><a href="#local-6989586621679064028"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int -&gt; Int
 forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-glyph hs-var">-</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">1</span></span><span>
-</span><span id="line-65"></span><span>    </span><span id="local-6989586621679055469"><span class="annot"><a href="#local-6989586621679055567"><span class="hs-identifier hs-type">genTagged</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679055469"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679055469"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span></span><span>
-</span><span id="line-66"></span><span>    </span><span id="local-6989586621679055567"><span class="annot"><span class="annottext">genTagged :: forall a. Gen [a] -&gt; Gen [(a, Typ)]
-</span><a href="#local-6989586621679055567"><span class="hs-identifier hs-var hs-var">genTagged</span></a></span></span><span> </span><span id="local-6989586621679055577"><span class="annot"><span class="annottext">Gen [a]
-</span><a href="#local-6989586621679055577"><span class="hs-identifier hs-var">gen</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-67"></span><span>        </span><span id="local-6989586621679055578"><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679055578"><span class="hs-identifier hs-var">names</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen [a]
-</span><a href="#local-6989586621679055577"><span class="hs-identifier hs-var">gen</span></a></span><span>
+</span><span id="line-65"></span><span>    </span><span id="local-6989586621679063936"><span class="annot"><a href="#local-6989586621679064034"><span class="hs-identifier hs-type">genTagged</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679063936"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679063936"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span></span><span>
+</span><span id="line-66"></span><span>    </span><span id="local-6989586621679064034"><span class="annot"><span class="annottext">genTagged :: forall a. Gen [a] -&gt; Gen [(a, Typ)]
+</span><a href="#local-6989586621679064034"><span class="hs-identifier hs-var hs-var">genTagged</span></a></span></span><span> </span><span id="local-6989586621679064044"><span class="annot"><span class="annottext">Gen [a]
+</span><a href="#local-6989586621679064044"><span class="hs-identifier hs-var">gen</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-67"></span><span>        </span><span id="local-6989586621679064045"><span class="annot"><span class="annottext">[a]
+</span><a href="#local-6989586621679064045"><span class="hs-identifier hs-var">names</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen [a]
+</span><a href="#local-6989586621679064044"><span class="hs-identifier hs-var">gen</span></a></span><span>
 </span><span id="line-68"></span><span>        </span><span class="annot"><span class="annottext">[a] -&gt; (a -&gt; Gen (a, Typ)) -&gt; Gen [(a, Typ)]
 forall (t :: * -&gt; *) (m :: * -&gt; *) a b.
 (Traversable t, Monad m) =&gt;
 t a -&gt; (a -&gt; m b) -&gt; m (t b)
 </span><span class="hs-identifier hs-var">forM</span></span><span> </span><span class="annot"><span class="annottext">[a]
-</span><a href="#local-6989586621679055578"><span class="hs-identifier hs-var">names</span></a></span><span> </span><span class="annot"><span class="annottext">((a -&gt; Gen (a, Typ)) -&gt; Gen [(a, Typ)])
+</span><a href="#local-6989586621679064045"><span class="hs-identifier hs-var">names</span></a></span><span> </span><span class="annot"><span class="annottext">((a -&gt; Gen (a, Typ)) -&gt; Gen [(a, Typ)])
 -&gt; (a -&gt; Gen (a, Typ)) -&gt; Gen [(a, Typ)]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679055579"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679055579"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">,</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679055579"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">(Typ -&gt; (a, Typ)) -&gt; Gen Typ -&gt; Gen (a, Typ)
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679064046"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679064046"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="hs-special">,</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679064046"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">(Typ -&gt; (a, Typ)) -&gt; Gen Typ -&gt; Gen (a, Typ)
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Gen Typ
-</span><a href="#local-6989586621679055565"><span class="hs-identifier hs-var">genTyp'</span></a></span><span>
+</span><a href="#local-6989586621679064032"><span class="hs-identifier hs-var">genTyp'</span></a></span><span>
 </span><span id="line-69"></span><span>
 </span><span id="line-70"></span><span class="annot"><a href="Language.FineTypes.Typ.Gen.html#genTwo"><span class="hs-identifier hs-type">genTwo</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#OpTwo"><span class="hs-identifier hs-type">OpTwo</span></a></span><span>
 </span><span id="line-71"></span><span id="genTwo"><span class="annot"><span class="annottext">genTwo :: Gen OpTwo
@@ -296,32 +296,32 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span id="line-117"></span><span id="capitalise"><span class="annot"><span class="annottext">capitalise :: String -&gt; String
 </span><a href="Language.FineTypes.Typ.Gen.html#capitalise"><span class="hs-identifier hs-var hs-var">capitalise</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
 </span><span id="line-118"></span><span>    </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
-</span><span id="line-119"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679055597"><span class="annot"><span class="annottext">Char
-</span><a href="#local-6989586621679055597"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679055598"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679055598"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Char -&gt; Char
+</span><span id="line-119"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679064064"><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679064064"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679064065"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679064065"><span class="hs-identifier hs-var">xs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Char -&gt; Char
 </span><span class="hs-identifier hs-var">toUpper</span></span><span> </span><span class="annot"><span class="annottext">Char
-</span><a href="#local-6989586621679055597"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Char -&gt; String -&gt; String
+</span><a href="#local-6989586621679064064"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Char -&gt; String -&gt; String
 forall a. a -&gt; [a] -&gt; [a]
 </span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679055598"><span class="hs-identifier hs-var">xs</span></a></span><span>
+</span><a href="#local-6989586621679064065"><span class="hs-identifier hs-var">xs</span></a></span><span>
 </span><span id="line-120"></span><span>
 </span><span id="line-121"></span><span class="annot"><a href="Language.FineTypes.Typ.Gen.html#genFields"><span class="hs-identifier hs-type">genFields</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Language.FineTypes.Typ.html#FieldName"><span class="hs-identifier hs-type">FieldName</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-122"></span><span id="genFields"><span class="annot"><span class="annottext">genFields :: Gen [String]
 </span><a href="Language.FineTypes.Typ.Gen.html#genFields"><span class="hs-identifier hs-var hs-var">genFields</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Gen [String]
 </span><a href="Language.FineTypes.Typ.Gen.html#genNames"><span class="hs-identifier hs-var">genNames</span></a></span><span>
 </span><span id="line-123"></span><span>
-</span><span id="line-124"></span><span id="local-6989586621679055482"><span class="annot"><a href="Language.FineTypes.Typ.Gen.html#logScale"><span class="hs-identifier hs-type">logScale</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Double</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="#local-6989586621679055482"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="#local-6989586621679055482"><span class="hs-identifier hs-type">a</span></a></span></span><span>
+</span><span id="line-124"></span><span id="local-6989586621679063949"><span class="annot"><a href="Language.FineTypes.Typ.Gen.html#logScale"><span class="hs-identifier hs-type">logScale</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Double</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="#local-6989586621679063949"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="#local-6989586621679063949"><span class="hs-identifier hs-type">a</span></a></span></span><span>
 </span><span id="line-125"></span><span id="logScale"><span class="annot"><span class="annottext">logScale :: forall a. Double -&gt; Gen a -&gt; Gen a
-</span><a href="Language.FineTypes.Typ.Gen.html#logScale"><span class="hs-identifier hs-var hs-var">logScale</span></a></span></span><span> </span><span id="local-6989586621679055602"><span class="annot"><span class="annottext">Double
-</span><a href="#local-6989586621679055602"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Int -&gt; Int) -&gt; Gen a -&gt; Gen a
+</span><a href="Language.FineTypes.Typ.Gen.html#logScale"><span class="hs-identifier hs-var hs-var">logScale</span></a></span></span><span> </span><span id="local-6989586621679064069"><span class="annot"><span class="annottext">Double
+</span><a href="#local-6989586621679064069"><span class="hs-identifier hs-var">n</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Int -&gt; Int) -&gt; Gen a -&gt; Gen a
 forall a. (Int -&gt; Int) -&gt; Gen a -&gt; Gen a
 </span><span class="hs-identifier hs-var">scale</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Int
 forall {b} {a}. (Integral b, Integral a) =&gt; a -&gt; b
-</span><a href="#local-6989586621679055603"><span class="hs-identifier hs-var">logN</span></a></span><span>
+</span><a href="#local-6989586621679064070"><span class="hs-identifier hs-var">logN</span></a></span><span>
 </span><span id="line-126"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-127"></span><span>    </span><span id="local-6989586621679055603"><span class="annot"><span class="annottext">logN :: a -&gt; b
-</span><a href="#local-6989586621679055603"><span class="hs-identifier hs-var hs-var">logN</span></a></span></span><span> </span><span id="local-6989586621679055641"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679055641"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Double -&gt; b
+</span><span id="line-127"></span><span>    </span><span id="local-6989586621679064070"><span class="annot"><span class="annottext">logN :: a -&gt; b
+</span><a href="#local-6989586621679064070"><span class="hs-identifier hs-var hs-var">logN</span></a></span></span><span> </span><span id="local-6989586621679064108"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679064108"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Double -&gt; b
 forall b. Integral b =&gt; Double -&gt; b
 forall a b. (RealFrac a, Integral b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">floor</span></span><span> </span><span class="annot"><span class="annottext">(Double -&gt; b) -&gt; Double -&gt; b
@@ -329,7 +329,7 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Double -&gt; Double -&gt; Double
 forall a. Floating a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-identifier hs-var">logBase</span></span><span> </span><span class="annot"><span class="annottext">Double
-</span><a href="#local-6989586621679055602"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">(Double -&gt; Double) -&gt; Double -&gt; Double
+</span><a href="#local-6989586621679064069"><span class="hs-identifier hs-var">n</span></a></span><span> </span><span class="annot"><span class="annottext">(Double -&gt; Double) -&gt; Double -&gt; Double
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Double
 </span><span class="hs-number">1</span></span><span> </span><span class="annot"><span class="annottext">Double -&gt; Double -&gt; Double
@@ -337,5 +337,5 @@ forall a. Num a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">+</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; Double
 forall a b. (Integral a, Num b) =&gt; a -&gt; b
 </span><span class="hs-identifier hs-var">fromIntegral</span></span><span> </span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679055641"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><a href="#local-6989586621679064108"><span class="hs-identifier hs-var">x</span></a></span><span>
 </span><span id="line-128"></span></pre></body></html>
