@@ -63,6 +63,7 @@
           # compilation setting, we don't run into issues where we pick tools
           # for the target.
           shell.buildInputs = with nixpkgs.pkgsBuildBuild; [
+            just
             gitAndTools.git
           ];
           shell.withHoogle = true;
