@@ -76,6 +76,8 @@ library
     Language.FineTypes.Typ.Gen
     Language.FineTypes.Value
     Language.FineTypes.Value.Gen
+  other-modules:
+    Language.FineTypes.Elaborate
 
 test-suite unit
   import:      language, opts-exe
