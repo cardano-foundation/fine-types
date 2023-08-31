@@ -11,10 +11,10 @@ import Data.Void
     )
 import Language.FineTypes.Module
     ( Declarations
-    , Module (Module)
-    , ModuleName
     , Import (..)
     , Imports
+    , Module (Module)
+    , ModuleName
     )
 import Language.FineTypes.Typ
     ( ConstructorName

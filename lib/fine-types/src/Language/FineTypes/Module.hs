@@ -1,4 +1,5 @@
 {-# LANGUAGE NamedFieldPuns #-}
+
 -- | A 'Module' is a collection of 'Typ' definitions.
 module Language.FineTypes.Module
     ( ModuleName
@@ -49,12 +50,13 @@ type Declarations = Map TypName Typ
 
 type Imports = Map ModuleName Import
 
-newtype Import = ImportNames { getImportNames :: Set TypName }
+newtype Import = ImportNames {getImportNames :: Set TypName}
     deriving (Eq, Show)
 
 {-----------------------------------------------------------------------------
     Name resolution
 ------------------------------------------------------------------------------}
+
 -- | Resolve all variables in a 'Typ' that can be resolved
 -- using the given declarations.
 --
@@ -88,7 +90,7 @@ resolveImports modulesInScope m0 =
 -- | Collect all 'Typ' names that have not been defined or imported
 -- in the 'Module'.
 collectNotInScope :: Module -> Set TypName
-collectNotInScope Module{moduleDeclarations,moduleImports} =
+collectNotInScope Module{moduleDeclarations, moduleImports} =
     needed Set.\\ defined
   where
     defined = declaredNames <> importedNames

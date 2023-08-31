@@ -7,10 +7,10 @@ import Prelude
 
 import Language.FineTypes.Module
     ( Declarations
-    , Module (..)
-    , ModuleName
     , Import (..)
     , Imports
+    , Module (..)
+    , ModuleName
     )
 import Language.FineTypes.Typ (Typ, TypName)
 import Language.FineTypes.Typ.Gen
