@@ -5,7 +5,13 @@ module Language.FineTypes.Module.Gen where
 
 import Prelude
 
-import Language.FineTypes.Module (Declarations, Module (..))
+import Language.FineTypes.Module
+    ( Declarations
+    , Import (..)
+    , Imports
+    , Module (..)
+    , ModuleName
+    )
 import Language.FineTypes.Typ (Typ, TypName)
 import Language.FineTypes.Typ.Gen
     ( Mode (Complete)
@@ -20,12 +26,23 @@ import Test.QuickCheck
     )
 
 import qualified Data.Map as Map
+import qualified Data.Set as Set
 
 genModule :: Gen Module
 genModule = do
     moduleName <- genModuleName
+    moduleImports <- genImports
     moduleDeclarations <- genDeclarations
     pure Module{..}
+
+genImports :: Gen Imports
+genImports = Map.fromList <$> listOf genImport
+
+genImport :: Gen (ModuleName, Import)
+genImport = do
+    moduleName <- genModuleName
+    imports <- ImportNames . Set.fromList <$> listOf genTypName
+    pure (moduleName, imports)
 
 genDeclarations :: Gen Declarations
 genDeclarations = Map.fromList <$> listOf genDeclaration
@@ -46,6 +63,8 @@ shrinkModule :: Module -> [Module]
 shrinkModule m = do
     moduleDeclarations <- shrinkDeclarations (moduleDeclarations m)
     pure $ m{moduleDeclarations}
+
+-- TODO: Shrink import list
 
 shrinkDeclarations :: Declarations -> [Declarations]
 shrinkDeclarations xs = do

@@ -11,7 +11,10 @@ import Data.Void
     )
 import Language.FineTypes.Module
     ( Declarations
+    , Import (..)
+    , Imports
     , Module (Module)
+    , ModuleName
     )
 import Language.FineTypes.Typ
     ( ConstructorName
@@ -39,6 +42,7 @@ import Text.Megaparsec
 
 import qualified Control.Monad.Combinators.Expr as Parser.Expr
 import qualified Data.Map.Strict as Map
+import qualified Data.Set as Set
 import qualified Text.Megaparsec.Char as Parser.Char
 import qualified Text.Megaparsec.Char.Lexer as L
 
@@ -74,7 +78,21 @@ module' =
         <$ symbol "module"
         <*> moduleName
         <* symbol "where"
+        <*> imports
         <*> declarations
+
+imports :: Parser Imports
+imports = mconcat <$> (import' `endBy` symbol ";")
+
+import' :: Parser Imports
+import' =
+    Map.singleton
+        <$ symbol "import"
+        <*> moduleName
+        <*> (toImport <$> importedNames)
+  where
+    importedNames = parens (typName `sepBy` symbol ",")
+    toImport = ImportNames . Set.fromList
 
 declarations :: Parser Declarations
 declarations = mconcat <$> (declaration `endBy` symbol ";")
@@ -168,7 +186,7 @@ space = L.space Parser.Char.space1 lineComment blockComment
 symbol :: String -> Parser String
 symbol = L.symbol space
 
-moduleName :: Parser String
+moduleName :: Parser ModuleName
 moduleName = typName
 
 typName :: Parser TypName

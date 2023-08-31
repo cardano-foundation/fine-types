@@ -21,3 +21,4 @@ let-style: auto
 newlines-between-decls: 1
 record-brace-space: false
 column-limit: 80
+single-constraint-parens: auto

@@ -10,7 +10,13 @@ module Language.FineTypes.Module.PrettyPrinter
 
 import Prelude
 
-import Language.FineTypes.Module (Declarations, Module (..))
+import Language.FineTypes.Module
+    ( Declarations
+    , Import (..)
+    , Imports
+    , Module (..)
+    , ModuleName
+    )
 import Language.FineTypes.Typ
     ( ConstructorName
     , FieldName
@@ -23,12 +29,17 @@ import Language.FineTypes.Typ
 import Prettyprinter
     ( Doc
     , Pretty (pretty)
+    , comma
     , concatWith
     , defaultLayoutOptions
     , encloseSep
+    , group
     , indent
     , layoutPretty
     , line
+    , line'
+    , nest
+    , space
     , vsep
     , (<+>)
     )
@@ -36,6 +47,7 @@ import Prettyprinter.Render.Text (renderStrict)
 
 import Data.Functor ((<&>))
 import qualified Data.Map as Map
+import qualified Data.Set as Set
 import qualified Data.Text as T
 
 prettyText :: T.Text -> Doc ann
@@ -66,12 +78,27 @@ prettyPrintModule =
 
 -- | Pretty print a 'Module'.
 prettyModule :: Module -> Doc ann
-prettyModule Module{moduleName, moduleDeclarations} =
+prettyModule Module{moduleName, moduleDeclarations, moduleImports} =
     vsep
         [ prettyText "module" <+> pretty moduleName <+> prettyText "where"
         , prettyText ""
+        , prettyImports moduleImports
         , prettyDeclarations moduleDeclarations
         ]
+
+prettyImports :: Imports -> Doc ann
+prettyImports m =
+    if Map.null m
+        then mempty
+        else (vsep . map prettyImport $ Map.toList m) <> line
+
+prettyImport :: (ModuleName, Import) -> Doc ann
+prettyImport (name, ImportNames names) =
+    "import" <+> pretty name <> nest 4 listing <> ";"
+  where
+    docs = map pretty $ Set.toList names
+    listing = group (line <> "(" <+> list <> line <> ")")
+    list = concatWith (\a b -> a <> line' <> comma <> space <> b) docs
 
 prettyDeclarations :: Declarations -> Doc ann
 prettyDeclarations = vsep . map prettyDeclaration . Map.toList

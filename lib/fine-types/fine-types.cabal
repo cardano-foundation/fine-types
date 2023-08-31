@@ -23,6 +23,7 @@ common language
   default-extensions:
     NoImplicitPrelude
   other-extensions:
+    NamedFieldPuns
     OverloadedStrings
 
 common opts-lib
@@ -48,17 +49,24 @@ library
   hs-source-dirs:
     src
   build-depends:
+    , aeson ^>= 2.1.2
     , base >=4.14.3.0
+    , base16 >= 1.0
     , bytestring
     , containers
+    , deepseq >= 1.4.4
     , megaparsec ^>= 9.2.1
     , parser-combinators
+    , pretty-simple
+    , prettyprinter
     , QuickCheck
     , text
     , transformers
-    , prettyprinter
+    , yaml
   exposed-modules:
     Language.FineTypes
+    Language.FineTypes.Export.OpenAPI.Typ
+    Language.FineTypes.Export.OpenAPI.Value
     Language.FineTypes.Module
     Language.FineTypes.Module.Gen
     Language.FineTypes.Module.PrettyPrinter
@@ -78,6 +86,7 @@ test-suite unit
   build-depends:
     base
     , containers
+    , deepseq
     , fine-types
     , hspec ^>= 2.11.0
     , QuickCheck
@@ -85,6 +94,6 @@ test-suite unit
   main-is:
     Spec.hs
   other-modules:
+    Language.FineTypes.Export.OpenAPI.TypSpec
     Language.FineTypes.ParserSpec
     Language.FineTypes.ValueSpec
-
