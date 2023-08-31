@@ -74,6 +74,8 @@ library
     Language.FineTypes
     Language.FineTypes.Export.Haskell.Language
     Language.FineTypes.Export.Haskell.Typ
+    Language.FineTypes.Export.Haskell.Value.Compiletime
+    Language.FineTypes.Export.Haskell.Value.Runtime
     Language.FineTypes.Export.OpenAPI.Schema
     Language.FineTypes.Export.OpenAPI.Value.FromJSON
     Language.FineTypes.Export.OpenAPI.Value.ToJSON

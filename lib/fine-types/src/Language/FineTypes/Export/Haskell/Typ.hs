@@ -9,11 +9,17 @@ import Prelude
 
 import Language.FineTypes.Export.Haskell.Language
     ( hsImportQualified
+    , hsImportQualifiedAs
     , hsList
     , hsPair
     , hsType
     , hsUnit
     , raiseFirstLetter
+    )
+import Language.FineTypes.Export.Haskell.Value.Compiletime
+    ( declareInstanceToValue
+    , declareToValueFunProduct
+    , declareToValueFunSum
     )
 import Language.FineTypes.Module
     ( Module (..)
@@ -71,32 +77,45 @@ haskellFromModule m =
             , "GHC.Generics"
             , "Numeric.Natural"
             ]
+            <> [ hsImportQualifiedAs
+                    "Language.FineTypes.Export.Haskell.Value.Runtime"
+                    "FineTypes.Value"
+               ]
     declarations =
-        [ declarationFromTyp name typ
-        | (name, typ) <- Map.toList (moduleDeclarations m)
-        ]
+        concat
+            [ declarationFromTyp name typ
+            | (name, typ) <- Map.toList (moduleDeclarations m)
+            ]
 
 {-----------------------------------------------------------------------------
     Convert Typ to Haskell declaration
 ------------------------------------------------------------------------------}
-declarationFromTyp :: TypName -> Typ -> Hs.Decl
+declarationFromTyp :: TypName -> Typ -> [Hs.Decl]
 declarationFromTyp name typ = case typ of
     ProductN fields ->
-        Hs.DataDecl
+        [ Hs.DataDecl
             Hs.DataType
             Nothing
             declaredName
             (declareProduct name fields)
             derivingEqOrdGeneric
+        , declareInstanceToValue
+            name
+            (declareToValueFunProduct name fields)
+        ]
     SumN constructors ->
-        Hs.DataDecl
+        [ Hs.DataDecl
             Hs.DataType
             Nothing
             declaredName
             (declareSum name constructors)
             derivingEqOrdGeneric
+        , declareInstanceToValue
+            name
+            (declareToValueFunSum name constructors)
+        ]
     _ ->
-        Hs.TypeDecl declaredName (typeFromTyp typ)
+        [Hs.TypeDecl declaredName (typeFromTyp typ)]
   where
     declaredName = Hs.DHead $ Hs.Ident name
 
