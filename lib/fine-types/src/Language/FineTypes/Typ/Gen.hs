@@ -4,25 +4,31 @@ module Language.FineTypes.Typ.Gen where
 
 import Prelude hiding (round)
 
-import Data.Char (toUpper)
-import Data.List (nub)
+import Data.Char (isAlphaNum, isPunctuation, isSymbol, toUpper)
+import Data.List (isInfixOf, nub)
 import Data.Traversable (forM)
 import Language.FineTypes.Typ
-    ( ConstructorName
+    ( Constraint
+    , Constraint1 (..)
+    , ConstructorName
     , FieldName
     , OpOne (..)
     , OpTwo (..)
-    , Typ (Abstract, One, ProductN, SumN, Two, Var, Zero)
+    , Typ (..)
     , TypConst (..)
     , TypName
     )
 import Test.QuickCheck
     ( Gen
+    , arbitrary
+    , choose
     , elements
     , frequency
     , listOf1
     , oneof
     , scale
+    , shrink
+    , shrinkList
     , suchThat
     , vectorOf
     )
@@ -53,6 +59,13 @@ onWill :: (Monoid p) => Branch -> p -> p
 onWill Will f = f
 onWill Wont _ = mempty
 
+-- | Whether the generated 'Typ' will have constraints or not
+data WithConstraints = WithConstraints | WithoutConstraints
+
+onConstraints :: (Monoid p) => WithConstraints -> p -> p
+onConstraints WithConstraints f = f
+onConstraints WithoutConstraints _ = mempty
+
 -- | Whether the generated 'Typ' is the top one in the tree or not
 data Round = Top | Rest
 
@@ -61,14 +74,15 @@ onTop Top f = f
 onTop Rest _ = mempty
 
 -- | Generate a random 'Typ'.
-genTyp :: Mode -> DepthGen -> Gen Typ
+genTyp :: WithConstraints -> Mode -> DepthGen -> Gen Typ
 genTyp = go Top
   where
-    go round mode depth = do
+    go round hasC mode depth = do
         branching <- onWill <$> willBranch depth
         let top = onTop round
             complete = onComplete mode
             always = id
+            constrained = onConstraints hasC
         oneof
             $ []
                 <> always [Zero <$> genConst]
@@ -79,10 +93,46 @@ genTyp = go Top
                     , ProductN <$> genTagged genFields go'
                     , SumN <$> genTagged genConstructors go'
                     ]
-                <> complete [Var <$> genVarName]
                 <> (top . complete) [pure Abstract]
+                <> complete [Var <$> genVarName]
+                <> constrained [genConstrainedTyp mode]
       where
-        go' = go Rest mode $ depth - 1
+        go' = go Rest hasC mode $ depth - 1
+
+genConstraint :: Int -> Gen Constraint
+genConstraint 0 = pure []
+genConstraint n = listOf1 $ genConstraint1 $ n - 1
+
+genConstraint1 :: Int -> Gen Constraint1
+genConstraint1 n =
+    oneof
+        $ [Braces <$> genConstraint n | n > 0]
+            <> [ Token
+                    <$> listOf1 (arbitrary `suchThat` goodChar)
+                        `suchThat` goodToken
+               ]
+
+goodToken :: String -> Bool
+goodToken = not . ("--" `isInfixOf`)
+
+goodChar :: Char -> Bool
+goodChar x =
+    (isSymbol x || isAlphaNum x || isPunctuation x) && x `notElem` " {}"
+
+genConstrainedTyp :: Mode -> Gen Typ
+genConstrainedTyp mode = do
+    constraintDepth <- choose (1, 2)
+    c <- genConstraint constraintDepth
+    typ <- genTyp'
+    pure $ Constrained typ c
+  where
+    complete = onComplete mode
+    always = id
+    genTyp' =
+        oneof
+            $ []
+                <> always [Zero <$> genConst]
+                <> complete [Var <$> genVarName]
 
 genTagged :: Gen [a] -> Gen Typ -> Gen [(a, Typ)]
 genTagged gen f = do
@@ -152,3 +202,15 @@ shrinkTyp = \case
     SumN constructors -> map snd constructors
     Var _ -> []
     Abstract -> []
+    Constrained typ c ->
+        [typ]
+            <> [Constrained typ' c | typ' <- shrinkTyp typ]
+            <> [Constrained typ c' | c' <- shrinkConstraint c]
+
+shrinkConstraint :: Constraint -> [Constraint]
+shrinkConstraint = shrinkList shrinkConstraint1
+
+shrinkConstraint1 :: Constraint1 -> [Constraint1]
+shrinkConstraint1 = \case
+    Braces c -> Braces <$> shrinkConstraint c
+    Token xs -> Token <$> shrink xs

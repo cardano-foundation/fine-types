@@ -19,6 +19,7 @@ import Language.FineTypes.Typ (Typ)
 import Language.FineTypes.Typ.Gen
     ( DepthGen
     , Mode (..)
+    , WithConstraints (..)
     , genTyp
     , logScale
     )
@@ -130,6 +131,6 @@ genTypValue' typ = do
 
 genValue :: DepthGen -> Gen (Typ, Either Typ Value)
 genValue dg = do
-    typ <- genTyp Concrete dg
+    typ <- genTyp WithoutConstraints Concrete dg
     r <- genTypValue typ
     pure (typ, r)

@@ -1,11 +1,12 @@
 module Language.FineTypes.ValueSpec where
 
-import Language.FineTypes.Value (hasTyp)
-import Language.FineTypes.Value.Gen
-import Test.Hspec
-import Test.Hspec.QuickCheck (prop)
-import Test.QuickCheck
 import Prelude
+
+import Language.FineTypes.Value (hasTyp)
+import Language.FineTypes.Value.Gen (genValue)
+import Test.Hspec (Spec, describe)
+import Test.Hspec.QuickCheck (prop)
+import Test.QuickCheck (forAll)
 
 spec :: Spec
 spec = do

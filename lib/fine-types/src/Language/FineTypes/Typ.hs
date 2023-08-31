@@ -10,6 +10,8 @@ module Language.FineTypes.Typ
     , TypConst (..)
     , OpOne (..)
     , OpTwo (..)
+    , Constraint1 (..)
+    , Constraint
 
       -- * Traversals
     , everywhere
@@ -51,6 +53,8 @@ data Typ
       ProductN [(FieldName, Typ)]
     | -- | Disjoint union with constructor names.
       SumN [(ConstructorName, Typ)]
+    | -- | A type with a value constraint
+      Constrained Typ Constraint
     deriving (Eq, Ord, Show, Generic)
 
 instance ToExpr Typ
@@ -132,6 +136,8 @@ everywhere f = every
         ProductN [(n, every a) | (n, a) <- nas]
     recurse (SumN nas) =
         SumN [(n, every a) | (n, a) <- nas]
+    recurse (Constrained typ c) =
+        Constrained (every typ) c
 
 -- | Summarise all nodes; top-down, left-to-right.
 everything :: (r -> r -> r) -> (Typ -> r) -> (Typ -> r)
@@ -151,3 +157,15 @@ everything combine f = recurse
         L.foldl' combine (f x) [recurse a | (_, a) <- nas]
     recurse x@(SumN nas) =
         L.foldl' combine (f x) [recurse a | (_, a) <- nas]
+    recurse x@(Constrained typ _) =
+        f x `combine` recurse typ
+
+type Constraint = [Constraint1]
+
+data Constraint1
+    = Braces Constraint
+    | -- | String contains anything but whitespace and curly braces
+      Token String
+    deriving (Eq, Show, Generic, Ord)
+
+instance ToExpr Constraint1
