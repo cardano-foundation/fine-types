@@ -138,6 +138,7 @@ constants =
         <|> (Natural <$ symbol "ℕ")
         <|> (Text <$ symbol "Text")
         <|> (Unit <$ symbol "Unit")
+        <|> (Rational <$ symbol "ℚ")
 
 tableOfOperators :: [[Parser.Expr.Operator Parser Typ]]
 tableOfOperators =

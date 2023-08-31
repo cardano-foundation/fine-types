@@ -156,3 +156,4 @@ prettyConst = \case
     Natural -> prettyText "ℕ"
     Text -> prettyText "Text"
     Unit -> prettyText "Unit"
+    Rational -> prettyText "ℚ"

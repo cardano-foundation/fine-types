@@ -77,6 +77,7 @@ genTypValue typ =
                     pure $ Natural $ fromIntegral @Int n
                 Typ.Text -> Text <$> genText
                 Typ.Unit -> pure Unit
+                Typ.Rational -> Rational <$> arbitrary
         Typ.One op typ' -> case op of
             Typ.Option -> runExceptT $ do
                 v <- exceptGenValue typ'

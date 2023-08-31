@@ -148,6 +148,9 @@ schemaFromTyp = go
     go (Zero Unit) =
         object
             ["type" .= s "null"]
+    go (Zero Rational) =
+        object
+            ["type" .= s "number"]
     go (One Option a) =
         object
             [ "type" .= s "object"

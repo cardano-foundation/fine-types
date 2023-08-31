@@ -77,6 +77,7 @@ jsonFromValue = go
     go0 (Natural n) = JS.toJSON n
     go0 (Text t) = JS.toJSON t
     go0 Unit = JS.Null
+    go0 (Rational r) = JS.toJSON r
 
     go1 :: Typ.OpOne -> Typ -> OneF Value -> JS.Value
     go1 Typ.Option t (Option (Just x)) = JS.object ["0" .= go t x]

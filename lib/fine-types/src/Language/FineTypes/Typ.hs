@@ -68,6 +68,8 @@ data TypConst
       Text
     | -- | Type with a single element, @Unit@.
       Unit
+    | -- | Rational numbers, @ℚ@.
+      Rational
     deriving (Eq, Ord, Show)
 
 -- | Unary operations on 'Typ'.
