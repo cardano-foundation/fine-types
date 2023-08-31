@@ -196,7 +196,7 @@ typName =
     L.lexeme space
         $ (:)
             <$> Parser.Char.upperChar
-            <*> many (Parser.Char.alphaNumChar <|> satisfy (`elem` "_^"))
+            <*> many (Parser.Char.alphaNumChar <|> satisfy (`elem` "_^-"))
 
 constructorName :: Parser ConstructorName
 constructorName = fieldName
@@ -204,9 +204,7 @@ constructorName = fieldName
 fieldName :: Parser FieldName
 fieldName =
     L.lexeme space
-        $ (:)
-            <$> Parser.Char.lowerChar
-            <*> many (Parser.Char.alphaNumChar <|> satisfy (`elem` "_^"))
+        $ many (Parser.Char.alphaNumChar <|> satisfy (`elem` "_^-"))
 
 parens :: Parser a -> Parser a
 parens = between (symbol "(") (symbol ")")
