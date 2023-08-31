@@ -143,6 +143,7 @@ tableOfOperators :: [[Parser.Expr.Operator Parser Typ]]
 tableOfOperators =
     [
         [ postfix "*" (One Sequence)
+        , postfix "∗" (One Sequence)
         , postfix "?" (One Option)
         ]
     ,
@@ -159,6 +160,7 @@ tableOfOperators =
         [ binaryR "→∗" (Two FiniteSupport)
         , binaryR "↦0" (Two FiniteSupport)
         , binaryR "↦" (Two PartialFunction)
+        , binaryR "→" (Two PartialFunction)
         ]
     ]
 
