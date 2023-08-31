@@ -9,6 +9,7 @@ module Language.FineTypes.Export.Haskell.Language
     , hsUnit
     , hsPair
     , hsImportQualified
+    , hsImportQualifiedAs
     ) where
 
 import Prelude
@@ -56,5 +57,18 @@ hsImportQualified name =
         , Hs.importSafe = False
         , Hs.importPkg = Nothing
         , Hs.importAs = Nothing
+        , Hs.importSpecs = Nothing
+        }
+
+hsImportQualifiedAs :: String -> String -> Hs.ImportDecl Annotation
+hsImportQualifiedAs name as =
+    Hs.ImportDecl
+        { Hs.importAnn = l
+        , Hs.importModule = Hs.ModuleName l name
+        , Hs.importQualified = True
+        , Hs.importSrc = False
+        , Hs.importSafe = False
+        , Hs.importPkg = Nothing
+        , Hs.importAs = Just $ Hs.ModuleName l as
         , Hs.importSpecs = Nothing
         }

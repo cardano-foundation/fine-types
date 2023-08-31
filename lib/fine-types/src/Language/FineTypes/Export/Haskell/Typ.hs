@@ -10,6 +10,7 @@ import Prelude
 import Language.FineTypes.Export.Haskell.Language
     ( Annotation
     , hsImportQualified
+    , hsImportQualifiedAs
     , hsList
     , hsPair
     , hsType
@@ -17,6 +18,11 @@ import Language.FineTypes.Export.Haskell.Language
     , l
     , raiseFirstLetter
     , tyApp
+    )
+import Language.FineTypes.Export.Haskell.Value.Compiletime
+    ( declareInstanceToValue
+    , declareToValueFunRecord
+    , declareToValueFunUnion
     )
 import Language.FineTypes.Module
     ( Module (..)
@@ -74,34 +80,48 @@ haskellFromModule m =
             , "GHC.Generics"
             , "Numeric.Natural"
             ]
+            <> [ hsImportQualifiedAs
+                    "Language.FineTypes.Export.Haskell.Value.Runtime"
+                    "FineTypes.Value"
+               ]
     declarations =
-        [ declarationFromTyp name typ
-        | (name, typ) <- Map.toList (moduleDeclarations m)
-        ]
+        concat
+            [ declarationFromTyp name typ
+            | (name, typ) <- Map.toList (moduleDeclarations m)
+            ]
 
 {-----------------------------------------------------------------------------
     Convert Typ to Haskell declaration
 ------------------------------------------------------------------------------}
-declarationFromTyp :: TypName -> Typ -> Hs.Decl Annotation
+declarationFromTyp :: TypName -> Typ -> [Hs.Decl Annotation]
 declarationFromTyp name typ = case typ of
     ProductN fields ->
-        Hs.DataDecl
+        [ Hs.DataDecl
             l
             (Hs.DataType l)
             Nothing
             declaredName
             (declareRecord name fields)
             derivingEqOrdGeneric
+        , declareInstanceToValue
+            name
+            (declareToValueFunRecord name fields)
+        ]
     SumN constructors ->
-        Hs.DataDecl
+        [ Hs.DataDecl
             l
             (Hs.DataType l)
             Nothing
             declaredName
             (declareUnion name constructors)
             derivingEqOrdGeneric
+        , declareInstanceToValue
+            name
+            (declareToValueFunUnion name constructors)
+        ]
     _ ->
-        Hs.TypeDecl l declaredName (typeFromTyp typ)
+        [ Hs.TypeDecl l declaredName (typeFromTyp typ)
+        ]
   where
     declaredName = Hs.DHead l $ Hs.Ident l name
 
