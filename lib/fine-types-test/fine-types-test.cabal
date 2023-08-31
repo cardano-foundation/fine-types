@@ -1,0 +1,82 @@
+cabal-version:      3.0
+build-type:         Custom
+name:               fine-types-test
+version:            0.1.0.0
+synopsis:           Tests of source code generated with fine-types
+description:
+  Tests of source code generated with fine-types.
+  .
+  This is a separate package because it uses the `fine-types` executable
+  to generate source code, and hence cannot be declared in the same
+  cabal package as `fine-types`.
+homepage:           https://github.com/cardano-foundation/fine-types
+license:            Apache-2.0
+license-file:       LICENSE
+author:             HAL, Cardano Foundation
+maintainer:         hal@cardanofoundation.org
+copyright:          2023 Cardano Foundation
+category:           Language
+
+extra-source-files:
+  test/data/**/*.fine
+
+custom-setup
+  setup-depends:
+    , base >=4.14.3.0
+    , Cabal >= 3.0 && < 4
+    , directory
+    , filepath
+    , process
+
+common language
+  default-language:
+    Haskell2010
+  default-extensions:
+    NoImplicitPrelude
+  other-extensions:
+    NamedFieldPuns
+    OverloadedStrings
+
+common opts-lib
+  ghc-options: -Wall -Wcompat -Wredundant-constraints -Wincomplete-uni-patterns -Wincomplete-record-updates
+
+  if flag(release)
+    ghc-options: -O2 -Werror
+
+common opts-exe
+  ghc-options: -threaded -rtsopts
+  ghc-options: -Wall -Wcompat -Wredundant-constraints -Wincomplete-uni-patterns -Wincomplete-record-updates
+
+  if flag(release)
+    ghc-options: -O2 -Werror
+
+flag release
+  description: Enable optimization and `-Werror`
+  default:     False
+  manual:      True
+
+test-suite haskell
+  import:      language, opts-exe
+  type:        exitcode-stdio-1.0
+  hs-source-dirs:
+    test
+  build-tool-depends:
+    , hspec-discover:hspec-discover == 2.*
+    , fine-types:fine-types == 0.1.*
+  build-depends:
+    , base
+    , bytestring
+    , containers
+    , filepath
+    , fine-types
+    , hspec ^>= 2.11.0
+    , process
+    , QuickCheck
+    , text
+  main-is:
+    Spec.hs
+  other-modules:
+    Language.FineTypes.Export.Haskell.ValueSpec
+    Language.FineTypes.Test.UTxO
+  autogen-modules:
+    Language.FineTypes.Test.UTxO
