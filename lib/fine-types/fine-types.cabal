@@ -66,6 +66,7 @@ library
     , yaml
   exposed-modules:
     Language.FineTypes
+    Language.FineTypes.Embedding
     Language.FineTypes.Export.OpenAPI.Typ
     Language.FineTypes.Export.OpenAPI.Value
     Language.FineTypes.Module
@@ -98,6 +99,7 @@ test-suite unit
   main-is:
     Spec.hs
   other-modules:
+    Language.FineTypes.EmbeddingSpec
     Language.FineTypes.Export.OpenAPI.TypSpec
     Language.FineTypes.ParserSpec
     Language.FineTypes.ValueSpec
