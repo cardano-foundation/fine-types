@@ -7,10 +7,8 @@ module Language.FineTypes.ParserSpec
 
 import Prelude
 
+import Data.Either (isRight)
 import Data.Foldable (toList)
-import Data.Maybe
-    ( isJust
-    )
 import Data.TreeDiff.QuickCheck (ediffEq)
 import Language.FineTypes.Module
     ( Module (..)
@@ -43,21 +41,13 @@ import qualified Data.Set as Set
 ------------------------------------------------------------------------------}
 spec :: Spec
 spec = do
-    describe "parseFineTypes applied to ParseTestBabbage.fine" $ do
-        it "parses the file" $ do
-            file <- readFile "test/data/ParseTestBabbage.fine"
-            parseFineTypes file `shouldSatisfy` isJust
-        it "detects constants" $ do
-            file <- readFile "test/data/ParseTestBabbage.fine"
-            Just m <- pure $ parseFineTypes file
-            collectNotInScope m `shouldBe` Set.empty
+    describe "parseFineTypes" $ do
+        specParserOnFile "test/data/ParseTestBabbage.fine"
+        specParserOnFile "test/data/HaskellUTxO.fine"
+
     describe "pretty print + parse idempotency" $ do
-        it "holds for the ParseTestBabbage.fine file" $ do
-            file <- readFile "test/data/ParseTestBabbage.fine"
-            Just m <- pure $ parseFineTypes file
-            let output = prettyPrintModule m
-                m' = parseFineTypes output
-            m' `shouldBe` Just m
+        specPrettyOnFile "test/data/ParseTestBabbage.fine"
+        specPrettyOnFile "test/data/HaskellUTxO.fine"
         prop "holds on random generated modules"
             $ forAllShrink genModule shrinkModule
             $ \m ->
@@ -70,6 +60,26 @@ spec = do
                         $ counterexample (show $ parseFineTypes' output)
                         $ ediffEq m'
                         $ Just m
+
+specParserOnFile :: FilePath -> Spec
+specParserOnFile fp = do
+    describe ("on file " <> fp) $ do
+        it "parses the file" $ do
+            file <- readFile fp
+            parseFineTypes' file `shouldSatisfy` isRight
+        it "detects undefined names" $ do
+            file <- readFile fp
+            Just m <- pure $ parseFineTypes file
+            collectNotInScope m `shouldBe` Set.empty
+
+specPrettyOnFile :: FilePath -> Spec
+specPrettyOnFile fp = do
+    it ("holds for file" <> fp) $ do
+        file <- readFile "test/data/ParseTestBabbage.fine"
+        Just m <- pure $ parseFineTypes file
+        let output = prettyPrintModule m
+            m' = parseFineTypes output
+        m' `shouldBe` Just m
 
 {-----------------------------------------------------------------------------
     Counting
