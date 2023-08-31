@@ -62,6 +62,7 @@ library
     , QuickCheck
     , text
     , transformers
+    , tree-diff
     , yaml
   exposed-modules:
     Language.FineTypes
@@ -84,13 +85,14 @@ test-suite unit
   build-tool-depends:
     hspec-discover:hspec-discover == 2.*
   build-depends:
-    base
+    , base
     , containers
     , deepseq
     , fine-types
     , hspec ^>= 2.11.0
-    , QuickCheck
     , pretty-simple
+    , QuickCheck
+    , tree-diff
   main-is:
     Spec.hs
   other-modules:

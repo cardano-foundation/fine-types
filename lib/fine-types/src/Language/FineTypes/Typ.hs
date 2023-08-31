@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 -- | 'Typ' represents the types that can be defined with FineTypes.
 module Language.FineTypes.Typ
     ( -- * Typ
@@ -15,12 +17,9 @@ module Language.FineTypes.Typ
     ) where
 
 import Prelude
-    ( Eq
-    , Ord
-    , Show
-    , String
-    , (.)
-    )
+
+import Data.TreeDiff (ToExpr)
+import GHC.Generics (Generic)
 
 import qualified Data.List as L
 
@@ -52,7 +51,9 @@ data Typ
       ProductN [(FieldName, Typ)]
     | -- | Disjoint union with constructor names.
       SumN [(ConstructorName, Typ)]
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Ord, Show, Generic)
+
+instance ToExpr Typ
 
 -- | Predefined 'Typ'.
 data TypConst
@@ -70,7 +71,9 @@ data TypConst
       Unit
     | -- | Rational numbers, @ℚ@.
       Rational
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Ord, Show, Generic)
+
+instance ToExpr TypConst
 
 -- | Unary operations on 'Typ'.
 data OpOne
@@ -82,7 +85,9 @@ data OpOne
       Sequence
     | -- | Given a set A, ℙ A is the set of all the subsets of A.
       PowerSet
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Ord, Show, Generic)
+
+instance ToExpr OpOne
 
 -- | Binary operations on 'Typ'.
 data OpTwo
@@ -96,7 +101,9 @@ data OpTwo
       PartialFunction
     | -- | A →∗ B denotes a finitely supported partial function.
       FiniteSupport
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Ord, Show, Generic)
+
+instance ToExpr OpTwo
 
 {-----------------------------------------------------------------------------
     Traversals

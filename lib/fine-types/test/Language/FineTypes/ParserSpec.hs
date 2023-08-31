@@ -11,6 +11,7 @@ import Data.Foldable (toList)
 import Data.Maybe
     ( isJust
     )
+import Data.TreeDiff.QuickCheck (ediffEq)
 import Language.FineTypes.Module
     ( Module (..)
     , collectNotInScope
@@ -64,7 +65,8 @@ spec = do
                         $ counterexample (show (m', m))
                         $ counterexample output
                         $ counterexample (show $ parseFineTypes' output)
-                        $ m' == Just m
+                        $ ediffEq m'
+                        $ Just m
 
 {-----------------------------------------------------------------------------
     Counting
