@@ -56,6 +56,8 @@ library
     , containers
     , deepseq >= 1.4.4
     , filepath >= 1.4.2
+    , haskell-src-exts ^>= 1.23.1
+    , haskell-src-exts-simple ^>= 1.23.0
     , insert-ordered-containers
     , megaparsec ^>= 9.2.1
     , openapi3
@@ -70,6 +72,8 @@ library
     , yaml
   exposed-modules:
     Language.FineTypes
+    Language.FineTypes.Export.Haskell.Language
+    Language.FineTypes.Export.Haskell.Typ
     Language.FineTypes.Export.OpenAPI.Schema
     Language.FineTypes.Export.OpenAPI.Value.FromJSON
     Language.FineTypes.Export.OpenAPI.Value.ToJSON
