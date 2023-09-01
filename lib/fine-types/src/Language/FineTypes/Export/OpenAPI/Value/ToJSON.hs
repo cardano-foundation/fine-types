@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Language.FineTypes.Export.OpenAPI.Value
+module Language.FineTypes.Export.OpenAPI.Value.ToJSON
     ( jsonFromValue
     ) where
 
