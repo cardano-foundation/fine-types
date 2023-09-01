@@ -67,6 +67,7 @@ library
   exposed-modules:
     Language.FineTypes
     Language.FineTypes.Export.OpenAPI.Typ
+    Language.FineTypes.Export.OpenAPI.Value.FromJSON
     Language.FineTypes.Export.OpenAPI.Value.ToJSON
     Language.FineTypes.Module
     Language.FineTypes.Module.Gen
