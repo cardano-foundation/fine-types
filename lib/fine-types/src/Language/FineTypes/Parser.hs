@@ -6,6 +6,7 @@ module Language.FineTypes.Parser
 
 import Prelude
 
+import Data.Char (isSpace)
 import Data.Void
     ( Void
     )
@@ -17,7 +18,9 @@ import Language.FineTypes.Module
     , ModuleName
     )
 import Language.FineTypes.Typ
-    ( ConstructorName
+    ( Constraint
+    , Constraint1 (..)
+    , ConstructorName
     , FieldName
     , OpOne (..)
     , OpTwo (..)
@@ -35,6 +38,7 @@ import Text.Megaparsec
     , parseMaybe
     , satisfy
     , sepBy
+    , some
     , try
     , (<?>)
     , (<|>)
@@ -97,13 +101,29 @@ import' =
 declarations :: Parser Declarations
 declarations = mconcat <$> (declaration `endBy` symbol ";")
 
+type VarName = String
+
+varName :: Parser VarName
+varName =
+    L.lexeme space
+        $ (:)
+            <$> Parser.Char.lowerChar
+            <*> many (Parser.Char.alphaNumChar <|> satisfy (`elem` "_^-"))
+
 -- | Parse a single declaration
 declaration :: Parser Declarations
-declaration =
-    Map.singleton <$> lhs <* symbol "=" <*> rhs
+declaration = Map.singleton <$> typName <* symbol "=" <*> rhs
   where
-    lhs = typName
+    rhs :: Parser Typ
     rhs = try abstract <|> try productN <|> try sumN <|> expr
+
+constrained :: Parser Typ
+constrained = braces $ do
+    _ <- varName
+    _ <- symbol ":"
+    typ <- zeroVar
+    _ <- symbol "|"
+    Constrained typ <$> constraint
 
 abstract :: Parser Typ
 abstract = Abstract <$ symbol "_"
@@ -124,10 +144,26 @@ constructor = (,) <$> constructorName <* symbol ":" <*> expr
 expr :: Parser Typ
 expr = Parser.Expr.makeExprParser atom tableOfOperators <?> "expression"
 
+constraint :: Parser Constraint
+constraint = some constraint1
+  where
+    constraint1 :: Parser Constraint1
+    constraint1 = try (Braces <$> braces constraint) <|> (Token <$> token)
+
+    token :: Parser String
+    token = L.lexeme space
+        $ some
+        $ satisfy
+        $ \c -> not (c `elem` "{}" || isSpace c)
+
+zeroVar :: Parser Typ
+zeroVar = try (Zero <$> constants) <|> (Var <$> typName)
+
 atom :: Parser Typ
 atom =
     parens expr
-        <|> (try (Zero <$> constants) <|> (Var <$> typName))
+        <|> zeroVar
+        <|> constrained
         <?> "atom"
 
 constants :: Parser TypConst
@@ -138,11 +174,13 @@ constants =
         <|> (Natural <$ symbol "ℕ")
         <|> (Text <$ symbol "Text")
         <|> (Unit <$ symbol "Unit")
+        <|> (Rational <$ symbol "ℚ")
 
 tableOfOperators :: [[Parser.Expr.Operator Parser Typ]]
 tableOfOperators =
     [
         [ postfix "*" (One Sequence)
+        , postfix "∗" (One Sequence)
         , postfix "?" (One Option)
         ]
     ,
@@ -159,6 +197,7 @@ tableOfOperators =
         [ binaryR "→∗" (Two FiniteSupport)
         , binaryR "↦0" (Two FiniteSupport)
         , binaryR "↦" (Two PartialFunction)
+        , binaryR "→" (Two PartialFunction)
         ]
     ]
 
@@ -194,7 +233,7 @@ typName =
     L.lexeme space
         $ (:)
             <$> Parser.Char.upperChar
-            <*> many (Parser.Char.alphaNumChar <|> satisfy (`elem` "_^"))
+            <*> many (Parser.Char.alphaNumChar <|> satisfy (`elem` "_^-"))
 
 constructorName :: Parser ConstructorName
 constructorName = fieldName
@@ -202,9 +241,7 @@ constructorName = fieldName
 fieldName :: Parser FieldName
 fieldName =
     L.lexeme space
-        $ (:)
-            <$> Parser.Char.lowerChar
-            <*> many (Parser.Char.alphaNumChar <|> satisfy (`elem` "_^"))
+        $ many (Parser.Char.alphaNumChar <|> satisfy (`elem` "_^-"))
 
 parens :: Parser a -> Parser a
 parens = between (symbol "(") (symbol ")")

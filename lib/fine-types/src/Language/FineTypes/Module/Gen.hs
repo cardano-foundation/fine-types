@@ -12,17 +12,23 @@ import Language.FineTypes.Module
     , Module (..)
     , ModuleName
     )
-import Language.FineTypes.Typ (Typ, TypName)
+import Language.FineTypes.Typ
+    ( Typ (..)
+    , TypName
+    )
 import Language.FineTypes.Typ.Gen
     ( Mode (Complete)
+    , WithConstraints (..)
     , capitalise
     , genName
     , genTyp
+    , logScale
     , shrinkTyp
     )
 import Test.QuickCheck
     ( Gen
     , listOf
+    , shrinkList
     )
 
 import qualified Data.Map as Map
@@ -32,11 +38,11 @@ genModule :: Gen Module
 genModule = do
     moduleName <- genModuleName
     moduleImports <- genImports
-    moduleDeclarations <- genDeclarations
+    moduleDeclarations <- logScale 1.1 genDeclarations
     pure Module{..}
 
 genImports :: Gen Imports
-genImports = Map.fromList <$> listOf genImport
+genImports = Map.fromList <$> logScale 1.5 (listOf genImport)
 
 genImport :: Gen (ModuleName, Import)
 genImport = do
@@ -50,7 +56,7 @@ genDeclarations = Map.fromList <$> listOf genDeclaration
 genDeclaration :: Gen (TypName, Typ)
 genDeclaration = do
     typName <- genTypName
-    typ <- genTyp Complete 6
+    typ <- genTyp WithConstraints Complete 6
     pure (typName, typ)
 
 genTypName :: Gen TypName
@@ -64,9 +70,7 @@ shrinkModule m = do
     moduleDeclarations <- shrinkDeclarations (moduleDeclarations m)
     pure $ m{moduleDeclarations}
 
--- TODO: Shrink import list
-
 shrinkDeclarations :: Declarations -> [Declarations]
-shrinkDeclarations xs = do
-    (k, v) <- Map.toList xs
-    Map.singleton k <$> shrinkTyp v
+shrinkDeclarations xs = fmap Map.fromList $ shrinkList f $ Map.toList xs
+  where
+    f (k, v) = [(k, v') | v' <- shrinkTyp v]

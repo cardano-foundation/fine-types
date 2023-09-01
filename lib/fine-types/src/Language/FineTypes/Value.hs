@@ -53,6 +53,7 @@ data ZeroF
     | Natural Natural
     | Text Text
     | Unit
+    | Rational Rational
     deriving (Eq, Ord, Show)
 
 -- | Values for unary operations on 'Typ'.
@@ -110,6 +111,7 @@ typOf0 a = case a of
     Natural{} -> Typ.Natural
     Text{} -> Typ.Text
     Unit -> Typ.Unit
+    Rational{} -> Typ.Rational
 
 hasTyp1 :: OneF Value -> Typ.OpOne -> Typ -> Bool
 hasTyp1 (Option a) Typ.Option t =

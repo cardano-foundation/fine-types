@@ -11,6 +11,7 @@ import Data.Foldable (toList)
 import Data.Maybe
     ( isJust
     )
+import Data.TreeDiff.QuickCheck (ediffEq)
 import Language.FineTypes.Module
     ( Module (..)
     , collectNotInScope
@@ -21,7 +22,10 @@ import Language.FineTypes.Parser
     ( parseFineTypes
     , parseFineTypes'
     )
-import Language.FineTypes.Typ (Typ (..), everything)
+import Language.FineTypes.Typ
+    ( Typ (..)
+    , everything
+    )
 import Test.Hspec
     ( Spec
     , describe
@@ -64,7 +68,8 @@ spec = do
                         $ counterexample (show (m', m))
                         $ counterexample output
                         $ counterexample (show $ parseFineTypes' output)
-                        $ m' == Just m
+                        $ ediffEq m'
+                        $ Just m
 
 {-----------------------------------------------------------------------------
     Counting
@@ -82,6 +87,7 @@ data Counting = Counting
     , two :: Int
     , productN :: Int
     , sumN :: Int
+    , constrained :: Int
     }
     deriving (Eq, Show)
 
@@ -94,9 +100,10 @@ allPositive Counting{..} =
         && two > 0
         && productN > 0
         && sumN > 0
+        && constrained > 0
 
 instance Semigroup Counting where
-    Counting a b c d e f g <> Counting a' b' c' d' e' f' g' =
+    Counting a b c d e f g h <> Counting a' b' c' d' e' f' g' h' =
         Counting
             (a + a')
             (b + b')
@@ -105,15 +112,17 @@ instance Semigroup Counting where
             (e + e')
             (f + f')
             (g + g')
+            (h + h')
 
 instance Monoid Counting where
-    mempty = Counting 0 0 0 0 0 0 0
+    mempty = Counting 0 0 0 0 0 0 0 0
 
 counting :: Typ -> Counting
-counting Abstract = Counting 1 0 0 0 0 0 0
-counting Var{} = Counting 0 1 0 0 0 0 0
-counting Zero{} = Counting 0 0 1 0 0 0 0
-counting One{} = Counting 0 0 0 1 0 0 0
-counting Two{} = Counting 0 0 0 0 1 0 0
-counting ProductN{} = Counting 0 0 0 0 0 1 0
-counting SumN{} = Counting 0 0 0 0 0 0 1
+counting Abstract = Counting 1 0 0 0 0 0 0 0
+counting Var{} = Counting 0 1 0 0 0 0 0 0
+counting Zero{} = Counting 0 0 1 0 0 0 0 0
+counting One{} = Counting 0 0 0 1 0 0 0 0
+counting Two{} = Counting 0 0 0 0 1 0 0 0
+counting ProductN{} = Counting 0 0 0 0 0 1 0 0
+counting SumN{} = Counting 0 0 0 0 0 0 1 0
+counting Constrained{} = Counting 0 0 0 0 0 0 0 1

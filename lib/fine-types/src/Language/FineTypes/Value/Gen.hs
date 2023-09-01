@@ -19,6 +19,7 @@ import Language.FineTypes.Typ (Typ)
 import Language.FineTypes.Typ.Gen
     ( DepthGen
     , Mode (..)
+    , WithConstraints (..)
     , genTyp
     , logScale
     )
@@ -77,6 +78,7 @@ genTypValue typ =
                     pure $ Natural $ fromIntegral @Int n
                 Typ.Text -> Text <$> genText
                 Typ.Unit -> pure Unit
+                Typ.Rational -> Rational <$> arbitrary
         Typ.One op typ' -> case op of
             Typ.Option -> runExceptT $ do
                 v <- exceptGenValue typ'
@@ -129,6 +131,6 @@ genTypValue' typ = do
 
 genValue :: DepthGen -> Gen (Typ, Either Typ Value)
 genValue dg = do
-    typ <- genTyp Concrete dg
+    typ <- genTyp WithoutConstraints Concrete dg
     r <- genTypValue typ
     pure (typ, r)

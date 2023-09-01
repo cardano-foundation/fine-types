@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE NamedFieldPuns #-}
 
 -- | A 'Module' is a collection of 'Typ' definitions.
@@ -23,6 +24,8 @@ import Data.Map
 import Data.Set
     ( Set
     )
+import Data.TreeDiff (ToExpr)
+import GHC.Generics (Generic)
 import Language.FineTypes.Typ
     ( Typ (..)
     , TypName
@@ -44,14 +47,18 @@ data Module = Module
     , moduleImports :: Imports
     , moduleDeclarations :: Declarations
     }
-    deriving (Eq, Show)
+    deriving (Eq, Show, Generic)
+
+instance ToExpr Module
 
 type Declarations = Map TypName Typ
 
 type Imports = Map ModuleName Import
 
 newtype Import = ImportNames {getImportNames :: Set TypName}
-    deriving (Eq, Show)
+    deriving (Eq, Show, Generic)
+
+instance ToExpr Import
 
 {-----------------------------------------------------------------------------
     Name resolution

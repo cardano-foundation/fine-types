@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 -- | 'Typ' represents the types that can be defined with FineTypes.
 module Language.FineTypes.Typ
     ( -- * Typ
@@ -8,6 +10,8 @@ module Language.FineTypes.Typ
     , TypConst (..)
     , OpOne (..)
     , OpTwo (..)
+    , Constraint1 (..)
+    , Constraint
 
       -- * Traversals
     , everywhere
@@ -15,12 +19,9 @@ module Language.FineTypes.Typ
     ) where
 
 import Prelude
-    ( Eq
-    , Ord
-    , Show
-    , String
-    , (.)
-    )
+
+import Data.TreeDiff (ToExpr)
+import GHC.Generics (Generic)
 
 import qualified Data.List as L
 
@@ -52,7 +53,11 @@ data Typ
       ProductN [(FieldName, Typ)]
     | -- | Disjoint union with constructor names.
       SumN [(ConstructorName, Typ)]
-    deriving (Eq, Ord, Show)
+    | -- | A type with a value constraint
+      Constrained Typ Constraint
+    deriving (Eq, Ord, Show, Generic)
+
+instance ToExpr Typ
 
 -- | Predefined 'Typ'.
 data TypConst
@@ -68,7 +73,11 @@ data TypConst
       Text
     | -- | Type with a single element, @Unit@.
       Unit
-    deriving (Eq, Ord, Show)
+    | -- | Rational numbers, @ℚ@.
+      Rational
+    deriving (Eq, Ord, Show, Generic)
+
+instance ToExpr TypConst
 
 -- | Unary operations on 'Typ'.
 data OpOne
@@ -80,7 +89,9 @@ data OpOne
       Sequence
     | -- | Given a set A, ℙ A is the set of all the subsets of A.
       PowerSet
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Ord, Show, Generic)
+
+instance ToExpr OpOne
 
 -- | Binary operations on 'Typ'.
 data OpTwo
@@ -94,7 +105,9 @@ data OpTwo
       PartialFunction
     | -- | A →∗ B denotes a finitely supported partial function.
       FiniteSupport
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Ord, Show, Generic)
+
+instance ToExpr OpTwo
 
 {-----------------------------------------------------------------------------
     Traversals
@@ -123,6 +136,8 @@ everywhere f = every
         ProductN [(n, every a) | (n, a) <- nas]
     recurse (SumN nas) =
         SumN [(n, every a) | (n, a) <- nas]
+    recurse (Constrained typ c) =
+        Constrained (every typ) c
 
 -- | Summarise all nodes; top-down, left-to-right.
 everything :: (r -> r -> r) -> (Typ -> r) -> (Typ -> r)
@@ -142,3 +157,15 @@ everything combine f = recurse
         L.foldl' combine (f x) [recurse a | (_, a) <- nas]
     recurse x@(SumN nas) =
         L.foldl' combine (f x) [recurse a | (_, a) <- nas]
+    recurse x@(Constrained typ _) =
+        f x `combine` recurse typ
+
+type Constraint = [Constraint1]
+
+data Constraint1
+    = Braces Constraint
+    | -- | String contains anything but whitespace and curly braces
+      Token String
+    deriving (Eq, Show, Generic, Ord)
+
+instance ToExpr Constraint1

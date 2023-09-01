@@ -10,6 +10,7 @@ module Language.FineTypes.Module.PrettyPrinter
 
 import Prelude
 
+import Data.Functor ((<&>))
 import Language.FineTypes.Module
     ( Declarations
     , Import (..)
@@ -18,7 +19,9 @@ import Language.FineTypes.Module
     , ModuleName
     )
 import Language.FineTypes.Typ
-    ( ConstructorName
+    ( Constraint
+    , Constraint1 (..)
+    , ConstructorName
     , FieldName
     , OpOne (..)
     , OpTwo (..)
@@ -45,7 +48,6 @@ import Prettyprinter
     )
 import Prettyprinter.Render.Text (renderStrict)
 
-import Data.Functor ((<&>))
 import qualified Data.Map as Map
 import qualified Data.Set as Set
 import qualified Data.Text as T
@@ -62,6 +64,7 @@ requireParens = \case
     SumN _ -> False
     Var _ -> False
     Abstract -> False
+    Constrained _ _ -> False
 
 parens :: Doc ann -> Doc ann
 parens doc = encloseSep "(" ")" " " [doc]
@@ -110,6 +113,23 @@ prettyDeclaration (name, typ) =
         <+> prettyTyp typ
         <> prettyText ";"
 
+prettyConstrainedTyp :: Typ -> Constraint -> Doc ann
+prettyConstrainedTyp typ [] = prettyTyp typ
+prettyConstrainedTyp typ constraint =
+    "{ x :"
+        <+> prettyTyp typ
+        <+> prettyText "|"
+        <+> prettyConstraint constraint
+        <+> "}"
+
+prettyConstraint :: Constraint -> Doc ann
+prettyConstraint = foldr ((<+>) . prettyConstraint1) ""
+
+prettyConstraint1 :: Constraint1 -> Doc ann
+prettyConstraint1 = \case
+    Braces x -> prettyText "{" <+> prettyConstraint x <+> prettyText "}"
+    Token x -> prettyText $ T.pack x
+
 prettyTyp :: Typ -> Doc ann
 prettyTyp = \case
     Zero tc -> prettyConst tc
@@ -122,6 +142,7 @@ prettyTyp = \case
     SumN constructors -> prettySumN constructors
     Var name -> pretty name
     Abstract -> prettyText "_"
+    Constrained typ c -> prettyConstrainedTyp typ c
 
 structures :: Doc ann -> Doc ann -> [(String, Typ)] -> Doc ann
 structures o c xs = line <> content <> line <> c
@@ -156,3 +177,4 @@ prettyConst = \case
     Natural -> prettyText "ℕ"
     Text -> prettyText "Text"
     Unit -> prettyText "Unit"
+    Rational -> prettyText "ℚ"
