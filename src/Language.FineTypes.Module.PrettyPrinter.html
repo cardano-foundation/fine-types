@@ -10,144 +10,150 @@
 </span><span id="line-10"></span><span>
 </span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
 </span><span id="line-12"></span><span>
-</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span>
-</span><span id="line-14"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Declarations"><span class="hs-identifier">Declarations</span></a></span><span>
-</span><span id="line-15"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Import"><span class="hs-identifier">Import</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-16"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Imports"><span class="hs-identifier">Imports</span></a></span><span>
-</span><span id="line-17"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier">Module</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-18"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier">ModuleName</span></a></span><span>
-</span><span id="line-19"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html"><span class="hs-identifier">Language.FineTypes.Typ</span></a></span><span>
-</span><span id="line-21"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#ConstructorName"><span class="hs-identifier">ConstructorName</span></a></span><span>
-</span><span id="line-22"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#FieldName"><span class="hs-identifier">FieldName</span></a></span><span>
-</span><span id="line-23"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#OpOne"><span class="hs-identifier">OpOne</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-24"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#OpTwo"><span class="hs-identifier">OpTwo</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-25"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier">Typ</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-26"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypConst"><span class="hs-identifier">TypConst</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-27"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier">TypName</span></a></span><span>
-</span><span id="line-28"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-29"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prettyprinter</span></span><span>
-</span><span id="line-30"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier">Doc</span></span><span>
-</span><span id="line-31"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">Pretty</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">pretty</span></span><span class="hs-special">)</span><span>
-</span><span id="line-32"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">comma</span></span><span>
-</span><span id="line-33"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">concatWith</span></span><span>
-</span><span id="line-34"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">defaultLayoutOptions</span></span><span>
-</span><span id="line-35"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">encloseSep</span></span><span>
-</span><span id="line-36"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">group</span></span><span>
-</span><span id="line-37"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">indent</span></span><span>
-</span><span id="line-38"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">layoutPretty</span></span><span>
-</span><span id="line-39"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">line</span></span><span>
-</span><span id="line-40"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">line'</span></span><span>
-</span><span id="line-41"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">nest</span></span><span>
-</span><span id="line-42"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">space</span></span><span>
-</span><span id="line-43"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">vsep</span></span><span>
-</span><span id="line-44"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-operator">(&lt;+&gt;)</span></span><span>
-</span><span id="line-45"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-46"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prettyprinter.Render.Text</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">renderStrict</span></span><span class="hs-special">)</span><span>
-</span><span id="line-47"></span><span>
-</span><span id="line-48"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Functor</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-operator">(&lt;&amp;&gt;)</span></span><span class="hs-special">)</span><span>
-</span><span id="line-49"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Map</span></span><span>
-</span><span id="line-50"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Set</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Set</span></span><span>
-</span><span id="line-51"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Text</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">T</span></span><span>
-</span><span id="line-52"></span><span>
-</span><span id="line-53"></span><span id="local-6989586621679097663"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-type">prettyText</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">T.Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097663"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-54"></span><span id="prettyText"><span class="annot"><span class="annottext">prettyText :: forall ann. Text -&gt; Doc ann
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Functor</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-operator">(&lt;&amp;&gt;)</span></span><span class="hs-special">)</span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span>
+</span><span id="line-15"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Declarations"><span class="hs-identifier">Declarations</span></a></span><span>
+</span><span id="line-16"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Import"><span class="hs-identifier">Import</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-17"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Imports"><span class="hs-identifier">Imports</span></a></span><span>
+</span><span id="line-18"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier">Module</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-19"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier">ModuleName</span></a></span><span>
+</span><span id="line-20"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-21"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html"><span class="hs-identifier">Language.FineTypes.Typ</span></a></span><span>
+</span><span id="line-22"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Constraint"><span class="hs-identifier">Constraint</span></a></span><span>
+</span><span id="line-23"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Constraint1"><span class="hs-identifier">Constraint1</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-24"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#ConstructorName"><span class="hs-identifier">ConstructorName</span></a></span><span>
+</span><span id="line-25"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#FieldName"><span class="hs-identifier">FieldName</span></a></span><span>
+</span><span id="line-26"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#OpOne"><span class="hs-identifier">OpOne</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-27"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#OpTwo"><span class="hs-identifier">OpTwo</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-28"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier">Typ</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-29"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypConst"><span class="hs-identifier">TypConst</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-30"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier">TypName</span></a></span><span>
+</span><span id="line-31"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-32"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prettyprinter</span></span><span>
+</span><span id="line-33"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier">Doc</span></span><span>
+</span><span id="line-34"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">Pretty</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">pretty</span></span><span class="hs-special">)</span><span>
+</span><span id="line-35"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">comma</span></span><span>
+</span><span id="line-36"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">concatWith</span></span><span>
+</span><span id="line-37"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">defaultLayoutOptions</span></span><span>
+</span><span id="line-38"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">encloseSep</span></span><span>
+</span><span id="line-39"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">group</span></span><span>
+</span><span id="line-40"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">indent</span></span><span>
+</span><span id="line-41"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">layoutPretty</span></span><span>
+</span><span id="line-42"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">line</span></span><span>
+</span><span id="line-43"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">line'</span></span><span>
+</span><span id="line-44"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">nest</span></span><span>
+</span><span id="line-45"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">space</span></span><span>
+</span><span id="line-46"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">vsep</span></span><span>
+</span><span id="line-47"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-operator">(&lt;+&gt;)</span></span><span>
+</span><span id="line-48"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-49"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prettyprinter.Render.Text</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">renderStrict</span></span><span class="hs-special">)</span><span>
+</span><span id="line-50"></span><span>
+</span><span id="line-51"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Map</span></span><span>
+</span><span id="line-52"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Set</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Set</span></span><span>
+</span><span id="line-53"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Text</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">T</span></span><span>
+</span><span id="line-54"></span><span>
+</span><span id="line-55"></span><span id="local-6989586621679104279"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-type">prettyText</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">T.Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104279"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-56"></span><span id="prettyText"><span class="annot"><span class="annottext">prettyText :: forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var hs-var">prettyText</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 forall a ann. Pretty a =&gt; a -&gt; Doc ann
 </span><span class="hs-identifier hs-var">pretty</span></span><span>
-</span><span id="line-55"></span><span>
-</span><span id="line-56"></span><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#requireParens"><span class="hs-identifier hs-type">requireParens</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
-</span><span id="line-57"></span><span id="requireParens"><span class="annot"><span class="annottext">requireParens :: Typ -&gt; Bool
+</span><span id="line-57"></span><span>
+</span><span id="line-58"></span><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#requireParens"><span class="hs-identifier hs-type">requireParens</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
+</span><span id="line-59"></span><span id="requireParens"><span class="annot"><span class="annottext">requireParens :: Typ -&gt; Bool
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#requireParens"><span class="hs-identifier hs-var hs-var">requireParens</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-58"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Zero"><span class="hs-identifier hs-type">Zero</span></a></span><span> </span><span class="annot"><span class="annottext">TypConst
+</span><span id="line-60"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Zero"><span class="hs-identifier hs-type">Zero</span></a></span><span> </span><span class="annot"><span class="annottext">TypConst
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span>
-</span><span id="line-59"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#One"><span class="hs-identifier hs-type">One</span></a></span><span> </span><span class="annot"><span class="annottext">OpOne
+</span><span id="line-61"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#One"><span class="hs-identifier hs-type">One</span></a></span><span> </span><span class="annot"><span class="annottext">OpOne
 </span><span class="hs-identifier">_</span></span><span> </span><span class="annot"><span class="annottext">Typ
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span>
-</span><span id="line-60"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Two"><span class="hs-identifier hs-type">Two</span></a></span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span id="line-62"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Two"><span class="hs-identifier hs-type">Two</span></a></span><span class="hs-special">{</span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">True</span></span><span>
-</span><span id="line-61"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-type">ProductN</span></a></span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)]
+</span><span id="line-63"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-type">ProductN</span></a></span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)]
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span>
-</span><span id="line-62"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-type">SumN</span></a></span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)]
+</span><span id="line-64"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-type">SumN</span></a></span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)]
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span>
-</span><span id="line-63"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-type">Var</span></a></span><span> </span><span class="annot"><span class="annottext">FieldName
+</span><span id="line-65"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-type">Var</span></a></span><span> </span><span class="annot"><span class="annottext">FieldName
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span>
-</span><span id="line-64"></span><span>    </span><span class="annot"><span class="annottext">Typ
+</span><span id="line-66"></span><span>    </span><span class="annot"><span class="annottext">Typ
 </span><a href="Language.FineTypes.Typ.html#Abstract"><span class="hs-identifier hs-var">Abstract</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span>
-</span><span id="line-65"></span><span>
-</span><span id="line-66"></span><span id="local-6989586621679097673"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#parens"><span class="hs-identifier hs-type">parens</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097673"><span class="hs-identifier hs-type">ann</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097673"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-67"></span><span id="parens"><span class="annot"><span class="annottext">parens :: forall ann. Doc ann -&gt; Doc ann
-</span><a href="Language.FineTypes.Module.PrettyPrinter.html#parens"><span class="hs-identifier hs-var hs-var">parens</span></a></span></span><span> </span><span id="local-6989586621679097782"><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097782"><span class="hs-identifier hs-var">doc</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann -&gt; [Doc ann] -&gt; Doc ann
+</span><span id="line-67"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Constrained"><span class="hs-identifier hs-type">Constrained</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><span class="hs-identifier">_</span></span><span> </span><span class="annot"><span class="annottext">Constraint
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">False</span></span><span>
+</span><span id="line-68"></span><span>
+</span><span id="line-69"></span><span id="local-6989586621679104290"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#parens"><span class="hs-identifier hs-type">parens</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104290"><span class="hs-identifier hs-type">ann</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104290"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-70"></span><span id="parens"><span class="annot"><span class="annottext">parens :: forall ann. Doc ann -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#parens"><span class="hs-identifier hs-var hs-var">parens</span></a></span></span><span> </span><span id="local-6989586621679104410"><span class="annot"><span class="annottext">Doc ann
+</span><a href="#local-6989586621679104410"><span class="hs-identifier hs-var">doc</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann -&gt; [Doc ann] -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann -&gt; [Doc ann] -&gt; Doc ann
 </span><span class="hs-identifier hs-var">encloseSep</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 </span><span class="hs-string">&quot;(&quot;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 </span><span class="hs-string">&quot;)&quot;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 </span><span class="hs-string">&quot; &quot;</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097782"><span class="hs-identifier hs-var">doc</span></a></span><span class="hs-special">]</span><span>
-</span><span id="line-68"></span><span>
-</span><span id="line-69"></span><span id="local-6989586621679097677"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#withParens"><span class="hs-identifier hs-type">withParens</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097677"><span class="hs-identifier hs-type">ann</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097677"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-70"></span><span id="withParens"><span class="annot"><span class="annottext">withParens :: forall ann. (Typ -&gt; Doc ann) -&gt; Typ -&gt; Doc ann
-</span><a href="Language.FineTypes.Module.PrettyPrinter.html#withParens"><span class="hs-identifier hs-var hs-var">withParens</span></a></span></span><span> </span><span id="local-6989586621679097784"><span class="annot"><span class="annottext">Typ -&gt; Doc ann
-</span><a href="#local-6989586621679097784"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679097785"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097785"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Bool
+</span><a href="#local-6989586621679104410"><span class="hs-identifier hs-var">doc</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-71"></span><span>
+</span><span id="line-72"></span><span id="local-6989586621679104294"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#withParens"><span class="hs-identifier hs-type">withParens</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104294"><span class="hs-identifier hs-type">ann</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104294"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-73"></span><span id="withParens"><span class="annot"><span class="annottext">withParens :: forall ann. (Typ -&gt; Doc ann) -&gt; Typ -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#withParens"><span class="hs-identifier hs-var hs-var">withParens</span></a></span></span><span> </span><span id="local-6989586621679104412"><span class="annot"><span class="annottext">Typ -&gt; Doc ann
+</span><a href="#local-6989586621679104412"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span id="local-6989586621679104413"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104413"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Bool
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#requireParens"><span class="hs-identifier hs-var">requireParens</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097785"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104413"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#parens"><span class="hs-identifier hs-var">parens</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; Doc ann
-</span><a href="#local-6989586621679097784"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097785"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Doc ann
-</span><a href="#local-6989586621679097784"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097785"><span class="hs-identifier hs-var">x</span></a></span><span>
-</span><span id="line-71"></span><span>
-</span><span id="line-72"></span><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyPrintModule"><span class="hs-identifier hs-type">prettyPrintModule</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
-</span><span id="line-73"></span><span id="prettyPrintModule"><span class="annot"><span class="annottext">prettyPrintModule :: Module -&gt; FieldName
+</span><a href="#local-6989586621679104412"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104413"><span class="hs-identifier hs-var">x</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Doc ann
+</span><a href="#local-6989586621679104412"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104413"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-74"></span><span>
+</span><span id="line-75"></span><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyPrintModule"><span class="hs-identifier hs-type">prettyPrintModule</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-76"></span><span id="prettyPrintModule"><span class="annot"><span class="annottext">prettyPrintModule :: Module -&gt; FieldName
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyPrintModule"><span class="hs-identifier hs-var hs-var">prettyPrintModule</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-74"></span><span>    </span><span class="annot"><span class="annottext">Text -&gt; FieldName
+</span><span id="line-77"></span><span>    </span><span class="annot"><span class="annottext">Text -&gt; FieldName
 </span><span class="hs-identifier hs-var">T.unpack</span></span><span>
-</span><span id="line-75"></span><span>        </span><span class="annot"><span class="annottext">(Text -&gt; FieldName) -&gt; (Module -&gt; Text) -&gt; Module -&gt; FieldName
+</span><span id="line-78"></span><span>        </span><span class="annot"><span class="annottext">(Text -&gt; FieldName) -&gt; (Module -&gt; Text) -&gt; Module -&gt; FieldName
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">SimpleDocStream Any -&gt; Text
 forall ann. SimpleDocStream ann -&gt; Text
 </span><span class="hs-identifier hs-var">renderStrict</span></span><span>
-</span><span id="line-76"></span><span>        </span><span class="annot"><span class="annottext">(SimpleDocStream Any -&gt; Text)
+</span><span id="line-79"></span><span>        </span><span class="annot"><span class="annottext">(SimpleDocStream Any -&gt; Text)
 -&gt; (Module -&gt; SimpleDocStream Any) -&gt; Module -&gt; Text
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">LayoutOptions -&gt; Doc Any -&gt; SimpleDocStream Any
 forall ann. LayoutOptions -&gt; Doc ann -&gt; SimpleDocStream ann
 </span><span class="hs-identifier hs-var">layoutPretty</span></span><span> </span><span class="annot"><span class="annottext">LayoutOptions
 </span><span class="hs-identifier hs-var">defaultLayoutOptions</span></span><span>
-</span><span id="line-77"></span><span>        </span><span class="annot"><span class="annottext">(Doc Any -&gt; SimpleDocStream Any)
+</span><span id="line-80"></span><span>        </span><span class="annot"><span class="annottext">(Doc Any -&gt; SimpleDocStream Any)
 -&gt; (Module -&gt; Doc Any) -&gt; Module -&gt; SimpleDocStream Any
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Module -&gt; Doc Any
 forall ann. Module -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyModule"><span class="hs-identifier hs-var">prettyModule</span></a></span><span>
-</span><span id="line-78"></span><span>
-</span><span id="line-79"></span><span class="annot"><span class="hs-comment">-- | Pretty print a 'Module'.</span></span><span>
-</span><span id="line-80"></span><span id="local-6989586621679097687"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyModule"><span class="hs-identifier hs-type">prettyModule</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097687"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-81"></span><span id="prettyModule"><span class="annot"><span class="annottext">prettyModule :: forall ann. Module -&gt; Doc ann
-</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyModule"><span class="hs-identifier hs-var hs-var">prettyModule</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span class="hs-special">{</span><span id="local-6989586621679097797"><span class="annot"><span class="annottext">FieldName
+</span><span id="line-81"></span><span>
+</span><span id="line-82"></span><span class="annot"><span class="hs-comment">-- | Pretty print a 'Module'.</span></span><span>
+</span><span id="line-83"></span><span id="local-6989586621679104304"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyModule"><span class="hs-identifier hs-type">prettyModule</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104304"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-84"></span><span id="prettyModule"><span class="annot"><span class="annottext">prettyModule :: forall ann. Module -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyModule"><span class="hs-identifier hs-var hs-var">prettyModule</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span class="hs-special">{</span><span id="local-6989586621679104425"><span class="annot"><span class="annottext">FieldName
 moduleName :: FieldName
 moduleName :: Module -&gt; FieldName
-</span><a href="#local-6989586621679097797"><span class="hs-identifier hs-var hs-var">moduleName</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679097799"><span class="annot"><span class="annottext">Declarations
+</span><a href="#local-6989586621679104425"><span class="hs-identifier hs-var hs-var">moduleName</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679104427"><span class="annot"><span class="annottext">Declarations
 moduleDeclarations :: Declarations
 moduleDeclarations :: Module -&gt; Declarations
-</span><a href="#local-6989586621679097799"><span class="hs-identifier hs-var hs-var">moduleDeclarations</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679097801"><span class="annot"><span class="annottext">Imports
+</span><a href="#local-6989586621679104427"><span class="hs-identifier hs-var hs-var">moduleDeclarations</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679104429"><span class="annot"><span class="annottext">Imports
 moduleImports :: Imports
 moduleImports :: Module -&gt; Imports
-</span><a href="#local-6989586621679097801"><span class="hs-identifier hs-var hs-var">moduleImports</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-82"></span><span>    </span><span class="annot"><span class="annottext">[Doc ann] -&gt; Doc ann
+</span><a href="#local-6989586621679104429"><span class="hs-identifier hs-var hs-var">moduleImports</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-85"></span><span>    </span><span class="annot"><span class="annottext">[Doc ann] -&gt; Doc ann
 forall ann. [Doc ann] -&gt; Doc ann
 </span><span class="hs-identifier hs-var">vsep</span></span><span>
-</span><span id="line-83"></span><span>        </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
+</span><span id="line-86"></span><span>        </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;module&quot;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
@@ -156,38 +162,38 @@ forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 forall ann. FieldName -&gt; Doc ann
 forall a ann. Pretty a =&gt; a -&gt; Doc ann
 </span><span class="hs-identifier hs-var">pretty</span></span><span> </span><span class="annot"><span class="annottext">FieldName
-</span><a href="#local-6989586621679097797"><span class="hs-identifier hs-var">moduleName</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104425"><span class="hs-identifier hs-var">moduleName</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;where&quot;</span></span><span>
-</span><span id="line-84"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
+</span><span id="line-87"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;&quot;</span></span><span>
-</span><span id="line-85"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Imports -&gt; Doc ann
+</span><span id="line-88"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Imports -&gt; Doc ann
 forall ann. Imports -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyImports"><span class="hs-identifier hs-var">prettyImports</span></a></span><span> </span><span class="annot"><span class="annottext">Imports
-</span><a href="#local-6989586621679097801"><span class="hs-identifier hs-var">moduleImports</span></a></span><span>
-</span><span id="line-86"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Declarations -&gt; Doc ann
+</span><a href="#local-6989586621679104429"><span class="hs-identifier hs-var">moduleImports</span></a></span><span>
+</span><span id="line-89"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Declarations -&gt; Doc ann
 forall ann. Declarations -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyDeclarations"><span class="hs-identifier hs-var">prettyDeclarations</span></a></span><span> </span><span class="annot"><span class="annottext">Declarations
-</span><a href="#local-6989586621679097799"><span class="hs-identifier hs-var">moduleDeclarations</span></a></span><span>
-</span><span id="line-87"></span><span>        </span><span class="hs-special">]</span><span>
-</span><span id="line-88"></span><span>
-</span><span id="line-89"></span><span id="local-6989586621679097694"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyImports"><span class="hs-identifier hs-type">prettyImports</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Imports"><span class="hs-identifier hs-type">Imports</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097694"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-90"></span><span id="prettyImports"><span class="annot"><span class="annottext">prettyImports :: forall ann. Imports -&gt; Doc ann
-</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyImports"><span class="hs-identifier hs-var hs-var">prettyImports</span></a></span></span><span> </span><span id="local-6989586621679097809"><span class="annot"><span class="annottext">Imports
-</span><a href="#local-6989586621679097809"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-91"></span><span>    </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Imports -&gt; Bool
+</span><a href="#local-6989586621679104427"><span class="hs-identifier hs-var">moduleDeclarations</span></a></span><span>
+</span><span id="line-90"></span><span>        </span><span class="hs-special">]</span><span>
+</span><span id="line-91"></span><span>
+</span><span id="line-92"></span><span id="local-6989586621679104311"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyImports"><span class="hs-identifier hs-type">prettyImports</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Imports"><span class="hs-identifier hs-type">Imports</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104311"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-93"></span><span id="prettyImports"><span class="annot"><span class="annottext">prettyImports :: forall ann. Imports -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyImports"><span class="hs-identifier hs-var hs-var">prettyImports</span></a></span></span><span> </span><span id="local-6989586621679104437"><span class="annot"><span class="annottext">Imports
+</span><a href="#local-6989586621679104437"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-94"></span><span>    </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Imports -&gt; Bool
 forall k a. Map k a -&gt; Bool
 </span><span class="hs-identifier hs-var">Map.null</span></span><span> </span><span class="annot"><span class="annottext">Imports
-</span><a href="#local-6989586621679097809"><span class="hs-identifier hs-var">m</span></a></span><span>
-</span><span id="line-92"></span><span>        </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">Doc ann
+</span><a href="#local-6989586621679104437"><span class="hs-identifier hs-var">m</span></a></span><span>
+</span><span id="line-95"></span><span>        </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">Doc ann
 forall a. Monoid a =&gt; a
 </span><span class="hs-identifier hs-var">mempty</span></span><span>
-</span><span id="line-93"></span><span>        </span><span class="hs-keyword">else</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Doc ann] -&gt; Doc ann
+</span><span id="line-96"></span><span>        </span><span class="hs-keyword">else</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Doc ann] -&gt; Doc ann
 forall ann. [Doc ann] -&gt; Doc ann
 </span><span class="hs-identifier hs-var">vsep</span></span><span> </span><span class="annot"><span class="annottext">([Doc ann] -&gt; Doc ann)
 -&gt; ([(FieldName, Import)] -&gt; [Doc ann])
@@ -205,38 +211,38 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Imports -&gt; [(FieldName, Import)]
 forall k a. Map k a -&gt; [(k, a)]
 </span><span class="hs-identifier hs-var">Map.toList</span></span><span> </span><span class="annot"><span class="annottext">Imports
-</span><a href="#local-6989586621679097809"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104437"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 forall ann. Doc ann
 </span><span class="hs-identifier hs-var">line</span></span><span>
-</span><span id="line-94"></span><span>
-</span><span id="line-95"></span><span id="local-6989586621679097706"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyImport"><span class="hs-identifier hs-type">prettyImport</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Import"><span class="hs-identifier hs-type">Import</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097706"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-96"></span><span id="prettyImport"><span class="annot"><span class="annottext">prettyImport :: forall ann. (FieldName, Import) -&gt; Doc ann
-</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyImport"><span class="hs-identifier hs-var hs-var">prettyImport</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679097819"><span class="annot"><span class="annottext">FieldName
-</span><a href="#local-6989586621679097819"><span class="hs-identifier hs-var">name</span></a></span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ImportNames"><span class="hs-identifier hs-type">ImportNames</span></a></span><span> </span><span id="local-6989586621679097821"><span class="annot"><span class="annottext">Set FieldName
-</span><a href="#local-6989586621679097821"><span class="hs-identifier hs-var">names</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-97"></span><span>    </span><span class="annot"><span class="annottext">Doc ann
+</span><span id="line-97"></span><span>
+</span><span id="line-98"></span><span id="local-6989586621679104323"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyImport"><span class="hs-identifier hs-type">prettyImport</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Import"><span class="hs-identifier hs-type">Import</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104323"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-99"></span><span id="prettyImport"><span class="annot"><span class="annottext">prettyImport :: forall ann. (FieldName, Import) -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyImport"><span class="hs-identifier hs-var hs-var">prettyImport</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679104447"><span class="annot"><span class="annottext">FieldName
+</span><a href="#local-6989586621679104447"><span class="hs-identifier hs-var">name</span></a></span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ImportNames"><span class="hs-identifier hs-type">ImportNames</span></a></span><span> </span><span id="local-6989586621679104449"><span class="annot"><span class="annottext">Set FieldName
+</span><a href="#local-6989586621679104449"><span class="hs-identifier hs-var">names</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-100"></span><span>    </span><span class="annot"><span class="annottext">Doc ann
 </span><span class="hs-string">&quot;import&quot;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">FieldName -&gt; Doc ann
 forall ann. FieldName -&gt; Doc ann
 forall a ann. Pretty a =&gt; a -&gt; Doc ann
 </span><span class="hs-identifier hs-var">pretty</span></span><span> </span><span class="annot"><span class="annottext">FieldName
-</span><a href="#local-6989586621679097819"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104447"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Int -&gt; Doc ann -&gt; Doc ann
 forall ann. Int -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-identifier hs-var">nest</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">4</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 forall ann. Doc ann
-</span><a href="#local-6989586621679097822"><span class="hs-identifier hs-var">listing</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104450"><span class="hs-identifier hs-var">listing</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 </span><span class="hs-string">&quot;;&quot;</span></span><span>
-</span><span id="line-98"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-99"></span><span>    </span><span id="local-6989586621679097825"><span class="annot"><span class="annottext">docs :: [Doc ann]
-</span><a href="#local-6989586621679097825"><span class="hs-identifier hs-var hs-var">docs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(FieldName -&gt; Doc ann) -&gt; [FieldName] -&gt; [Doc ann]
+</span><span id="line-101"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-102"></span><span>    </span><span id="local-6989586621679104453"><span class="annot"><span class="annottext">docs :: [Doc ann]
+</span><a href="#local-6989586621679104453"><span class="hs-identifier hs-var hs-var">docs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(FieldName -&gt; Doc ann) -&gt; [FieldName] -&gt; [Doc ann]
 forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
 </span><span class="hs-identifier hs-var">map</span></span><span> </span><span class="annot"><span class="annottext">FieldName -&gt; Doc ann
 forall ann. FieldName -&gt; Doc ann
@@ -246,9 +252,9 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Set FieldName -&gt; [FieldName]
 forall a. Set a -&gt; [a]
 </span><span class="hs-identifier hs-var">Set.toList</span></span><span> </span><span class="annot"><span class="annottext">Set FieldName
-</span><a href="#local-6989586621679097821"><span class="hs-identifier hs-var">names</span></a></span><span>
-</span><span id="line-100"></span><span>    </span><span id="local-6989586621679097822"><span class="annot"><span class="annottext">listing :: Doc ann
-</span><a href="#local-6989586621679097822"><span class="hs-identifier hs-var hs-var">listing</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104449"><span class="hs-identifier hs-var">names</span></a></span><span>
+</span><span id="line-103"></span><span>    </span><span id="local-6989586621679104450"><span class="annot"><span class="annottext">listing :: Doc ann
+</span><a href="#local-6989586621679104450"><span class="hs-identifier hs-var hs-var">listing</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann
 </span><span class="hs-identifier hs-var">group</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Doc ann
 forall ann. Doc ann
@@ -259,7 +265,7 @@ forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 forall ann. Doc ann
-</span><a href="#local-6989586621679097832"><span class="hs-identifier hs-var">list</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104460"><span class="hs-identifier hs-var">list</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 forall ann. Doc ann
@@ -267,15 +273,15 @@ forall ann. Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 </span><span class="hs-string">&quot;)&quot;</span></span><span class="hs-special">)</span><span>
-</span><span id="line-101"></span><span>    </span><span id="local-6989586621679097832"><span class="annot"><span class="annottext">list :: Doc ann
-</span><a href="#local-6989586621679097832"><span class="hs-identifier hs-var hs-var">list</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Doc ann -&gt; Doc ann -&gt; Doc ann) -&gt; [Doc ann] -&gt; Doc ann
+</span><span id="line-104"></span><span>    </span><span id="local-6989586621679104460"><span class="annot"><span class="annottext">list :: Doc ann
+</span><a href="#local-6989586621679104460"><span class="hs-identifier hs-var hs-var">list</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Doc ann -&gt; Doc ann -&gt; Doc ann) -&gt; [Doc ann] -&gt; Doc ann
 forall (t :: * -&gt; *) ann.
 Foldable t =&gt;
 (Doc ann -&gt; Doc ann -&gt; Doc ann) -&gt; t (Doc ann) -&gt; Doc ann
-</span><span class="hs-identifier hs-var">concatWith</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679097839"><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097839"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679097840"><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097840"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097839"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><span class="hs-identifier hs-var">concatWith</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679104467"><span class="annot"><span class="annottext">Doc ann
+</span><a href="#local-6989586621679104467"><span class="hs-identifier hs-var">a</span></a></span></span><span> </span><span id="local-6989586621679104468"><span class="annot"><span class="annottext">Doc ann
+</span><a href="#local-6989586621679104468"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Doc ann
+</span><a href="#local-6989586621679104467"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 forall ann. Doc ann
@@ -290,12 +296,12 @@ forall ann. Doc ann
 </span><span class="hs-identifier hs-var">space</span></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097840"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[Doc ann]
+</span><a href="#local-6989586621679104468"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[Doc ann]
 forall {ann}. [Doc ann]
-</span><a href="#local-6989586621679097825"><span class="hs-identifier hs-var">docs</span></a></span><span>
-</span><span id="line-102"></span><span>
-</span><span id="line-103"></span><span id="local-6989586621679097695"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyDeclarations"><span class="hs-identifier hs-type">prettyDeclarations</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Declarations"><span class="hs-identifier hs-type">Declarations</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097695"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-104"></span><span id="prettyDeclarations"><span class="annot"><span class="annottext">prettyDeclarations :: forall ann. Declarations -&gt; Doc ann
+</span><a href="#local-6989586621679104453"><span class="hs-identifier hs-var">docs</span></a></span><span>
+</span><span id="line-105"></span><span>
+</span><span id="line-106"></span><span id="local-6989586621679104312"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyDeclarations"><span class="hs-identifier hs-type">prettyDeclarations</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Declarations"><span class="hs-identifier hs-type">Declarations</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104312"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-107"></span><span id="prettyDeclarations"><span class="annot"><span class="annottext">prettyDeclarations :: forall ann. Declarations -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyDeclarations"><span class="hs-identifier hs-var hs-var">prettyDeclarations</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Doc ann] -&gt; Doc ann
 forall ann. [Doc ann] -&gt; Doc ann
 </span><span class="hs-identifier hs-var">vsep</span></span><span> </span><span class="annot"><span class="annottext">([Doc ann] -&gt; Doc ann)
@@ -313,139 +319,226 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Declarations -&gt; [(FieldName, Typ)]
 forall k a. Map k a -&gt; [(k, a)]
 </span><span class="hs-identifier hs-var">Map.toList</span></span><span>
-</span><span id="line-105"></span><span>
-</span><span id="line-106"></span><span id="local-6989586621679097724"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyDeclaration"><span class="hs-identifier hs-type">prettyDeclaration</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097724"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-107"></span><span id="prettyDeclaration"><span class="annot"><span class="annottext">prettyDeclaration :: forall ann. (FieldName, Typ) -&gt; Doc ann
-</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyDeclaration"><span class="hs-identifier hs-var hs-var">prettyDeclaration</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679097847"><span class="annot"><span class="annottext">FieldName
-</span><a href="#local-6989586621679097847"><span class="hs-identifier hs-var">name</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679097848"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097848"><span class="hs-identifier hs-var">typ</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-108"></span><span>    </span><span class="annot"><span class="annottext">FieldName -&gt; Doc ann
+</span><span id="line-108"></span><span>
+</span><span id="line-109"></span><span id="local-6989586621679104341"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyDeclaration"><span class="hs-identifier hs-type">prettyDeclaration</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104341"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-110"></span><span id="prettyDeclaration"><span class="annot"><span class="annottext">prettyDeclaration :: forall ann. (FieldName, Typ) -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyDeclaration"><span class="hs-identifier hs-var hs-var">prettyDeclaration</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679104475"><span class="annot"><span class="annottext">FieldName
+</span><a href="#local-6989586621679104475"><span class="hs-identifier hs-var">name</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679104476"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104476"><span class="hs-identifier hs-var">typ</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-111"></span><span>    </span><span class="annot"><span class="annottext">FieldName -&gt; Doc ann
 forall ann. FieldName -&gt; Doc ann
 forall a ann. Pretty a =&gt; a -&gt; Doc ann
 </span><span class="hs-identifier hs-var">pretty</span></span><span> </span><span class="annot"><span class="annottext">FieldName
-</span><a href="#local-6989586621679097847"><span class="hs-identifier hs-var">name</span></a></span><span>
-</span><span id="line-109"></span><span>        </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104475"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-112"></span><span>        </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;=&quot;</span></span><span>
-</span><span id="line-110"></span><span>        </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><span id="line-113"></span><span>        </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Doc ann
 forall ann. Typ -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyTyp"><span class="hs-identifier hs-var">prettyTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097848"><span class="hs-identifier hs-var">typ</span></a></span><span>
-</span><span id="line-111"></span><span>        </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104476"><span class="hs-identifier hs-var">typ</span></a></span><span>
+</span><span id="line-114"></span><span>        </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;;&quot;</span></span><span>
-</span><span id="line-112"></span><span>
-</span><span id="line-113"></span><span id="local-6989586621679097726"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyTyp"><span class="hs-identifier hs-type">prettyTyp</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097726"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-114"></span><span id="prettyTyp"><span class="annot"><span class="annottext">prettyTyp :: forall ann. Typ -&gt; Doc ann
+</span><span id="line-115"></span><span>
+</span><span id="line-116"></span><span id="local-6989586621679104344"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConstrainedTyp"><span class="hs-identifier hs-type">prettyConstrainedTyp</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Constraint"><span class="hs-identifier hs-type">Constraint</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104344"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-117"></span><span id="prettyConstrainedTyp"><span class="annot"><span class="annottext">prettyConstrainedTyp :: forall ann. Typ -&gt; Constraint -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConstrainedTyp"><span class="hs-identifier hs-var hs-var">prettyConstrainedTyp</span></a></span></span><span> </span><span id="local-6989586621679104481"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104481"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Doc ann
+forall ann. Typ -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyTyp"><span class="hs-identifier hs-var">prettyTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104481"><span class="hs-identifier hs-var">typ</span></a></span><span>
+</span><span id="line-118"></span><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConstrainedTyp"><span class="hs-identifier hs-var">prettyConstrainedTyp</span></a></span><span> </span><span id="local-6989586621679104482"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104482"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span id="local-6989586621679104483"><span class="annot"><span class="annottext">Constraint
+</span><a href="#local-6989586621679104483"><span class="hs-identifier hs-var">constraint</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-119"></span><span>    </span><span class="annot"><span class="annottext">Doc ann
+</span><span class="hs-string">&quot;{ x :&quot;</span></span><span>
+</span><span id="line-120"></span><span>        </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Doc ann
+forall ann. Typ -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyTyp"><span class="hs-identifier hs-var">prettyTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104482"><span class="hs-identifier hs-var">typ</span></a></span><span>
+</span><span id="line-121"></span><span>        </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
+forall ann. Text -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;|&quot;</span></span><span>
+</span><span id="line-122"></span><span>        </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Constraint -&gt; Doc ann
+forall ann. Constraint -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConstraint"><span class="hs-identifier hs-var">prettyConstraint</span></a></span><span> </span><span class="annot"><span class="annottext">Constraint
+</span><a href="#local-6989586621679104483"><span class="hs-identifier hs-var">constraint</span></a></span><span>
+</span><span id="line-123"></span><span>        </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
+</span><span class="hs-string">&quot;}&quot;</span></span><span>
+</span><span id="line-124"></span><span>
+</span><span id="line-125"></span><span id="local-6989586621679104346"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConstraint"><span class="hs-identifier hs-type">prettyConstraint</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Constraint"><span class="hs-identifier hs-type">Constraint</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104346"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-126"></span><span id="prettyConstraint"><span class="annot"><span class="annottext">prettyConstraint :: forall ann. Constraint -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConstraint"><span class="hs-identifier hs-var hs-var">prettyConstraint</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(Constraint1 -&gt; Doc ann -&gt; Doc ann)
+-&gt; Doc ann -&gt; Constraint -&gt; Doc ann
+forall a b. (a -&gt; b -&gt; b) -&gt; b -&gt; [a] -&gt; b
+forall (t :: * -&gt; *) a b.
+Foldable t =&gt;
+(a -&gt; b -&gt; b) -&gt; b -&gt; t a -&gt; b
+</span><span class="hs-identifier hs-var">foldr</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><span class="hs-operator hs-var">(&lt;+&gt;)</span></span><span> </span><span class="annot"><span class="annottext">(Doc ann -&gt; Doc ann -&gt; Doc ann)
+-&gt; (Constraint1 -&gt; Doc ann) -&gt; Constraint1 -&gt; Doc ann -&gt; Doc ann
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Constraint1 -&gt; Doc ann
+forall ann. Constraint1 -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConstraint1"><span class="hs-identifier hs-var">prettyConstraint1</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Doc ann
+</span><span class="hs-string">&quot;&quot;</span></span><span>
+</span><span id="line-127"></span><span>
+</span><span id="line-128"></span><span id="local-6989586621679104352"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConstraint1"><span class="hs-identifier hs-type">prettyConstraint1</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Constraint1"><span class="hs-identifier hs-type">Constraint1</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104352"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-129"></span><span id="prettyConstraint1"><span class="annot"><span class="annottext">prettyConstraint1 :: forall ann. Constraint1 -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConstraint1"><span class="hs-identifier hs-var hs-var">prettyConstraint1</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
+</span><span id="line-130"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Braces"><span class="hs-identifier hs-type">Braces</span></a></span><span> </span><span id="local-6989586621679104492"><span class="annot"><span class="annottext">Constraint
+</span><a href="#local-6989586621679104492"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
+forall ann. Text -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;{&quot;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Constraint -&gt; Doc ann
+forall ann. Constraint -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConstraint"><span class="hs-identifier hs-var">prettyConstraint</span></a></span><span> </span><span class="annot"><span class="annottext">Constraint
+</span><a href="#local-6989586621679104492"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
+forall ann. Text -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;}&quot;</span></span><span>
+</span><span id="line-131"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Token"><span class="hs-identifier hs-type">Token</span></a></span><span> </span><span id="local-6989586621679104494"><span class="annot"><span class="annottext">FieldName
+</span><a href="#local-6989586621679104494"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
+forall ann. Text -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">(Text -&gt; Doc ann) -&gt; Text -&gt; Doc ann
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">FieldName -&gt; Text
+</span><span class="hs-identifier hs-var">T.pack</span></span><span> </span><span class="annot"><span class="annottext">FieldName
+</span><a href="#local-6989586621679104494"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-132"></span><span>
+</span><span id="line-133"></span><span id="local-6989586621679104343"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyTyp"><span class="hs-identifier hs-type">prettyTyp</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104343"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-134"></span><span id="prettyTyp"><span class="annot"><span class="annottext">prettyTyp :: forall ann. Typ -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyTyp"><span class="hs-identifier hs-var hs-var">prettyTyp</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-115"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Zero"><span class="hs-identifier hs-type">Zero</span></a></span><span> </span><span id="local-6989586621679097852"><span class="annot"><span class="annottext">TypConst
-</span><a href="#local-6989586621679097852"><span class="hs-identifier hs-var">tc</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">TypConst -&gt; Doc ann
+</span><span id="line-135"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Zero"><span class="hs-identifier hs-type">Zero</span></a></span><span> </span><span id="local-6989586621679104499"><span class="annot"><span class="annottext">TypConst
+</span><a href="#local-6989586621679104499"><span class="hs-identifier hs-var">tc</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">TypConst -&gt; Doc ann
 forall ann. TypConst -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConst"><span class="hs-identifier hs-var">prettyConst</span></a></span><span> </span><span class="annot"><span class="annottext">TypConst
-</span><a href="#local-6989586621679097852"><span class="hs-identifier hs-var">tc</span></a></span><span>
-</span><span id="line-116"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#One"><span class="hs-identifier hs-type">One</span></a></span><span> </span><span id="local-6989586621679097854"><span class="annot"><span class="annottext">OpOne
-</span><a href="#local-6989586621679097854"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679097855"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097855"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">OpOne -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104499"><span class="hs-identifier hs-var">tc</span></a></span><span>
+</span><span id="line-136"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#One"><span class="hs-identifier hs-type">One</span></a></span><span> </span><span id="local-6989586621679104501"><span class="annot"><span class="annottext">OpOne
+</span><a href="#local-6989586621679104501"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679104502"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104502"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">OpOne -&gt; Doc ann -&gt; Doc ann
 forall ann. OpOne -&gt; Doc ann -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyOpOne"><span class="hs-identifier hs-var">prettyOpOne</span></a></span><span> </span><span class="annot"><span class="annottext">OpOne
-</span><a href="#local-6989586621679097854"><span class="hs-identifier hs-var">op</span></a></span><span> </span><span class="annot"><span class="annottext">(Doc ann -&gt; Doc ann) -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104501"><span class="hs-identifier hs-var">op</span></a></span><span> </span><span class="annot"><span class="annottext">(Doc ann -&gt; Doc ann) -&gt; Doc ann -&gt; Doc ann
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">(Typ -&gt; Doc ann) -&gt; Typ -&gt; Doc ann
 forall ann. (Typ -&gt; Doc ann) -&gt; Typ -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#withParens"><span class="hs-identifier hs-var">withParens</span></a></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Doc ann
 forall ann. Typ -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyTyp"><span class="hs-identifier hs-var">prettyTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097855"><span class="hs-identifier hs-var">typ</span></a></span><span>
-</span><span id="line-117"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Two"><span class="hs-identifier hs-type">Two</span></a></span><span> </span><span id="local-6989586621679097857"><span class="annot"><span class="annottext">OpTwo
-</span><a href="#local-6989586621679097857"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679097858"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097858"><span class="hs-identifier hs-var">typ1</span></a></span></span><span> </span><span id="local-6989586621679097859"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097859"><span class="hs-identifier hs-var">typ2</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-118"></span><span>        </span><span class="annot"><span class="annottext">(Typ -&gt; Doc ann) -&gt; Typ -&gt; Doc ann
+</span><a href="#local-6989586621679104502"><span class="hs-identifier hs-var">typ</span></a></span><span>
+</span><span id="line-137"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Two"><span class="hs-identifier hs-type">Two</span></a></span><span> </span><span id="local-6989586621679104504"><span class="annot"><span class="annottext">OpTwo
+</span><a href="#local-6989586621679104504"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679104505"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104505"><span class="hs-identifier hs-var">typ1</span></a></span></span><span> </span><span id="local-6989586621679104506"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104506"><span class="hs-identifier hs-var">typ2</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-138"></span><span>        </span><span class="annot"><span class="annottext">(Typ -&gt; Doc ann) -&gt; Typ -&gt; Doc ann
 forall ann. (Typ -&gt; Doc ann) -&gt; Typ -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#withParens"><span class="hs-identifier hs-var">withParens</span></a></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Doc ann
 forall ann. Typ -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyTyp"><span class="hs-identifier hs-var">prettyTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097858"><span class="hs-identifier hs-var">typ1</span></a></span><span>
-</span><span id="line-119"></span><span>            </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104505"><span class="hs-identifier hs-var">typ1</span></a></span><span>
+</span><span id="line-139"></span><span>            </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">OpTwo -&gt; Doc ann
 forall ann. OpTwo -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyOpTwo"><span class="hs-identifier hs-var">prettyOpTwo</span></a></span><span> </span><span class="annot"><span class="annottext">OpTwo
-</span><a href="#local-6989586621679097857"><span class="hs-identifier hs-var">op</span></a></span><span>
-</span><span id="line-120"></span><span>            </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104504"><span class="hs-identifier hs-var">op</span></a></span><span>
+</span><span id="line-140"></span><span>            </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">(Typ -&gt; Doc ann) -&gt; Typ -&gt; Doc ann
 forall ann. (Typ -&gt; Doc ann) -&gt; Typ -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#withParens"><span class="hs-identifier hs-var">withParens</span></a></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Doc ann
 forall ann. Typ -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyTyp"><span class="hs-identifier hs-var">prettyTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097859"><span class="hs-identifier hs-var">typ2</span></a></span><span>
-</span><span id="line-121"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-type">ProductN</span></a></span><span> </span><span id="local-6989586621679097861"><span class="annot"><span class="annottext">[(FieldName, Typ)]
-</span><a href="#local-6989586621679097861"><span class="hs-identifier hs-var">fields</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)] -&gt; Doc ann
+</span><a href="#local-6989586621679104506"><span class="hs-identifier hs-var">typ2</span></a></span><span>
+</span><span id="line-141"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-type">ProductN</span></a></span><span> </span><span id="local-6989586621679104508"><span class="annot"><span class="annottext">[(FieldName, Typ)]
+</span><a href="#local-6989586621679104508"><span class="hs-identifier hs-var">fields</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)] -&gt; Doc ann
 forall ann. [(FieldName, Typ)] -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyProductN"><span class="hs-identifier hs-var">prettyProductN</span></a></span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)]
-</span><a href="#local-6989586621679097861"><span class="hs-identifier hs-var">fields</span></a></span><span>
-</span><span id="line-122"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-type">SumN</span></a></span><span> </span><span id="local-6989586621679097863"><span class="annot"><span class="annottext">[(FieldName, Typ)]
-</span><a href="#local-6989586621679097863"><span class="hs-identifier hs-var">constructors</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)] -&gt; Doc ann
+</span><a href="#local-6989586621679104508"><span class="hs-identifier hs-var">fields</span></a></span><span>
+</span><span id="line-142"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-type">SumN</span></a></span><span> </span><span id="local-6989586621679104510"><span class="annot"><span class="annottext">[(FieldName, Typ)]
+</span><a href="#local-6989586621679104510"><span class="hs-identifier hs-var">constructors</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)] -&gt; Doc ann
 forall ann. [(FieldName, Typ)] -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettySumN"><span class="hs-identifier hs-var">prettySumN</span></a></span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)]
-</span><a href="#local-6989586621679097863"><span class="hs-identifier hs-var">constructors</span></a></span><span>
-</span><span id="line-123"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-type">Var</span></a></span><span> </span><span id="local-6989586621679097865"><span class="annot"><span class="annottext">FieldName
-</span><a href="#local-6989586621679097865"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FieldName -&gt; Doc ann
+</span><a href="#local-6989586621679104510"><span class="hs-identifier hs-var">constructors</span></a></span><span>
+</span><span id="line-143"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Var"><span class="hs-identifier hs-type">Var</span></a></span><span> </span><span id="local-6989586621679104512"><span class="annot"><span class="annottext">FieldName
+</span><a href="#local-6989586621679104512"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FieldName -&gt; Doc ann
 forall ann. FieldName -&gt; Doc ann
 forall a ann. Pretty a =&gt; a -&gt; Doc ann
 </span><span class="hs-identifier hs-var">pretty</span></span><span> </span><span class="annot"><span class="annottext">FieldName
-</span><a href="#local-6989586621679097865"><span class="hs-identifier hs-var">name</span></a></span><span>
-</span><span id="line-124"></span><span>    </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104512"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-144"></span><span>    </span><span class="annot"><span class="annottext">Typ
 </span><a href="Language.FineTypes.Typ.html#Abstract"><span class="hs-identifier hs-var">Abstract</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;_&quot;</span></span><span>
-</span><span id="line-125"></span><span>
-</span><span id="line-126"></span><span id="local-6989586621679097733"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#structures"><span class="hs-identifier hs-type">structures</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097733"><span class="hs-identifier hs-type">ann</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097733"><span class="hs-identifier hs-type">ann</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097733"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-127"></span><span id="structures"><span class="annot"><span class="annottext">structures :: forall ann. Doc ann -&gt; Doc ann -&gt; [(FieldName, Typ)] -&gt; Doc ann
-</span><a href="Language.FineTypes.Module.PrettyPrinter.html#structures"><span class="hs-identifier hs-var hs-var">structures</span></a></span></span><span> </span><span id="local-6989586621679097870"><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097870"><span class="hs-identifier hs-var">o</span></a></span></span><span> </span><span id="local-6989586621679097871"><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097871"><span class="hs-identifier hs-var">c</span></a></span></span><span> </span><span id="local-6989586621679097872"><span class="annot"><span class="annottext">[(FieldName, Typ)]
-</span><a href="#local-6989586621679097872"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Doc ann
+</span><span id="line-145"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#Constrained"><span class="hs-identifier hs-type">Constrained</span></a></span><span> </span><span id="local-6989586621679104513"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104513"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span id="local-6989586621679104514"><span class="annot"><span class="annottext">Constraint
+</span><a href="#local-6989586621679104514"><span class="hs-identifier hs-var">c</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Constraint -&gt; Doc ann
+forall ann. Typ -&gt; Constraint -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConstrainedTyp"><span class="hs-identifier hs-var">prettyConstrainedTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104513"><span class="hs-identifier hs-var">typ</span></a></span><span> </span><span class="annot"><span class="annottext">Constraint
+</span><a href="#local-6989586621679104514"><span class="hs-identifier hs-var">c</span></a></span><span>
+</span><span id="line-146"></span><span>
+</span><span id="line-147"></span><span id="local-6989586621679104360"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#structures"><span class="hs-identifier hs-type">structures</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104360"><span class="hs-identifier hs-type">ann</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104360"><span class="hs-identifier hs-type">ann</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104360"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-148"></span><span id="structures"><span class="annot"><span class="annottext">structures :: forall ann. Doc ann -&gt; Doc ann -&gt; [(FieldName, Typ)] -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#structures"><span class="hs-identifier hs-var hs-var">structures</span></a></span></span><span> </span><span id="local-6989586621679104519"><span class="annot"><span class="annottext">Doc ann
+</span><a href="#local-6989586621679104519"><span class="hs-identifier hs-var">o</span></a></span></span><span> </span><span id="local-6989586621679104520"><span class="annot"><span class="annottext">Doc ann
+</span><a href="#local-6989586621679104520"><span class="hs-identifier hs-var">c</span></a></span></span><span> </span><span id="local-6989586621679104521"><span class="annot"><span class="annottext">[(FieldName, Typ)]
+</span><a href="#local-6989586621679104521"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Doc ann
 forall ann. Doc ann
 </span><span class="hs-identifier hs-var">line</span></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097873"><span class="hs-identifier hs-var">content</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104522"><span class="hs-identifier hs-var">content</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 forall ann. Doc ann
 </span><span class="hs-identifier hs-var">line</span></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097871"><span class="hs-identifier hs-var">c</span></a></span><span>
-</span><span id="line-128"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-129"></span><span>    </span><span id="local-6989586621679097873"><span class="annot"><span class="annottext">content :: Doc ann
-</span><a href="#local-6989586621679097873"><span class="hs-identifier hs-var hs-var">content</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104520"><span class="hs-identifier hs-var">c</span></a></span><span>
+</span><span id="line-149"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-150"></span><span>    </span><span id="local-6989586621679104522"><span class="annot"><span class="annottext">content :: Doc ann
+</span><a href="#local-6989586621679104522"><span class="hs-identifier hs-var hs-var">content</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Int -&gt; Doc ann -&gt; Doc ann
 forall ann. Int -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-identifier hs-var">indent</span></span><span> </span><span class="annot"><span class="annottext">Int
 </span><span class="hs-number">4</span></span><span> </span><span class="annot"><span class="annottext">(Doc ann -&gt; Doc ann) -&gt; Doc ann -&gt; Doc ann
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097870"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104519"><span class="hs-identifier hs-var">o</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">(Doc ann -&gt; Doc ann -&gt; Doc ann) -&gt; [Doc ann] -&gt; Doc ann
 forall (t :: * -&gt; *) ann.
 Foldable t =&gt;
 (Doc ann -&gt; Doc ann -&gt; Doc ann) -&gt; t (Doc ann) -&gt; Doc ann
-</span><span class="hs-identifier hs-var">concatWith</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679097878"><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097878"><span class="hs-identifier hs-var">q</span></a></span></span><span> </span><span id="local-6989586621679097879"><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097879"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097878"><span class="hs-identifier hs-var">q</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><span class="hs-identifier hs-var">concatWith</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span id="local-6989586621679104527"><span class="annot"><span class="annottext">Doc ann
+</span><a href="#local-6989586621679104527"><span class="hs-identifier hs-var">q</span></a></span></span><span> </span><span id="local-6989586621679104528"><span class="annot"><span class="annottext">Doc ann
+</span><a href="#local-6989586621679104528"><span class="hs-identifier hs-var">w</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Doc ann
+</span><a href="#local-6989586621679104527"><span class="hs-identifier hs-var">q</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 forall ann. Doc ann
@@ -455,20 +548,20 @@ forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-string">&quot;,&quot;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097879"><span class="hs-identifier hs-var">w</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[Doc ann]
+</span><a href="#local-6989586621679104528"><span class="hs-identifier hs-var">w</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[Doc ann]
 forall {ann}. [Doc ann]
-</span><a href="#local-6989586621679097880"><span class="hs-identifier hs-var">ds</span></a></span><span>
-</span><span id="line-130"></span><span>    </span><span id="local-6989586621679097880"><span class="annot"><span class="annottext">ds :: [Doc ann]
-</span><a href="#local-6989586621679097880"><span class="hs-identifier hs-var hs-var">ds</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)]
-</span><a href="#local-6989586621679097872"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)] -&gt; ((FieldName, Typ) -&gt; Doc ann) -&gt; [Doc ann]
+</span><a href="#local-6989586621679104529"><span class="hs-identifier hs-var">ds</span></a></span><span>
+</span><span id="line-151"></span><span>    </span><span id="local-6989586621679104529"><span class="annot"><span class="annottext">ds :: [Doc ann]
+</span><a href="#local-6989586621679104529"><span class="hs-identifier hs-var hs-var">ds</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)]
+</span><a href="#local-6989586621679104521"><span class="hs-identifier hs-var">xs</span></a></span><span> </span><span class="annot"><span class="annottext">[(FieldName, Typ)] -&gt; ((FieldName, Typ) -&gt; Doc ann) -&gt; [Doc ann]
 forall (f :: * -&gt; *) a b. Functor f =&gt; f a -&gt; (a -&gt; b) -&gt; f b
-</span><span class="hs-operator hs-var">&lt;&amp;&gt;</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679097886"><span class="annot"><span class="annottext">FieldName
-</span><a href="#local-6989586621679097886"><span class="hs-identifier hs-var">fn</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679097887"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097887"><span class="hs-identifier hs-var">typ</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FieldName -&gt; Doc ann
+</span><span class="hs-operator hs-var">&lt;&amp;&gt;</span></span><span> </span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679104535"><span class="annot"><span class="annottext">FieldName
+</span><a href="#local-6989586621679104535"><span class="hs-identifier hs-var">fn</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679104536"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679104536"><span class="hs-identifier hs-var">typ</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">FieldName -&gt; Doc ann
 forall ann. FieldName -&gt; Doc ann
 forall a ann. Pretty a =&gt; a -&gt; Doc ann
 </span><span class="hs-identifier hs-var">pretty</span></span><span> </span><span class="annot"><span class="annottext">FieldName
-</span><a href="#local-6989586621679097886"><span class="hs-identifier hs-var">fn</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104535"><span class="hs-identifier hs-var">fn</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
@@ -478,110 +571,115 @@ forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Typ -&gt; Doc ann
 forall ann. Typ -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyTyp"><span class="hs-identifier hs-var">prettyTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679097887"><span class="hs-identifier hs-var">typ</span></a></span><span>
-</span><span id="line-131"></span><span>
-</span><span id="line-132"></span><span id="local-6989586621679097732"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyProductN"><span class="hs-identifier hs-type">prettyProductN</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#FieldName"><span class="hs-identifier hs-type">FieldName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097732"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-133"></span><span id="prettyProductN"><span class="annot"><span class="annottext">prettyProductN :: forall ann. [(FieldName, Typ)] -&gt; Doc ann
+</span><a href="#local-6989586621679104536"><span class="hs-identifier hs-var">typ</span></a></span><span>
+</span><span id="line-152"></span><span>
+</span><span id="line-153"></span><span id="local-6989586621679104359"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyProductN"><span class="hs-identifier hs-type">prettyProductN</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#FieldName"><span class="hs-identifier hs-type">FieldName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104359"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-154"></span><span id="prettyProductN"><span class="annot"><span class="annottext">prettyProductN :: forall ann. [(FieldName, Typ)] -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyProductN"><span class="hs-identifier hs-var hs-var">prettyProductN</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; [(FieldName, Typ)] -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; [(FieldName, Typ)] -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#structures"><span class="hs-identifier hs-var">structures</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann
 </span><span class="hs-string">&quot;{&quot;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 </span><span class="hs-string">&quot;}&quot;</span></span><span>
-</span><span id="line-134"></span><span>
-</span><span id="line-135"></span><span id="local-6989586621679097890"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettySumN"><span class="hs-identifier hs-type">prettySumN</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#ConstructorName"><span class="hs-identifier hs-type">ConstructorName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097890"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-136"></span><span id="prettySumN"><span class="annot"><span class="annottext">prettySumN :: forall ann. [(FieldName, Typ)] -&gt; Doc ann
+</span><span id="line-155"></span><span>
+</span><span id="line-156"></span><span id="local-6989586621679104539"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettySumN"><span class="hs-identifier hs-type">prettySumN</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#ConstructorName"><span class="hs-identifier hs-type">ConstructorName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104539"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-157"></span><span id="prettySumN"><span class="annot"><span class="annottext">prettySumN :: forall ann. [(FieldName, Typ)] -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettySumN"><span class="hs-identifier hs-var hs-var">prettySumN</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; [(FieldName, Typ)] -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; [(FieldName, Typ)] -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#structures"><span class="hs-identifier hs-var">structures</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann
 </span><span class="hs-string">&quot;&#931;{ &quot;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
 </span><span class="hs-string">&quot;}&quot;</span></span><span>
-</span><span id="line-137"></span><span>
-</span><span id="line-138"></span><span id="local-6989586621679097731"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyOpTwo"><span class="hs-identifier hs-type">prettyOpTwo</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#OpTwo"><span class="hs-identifier hs-type">OpTwo</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097731"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-139"></span><span id="prettyOpTwo"><span class="annot"><span class="annottext">prettyOpTwo :: forall ann. OpTwo -&gt; Doc ann
+</span><span id="line-158"></span><span>
+</span><span id="line-159"></span><span id="local-6989586621679104358"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyOpTwo"><span class="hs-identifier hs-type">prettyOpTwo</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#OpTwo"><span class="hs-identifier hs-type">OpTwo</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104358"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-160"></span><span id="prettyOpTwo"><span class="annot"><span class="annottext">prettyOpTwo :: forall ann. OpTwo -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyOpTwo"><span class="hs-identifier hs-var hs-var">prettyOpTwo</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-140"></span><span>    </span><span class="annot"><span class="annottext">OpTwo
+</span><span id="line-161"></span><span>    </span><span class="annot"><span class="annottext">OpTwo
 </span><a href="Language.FineTypes.Typ.html#Sum2"><span class="hs-identifier hs-var">Sum2</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;+&quot;</span></span><span>
-</span><span id="line-141"></span><span>    </span><span class="annot"><span class="annottext">OpTwo
+</span><span id="line-162"></span><span>    </span><span class="annot"><span class="annottext">OpTwo
 </span><a href="Language.FineTypes.Typ.html#Product2"><span class="hs-identifier hs-var">Product2</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;&#215;&quot;</span></span><span>
-</span><span id="line-142"></span><span>    </span><span class="annot"><span class="annottext">OpTwo
+</span><span id="line-163"></span><span>    </span><span class="annot"><span class="annottext">OpTwo
 </span><a href="Language.FineTypes.Typ.html#PartialFunction"><span class="hs-identifier hs-var">PartialFunction</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;&#8614;&quot;</span></span><span>
-</span><span id="line-143"></span><span>    </span><span class="annot"><span class="annottext">OpTwo
+</span><span id="line-164"></span><span>    </span><span class="annot"><span class="annottext">OpTwo
 </span><a href="Language.FineTypes.Typ.html#FiniteSupport"><span class="hs-identifier hs-var">FiniteSupport</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;&#8614;0&quot;</span></span><span>
-</span><span id="line-144"></span><span>
-</span><span id="line-145"></span><span id="local-6989586621679097729"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyOpOne"><span class="hs-identifier hs-type">prettyOpOne</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#OpOne"><span class="hs-identifier hs-type">OpOne</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097729"><span class="hs-identifier hs-type">ann</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097729"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-146"></span><span id="prettyOpOne"><span class="annot"><span class="annottext">prettyOpOne :: forall ann. OpOne -&gt; Doc ann -&gt; Doc ann
-</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyOpOne"><span class="hs-identifier hs-var hs-var">prettyOpOne</span></a></span></span><span> </span><span id="local-6989586621679097906"><span class="annot"><span class="annottext">OpOne
-</span><a href="#local-6989586621679097906"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679097907"><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097907"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">OpOne
-</span><a href="#local-6989586621679097906"><span class="hs-identifier hs-var">op</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-147"></span><span>    </span><span class="annot"><span class="annottext">OpOne
+</span><span id="line-165"></span><span>
+</span><span id="line-166"></span><span id="local-6989586621679104356"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyOpOne"><span class="hs-identifier hs-type">prettyOpOne</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#OpOne"><span class="hs-identifier hs-type">OpOne</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104356"><span class="hs-identifier hs-type">ann</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104356"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-167"></span><span id="prettyOpOne"><span class="annot"><span class="annottext">prettyOpOne :: forall ann. OpOne -&gt; Doc ann -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyOpOne"><span class="hs-identifier hs-var hs-var">prettyOpOne</span></a></span></span><span> </span><span id="local-6989586621679104555"><span class="annot"><span class="annottext">OpOne
+</span><a href="#local-6989586621679104555"><span class="hs-identifier hs-var">op</span></a></span></span><span> </span><span id="local-6989586621679104556"><span class="annot"><span class="annottext">Doc ann
+</span><a href="#local-6989586621679104556"><span class="hs-identifier hs-var">x</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">OpOne
+</span><a href="#local-6989586621679104555"><span class="hs-identifier hs-var">op</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-168"></span><span>    </span><span class="annot"><span class="annottext">OpOne
 </span><a href="Language.FineTypes.Typ.html#Option"><span class="hs-identifier hs-var">Option</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097907"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104556"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;?&quot;</span></span><span>
-</span><span id="line-148"></span><span>    </span><span class="annot"><span class="annottext">OpOne
+</span><span id="line-169"></span><span>    </span><span class="annot"><span class="annottext">OpOne
 </span><a href="Language.FineTypes.Typ.html#Sequence"><span class="hs-identifier hs-var">Sequence</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097907"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><a href="#local-6989586621679104556"><span class="hs-identifier hs-var">x</span></a></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;*&quot;</span></span><span>
-</span><span id="line-149"></span><span>    </span><span class="annot"><span class="annottext">OpOne
+</span><span id="line-170"></span><span>    </span><span class="annot"><span class="annottext">OpOne
 </span><a href="Language.FineTypes.Typ.html#PowerSet"><span class="hs-identifier hs-var">PowerSet</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;&#8473;&quot;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
 forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
 </span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Doc ann
-</span><a href="#local-6989586621679097907"><span class="hs-identifier hs-var">x</span></a></span><span>
-</span><span id="line-150"></span><span>
-</span><span id="line-151"></span><span id="local-6989586621679097728"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConst"><span class="hs-identifier hs-type">prettyConst</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypConst"><span class="hs-identifier hs-type">TypConst</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679097728"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
-</span><span id="line-152"></span><span id="prettyConst"><span class="annot"><span class="annottext">prettyConst :: forall ann. TypConst -&gt; Doc ann
+</span><a href="#local-6989586621679104556"><span class="hs-identifier hs-var">x</span></a></span><span>
+</span><span id="line-171"></span><span>
+</span><span id="line-172"></span><span id="local-6989586621679104355"><span class="annot"><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConst"><span class="hs-identifier hs-type">prettyConst</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypConst"><span class="hs-identifier hs-type">TypConst</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679104355"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-173"></span><span id="prettyConst"><span class="annot"><span class="annottext">prettyConst :: forall ann. TypConst -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyConst"><span class="hs-identifier hs-var hs-var">prettyConst</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-glyph">\</span><span class="hs-glyph">case</span><span>
-</span><span id="line-153"></span><span>    </span><span class="annot"><span class="annottext">TypConst
+</span><span id="line-174"></span><span>    </span><span class="annot"><span class="annottext">TypConst
 </span><a href="Language.FineTypes.Typ.html#Bool"><span class="hs-identifier hs-var">Bool</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;Bool&quot;</span></span><span>
-</span><span id="line-154"></span><span>    </span><span class="annot"><span class="annottext">TypConst
+</span><span id="line-175"></span><span>    </span><span class="annot"><span class="annottext">TypConst
 </span><a href="Language.FineTypes.Typ.html#Bytes"><span class="hs-identifier hs-var">Bytes</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;Bytes&quot;</span></span><span>
-</span><span id="line-155"></span><span>    </span><span class="annot"><span class="annottext">TypConst
+</span><span id="line-176"></span><span>    </span><span class="annot"><span class="annottext">TypConst
 </span><a href="Language.FineTypes.Typ.html#Integer"><span class="hs-identifier hs-var">Integer</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;&#8484;&quot;</span></span><span>
-</span><span id="line-156"></span><span>    </span><span class="annot"><span class="annottext">TypConst
+</span><span id="line-177"></span><span>    </span><span class="annot"><span class="annottext">TypConst
 </span><a href="Language.FineTypes.Typ.html#Natural"><span class="hs-identifier hs-var">Natural</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;&#8469;&quot;</span></span><span>
-</span><span id="line-157"></span><span>    </span><span class="annot"><span class="annottext">TypConst
+</span><span id="line-178"></span><span>    </span><span class="annot"><span class="annottext">TypConst
 </span><a href="Language.FineTypes.Typ.html#Text"><span class="hs-identifier hs-var">Text</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;Text&quot;</span></span><span>
-</span><span id="line-158"></span><span>    </span><span class="annot"><span class="annottext">TypConst
+</span><span id="line-179"></span><span>    </span><span class="annot"><span class="annottext">TypConst
 </span><a href="Language.FineTypes.Typ.html#Unit"><span class="hs-identifier hs-var">Unit</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
 forall ann. Text -&gt; Doc ann
 </span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
 </span><span class="hs-string">&quot;Unit&quot;</span></span><span>
-</span><span id="line-159"></span></pre></body></html>
+</span><span id="line-180"></span><span>    </span><span class="annot"><span class="annottext">TypConst
+</span><a href="Language.FineTypes.Typ.html#Rational"><span class="hs-identifier hs-var">Rational</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
+forall ann. Text -&gt; Doc ann
+</span><a href="Language.FineTypes.Module.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;&#8474;&quot;</span></span><span>
+</span><span id="line-181"></span></pre></body></html>
