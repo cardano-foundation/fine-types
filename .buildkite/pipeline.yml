@@ -24,7 +24,7 @@ steps:
   - label: 'Check format'
     depends_on: linux-nix
     command: |
-      ${nix} --command bash -c "echo +++ format; just format"
+      ${nix} --command bash -c "echo +++ format; just format; git diff --exit-code"
     agents:
       system: ${linux}
     env:
