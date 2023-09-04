@@ -1,42 +1,53 @@
 module Tx where
 
-import Address(Addr, Addr-rwd, Ix);
-import Crypto(VKey, Sig, ScriptHash, Script);
-import PParams(Coin, Slot);
+import Address(Addr, Addr_rwd, Ix);
+import Crypto(VKey, Sig, ScriptHash, Script, KeyHash_G);
+import PParams(Coin, Epoch, PParamsUpdate, Slot);
 import Delegation(DCert);
 
--- Abstract 
+{-----------------------------------------------------------------------------
+    Transactions
+    Shelley spec, Figure 10
+------------------------------------------------------------------------------}
+-- Abstract types
 
 TxId = _ ; -- transaction identifier
 Metadatum = _ ; -- metadatum
 MetadataHash = _ ; -- hash of transaction metadata
-Update = _ ; -- protocol parameter update
 
+-- Derived types
 
--- Derived 
-TxIn = TxId × Ix; -- transaction input
-TxOut = Addr × Coin; -- transaction output
-UTxO = TxIn → TxOut; -- unspent tx outputs
-Wdrl = Addr-rwd → Coin; -- reward withdrawal
-Metadata = ℕ → Metadatum; -- metadata
+TxIn     = TxId × Ix; -- transaction input
+TxOut    = Addr × Coin; -- transaction output
+UTxO     = TxIn ↦ TxOut; -- unspent tx outputs
+Wdrl     = Addr_rwd ↦ Coin; -- reward withdrawal
+Metadata = ℕ ↦ Metadatum; -- metadata
 
-TxBody = 
-    { txins : ℙ TxIn  -- transaction inputs
-    , txouts : Ix → TxOut  --  transaction outputs
-    , txcerts : DCert∗  -- delegation certificates
-    , txfee : Coin  -- transaction fee
-    , txttl : Slot  -- time to live
-    , txwdrls : Wdrl  -- withdrawals
-    , txwitsVKey : VKey → Sig --  VKey witnesses
-    , txwitsScript : ScriptHash → Script --  script witnesses
-    , txMDhash : MetadataHash? --  metadata hash  
-    , txbody : TxBody  -- transaction body
+-- Derived types (update system)
+
+ProposedPPUpdates = KeyHash_G ↦ PParamsUpdate; -- proposed updates
+Update            = ProposedPPUpdates × Epoch; -- update proposal
+
+-- Transaction Types
+
+TxBody =
+    { txins    : ℙ TxIn  -- transaction inputs
+    , txouts   : Ix ↦ TxOut  --  transaction outputs
+    , txcerts  : DCert*  -- delegation certificates
+    , txfee    : Coin  -- transaction fee
+    , txttl    : Slot  -- time to live
+    , txwdrls  : Wdrl  -- withdrawals
+    , txup     : Update?  -- protocol parameter update
+    , txMDhash : MetadataHash?  -- metadata hash  
     };
 
-Tx = 
-    { txup : Update? --  protocol parameter update
-    , txMD : Metadata? --  metadata
+TxWitness =
+    { txwitsVKey   : VKey ↦ Sig  -- VKey witnesses
+    , txwitsScript : ScriptHash ↦ Script  -- script witnesses
+    };
+
+Tx =
+    { txbody    : TxBody  -- transaction body
     , txWitness : TxWitness --  transaction witnesses
+    , txMD      : Metadata? --  metadata
     };
-
-TxWitness = (VKey → Sig) × (ScriptHash → Script);

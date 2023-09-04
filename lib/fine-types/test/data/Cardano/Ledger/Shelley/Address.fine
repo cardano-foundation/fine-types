@@ -1,60 +1,63 @@
 module Address where 
 
-import PParams(Slot, Ix);
 import Crypto(KeyHash, ScriptHash);
 
 {-----------------------------------------------------------------------------
-    Addresses, Shelley spec , fig 6
+    Addresses
+    Shelley spec, Figure 6
 ------------------------------------------------------------------------------}
 
-Ix = ℕ; -- index
 Slot = ℕ; -- absolute slot number
-
+Ix = ℕ; -- index
 Network = 
-    Σ{ testnet : Unit
-     , mainnet : Unit
+    Σ{ Testnet : Unit
+     , Mainnet : Unit
      };
 
 Credential = KeyHash + ScriptHash;
 
 -- certificate pointer
-Ptr = Slot × Ix × Ix; 
+Ptr = Slot × Ix × Ix;
 
 -- base address
-Addr-base = 
+Addr_base = 
     { network : Network
-    , credential-pay : Credential
-    , credential-stake : Credential
+    , credential_pay : Credential
+    , credential_stake : Credential
     };
 
 -- pointer address
-Addr-ptr = 
+Addr_ptr = 
     { network : Network
-    , credential-pay : Credential
+    , credential_pay : Credential
     , ptr : Ptr
     };
 
 -- enterprise address
-Addr-enterprise = 
+Addr_enterprise = 
     { network : Network
-    , credential-pay : Credential
+    , credential_pay : Credential
     };
 
 -- bootstrap address
-Addr-bootstrap = 
+Addr_bootstrap = 
     { network : Network
-    , key-hash-pay : KeyHash
-    };
-
--- reward account
-Addr-rwd = 
-    { network : Network
-    , credential-stake : Credential
+    , keyHash_pay : KeyHash
     };
 
 -- output address
-Addr = Addr-base 
-    + Addr-ptr 
-    + Addr-enterprise 
-    + Addr-bootstrap 
-    + Addr-rwd;
+Addr = Addr_base 
+    + Addr_ptr 
+    + Addr_enterprise 
+    + Addr_bootstrap;
+
+-- reward account
+Addr_rwd = 
+    { network : Network
+    , credential_stake : Credential
+    };
+
+{-----------------------------------------------------------------------------
+    Specialized synonyms
+------------------------------------------------------------------------------}
+Credential_stake = Credential;

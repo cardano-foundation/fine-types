@@ -1,15 +1,25 @@
 module PParams where
 
+import Crypto(Seed);
 
 {-----------------------------------------------------------------------------
     Protocol parameters
     Shelley spec, Figure 7
 ------------------------------------------------------------------------------}
 
+Epoch = ℕ; -- epoch number
+KESPeriod = ℕ; -- KES period
+
 Coin = ℤ; -- unit of value
-Epoch = ℕ;  -- epoch number
-Seed = ℕ; -- seed for random number generator
 ProtVer = ℕ × ℕ; -- protocol version
+
+-- Note:
+-- The Shelley ledger specification models  PParams  as a dependent function
+-- in order to model  PParamsUpdate  as a finite map where only a few selected
+-- parameters are highlighted for an update.
+-- This is clever, but for the sake of simplicity,
+-- we use a more pedestrian approach here and model both types as products
+-- with field names.
 
 PParams = 
     { a : ℤ  -- min fee factor
@@ -18,14 +28,34 @@ PParams =
     , maxTxSize : ℕ  -- max transaction size
     , maxHeaderSize : ℕ  -- max block header size
     , poolDeposit : Coin  -- stake pool deposit
-    , Emax : Epoch  -- epoch bound on pool retirement
-    , nopt : { x : ℕ | x > 0 }  -- desired number of pools
-    , a0 : { x : ℚ | x ∈ [0, ∞) }  -- pool influence
+    , E_max : Epoch  -- epoch bound on pool retirement
+    , n_opt : { x : ℕ | x > 0 }  -- desired number of pools
+    , a_0 : { x : ℚ | x ∈ [0, ∞) }  -- pool influence
     , τ :  { y : ℚ | y ∈ [0, 1] }  -- treasury expansion
     , ρ : { x : ℚ | x ∈ [0, 1] }  -- monetary expansion
-    , d : { x : ℚ | x ∈ {0 , 1/100, 2/100, .... , 1} }  -- decentralization parameter
+    , d : { x : ℚ | x ∈ {0 , 1/100, 2/100, ... , 1} }  -- decentralization parameter
     , extraEntropy : Seed  -- extra entropy
     , pv : ProtVer  -- protocol version
     , minUTxOValue : Coin  -- minimum allowed value of a new TxOut
     , minPoolCost : Coin  -- minimum allowed stake pool cost
+    };
+
+-- Like PParams, but with a ? for every field.
+PParamsUpdate = 
+    { a : ℤ ?
+    , b : ℤ ?
+    , maxBlockSize : ℕ ?
+    , maxTxSize : ℕ ?
+    , maxHeaderSize : ℕ ?
+    , poolDeposit : Coin ?
+    , E_max : Epoch ?
+    , n_opt : { x : ℕ | x > 0 } ?
+    , a_0 : { x : ℚ | x ∈ [0, ∞) } ?
+    , τ :  { y : ℚ | y ∈ [0, 1] } ?
+    , ρ : { x : ℚ | x ∈ [0, 1] } ?
+    , d : { x : ℚ | x ∈ {0 , 1/100, 2/100, ... , 1} } ?
+    , extraEntropy : Seed ?
+    , pv : ProtVer ?
+    , minUTxOValue : Coin ?
+    , minPoolCost : Coin ?
     };

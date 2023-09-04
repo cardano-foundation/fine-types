@@ -15,7 +15,7 @@ extra-doc-files:
   CHANGELOG.md
   README.md
 extra-source-files:
-  test/data/*.fine
+  test/data/**/*.fine
 
 common language
   default-language:
