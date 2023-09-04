@@ -110,16 +110,20 @@ parseZero :: Typ.TypConst -> Parser ZeroF
 parseZero = \case
     Typ.Bool -> JS.withBool "Bool" $ pure . Bool
     Typ.Bytes -> JS.withText "Bytes" $ pure . Bytes . fromHex
-    Typ.Integer -> JS.withScientific "Integer" $ \r -> let
-        (integer, fraction) = properFraction r
-        in if fraction == 0
-            then pure $ Integer integer
-            else fail "expected integer"
-    Typ.Natural -> JS.withScientific "Natural" $ \r -> let
-        (integer, fraction) = properFraction r
-        in if fraction == 0 && integer >= 0
-            then pure $ Natural $ fromInteger integer
-            else fail "expected natural"
+    Typ.Integer -> JS.withScientific "Integer" $ \r ->
+        let
+            (integer, fraction) = properFraction r
+        in
+            if fraction == 0
+                then pure $ Integer integer
+                else fail "expected integer"
+    Typ.Natural -> JS.withScientific "Natural" $ \r ->
+        let
+            (integer, fraction) = properFraction r
+        in
+            if fraction == 0 && integer >= 0
+                then pure $ Natural $ fromInteger integer
+                else fail "expected natural"
     Typ.Text -> JS.withText "Text" $ pure . Text
     Typ.Unit -> \case
         JS.Null -> pure Unit
