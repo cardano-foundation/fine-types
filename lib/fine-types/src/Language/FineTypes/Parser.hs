@@ -47,7 +47,7 @@ import Text.Megaparsec
 import qualified Control.Monad.Combinators.Expr as Parser.Expr
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
-import qualified Text.Megaparsec.Char as Parser.Char
+import qualified Text.Megaparsec.Char as C
 import qualified Text.Megaparsec.Char.Lexer as L
 
 {-----------------------------------------------------------------------------
@@ -57,10 +57,10 @@ import qualified Text.Megaparsec.Char.Lexer as L
 -- | Parse a 'String' containing mathematical types,
 -- as they appears in the Cardano ledger specification.
 parseFineTypes :: String -> Maybe Module
-parseFineTypes = parseMaybe document
+parseFineTypes = parseMaybe moduleFull
 
 parseFineTypes' :: String -> Either (ParseErrorBundle String Void) Module
-parseFineTypes' = parse document ""
+parseFineTypes' = parse moduleFull ""
 
 {-----------------------------------------------------------------------------
     Parser
@@ -73,8 +73,8 @@ For the design patterns used when implementing this parser, see
 
 type Parser = Parsec Void String
 
-document :: Parser Module
-document = space *> module'
+moduleFull :: Parser Module
+moduleFull = space *> module'
 
 module' :: Parser Module
 module' =
@@ -101,15 +101,6 @@ import' =
 
 declarations :: Parser Declarations
 declarations = mconcat <$> (declaration `endBy` symbol ";")
-
-type VarName = String
-
-varName :: Parser VarName
-varName =
-    L.lexeme space
-        $ (:)
-            <$> Parser.Char.lowerChar
-            <*> many (Parser.Char.alphaNumChar <|> satisfy (`elem` "_^-"))
 
 -- | Parse a single declaration
 declaration :: Parser Declarations
@@ -173,9 +164,9 @@ constants =
         <|> (Bytes <$ symbol "Bytes")
         <|> (Integer <$ symbol "ℤ")
         <|> (Natural <$ symbol "ℕ")
+        <|> (Rational <$ symbol "ℚ")
         <|> (Text <$ symbol "Text")
         <|> (Unit <$ symbol "Unit")
-        <|> (Rational <$ symbol "ℚ")
 
 tableOfOperators :: [[Parser.Expr.Operator Parser Typ]]
 tableOfOperators =
@@ -221,7 +212,7 @@ blockComment :: Parser ()
 blockComment = L.skipBlockComment "{-" "-}"
 
 space :: Parser ()
-space = L.space Parser.Char.space1 lineComment blockComment
+space = L.space C.space1 lineComment blockComment
 
 symbol :: String -> Parser String
 symbol = L.symbol space
@@ -233,8 +224,8 @@ typName :: Parser TypName
 typName =
     L.lexeme space
         $ (:)
-            <$> Parser.Char.upperChar
-            <*> many (Parser.Char.alphaNumChar <|> satisfy (`elem` "_^-"))
+            <$> C.upperChar
+            <*> many (C.alphaNumChar <|> satisfy (`elem` "_^-"))
 
 constructorName :: Parser ConstructorName
 constructorName = fieldName
@@ -242,7 +233,16 @@ constructorName = fieldName
 fieldName :: Parser FieldName
 fieldName =
     L.lexeme space
-        $ many (Parser.Char.alphaNumChar <|> satisfy (`elem` "_^-"))
+        $ many (C.alphaNumChar <|> satisfy (`elem` "_^-"))
+
+type VarName = String
+
+varName :: Parser VarName
+varName =
+    L.lexeme space
+        $ (:)
+            <$> C.lowerChar
+            <*> many (C.alphaNumChar <|> satisfy (`elem` "_^-"))
 
 parens :: Parser a -> Parser a
 parens = between (symbol "(") (symbol ")")
