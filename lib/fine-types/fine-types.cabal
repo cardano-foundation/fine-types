@@ -93,6 +93,7 @@ test-suite unit
     , hspec ^>= 2.11.0
     , pretty-simple
     , QuickCheck
+    , text
     , tree-diff
   main-is:
     Spec.hs

@@ -68,8 +68,25 @@ parseProductN :: [(FieldName, Typ)] -> Parser Value
 parseProductN fs = parsing "Product" $ onObject $ \obj -> do
     fmap Product $ forM fs $ \(f, t) -> do
         case lookup (keyFromString f) obj of
-            Nothing -> fail $ "missing field " <> f
-            Just v -> parseTyp t v
+            Nothing ->
+                case hasDefault t of
+                    Nothing -> fail $ "missing field " <> f
+                    Just d -> pure d
+            Just v -> case shortcut t of
+                Just (t', amend) -> amend <$> parseTyp t' v
+                Nothing -> parseTyp t v
+
+hasDefault :: Typ -> Maybe Value
+hasDefault = \case
+    Typ.One Typ.Option _ -> Just $ One $ Option Nothing
+    Typ.One Typ.Sequence _ -> Just $ One $ Sequence []
+    Typ.One Typ.PowerSet _ -> Just $ One $ PowerSet Set.empty
+    _ -> Nothing
+
+shortcut :: Typ -> Maybe (Typ, Value -> Value)
+shortcut = \case
+    Typ.One Typ.Option t -> Just (t, One . Option . Just)
+    _ -> Nothing
 
 parseTwo :: Typ.OpTwo -> Typ -> Typ -> Parser Value
 parseTwo = \case

@@ -1,4 +1,5 @@
 {-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE TupleSections #-}
 
 module Language.FineTypes.Typ.Gen where
 
@@ -214,14 +215,21 @@ shrinkTyp = \case
     Zero _ -> []
     One _ typ -> typ : shrinkTyp typ
     Two _ typ1 typ2 -> typ1 : typ2 : shrinkTyp typ1 ++ shrinkTyp typ2
-    ProductN fields -> map snd fields
-    SumN constructors -> map snd constructors
+    ProductN fields ->
+        map snd fields
+            <> (ProductN <$> shrinkList shrinkNamed fields)
+    SumN constructors ->
+        map snd constructors
+            <> (SumN <$> shrinkList shrinkNamed constructors)
     Var _ -> []
     Abstract -> []
     Constrained typ c ->
         [typ]
             <> [Constrained typ' c | typ' <- shrinkTyp typ]
             <> [Constrained typ c' | c' <- shrinkConstraint c]
+
+shrinkNamed :: (t, Typ) -> [(t, Typ)]
+shrinkNamed (f, t) = (f,) <$> shrinkTyp t
 
 shrinkConstraint :: Constraint -> [Constraint]
 shrinkConstraint = shrinkList shrinkConstraint1
