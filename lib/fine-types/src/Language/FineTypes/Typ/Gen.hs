@@ -95,7 +95,10 @@ genTypFiltered out = go Top
             expansion =
                 []
                     <> always [Zero <$> genConst]
-                    <> branching [Two <$> genTwoOpen <*> go' <*> go']
+                    <> branching
+                        [ Two <$> genTwoOpen <*> go' <*> go'
+                        , One <$> genOne <*> go'
+                        ]
                     <> top
                         [ One <$> genOne <*> go'
                         , Two <$> genTwoClose <*> go' <*> go'
