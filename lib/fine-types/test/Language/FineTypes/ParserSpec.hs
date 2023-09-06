@@ -8,10 +8,13 @@ module Language.FineTypes.ParserSpec
 import Prelude
 
 import Data.Either (isRight)
-import Data.Foldable (toList)
+import Data.Foldable (fold, toList)
 import Data.TreeDiff.QuickCheck (ediffEq)
 import Language.FineTypes.Module
-    ( Module (..)
+    ( Documentation (..)
+    , Identifier (Constructor, Field)
+    , Module (..)
+    , Place (..)
     , collectNotInScope
     )
 import Language.FineTypes.Module.Gen (genModule, shrinkModule)
@@ -34,6 +37,7 @@ import Test.Hspec
 import Test.Hspec.QuickCheck (prop)
 import Test.QuickCheck (classify, counterexample, forAllShrink, property)
 
+import qualified Data.Map as Map
 import qualified Data.Set as Set
 
 {-----------------------------------------------------------------------------
@@ -44,6 +48,8 @@ spec = do
     describe "parseFineTypes" $ do
         specParserOnFile "test/data/ParseTestBabbage.fine"
         specParserOnFile "test/data/HaskellUTxO.fine"
+        specParserOnFile "test/data/DocumentationTest.fine"
+        specParsesDocumentation
 
     describe "pretty print + parse idempotency" $ do
         specPrettyOnFile "test/data/ParseTestBabbage.fine"
@@ -71,6 +77,20 @@ specParserOnFile fp = do
             file <- readFile fp
             Just m <- pure $ parseFineTypes file
             collectNotInScope m `shouldBe` Set.empty
+
+specParsesDocumentation :: Spec
+specParsesDocumentation =
+    it "parses documentation" $ do
+        Just Module{moduleDocumentation = Documentation doc} <-
+            parseFineTypes <$> readFile "test/data/DocumentationTest.fine"
+        places (fold doc)
+            `shouldBe` [BeforeMultiline, Before, After]
+        places (doc Map.! Field "B" "b2")
+            `shouldBe` [Before, After]
+        places (doc Map.! Constructor "C" "c2")
+            `shouldBe` [Before, After]
+  where
+    places = Map.keys
 
 specPrettyOnFile :: FilePath -> Spec
 specPrettyOnFile fp = do
