@@ -1,0 +1,53 @@
+module Tx where
+
+import Address(Addr, Addr_rwd, Ix);
+import Crypto(VKey, Sig, ScriptHash, Script, KeyHash_G);
+import PParams(Coin, Epoch, PParamsUpdate, Slot);
+import Delegation(DCert);
+
+{-----------------------------------------------------------------------------
+    Transactions
+    Shelley spec, Figure 10
+------------------------------------------------------------------------------}
+-- Abstract types
+
+TxId = _ ; -- transaction identifier
+Metadatum = _ ; -- metadatum
+MetadataHash = _ ; -- hash of transaction metadata
+
+-- Derived types
+
+TxIn     = TxId × Ix; -- transaction input
+TxOut    = Addr × Coin; -- transaction output
+UTxO     = TxIn ↦ TxOut; -- unspent tx outputs
+Wdrl     = Addr_rwd ↦ Coin; -- reward withdrawal
+Metadata = ℕ ↦ Metadatum; -- metadata
+
+-- Derived types (update system)
+
+ProposedPPUpdates = KeyHash_G ↦ PParamsUpdate; -- proposed updates
+Update            = ProposedPPUpdates × Epoch; -- update proposal
+
+-- Transaction Types
+
+TxBody =
+    { txins    : ℙ TxIn  -- transaction inputs
+    , txouts   : Ix ↦ TxOut  --  transaction outputs
+    , txcerts  : DCert*  -- delegation certificates
+    , txfee    : Coin  -- transaction fee
+    , txttl    : Slot  -- time to live
+    , txwdrls  : Wdrl  -- withdrawals
+    , txup     : Update?  -- protocol parameter update
+    , txMDhash : MetadataHash?  -- metadata hash  
+    };
+
+TxWitness =
+    { txwitsVKey   : VKey ↦ Sig  -- VKey witnesses
+    , txwitsScript : ScriptHash ↦ Script  -- script witnesses
+    };
+
+Tx =
+    { txbody    : TxBody  -- transaction body
+    , txWitness : TxWitness --  transaction witnesses
+    , txMD      : Metadata? --  metadata
+    };

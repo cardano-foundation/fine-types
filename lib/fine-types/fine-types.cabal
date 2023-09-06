@@ -15,7 +15,7 @@ extra-doc-files:
   CHANGELOG.md
   README.md
 extra-source-files:
-  test/data/*.fine
+  test/data/**/*.fine
 
 common language
   default-language:
@@ -97,5 +97,6 @@ test-suite unit
     Spec.hs
   other-modules:
     Language.FineTypes.Export.OpenAPI.TypSpec
+    Language.FineTypes.Cardano.Ledger.ShelleySpec
     Language.FineTypes.ParserSpec
     Language.FineTypes.ValueSpec
