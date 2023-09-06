@@ -8,6 +8,15 @@ module Language.FineTypes.Module
     , Import (..)
     , Imports
     , Declarations
+
+      -- * Documentation texts
+    , Identifier (..)
+    , DocString
+    , Documentation (..)
+    , Place (..)
+    , document
+
+      -- * Name resolution
     , resolveImports
     , collectNotInScope
     , resolveVars
@@ -27,7 +36,9 @@ import Data.Set
 import Data.TreeDiff (ToExpr)
 import GHC.Generics (Generic)
 import Language.FineTypes.Typ
-    ( Typ (..)
+    ( ConstructorName
+    , FieldName
+    , Typ (..)
     , TypName
     , everything
     , everywhere
@@ -46,6 +57,7 @@ data Module = Module
     { moduleName :: ModuleName
     , moduleImports :: Imports
     , moduleDeclarations :: Declarations
+    , moduleDocumentation :: Documentation
     }
     deriving (Eq, Show, Generic)
 
@@ -59,6 +71,46 @@ newtype Import = ImportNames {getImportNames :: Set TypName}
     deriving (Eq, Show, Generic)
 
 instance ToExpr Import
+
+{-----------------------------------------------------------------------------
+    Documentation texts
+------------------------------------------------------------------------------}
+
+-- | An 'Identifier' refers to a specific 'TypName'
+-- or one of its fields or constructors.
+data Identifier
+    = Typ TypName
+    | Field TypName FieldName
+    | Constructor TypName ConstructorName
+    deriving (Eq, Ord, Show, Generic)
+
+instance ToExpr Identifier
+
+type DocString = String
+
+-- | Documentation texts associated to 'Identifiers'.
+newtype Documentation = Documentation {getDocumentation :: Map Identifier (Map Place DocString)}
+    deriving (Eq, Show, Generic)
+
+instance ToExpr Documentation
+
+-- | Place for putting documentation
+data Place = BeforeMultiline | Before | After
+    deriving (Eq, Ord, Show, Generic)
+
+instance ToExpr Place
+
+document :: Identifier -> Map Place DocString -> Documentation
+document i = Documentation . Map.singleton i
+
+-- | Concatenates texts when multiple texts are associated
+-- with the same identifier.
+instance Semigroup Documentation where
+    (Documentation a) <> (Documentation b) =
+        Documentation (Map.unionWith (Map.unionWith (<>)) a b)
+
+instance Monoid Documentation where
+    mempty = Documentation mempty
 
 {-----------------------------------------------------------------------------
     Name resolution

@@ -84,6 +84,7 @@ module' =
         <* symbol "where"
         <*> imports
         <*> declarations
+        <*> pure mempty
 
 imports :: Parser Imports
 imports = mconcat <$> (import' `endBy` symbol ";")
