@@ -5,6 +5,7 @@
 -- https://www.openapis.org
 module Language.FineTypes.Export.OpenAPI.Schema
     ( schemaFromModule
+    , schemaFromTyp
     , supportsJSON
     , convertToJSON
     ) where

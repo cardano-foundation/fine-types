@@ -94,6 +94,7 @@ test-suite unit
     , deepseq
     , fine-types
     , hspec ^>= 2.11.0
+    , openapi3
     , pretty-simple
     , QuickCheck
     , text
