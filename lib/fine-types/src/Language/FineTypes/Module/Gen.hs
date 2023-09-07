@@ -39,6 +39,7 @@ genModule = do
     moduleName <- genModuleName
     moduleImports <- genImports
     moduleDeclarations <- logScale 1.1 genDeclarations
+    let moduleDocumentation = mempty
     pure Module{..}
 
 genImports :: Gen Imports

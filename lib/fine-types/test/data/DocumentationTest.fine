@@ -1,0 +1,32 @@
+module DocumentationTest where
+
+{-----------------------------------------------------------------------------
+    This module has different documentation texts,
+    for testing the parser.
+------------------------------------------------------------------------------}
+--| Documentation text before a type.
+A1 = ℕ; --^ Documentation text after a type.
+
+{-| Multiline documentation text before a type.
+-}
+A2 = ℤ;
+
+B =
+  { --| Documentation text before a field name.
+    b1 : A1 + A2 --^ Documentation text after a field name.
+  , --| Documentation text before a field name.
+    b2 : (A1 × A2)* --^ Documentation text after a field name.
+  , {-| Multiline documentation text before a field name.
+    -}
+    b3 : ℤ? --^ Documentation text after a field name.
+  };
+
+C =
+  Σ{ --| Documentation text before a constructor name.
+    c1 : A1 + A2 --^ Documentation text after a constructor name.
+  , --| Documentation text before a constructor name.
+    c2 : (A1 × A2)* --^ Documentation text after a constructor name.
+  , {-| Multiline documentation text before a constructor name.
+    -}
+    c3 : ℤ? --^ Documentation text after a constructor name.
+  };
