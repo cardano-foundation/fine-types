@@ -83,6 +83,8 @@ jobs:
           --builddir=${{ env.cabal-build-dir }}
           --enable-tests
           --enable-benchmarks
+          --ghc-options=-Werror
+          --ghc-options=-Wall
 
       - name: Test
         run: >
