@@ -95,7 +95,7 @@ specParsesDocumentation =
 specPrettyOnFile :: FilePath -> Spec
 specPrettyOnFile fp = do
     it ("holds for file" <> fp) $ do
-        file <- readFile "test/data/ParseTestBabbage.fine"
+        file <- readFile fp
         Just m <- pure $ parseFineTypes file
         let output = prettyPrintModule m
             m' = parseFineTypes output
