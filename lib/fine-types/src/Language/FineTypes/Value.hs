@@ -9,6 +9,8 @@ module Language.FineTypes.Value
 
       -- * Type checking
     , hasTyp
+    , hasTyp1
+    , hasTyp2
     ) where
 
 import Prelude

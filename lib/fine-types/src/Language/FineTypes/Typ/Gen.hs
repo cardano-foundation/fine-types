@@ -1,4 +1,5 @@
 {-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE TupleSections #-}
 
 module Language.FineTypes.Typ.Gen where
 
@@ -74,8 +75,17 @@ onTop Top f = f
 onTop Rest _ = mempty
 
 -- | Generate a random 'Typ'.
-genTyp :: WithConstraints -> Mode -> DepthGen -> Gen Typ
-genTyp = go Top
+genTypFiltered
+    :: (Typ -> Bool)
+    -- ^ Whether the generated 'Typ' should be filtered out
+    -> WithConstraints
+    -- ^ Whether the generated 'Typ' can have constraints or not
+    -> Mode
+    -- ^ Whether the generated 'Typ' should be concrete or not
+    -> DepthGen
+    -- ^ Maximum depth of the generated 'Typ'
+    -> Gen Typ
+genTypFiltered out = go Top
   where
     go round hasC mode depth = do
         branching <- onWill <$> willBranch depth
@@ -83,21 +93,28 @@ genTyp = go Top
             complete = onComplete mode
             always = id
             constrained = onConstraints hasC
-        oneof
-            $ []
-                <> always [Zero <$> genConst]
-                <> branching [Two <$> genTwoOpen <*> go' <*> go']
-                <> top
-                    [ One <$> genOne <*> go'
-                    , Two <$> genTwoClose <*> go' <*> go'
-                    , ProductN <$> genTagged genFields go'
-                    , SumN <$> genTagged genConstructors go'
-                    ]
-                <> (top . complete) [pure Abstract]
-                <> complete [Var <$> genVarName]
-                <> constrained [genConstrainedTyp mode]
+            expansion =
+                []
+                    <> always [Zero <$> genConst]
+                    <> branching
+                        [ Two <$> genTwoOpen <*> go' <*> go'
+                        , One <$> genOne <*> go'
+                        ]
+                    <> top
+                        [ One <$> genOne <*> go'
+                        , Two <$> genTwoClose <*> go' <*> go'
+                        , ProductN <$> genTagged genFields go'
+                        , SumN <$> genTagged genConstructors go'
+                        ]
+                    <> (top . complete) [pure Abstract]
+                    <> complete [Var <$> genVarName]
+                    <> constrained [genConstrainedTyp mode]
+        oneof expansion `suchThat` (not . out)
       where
-        go' = go Rest hasC mode $ depth - 1
+        go' = go Rest hasC mode (depth - 1)
+
+genTyp :: WithConstraints -> Mode -> DepthGen -> Gen Typ
+genTyp = genTypFiltered $ const False
 
 genConstraint :: Int -> Gen Constraint
 genConstraint 0 = pure []
@@ -198,14 +215,21 @@ shrinkTyp = \case
     Zero _ -> []
     One _ typ -> typ : shrinkTyp typ
     Two _ typ1 typ2 -> typ1 : typ2 : shrinkTyp typ1 ++ shrinkTyp typ2
-    ProductN fields -> map snd fields
-    SumN constructors -> map snd constructors
+    ProductN fields ->
+        map snd fields
+            <> (ProductN <$> shrinkList shrinkNamed fields)
+    SumN constructors ->
+        map snd constructors
+            <> (SumN <$> shrinkList shrinkNamed constructors)
     Var _ -> []
     Abstract -> []
     Constrained typ c ->
         [typ]
             <> [Constrained typ' c | typ' <- shrinkTyp typ]
             <> [Constrained typ c' | c' <- shrinkConstraint c]
+
+shrinkNamed :: (t, Typ) -> [(t, Typ)]
+shrinkNamed (f, t) = (f,) <$> shrinkTyp t
 
 shrinkConstraint :: Constraint -> [Constraint]
 shrinkConstraint = shrinkList shrinkConstraint1

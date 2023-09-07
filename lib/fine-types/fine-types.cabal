@@ -67,7 +67,8 @@ library
   exposed-modules:
     Language.FineTypes
     Language.FineTypes.Export.OpenAPI.Typ
-    Language.FineTypes.Export.OpenAPI.Value
+    Language.FineTypes.Export.OpenAPI.Value.FromJSON
+    Language.FineTypes.Export.OpenAPI.Value.ToJSON
     Language.FineTypes.Module
     Language.FineTypes.Module.Gen
     Language.FineTypes.Module.PrettyPrinter
@@ -92,11 +93,13 @@ test-suite unit
     , hspec ^>= 2.11.0
     , pretty-simple
     , QuickCheck
+    , text
     , tree-diff
   main-is:
     Spec.hs
   other-modules:
-    Language.FineTypes.Export.OpenAPI.TypSpec
     Language.FineTypes.Cardano.Ledger.ShelleySpec
+    Language.FineTypes.Export.OpenAPI.TypSpec
+    Language.FineTypes.Export.OpenAPI.ValueSpec
     Language.FineTypes.ParserSpec
     Language.FineTypes.ValueSpec

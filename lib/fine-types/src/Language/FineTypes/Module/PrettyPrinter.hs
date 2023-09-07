@@ -58,7 +58,7 @@ prettyText = pretty
 requireParens :: Typ -> Bool
 requireParens = \case
     Zero _ -> False
-    One _ _ -> False
+    One _ _ -> True
     Two{} -> True
     ProductN _ -> False
     SumN _ -> False
