@@ -1,14 +1,14 @@
-module Language.FineTypes.Export.OpenAPI.TypSpec
+module Language.FineTypes.Export.OpenAPI.SchemaSpec
     ( spec
     ) where
 
 import Prelude
 
-import Control.DeepSeq
-    ( NFData
-    , rnf
+import Data.Aeson
+    ( decode
+    , encode
     )
-import Language.FineTypes.Export.OpenAPI.Typ
+import Language.FineTypes.Export.OpenAPI.Schema
     ( schemaFromModule
     , supportsJSON
     )
@@ -16,8 +16,7 @@ import Language.FineTypes.Parser
     ( parseFineTypes
     )
 import Test.Hspec
-    ( Expectation
-    , Spec
+    ( Spec
     , describe
     , it
     , shouldBe
@@ -28,7 +27,7 @@ import Test.Hspec
 ------------------------------------------------------------------------------}
 spec :: Spec
 spec = do
-    describe "OpenAPI export on JsonUTxO.fine" $ do
+    describe "OpenApi export on JsonUTxO.fine" $ do
         let readModule = do
                 file <- readFile "test/data/JsonUTxO.fine"
                 Just m <- pure $ parseFineTypes file
@@ -41,7 +40,4 @@ spec = do
         it "works, i.e. does not contain ⊥" $ do
             m <- readModule
             let schema = schemaFromModule m
-            hasNormalForm schema
-
-hasNormalForm :: NFData a => a -> Expectation
-hasNormalForm x = rnf x `shouldBe` ()
+            (decode . encode) schema `shouldBe` Just schema

@@ -55,7 +55,9 @@ library
     , bytestring
     , containers
     , deepseq >= 1.4.4
+    , insert-ordered-containers
     , megaparsec ^>= 9.2.1
+    , openapi3
     , parser-combinators
     , pretty-simple
     , prettyprinter
@@ -66,7 +68,7 @@ library
     , yaml
   exposed-modules:
     Language.FineTypes
-    Language.FineTypes.Export.OpenAPI.Typ
+    Language.FineTypes.Export.OpenAPI.Schema
     Language.FineTypes.Export.OpenAPI.Value.FromJSON
     Language.FineTypes.Export.OpenAPI.Value.ToJSON
     Language.FineTypes.Module
@@ -86,6 +88,7 @@ test-suite unit
   build-tool-depends:
     hspec-discover:hspec-discover == 2.*
   build-depends:
+    , aeson
     , base
     , containers
     , deepseq
@@ -99,7 +102,7 @@ test-suite unit
     Spec.hs
   other-modules:
     Language.FineTypes.Cardano.Ledger.ShelleySpec
-    Language.FineTypes.Export.OpenAPI.TypSpec
+    Language.FineTypes.Export.OpenAPI.SchemaSpec
     Language.FineTypes.Export.OpenAPI.ValueSpec
     Language.FineTypes.ParserSpec
     Language.FineTypes.ValueSpec
