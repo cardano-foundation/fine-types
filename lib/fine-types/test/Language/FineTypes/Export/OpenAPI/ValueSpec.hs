@@ -43,7 +43,7 @@ roundTrip t = valueFromJson t . jsonFromValue t
 
 singleRoundtrip :: Typ -> Either a Value -> Property
 singleRoundtrip typ evalue =
-    classify (depth typ > 3) "3-deep" $ do
+    classify (Typ.depth typ > 3) "3-deep" $ do
         case evalue of
             Left _ -> error "should not happen"
             Right value ->
@@ -117,14 +117,3 @@ unsupported = \case
     Two FiniteSupport _ _ -> True
     Two PartialFunction _ _ -> True
     _ -> False
-
-depth :: Typ -> Int
-depth = \case
-    Zero{} -> 0
-    One _ a -> 1 + depth a
-    Two _ a b -> 1 + max (depth a) (depth b)
-    ProductN fields -> 1 + maximum (fmap (depth . snd) fields)
-    SumN constructors -> 1 + maximum (fmap (depth . snd) constructors)
-    Constrained a _ -> depth a
-    Abstract -> 0
-    Var _ -> 0
