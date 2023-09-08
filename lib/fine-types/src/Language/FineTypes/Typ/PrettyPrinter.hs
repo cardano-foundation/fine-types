@@ -3,11 +3,22 @@
 
 module Language.FineTypes.Typ.PrettyPrinter
     ( prettyTyp
+    , QueryDocumentation
+    , predoc
+    , postdoc
+    , (</>)
+    , addDocs
     ) where
 
 import Prelude
 
+import Control.Applicative ((<|>))
 import Data.Functor ((<&>))
+import Language.FineTypes.Module
+    ( Identifier (..)
+    , IdentifierDocumentation
+    , Place (..)
+    )
 import Language.FineTypes.Typ
     ( Constraint
     , Constraint1 (..)
@@ -17,6 +28,7 @@ import Language.FineTypes.Typ
     , OpTwo (..)
     , Typ (..)
     , TypConst (..)
+    , TypName
     )
 import Prettyprinter
     ( Doc
@@ -28,7 +40,11 @@ import Prettyprinter
     , (<+>)
     )
 
+import qualified Data.Map as Map
 import qualified Data.Text as T
+
+-- | Query documentation for an identifier.
+type QueryDocumentation = Identifier -> IdentifierDocumentation
 
 prettyText :: T.Text -> Doc ann
 prettyText = pretty
@@ -50,11 +66,16 @@ parens doc = encloseSep "(" ")" " " [doc]
 withParens :: (Typ -> Doc ann) -> Typ -> Doc ann
 withParens f x = if requireParens x then parens (f x) else f x
 
-prettyConstrainedTyp :: Typ -> Constraint -> Doc ann
-prettyConstrainedTyp typ [] = prettyTyp typ
-prettyConstrainedTyp typ constraint =
+prettyConstrainedTyp
+    :: QueryDocumentation
+    -> TypName
+    -> Typ
+    -> Constraint
+    -> Doc ann
+prettyConstrainedTyp docs typname typ [] = prettyTyp docs typname typ
+prettyConstrainedTyp docs typname typ constraint =
     "{ x :"
-        <+> prettyTyp typ
+        <+> prettyTyp docs typname typ
         <+> prettyText "|"
         <+> prettyConstraint constraint
         <+> "}"
@@ -67,31 +88,107 @@ prettyConstraint1 = \case
     Braces x -> prettyText "{" <+> prettyConstraint x <+> prettyText "}"
     Token x -> prettyText $ T.pack x
 
-prettyTyp :: Typ -> Doc ann
-prettyTyp = \case
+getDocs
+    :: QueryDocumentation
+    -> Place
+    -> Identifier
+    -> (String -> Doc ann)
+    -> Maybe (Doc ann)
+getDocs docs k name f = fmap f $ Map.lookup k $ docs name
+
+-- | Query documentation that goes after an identifier.
+postdoc
+    :: QueryDocumentation
+    -> Identifier
+    -> (Doc ann -> Doc ann -> Doc ann)
+    -> Doc ann
+    -> Doc ann
+postdoc docs name f = maybe id f $ getDocs docs After name $ \postdocs ->
+    concatWith
+        (<>)
+        [ prettyText "--^ "
+        , pretty postdocs
+        ]
+
+-- | Query documentation that goes before for an identifier.
+predoc
+    :: QueryDocumentation
+    -> Identifier
+    -> (Doc ann -> Doc ann -> Doc ann)
+    -> Doc ann
+    -> Doc ann
+predoc docs name f = maybe id f $ multi <|> single
+  where
+    single = getDocs docs Before name $ \predocs ->
+        concatWith
+            (<>)
+            [ prettyText "--| "
+            , pretty predocs
+            ]
+    multi = getDocs docs BeforeMultiline name $ \predocs ->
+        concatWith
+            (<>)
+            [ prettyText "{-| "
+            , pretty predocs
+            , prettyText "-}"
+            ]
+
+addDocs :: QueryDocumentation -> Identifier -> Doc ann -> Doc ann
+addDocs docs i = postdoc docs i (flip (<+>)) . predoc docs i (</>)
+
+-- | Concatenate two 'Doc's with a line break in between.
+(</>) :: Doc ann -> Doc ann -> Doc ann
+d </> d' = d <> line <> d'
+
+-- | Pretty print a 'Typ'.
+prettyTyp
+    :: QueryDocumentation -> TypName -> Typ -> Doc ann
+prettyTyp docs typname = \case
     Zero tc -> prettyConst tc
-    One op typ -> prettyOpOne op $ withParens prettyTyp typ
+    One op typ -> prettyOpOne op $ withParens prettyTyp' typ
     Two op typ1 typ2 ->
-        withParens prettyTyp typ1
+        withParens prettyTyp' typ1
             <+> prettyOpTwo op
-            <+> withParens prettyTyp typ2
-    ProductN fields -> prettyProductN fields
-    SumN constructors -> prettySumN constructors
+            <+> withParens prettyTyp' typ2
+    ProductN fields -> prettyProductN docs typname fields
+    SumN constructors -> prettySumN docs typname constructors
     Var name -> pretty name
     Abstract -> prettyText "_"
-    Constrained typ c -> prettyConstrainedTyp typ c
-
-structures :: Doc ann -> Doc ann -> [(String, Typ)] -> Doc ann
-structures o c xs = line <> content <> line <> c
+    Constrained typ c -> prettyConstrainedTyp docs typname typ c
   where
-    content = indent 4 $ o <+> concatWith (\q w -> q <> line <> "," <+> w) ds
-    ds = xs <&> \(fn, typ) -> pretty fn <+> prettyText ":" <+> prettyTyp typ
+    prettyTyp' = prettyTyp docs typname
 
-prettyProductN :: [(FieldName, Typ)] -> Doc ann
-prettyProductN = structures "{" "}"
+structures
+    :: QueryDocumentation
+    -> TypName
+    -> (TypName -> String -> Identifier)
+    -> Doc ann
+    -> Doc ann
+    -> [(String, Typ)]
+    -> Doc ann
+structures docs typname field o c xs = line <> content <> line <> c
+  where
+    content = indent 4 $ o <+> concatWith (\q w -> q </> "," <+> w) ds
+    ds =
+        xs <&> \(fn, typ) ->
+            addDocs docs (field typname fn)
+                $ pretty fn
+                    <+> prettyText ":"
+                    <+> prettyTyp docs typname typ
 
-prettySumN :: [(ConstructorName, Typ)] -> Doc ann
-prettySumN = structures "Σ{ " "}"
+prettyProductN
+    :: QueryDocumentation
+    -> TypName
+    -> [(FieldName, Typ)]
+    -> Doc ann
+prettyProductN docs typname = structures docs typname Field "{" "}"
+
+prettySumN
+    :: QueryDocumentation
+    -> TypName
+    -> [(ConstructorName, Typ)]
+    -> Doc ann
+prettySumN docs typname = structures docs typname Constructor "Σ{ " "}"
 
 prettyOpTwo :: OpTwo -> Doc ann
 prettyOpTwo = \case

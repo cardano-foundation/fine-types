@@ -10,6 +10,8 @@ import Prelude
 
 import Language.FineTypes.Module
     ( Declarations
+    , Documentation (..)
+    , Identifier (..)
     , Import (..)
     , Imports
     , Module (..)
@@ -19,7 +21,11 @@ import Language.FineTypes.Typ
     ( Typ (..)
     , TypName
     )
-import Language.FineTypes.Typ.PrettyPrinter (prettyTyp)
+import Language.FineTypes.Typ.PrettyPrinter
+    ( QueryDocumentation
+    , addDocs
+    , prettyTyp
+    )
 import Prettyprinter
     ( Doc
     , Pretty (pretty)
@@ -53,13 +59,22 @@ prettyPrintModule =
 
 -- | Pretty print a 'Module'.
 prettyModule :: Module -> Doc ann
-prettyModule Module{moduleName, moduleDeclarations, moduleImports} =
-    vsep
-        [ prettyText "module" <+> pretty moduleName <+> prettyText "where"
-        , prettyText ""
-        , prettyImports moduleImports
-        , prettyDeclarations moduleDeclarations
-        ]
+prettyModule
+    Module
+        { moduleName
+        , moduleDeclarations
+        , moduleImports
+        , moduleDocumentation = Documentation docs'
+        } =
+        let docs i = Map.findWithDefault mempty i docs'
+        in  vsep
+                [ prettyText "module"
+                    <+> pretty moduleName
+                    <+> prettyText "where"
+                , prettyText ""
+                , prettyImports moduleImports
+                , prettyDeclarations docs moduleDeclarations
+                ]
 
 prettyImports :: Imports -> Doc ann
 prettyImports m =
@@ -75,12 +90,13 @@ prettyImport (name, ImportNames names) =
     listing = group (line <> "(" <+> list <> line <> ")")
     list = concatWith (\a b -> a <> line' <> comma <> space <> b) docs
 
-prettyDeclarations :: Declarations -> Doc ann
-prettyDeclarations = vsep . map prettyDeclaration . Map.toList
+prettyDeclarations :: QueryDocumentation -> Declarations -> Doc ann
+prettyDeclarations docs = vsep . map (prettyDeclaration docs) . Map.toList
 
-prettyDeclaration :: (TypName, Typ) -> Doc ann
-prettyDeclaration (name, typ) =
-    pretty name
-        <+> prettyText "="
-        <+> prettyTyp typ
-        <> prettyText ";"
+prettyDeclaration :: QueryDocumentation -> (TypName, Typ) -> Doc ann
+prettyDeclaration docs (name, typ) =
+    addDocs docs (Typ name)
+        $ pretty name
+            <+> prettyText "="
+            <+> prettyTyp docs name typ
+            <> prettyText ";"

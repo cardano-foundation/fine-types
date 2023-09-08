@@ -12,6 +12,7 @@ module Language.FineTypes.Module
       -- * Documentation texts
     , Identifier (..)
     , DocString
+    , IdentifierDocumentation
     , Documentation (..)
     , Place (..)
     , document
@@ -88,8 +89,12 @@ instance ToExpr Identifier
 
 type DocString = String
 
+-- | Documentation texts associated to one identifier.
+type IdentifierDocumentation = Map Place DocString
+
 -- | Documentation texts associated to 'Identifiers'.
-newtype Documentation = Documentation {getDocumentation :: Map Identifier (Map Place DocString)}
+newtype Documentation = Documentation
+    {getDocumentation :: Map Identifier IdentifierDocumentation}
     deriving (Eq, Show, Generic)
 
 instance ToExpr Documentation
