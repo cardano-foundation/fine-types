@@ -3,8 +3,7 @@
 -- | Generate random 'Value's of a given 'Typ'.
 module Language.FineTypes.Value.Gen
     ( genTypValue
-    , genTypValue'
-    , genValue
+    , genTypAndValue
     )
 where
 
@@ -20,7 +19,7 @@ import Language.FineTypes.Typ.Gen
     ( DepthGen
     , Mode (..)
     , WithConstraints (..)
-    , genTyp
+    , genTypFiltered
     , logScale
     )
 import Language.FineTypes.Value
@@ -121,16 +120,13 @@ genTypValue typ =
             Sum ix <$> exceptGenValue typ'
         typ' -> pure $ Left typ'
 
--- | Generate a random 'Value' of the given 'Typ' and fail if it is not possible.
-genTypValue' :: Typ -> Gen Value
-genTypValue' typ = do
-    r <- genTypValue typ
-    case r of
-        Left typ' -> error $ "typeValueGenE: " <> show typ'
-        Right v -> pure v
-
-genValue :: DepthGen -> Gen (Typ, Either Typ Value)
-genValue dg = do
-    typ <- genTyp WithoutConstraints Concrete dg
-    r <- genTypValue typ
-    pure (typ, r)
+genTypAndValue
+    :: (Typ -> Bool)
+    -> WithConstraints
+    -> Mode
+    -> DepthGen
+    -> Gen (Typ, Either Typ Value)
+genTypAndValue filteringOut contraints concreteness depth = do
+    typ <- genTypFiltered filteringOut contraints concreteness depth
+    evalue <- genTypValue typ
+    pure (typ, evalue)
