@@ -1,12 +1,14 @@
-{-# LANGUAGE ImplicitParams #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE RankNTypes #-}
 {-# LANGUAGE RecordWildCards #-}
 
 module Language.FineTypes.Module.Gen where
 
 import Prelude
 
+import Control.Monad.Morph (MFunctor (..))
+import Control.Monad.Reader (runReaderT)
 import Control.Monad.State (MonadState (..), StateT, evalStateT, lift, modify)
 import Control.Monad.Writer (Writer, runWriter)
 import Data.Foldable (fold)
@@ -87,10 +89,8 @@ genDeclaration = do
     typName <- liftGen genTypName `suchThat` (`Set.notMember` used)
     lift $ modify $ Set.insert typName
     typ <-
-        let
-            ?typname = typName
-         in
-            genTyp (const False) WithConstraints Complete 6
+        hoist (`runReaderT` typName)
+            $ genTyp (const False) WithConstraints Complete 6
     genDocumentation (Typ typName)
     pure (typName, typ)
 

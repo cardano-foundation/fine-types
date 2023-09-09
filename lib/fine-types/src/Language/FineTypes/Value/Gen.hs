@@ -1,4 +1,3 @@
-{-# LANGUAGE ImplicitParams #-}
 {-# LANGUAGE TypeApplications #-}
 
 -- | Generate random 'Value's of a given 'Typ'.
@@ -11,6 +10,7 @@ where
 import Prelude
 
 import Control.Monad (replicateM)
+import Control.Monad.Reader (ReaderT (..))
 import Control.Monad.Trans.Class (MonadTrans, lift)
 import Control.Monad.Trans.Except (ExceptT (..), runExceptT)
 import Control.Monad.Trans.Writer (runWriter)
@@ -132,9 +132,9 @@ genTypAndValue
     -> Gen (Typ, Either Typ Value)
 genTypAndValue topLevelFilterIn filteringOut contraints concreteness depth = do
     (typ, _) <-
-        fmap runWriter . runGenT
-            $ let ?typname = error "genValue: ?typname"
-              in  genTyp filteringOut contraints concreteness depth
-                    `suchThat` topLevelFilterIn
+        fmap (runWriter . flip runReaderT (error "genValue: ?typname"))
+            $ runGenT
+            $ genTyp filteringOut contraints concreteness depth
+                `suchThat` topLevelFilterIn
     evalue <- genTypValue typ
     pure (typ, evalue)

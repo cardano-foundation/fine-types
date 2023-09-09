@@ -7,5 +7,11 @@ index-state:
 packages:
     lib/fine-types/
 
+source-repository-package
+    type: git
+    location: https://github.com/paolino/QuickCheck-GenT.git
+    tag: c11a7a2ef4f83a98b0fcc421c7f7b06f9c5c1a11
+    --sha256: sha256-o1lHt9XqvkZOfrWoKLRHB0m0fNvxwj9s2pGwvPpfT68=
+
 tests:
   True

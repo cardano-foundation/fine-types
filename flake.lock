@@ -169,6 +169,22 @@
         "type": "github"
       }
     },
+    "gen-t": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1694419842,
+        "narHash": "sha256-o1lHt9XqvkZOfrWoKLRHB0m0fNvxwj9s2pGwvPpfT68=",
+        "owner": "paolino",
+        "repo": "QuickCheck-GenT",
+        "rev": "c11a7a2ef4f83a98b0fcc421c7f7b06f9c5c1a11",
+        "type": "github"
+      },
+      "original": {
+        "owner": "paolino",
+        "repo": "QuickCheck-GenT",
+        "type": "github"
+      }
+    },
     "ghc-8.6.5-iohk": {
       "flake": false,
       "locked": {
@@ -593,6 +609,7 @@
         "CHaP": "CHaP",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
+        "gen-t": "gen-t",
         "haskellNix": "haskellNix",
         "iohkNix": "iohkNix",
         "nixpkgs": [

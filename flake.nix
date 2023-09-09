@@ -13,6 +13,8 @@
     # non-flake nix compatibility
     flake-compat.url = "github:edolstra/flake-compat";
     flake-compat.flake = false;
+    gen-t.url = "github:paolino/QuickCheck-GenT";
+    gen-t.flake = false;
   };
 
   outputs = inputs:
@@ -24,7 +26,9 @@
         # not supported on ci.iog.io right now
         #"aarch64-linux"
         "aarch64-darwin"
-       ]; in
+       ];
+
+       in
     inputs.flake-utils.lib.eachSystem supportedSystems (system:
       let
         # setup our nixpkgs with the haskell.nix overlays, and the iohk-nix

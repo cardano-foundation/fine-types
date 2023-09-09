@@ -1,5 +1,4 @@
 {-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE ImplicitParams #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE TupleSections #-}
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
@@ -51,6 +50,7 @@ import QuickCheck.GenT
     )
 import Test.QuickCheck (shrinkList)
 
+import Control.Monad.Reader (MonadReader (..))
 import qualified Data.Map as Map
 
 -- | If the generated 'Typ' should be concrete or not. 'Concrete' will not contain
@@ -95,7 +95,7 @@ onTop Rest _ = mempty
 
 -- | Generate a random 'Typ'.
 genTyp
-    :: (MonadWriter Documentation m, ?typname :: TypName)
+    :: (MonadWriter Documentation m, MonadReader TypName m)
     => (Typ -> Bool)
     -- ^ Whether the generated 'Typ' should be filtered out
     -> WithConstraints
@@ -209,11 +209,12 @@ genName =
         $ elements ['a' .. 'z']
 
 genConstructors
-    :: (?typname :: TypName, MonadWriter Documentation m)
+    :: (MonadReader TypName m, MonadWriter Documentation m)
     => GenT m [ConstructorName]
 genConstructors = do
     ns <- genNames
-    forM_ ns $ \n -> genDocumentation (Constructor ?typname n)
+    typname <- lift ask
+    forM_ ns $ \n -> genDocumentation (Constructor typname n)
     pure ns
 
 genVarName :: Monad m => GenT m TypName
@@ -225,11 +226,12 @@ capitalise = \case
     (x : xs) -> toUpper x : xs
 
 genFields
-    :: (MonadWriter Documentation m, ?typname :: TypName)
+    :: (MonadWriter Documentation m, MonadReader TypName m)
     => GenT m [FieldName]
 genFields = do
     ns <- genNames
-    forM_ ns $ \n -> genDocumentation (Field ?typname n)
+    typname <- lift ask
+    forM_ ns $ \n -> genDocumentation (Field typname n)
     pure ns
 
 logScale :: Monad m => Double -> GenT m a -> GenT m a
