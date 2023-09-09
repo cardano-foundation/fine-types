@@ -57,11 +57,13 @@ library
     , deepseq >= 1.4.4
     , insert-ordered-containers
     , megaparsec ^>= 9.2.1
+    , mtl
     , openapi3
     , parser-combinators
     , pretty-simple
     , prettyprinter
     , QuickCheck
+    , QuickCheck-GenT
     , text
     , transformers
     , tree-diff

@@ -12,7 +12,8 @@ import Data.Foldable (fold, toList)
 import Data.TreeDiff.QuickCheck (ediffEq)
 import Language.FineTypes.Module
     ( Documentation (..)
-    , Identifier (Constructor, Field)
+    , Identifier (..)
+    , IdentifierDocumentation
     , Module (..)
     , Place (..)
     , collectNotInScope
@@ -35,7 +36,12 @@ import Test.Hspec
     , shouldSatisfy
     )
 import Test.Hspec.QuickCheck (prop)
-import Test.QuickCheck (classify, counterexample, forAllShrink, property)
+import Test.QuickCheck
+    ( classify
+    , counterexample
+    , forAllShrink
+    , property
+    )
 
 import qualified Data.Map as Map
 import qualified Data.Set as Set
@@ -54,11 +60,13 @@ spec = do
     describe "pretty print + parse idempotency" $ do
         specPrettyOnFile "test/data/ParseTestBabbage.fine"
         specPrettyOnFile "test/data/HaskellUTxO.fine"
+        specParserOnFile "test/data/DocumentationTest.fine"
         prop "holds on random generated modules"
             $ forAllShrink genModule shrinkModule
+            -- forAll genModule
             $ \m ->
                 let output = prettyPrintModule m
-                    m' = parseFineTypes output
+                    m' = fixDocumentationIndentation <$> parseFineTypes output
                 in  classify (allPositive $ countTyps m) "fat"
                         $ property
                         $ counterexample (show (m', m))
@@ -66,6 +74,22 @@ spec = do
                         $ counterexample (show $ parseFineTypes' output)
                         $ ediffEq m'
                         $ Just m
+
+-- this is a hack necessary because the pretty printer introduces 4 characters
+-- indentation for multiline documentation on fields and constructors
+fixDocumentationIndentation :: Module -> Module
+fixDocumentationIndentation m = m{moduleDocumentation = docs'}
+  where
+    Documentation docs = moduleDocumentation m
+    docs' = Documentation $ Map.mapWithKey fix docs
+    fix :: Identifier -> IdentifierDocumentation -> IdentifierDocumentation
+    fix (Typ{}) = id
+    fix _ = Map.adjust stripIndentation BeforeMultiline
+      where
+        stripIndentation [] = []
+        stripIndentation ('\n' : ' ' : ' ' : ' ' : ' ' : xs) =
+            '\n' : stripIndentation xs
+        stripIndentation (x : xs) = x : stripIndentation xs
 
 specParserOnFile :: FilePath -> Spec
 specParserOnFile fp = do
@@ -98,7 +122,7 @@ specPrettyOnFile fp = do
         file <- readFile fp
         Just m <- pure $ parseFineTypes file
         let output = prettyPrintModule m
-            m' = parseFineTypes output
+            m' = fixDocumentationIndentation <$> parseFineTypes output
         m' `shouldBe` Just m
 
 {-----------------------------------------------------------------------------
