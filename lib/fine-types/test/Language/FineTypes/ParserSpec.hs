@@ -94,10 +94,10 @@ fixDocumentationIndentation m = m{moduleDocumentation = docs'}
 specParserOnFile :: FilePath -> Spec
 specParserOnFile fp = do
     describe ("on file " <> fp) $ do
-        it "parses the file" $ do
+        it ("parses the file " <> fp) $ do
             file <- readFile fp
             parseFineTypes' file `shouldSatisfy` isRight
-        it "detects undefined names" $ do
+        it ("detects undefined names on " <> fp) $ do
             file <- readFile fp
             Just m <- pure $ parseFineTypes file
             collectNotInScope m `shouldBe` Set.empty
