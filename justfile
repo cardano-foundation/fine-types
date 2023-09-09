@@ -12,7 +12,7 @@ format:
     fourmolu -i lib
 
 lint:
-    hlint lib 
+    hlint lib
 
 build0:
     cabal build -v0 -O0 -j fine-types
@@ -25,12 +25,11 @@ test:
 test-seed:
     @cabal test -v0 -O0 -j unit \
         --test-show-details=direct \
-        --test-options="--format=checks --color" \
+        --test-options="--format=checks --no-color" \
         --test-options="--seed {{seed}}"
 
-repl: 
+repl:
     cabal repl -v0 -O0 -j fine-types
 
 prepare: format lint build0 test
 ghci:
-    

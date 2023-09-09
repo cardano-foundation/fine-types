@@ -16,10 +16,9 @@ import Language.FineTypes.Typ
 import Language.FineTypes.Typ.Gen
     ( Mode (..)
     , WithConstraints (..)
-    , genTypFiltered
     )
 import Language.FineTypes.Value (Value, hasTyp)
-import Language.FineTypes.Value.Gen (genTypValue)
+import Language.FineTypes.Value.Gen (genTypAndValue, genTypValue)
 import Test.Hspec (Spec, describe, shouldBe)
 import Test.Hspec.QuickCheck (prop)
 import Test.QuickCheck
@@ -28,7 +27,6 @@ import Test.QuickCheck
     , classify
     , counterexample
     , forAll
-    , suchThat
     )
 import Text.Pretty.Simple (pShow)
 
@@ -107,10 +105,13 @@ concert :: Typ -> Bool
 concert = or <$> sequence [isZero, isOne, isTwo, isProductN, isSumN]
 
 genValue :: (Typ -> Bool) -> Gen (Typ, Either Typ Value)
-genValue f = do
-    typ <- genTypFiltered unsupported WithoutConstraints Concrete 6 `suchThat` f
-    r <- genTypValue typ
-    pure (typ, r)
+genValue f =
+    genTypAndValue
+        f
+        unsupported
+        WithoutConstraints
+        Concrete
+        6
 
 unsupported :: Typ -> Bool
 unsupported = \case

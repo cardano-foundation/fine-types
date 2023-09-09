@@ -1,3 +1,4 @@
+{-# LANGUAGE ImplicitParams #-}
 {-# LANGUAGE TypeApplications #-}
 
 -- | Generate random 'Value's of a given 'Typ'.
@@ -12,15 +13,16 @@ import Prelude
 import Control.Monad (replicateM)
 import Control.Monad.Trans.Class (MonadTrans, lift)
 import Control.Monad.Trans.Except (ExceptT (..), runExceptT)
+import Control.Monad.Trans.Writer (runWriter)
 import Data.ByteString (ByteString)
 import Data.Text (Text)
+import Language.FineTypes.Module.Gen (logScaleGen)
 import Language.FineTypes.Typ (Typ)
 import Language.FineTypes.Typ.Gen
     ( DepthGen
     , Mode (..)
     , WithConstraints (..)
-    , genTypFiltered
-    , logScale
+    , genTyp
     )
 import Language.FineTypes.Value
     ( OneF (..)
@@ -28,6 +30,7 @@ import Language.FineTypes.Value
     , Value (..)
     , ZeroF (..)
     )
+import QuickCheck.GenT (runGenT, suchThat)
 import Test.QuickCheck
     ( Arbitrary (arbitrary)
     , Gen
@@ -59,7 +62,7 @@ exceptGenValue = ExceptT . genTypValue
 -- | Generate a random list of the given length under a monad transformer.
 listOfT :: (Monad (t Gen), MonadTrans t) => t Gen a -> t Gen [a]
 listOfT f = do
-    l <- lift $ logScale 2 getSize
+    l <- lift $ logScaleGen 2 getSize
     replicateM l f
 
 -- | Generate a random 'Value' of the given 'Typ' or report the first 'Typ' that
@@ -122,11 +125,16 @@ genTypValue typ =
 
 genTypAndValue
     :: (Typ -> Bool)
+    -> (Typ -> Bool)
     -> WithConstraints
     -> Mode
     -> DepthGen
     -> Gen (Typ, Either Typ Value)
-genTypAndValue filteringOut contraints concreteness depth = do
-    typ <- genTypFiltered filteringOut contraints concreteness depth
+genTypAndValue topLevelFilterIn filteringOut contraints concreteness depth = do
+    (typ, _) <-
+        fmap runWriter . runGenT
+            $ let ?typname = error "genValue: ?typname"
+              in  genTyp filteringOut contraints concreteness depth
+                    `suchThat` topLevelFilterIn
     evalue <- genTypValue typ
     pure (typ, evalue)

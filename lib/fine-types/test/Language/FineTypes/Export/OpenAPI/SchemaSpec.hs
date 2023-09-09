@@ -60,7 +60,13 @@ spec = do
     describe "Schema derived from a module" $ do
         prop "validates json values computed from the same module"
             $ forAll
-                (genTypAndValue unsupported WithoutConstraints Concrete 6)
+                ( genTypAndValue
+                    (const True)
+                    unsupported
+                    WithoutConstraints
+                    Concrete
+                    6
+                )
             $ \(typ, evalue) ->
                 counterexample (jsonInfo typ evalue)
                     $ classify (depth typ > 3) "3-deep"
