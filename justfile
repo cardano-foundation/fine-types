@@ -1,3 +1,5 @@
+set positional-arguments
+
 seed := "0"
 
 default:
@@ -32,4 +34,7 @@ repl:
     cabal repl -v0 -O0 -j fine-types
 
 prepare: format lint build0 test
-ghci:
+
+
+@run *args='--help':
+    cabal exec -v0 -O0 -j fine-types -- $@

@@ -118,9 +118,13 @@ executable fine-types
   main-is:
     Main.hs
   build-depends:
+    , aeson-pretty
     , base
+    , bytestring
+    , megaparsec
     , optparse-applicative
     , fine-types
+    , with-utf8
+    , yaml
   other-modules:
-
-```
+    Options
