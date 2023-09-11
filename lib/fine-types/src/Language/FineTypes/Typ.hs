@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE LambdaCase #-}
 
 -- | 'Typ' represents the types that can be defined with FineTypes.
 module Language.FineTypes.Typ
@@ -16,6 +17,7 @@ module Language.FineTypes.Typ
       -- * Traversals
     , everywhere
     , everything
+    , depth
     ) where
 
 import Prelude
@@ -159,6 +161,17 @@ everything combine f = recurse
         L.foldl' combine (f x) [recurse a | (_, a) <- nas]
     recurse x@(Constrained typ _) =
         f x `combine` recurse typ
+
+depth :: Typ -> Int
+depth = \case
+    Zero{} -> 0
+    One _ a -> 1 + depth a
+    Two _ a b -> 1 + max (depth a) (depth b)
+    ProductN fields -> 1 + maximum (fmap (depth . snd) fields)
+    SumN constructors -> 1 + maximum (fmap (depth . snd) constructors)
+    Constrained a _ -> depth a
+    Abstract -> 0
+    Var _ -> 0
 
 type Constraint = [Constraint1]
 

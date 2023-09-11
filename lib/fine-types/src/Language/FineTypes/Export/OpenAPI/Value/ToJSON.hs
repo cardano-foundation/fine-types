@@ -28,7 +28,6 @@ import Language.FineTypes.Value
     , OneF (..)
     , Value (..)
     , ZeroF (..)
-    , hasTyp
     )
 import Text.Pretty.Simple (pShow)
 
