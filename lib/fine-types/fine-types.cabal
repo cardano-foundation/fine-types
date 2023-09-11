@@ -110,3 +110,17 @@ test-suite unit
     Language.FineTypes.Export.OpenAPI.ValueSpec
     Language.FineTypes.ParserSpec
     Language.FineTypes.ValueSpec
+
+executable fine-types
+  import:      language, opts-exe
+  hs-source-dirs:
+    app
+  main-is:
+    Main.hs
+  build-depends:
+    , base
+    , optparse-applicative
+    , fine-types
+  other-modules:
+
+```
