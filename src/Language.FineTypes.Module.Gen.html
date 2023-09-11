@@ -37,20 +37,20 @@
 </span><span id="line-37"></span><span class="annot"><a href="Language.FineTypes.Module.Gen.html#genModule"><span class="hs-identifier hs-type">genModule</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span>
 </span><span id="line-38"></span><span id="genModule"><span class="annot"><span class="annottext">genModule :: Gen Module
 </span><a href="Language.FineTypes.Module.Gen.html#genModule"><span class="hs-identifier hs-var hs-var">genModule</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-39"></span><span>    </span><span id="local-6989586621679112884"><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679112884"><span class="hs-identifier hs-var">moduleName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen TypName
+</span><span id="line-39"></span><span>    </span><span id="local-6989586621679161686"><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679161686"><span class="hs-identifier hs-var">moduleName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen TypName
 </span><a href="Language.FineTypes.Module.Gen.html#genModuleName"><span class="hs-identifier hs-var">genModuleName</span></a></span><span>
-</span><span id="line-40"></span><span>    </span><span id="local-6989586621679112886"><span class="annot"><span class="annottext">Imports
-</span><a href="#local-6989586621679112886"><span class="hs-identifier hs-var">moduleImports</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen Imports
+</span><span id="line-40"></span><span>    </span><span id="local-6989586621679161688"><span class="annot"><span class="annottext">Imports
+</span><a href="#local-6989586621679161688"><span class="hs-identifier hs-var">moduleImports</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen Imports
 </span><a href="Language.FineTypes.Module.Gen.html#genImports"><span class="hs-identifier hs-var">genImports</span></a></span><span>
-</span><span id="line-41"></span><span>    </span><span id="local-6989586621679112888"><span class="annot"><span class="annottext">Declarations
-</span><a href="#local-6989586621679112888"><span class="hs-identifier hs-var">moduleDeclarations</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Double -&gt; Gen Declarations -&gt; Gen Declarations
+</span><span id="line-41"></span><span>    </span><span id="local-6989586621679161690"><span class="annot"><span class="annottext">Declarations
+</span><a href="#local-6989586621679161690"><span class="hs-identifier hs-var">moduleDeclarations</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Double -&gt; Gen Declarations -&gt; Gen Declarations
 forall a. Double -&gt; Gen a -&gt; Gen a
 </span><a href="Language.FineTypes.Typ.Gen.html#logScale"><span class="hs-identifier hs-var">logScale</span></a></span><span> </span><span class="annot"><span class="annottext">Double
 </span><span class="hs-number">1.1</span></span><span> </span><span class="annot"><span class="annottext">Gen Declarations
 </span><a href="Language.FineTypes.Module.Gen.html#genDeclarations"><span class="hs-identifier hs-var">genDeclarations</span></a></span><span>
-</span><span id="line-42"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679112894"><span class="annot"><span class="annottext">moduleDocumentation :: Documentation
-</span><a href="#local-6989586621679112894"><span class="hs-identifier hs-var hs-var">moduleDocumentation</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Documentation
+</span><span id="line-42"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679161696"><span class="annot"><span class="annottext">moduleDocumentation :: Documentation
+</span><a href="#local-6989586621679161696"><span class="hs-identifier hs-var hs-var">moduleDocumentation</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Documentation
 forall a. Monoid a =&gt; a
 </span><span class="hs-identifier hs-var">mempty</span></span><span>
 </span><span id="line-43"></span><span>    </span><span class="annot"><span class="annottext">Module -&gt; Gen Module
@@ -68,7 +68,7 @@ moduleName :: TypName
 moduleImports :: Imports
 moduleDeclarations :: Declarations
 moduleDocumentation :: Documentation
-</span><a href="#local-6989586621679112884"><span class="hs-glyph hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">..</span></a></span><span class="hs-special">}</span><span>
+</span><a href="#local-6989586621679161686"><span class="hs-glyph hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">..</span></a></span><span class="hs-special">}</span><span>
 </span><span id="line-44"></span><span>
 </span><span id="line-45"></span><span class="annot"><a href="Language.FineTypes.Module.Gen.html#genImports"><span class="hs-identifier hs-type">genImports</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Imports"><span class="hs-identifier hs-type">Imports</span></a></span><span>
 </span><span id="line-46"></span><span id="genImports"><span class="annot"><span class="annottext">genImports :: Gen Imports
@@ -88,11 +88,11 @@ forall a. Gen a -&gt; Gen [a]
 </span><span id="line-48"></span><span class="annot"><a href="Language.FineTypes.Module.Gen.html#genImport"><span class="hs-identifier hs-type">genImport</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Import"><span class="hs-identifier hs-type">Import</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-49"></span><span id="genImport"><span class="annot"><span class="annottext">genImport :: Gen (TypName, Import)
 </span><a href="Language.FineTypes.Module.Gen.html#genImport"><span class="hs-identifier hs-var hs-var">genImport</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-50"></span><span>    </span><span id="local-6989586621679112903"><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679112903"><span class="hs-identifier hs-var">moduleName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen TypName
+</span><span id="line-50"></span><span>    </span><span id="local-6989586621679161705"><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679161705"><span class="hs-identifier hs-var">moduleName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen TypName
 </span><a href="Language.FineTypes.Module.Gen.html#genModuleName"><span class="hs-identifier hs-var">genModuleName</span></a></span><span>
-</span><span id="line-51"></span><span>    </span><span id="local-6989586621679112904"><span class="annot"><span class="annottext">Import
-</span><a href="#local-6989586621679112904"><span class="hs-identifier hs-var">imports</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Set TypName -&gt; Import
+</span><span id="line-51"></span><span>    </span><span id="local-6989586621679161706"><span class="annot"><span class="annottext">Import
+</span><a href="#local-6989586621679161706"><span class="hs-identifier hs-var">imports</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Set TypName -&gt; Import
 </span><a href="Language.FineTypes.Module.html#ImportNames"><span class="hs-identifier hs-var">ImportNames</span></a></span><span> </span><span class="annot"><span class="annottext">(Set TypName -&gt; Import)
 -&gt; ([TypName] -&gt; Set TypName) -&gt; [TypName] -&gt; Import
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
@@ -108,8 +108,8 @@ forall a. Gen a -&gt; Gen [a]
 forall a. a -&gt; Gen a
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679112903"><span class="hs-identifier hs-var">moduleName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Import
-</span><a href="#local-6989586621679112904"><span class="hs-identifier hs-var">imports</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679161705"><span class="hs-identifier hs-var">moduleName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Import
+</span><a href="#local-6989586621679161706"><span class="hs-identifier hs-var">imports</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-53"></span><span>
 </span><span id="line-54"></span><span class="annot"><a href="Language.FineTypes.Module.Gen.html#genDeclarations"><span class="hs-identifier hs-type">genDeclarations</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Declarations"><span class="hs-identifier hs-type">Declarations</span></a></span><span>
 </span><span id="line-55"></span><span id="genDeclarations"><span class="annot"><span class="annottext">genDeclarations :: Gen Declarations
@@ -126,11 +126,11 @@ forall a. Gen a -&gt; Gen [a]
 </span><span id="line-57"></span><span class="annot"><a href="Language.FineTypes.Module.Gen.html#genDeclaration"><span class="hs-identifier hs-type">genDeclaration</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-58"></span><span id="genDeclaration"><span class="annot"><span class="annottext">genDeclaration :: Gen (TypName, Typ)
 </span><a href="Language.FineTypes.Module.Gen.html#genDeclaration"><span class="hs-identifier hs-var hs-var">genDeclaration</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-59"></span><span>    </span><span id="local-6989586621679112910"><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679112910"><span class="hs-identifier hs-var">typName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen TypName
+</span><span id="line-59"></span><span>    </span><span id="local-6989586621679161712"><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679161712"><span class="hs-identifier hs-var">typName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen TypName
 </span><a href="Language.FineTypes.Module.Gen.html#genTypName"><span class="hs-identifier hs-var">genTypName</span></a></span><span>
-</span><span id="line-60"></span><span>    </span><span id="local-6989586621679112911"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679112911"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">WithConstraints -&gt; Mode -&gt; DepthGen -&gt; Gen Typ
+</span><span id="line-60"></span><span>    </span><span id="local-6989586621679161713"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679161713"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">WithConstraints -&gt; Mode -&gt; DepthGen -&gt; Gen Typ
 </span><a href="Language.FineTypes.Typ.Gen.html#genTyp"><span class="hs-identifier hs-var">genTyp</span></a></span><span> </span><span class="annot"><span class="annottext">WithConstraints
 </span><a href="Language.FineTypes.Typ.Gen.html#WithConstraints"><span class="hs-identifier hs-var">WithConstraints</span></a></span><span> </span><span class="annot"><span class="annottext">Mode
 </span><a href="Language.FineTypes.Typ.Gen.html#Complete"><span class="hs-identifier hs-var">Complete</span></a></span><span> </span><span class="annot"><span class="annottext">DepthGen
@@ -139,8 +139,8 @@ forall a. Gen a -&gt; Gen [a]
 forall a. a -&gt; Gen a
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">TypName
-</span><a href="#local-6989586621679112910"><span class="hs-identifier hs-var">typName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679112911"><span class="hs-identifier hs-var">typ</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679161712"><span class="hs-identifier hs-var">typName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679161713"><span class="hs-identifier hs-var">typ</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-62"></span><span>
 </span><span id="line-63"></span><span class="annot"><a href="Language.FineTypes.Module.Gen.html#genTypName"><span class="hs-identifier hs-type">genTypName</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
 </span><span id="line-64"></span><span id="genTypName"><span class="annot"><span class="annottext">genTypName :: Gen TypName
@@ -160,25 +160,25 @@ forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span id="line-68"></span><span>
 </span><span id="line-69"></span><span class="annot"><a href="Language.FineTypes.Module.Gen.html#shrinkModule"><span class="hs-identifier hs-type">shrinkModule</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-70"></span><span id="shrinkModule"><span class="annot"><span class="annottext">shrinkModule :: Module -&gt; [Module]
-</span><a href="Language.FineTypes.Module.Gen.html#shrinkModule"><span class="hs-identifier hs-var hs-var">shrinkModule</span></a></span></span><span> </span><span id="local-6989586621679112914"><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679112914"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-71"></span><span>    </span><span id="local-6989586621679112915"><span class="annot"><span class="annottext">Declarations
-</span><a href="#local-6989586621679112915"><span class="hs-identifier hs-var">moduleDeclarations</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Declarations -&gt; [Declarations]
+</span><a href="Language.FineTypes.Module.Gen.html#shrinkModule"><span class="hs-identifier hs-var hs-var">shrinkModule</span></a></span></span><span> </span><span id="local-6989586621679161716"><span class="annot"><span class="annottext">Module
+</span><a href="#local-6989586621679161716"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-71"></span><span>    </span><span id="local-6989586621679161717"><span class="annot"><span class="annottext">Declarations
+</span><a href="#local-6989586621679161717"><span class="hs-identifier hs-var">moduleDeclarations</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Declarations -&gt; [Declarations]
 </span><a href="Language.FineTypes.Module.Gen.html#shrinkDeclarations"><span class="hs-identifier hs-var">shrinkDeclarations</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Module -&gt; Declarations
 </span><a href="Language.FineTypes.Module.html#moduleDeclarations"><span class="hs-identifier hs-var">moduleDeclarations</span></a></span><span> </span><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679112914"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679161716"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-72"></span><span>    </span><span class="annot"><span class="annottext">Module -&gt; [Module]
 forall a. a -&gt; [a]
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">(Module -&gt; [Module]) -&gt; Module -&gt; [Module]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679112914"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">{</span><span class="annot"><a href="Language.FineTypes.Module.html#moduleDeclarations"><span class="hs-identifier hs-var hs-type">moduleDeclarations</span></a></span><span class="hs-special">}</span><span>
+</span><a href="#local-6989586621679161716"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">{</span><span class="annot"><a href="Language.FineTypes.Module.html#moduleDeclarations"><span class="hs-identifier hs-var hs-type">moduleDeclarations</span></a></span><span class="hs-special">}</span><span>
 </span><span id="line-73"></span><span>
 </span><span id="line-74"></span><span class="annot"><a href="Language.FineTypes.Module.Gen.html#shrinkDeclarations"><span class="hs-identifier hs-type">shrinkDeclarations</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Declarations"><span class="hs-identifier hs-type">Declarations</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Language.FineTypes.Module.html#Declarations"><span class="hs-identifier hs-type">Declarations</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-75"></span><span id="shrinkDeclarations"><span class="annot"><span class="annottext">shrinkDeclarations :: Declarations -&gt; [Declarations]
-</span><a href="Language.FineTypes.Module.Gen.html#shrinkDeclarations"><span class="hs-identifier hs-var hs-var">shrinkDeclarations</span></a></span></span><span> </span><span id="local-6989586621679112917"><span class="annot"><span class="annottext">Declarations
-</span><a href="#local-6989586621679112917"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">([(TypName, Typ)] -&gt; Declarations)
+</span><a href="Language.FineTypes.Module.Gen.html#shrinkDeclarations"><span class="hs-identifier hs-var hs-var">shrinkDeclarations</span></a></span></span><span> </span><span id="local-6989586621679161719"><span class="annot"><span class="annottext">Declarations
+</span><a href="#local-6989586621679161719"><span class="hs-identifier hs-var">xs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">([(TypName, Typ)] -&gt; Declarations)
 -&gt; [[(TypName, Typ)]] -&gt; [Declarations]
 forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
@@ -192,21 +192,21 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 forall a. (a -&gt; [a]) -&gt; [a] -&gt; [[a]]
 </span><span class="hs-identifier hs-var">shrinkList</span></span><span> </span><span class="annot"><span class="annottext">(TypName, Typ) -&gt; [(TypName, Typ)]
 forall {a}. (a, Typ) -&gt; [(a, Typ)]
-</span><a href="#local-6989586621679112918"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">([(TypName, Typ)] -&gt; [[(TypName, Typ)]])
+</span><a href="#local-6989586621679161720"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">([(TypName, Typ)] -&gt; [[(TypName, Typ)]])
 -&gt; [(TypName, Typ)] -&gt; [[(TypName, Typ)]]
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Declarations -&gt; [(TypName, Typ)]
 forall k a. Map k a -&gt; [(k, a)]
 </span><span class="hs-identifier hs-var">Map.toList</span></span><span> </span><span class="annot"><span class="annottext">Declarations
-</span><a href="#local-6989586621679112917"><span class="hs-identifier hs-var">xs</span></a></span><span>
+</span><a href="#local-6989586621679161719"><span class="hs-identifier hs-var">xs</span></a></span><span>
 </span><span id="line-76"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-77"></span><span>    </span><span id="local-6989586621679112918"><span class="annot"><span class="annottext">f :: (a, Typ) -&gt; [(a, Typ)]
-</span><a href="#local-6989586621679112918"><span class="hs-identifier hs-var hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679112920"><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679112920"><span class="hs-identifier hs-var">k</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679112921"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679112921"><span class="hs-identifier hs-var">v</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
-</span><a href="#local-6989586621679112920"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679112922"><span class="hs-identifier hs-var">v'</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">|</span><span> </span><span id="local-6989586621679112922"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679112922"><span class="hs-identifier hs-var">v'</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; [Typ]
+</span><span id="line-77"></span><span>    </span><span id="local-6989586621679161720"><span class="annot"><span class="annottext">f :: (a, Typ) -&gt; [(a, Typ)]
+</span><a href="#local-6989586621679161720"><span class="hs-identifier hs-var hs-var">f</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679161722"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679161722"><span class="hs-identifier hs-var">k</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679161723"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679161723"><span class="hs-identifier hs-var">v</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679161722"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679161724"><span class="hs-identifier hs-var">v'</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">|</span><span> </span><span id="local-6989586621679161724"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679161724"><span class="hs-identifier hs-var">v'</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Typ -&gt; [Typ]
 </span><a href="Language.FineTypes.Typ.Gen.html#shrinkTyp"><span class="hs-identifier hs-var">shrinkTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679112921"><span class="hs-identifier hs-var">v</span></a></span><span class="hs-special">]</span><span>
+</span><a href="#local-6989586621679161723"><span class="hs-identifier hs-var">v</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-78"></span></pre></body></html>
