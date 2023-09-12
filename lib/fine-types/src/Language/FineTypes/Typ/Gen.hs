@@ -1,29 +1,18 @@
-{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE TupleSections #-}
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 
 module Language.FineTypes.Typ.Gen where
 
 import Prelude hiding (round)
 
-import Control.Monad.Trans.Class (lift)
-import Control.Monad.Writer (MonadWriter (tell))
 import Data.Char
     ( isAlphaNum
     , isPunctuation
-    , isSpace
     , isSymbol
     , toUpper
     )
-import Data.Foldable (forM_)
 import Data.List (isInfixOf, nub)
 import Data.Traversable (forM)
-import Language.FineTypes.Module
-    ( Documentation (..)
-    , Identifier (..)
-    , Place (..)
-    )
 import Language.FineTypes.Typ
     ( Constraint
     , Constraint1 (..)
@@ -35,9 +24,9 @@ import Language.FineTypes.Typ
     , TypConst (..)
     , TypName
     )
-import QuickCheck.GenT
-    ( GenT
-    , arbitrary'
+import Test.QuickCheck
+    ( Gen
+    , arbitrary
     , choose
     , elements
     , frequency
@@ -45,12 +34,10 @@ import QuickCheck.GenT
     , oneof
     , scale
     , shrink
+    , shrinkList
     , suchThat
     , vectorOf
     )
-import Test.QuickCheck (shrinkList)
-
-import qualified Data.Map as Map
 
 -- | If the generated 'Typ' should be concrete or not. 'Concrete' will not contain
 -- 'Abstract' or 'Var' leaves
@@ -67,7 +54,7 @@ type DepthGen = Int
 -- | Whether the generated 'Typ' will be Zero or more complex
 data Branch = Wont | Will
 
-willBranch :: Monad m => DepthGen -> GenT m Branch
+willBranch :: DepthGen -> Gen Branch
 willBranch n =
     frequency
         [ (1, pure Will)
@@ -94,10 +81,7 @@ onTop Rest _ = mempty
 
 -- | Generate a random 'Typ'.
 genTyp
-    :: (MonadWriter Documentation m)
-    => TypName
-    -- ^ Name of the type being generated
-    -> (Typ -> Bool)
+    :: (Typ -> Bool)
     -- ^ Whether the generated 'Typ' should be filtered out
     -> WithConstraints
     -- ^ Whether the generated 'Typ' can have constraints or not
@@ -105,8 +89,8 @@ genTyp
     -- ^ Whether the generated 'Typ' should be concrete or not
     -> DepthGen
     -- ^ Maximum depth of the generated 'Typ'
-    -> GenT m Typ
-genTyp typname out = go Top
+    -> Gen Typ
+genTyp out = go Top
   where
     go round hasC mode depth = do
         branching <- onWill <$> willBranch depth
@@ -124,8 +108,8 @@ genTyp typname out = go Top
                     <> top
                         [ One <$> genOne <*> go'
                         , Two <$> genTwoClose <*> go' <*> go'
-                        , ProductN <$> genTagged (genFields typname) go'
-                        , SumN <$> genTagged (genConstructors typname) go'
+                        , ProductN <$> genTagged genFields go'
+                        , SumN <$> genTagged genConstructors go'
                         ]
                     <> (top . complete) [pure Abstract]
                     <> complete [Var <$> genVarName]
@@ -134,16 +118,16 @@ genTyp typname out = go Top
       where
         go' = go Rest hasC mode (depth - 1)
 
-genConstraint :: Monad m => Int -> GenT m Constraint
+genConstraint :: Int -> Gen Constraint
 genConstraint 0 = pure []
 genConstraint n = listOf1 $ genConstraint1 $ n - 1
 
-genConstraint1 :: Monad m => Int -> GenT m Constraint1
+genConstraint1 :: Int -> Gen Constraint1
 genConstraint1 n =
     oneof
         $ [Braces <$> genConstraint n | n > 0]
             <> [ Token
-                    <$> listOf1 (arbitrary' `suchThat` goodChar)
+                    <$> listOf1 (arbitrary `suchThat` goodChar)
                         `suchThat` goodToken
                ]
 
@@ -154,7 +138,7 @@ goodChar :: Char -> Bool
 goodChar x =
     (isSymbol x || isAlphaNum x || isPunctuation x) && x `notElem` " {}"
 
-genConstrainedTyp :: Monad m => Mode -> GenT m Typ
+genConstrainedTyp :: Mode -> Gen Typ
 genConstrainedTyp mode = do
     constraintDepth <- choose (1, 2)
     c <- genConstraint constraintDepth
@@ -169,21 +153,21 @@ genConstrainedTyp mode = do
                 <> always [Zero <$> genConst]
                 <> complete [Var <$> genVarName]
 
-genTagged :: Monad m => GenT m [a] -> GenT m Typ -> GenT m [(a, Typ)]
+genTagged :: Gen [a] -> Gen Typ -> Gen [(a, Typ)]
 genTagged gen f = do
     names <- gen
     forM names $ \name -> (,) name <$> f
 
-genTwoOpen :: Monad m => GenT m OpTwo
+genTwoOpen :: Gen OpTwo
 genTwoOpen = elements [Sum2, Product2]
 
-genTwoClose :: Monad m => GenT m OpTwo
+genTwoClose :: Gen OpTwo
 genTwoClose = elements [PartialFunction, FiniteSupport]
 
-genOne :: Monad m => GenT m OpOne
+genOne :: Gen OpOne
 genOne = elements [Option, Sequence, PowerSet]
 
-genConst :: Monad m => GenT m TypConst
+genConst :: Gen TypConst
 genConst =
     elements
         [ Bool
@@ -197,28 +181,22 @@ genConst =
 notPrivate :: String -> Bool
 notPrivate = not . flip elem ["Text", "Bytes", "Bool", "Unit"]
 
-genNames :: Monad m => GenT m [String]
+genNames :: Gen [String]
 genNames =
     fmap nub
         $ logScale 2
         $ listOf1
             genName
 
-genName :: Monad m => GenT m [Char]
+genName :: Gen [Char]
 genName =
     vectorOf 4
         $ elements ['a' .. 'z']
 
-genConstructors
-    :: MonadWriter Documentation m
-    => TypName
-    -> GenT m [ConstructorName]
-genConstructors typname = do
-    ns <- genNames
-    forM_ ns $ \n -> genDocumentation (Constructor typname n)
-    pure ns
+genConstructors :: Gen [ConstructorName]
+genConstructors = genNames
 
-genVarName :: Monad m => GenT m TypName
+genVarName :: Gen TypName
 genVarName = (capitalise <$> genName) `suchThat` notPrivate
 
 capitalise :: [Char] -> [Char]
@@ -226,16 +204,10 @@ capitalise = \case
     [] -> []
     (x : xs) -> toUpper x : xs
 
-genFields
-    :: MonadWriter Documentation m
-    => TypName
-    -> GenT m [FieldName]
-genFields typname = do
-    ns <- genNames
-    forM_ ns $ \n -> genDocumentation (Field typname n)
-    pure ns
+genFields :: Gen [FieldName]
+genFields = genNames
 
-logScale :: Monad m => Double -> GenT m a -> GenT m a
+logScale :: Double -> Gen a -> Gen a
 logScale n = scale logN
   where
     logN x = floor $ logBase n $ 1 + fromIntegral x
@@ -268,37 +240,3 @@ shrinkConstraint1 :: Constraint1 -> [Constraint1]
 shrinkConstraint1 = \case
     Braces c -> Braces <$> shrinkConstraint c
     Token xs -> Token <$> shrink xs
-
-genDocumentation :: MonadWriter Documentation m => Identifier -> GenT m ()
-genDocumentation i = do
-    places <- elements placesChoices
-    forM_ places $ \place -> do
-        docs <-
-            fmap (take 3)
-                $ listOf1 (arbitrary' `suchThat` allowedChars)
-                    `suchThat` noHeadingSpace
-                    `suchThat` correctInside place
-        lift $ tell $ Documentation $ Map.singleton i $ Map.singleton place docs
-
-placesChoices :: [[Place]]
-placesChoices =
-    [ []
-    , [After]
-    , [Before]
-    , [BeforeMultiline]
-    , [Before, After]
-    , [BeforeMultiline, After]
-    ]
-
-allowedChars :: Char -> Bool
-allowedChars x = isSpace x || isAlphaNum x || isPunctuation x || isSymbol x
-
-noHeadingSpace :: String -> Bool
-noHeadingSpace = \case
-    [] -> True
-    (x : _) -> not $ isSpace x
-
-correctInside :: Place -> [Char] -> Bool
-correctInside = \case
-    BeforeMultiline -> not . ("-}" `isInfixOf`)
-    _ -> not . ('\n' `elem`)
