@@ -38,7 +38,7 @@ TxBody =
     , txttl    : Slot  -- time to live
     , txwdrls  : Wdrl  -- withdrawals
     , txup     : Update?  -- protocol parameter update
-    , txMDhash : MetadataHash?  -- metadata hash  
+    , txMDhash : MetadataHash?  -- metadata hash
     };
 
 TxWitness =
