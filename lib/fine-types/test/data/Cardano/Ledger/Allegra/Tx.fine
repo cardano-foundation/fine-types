@@ -1,0 +1,62 @@
+module Tx where
+
+import Address(Addr, Addr_rwd, Ix, Slot);
+import Crypto(VKey, Sig, ScriptHash, Script, KeyHash_G);
+import PParams(Coin, Epoch, PParamsUpdate);
+import Delegation(DCert);
+import Script(Script^native_v2);
+
+{-----------------------------------------------------------------------------
+    Transactions
+    Shelley spec, Figure 10
+    and Mary spec, Figure 5
+------------------------------------------------------------------------------}
+-- Abstract types
+
+TxId                = _ ; --^ transaction identifier
+Metadatum           = _ ; --^ metadatum
+AuxiliaryDataHash   = _ ; --^ auxiliary data hash
+
+-- Derived types
+
+TxIn                = TxId × Ix; --^ transaction input
+TxOut               = Addr × Coin; --^ transaction output
+UTxO                = TxIn ↦ TxOut; --^ unspent tx outputs
+Wdrl                = Addr_rwd ↦ Coin; --^ reward withdrawal
+Metadata            = ℕ ↦ Metadatum; --^ metadata
+Script              = Script^native_v2;
+
+-- Derived types (update system)
+
+ProposedPPUpdates   = KeyHash_G ↦ PParamsUpdate; --^ proposed updates
+Update              = ProposedPPUpdates × Epoch; --^ update proposal
+
+-- Transaction Types
+
+TxBody              =
+    { txins         : ℙ TxIn  --^ transaction inputs
+    , txouts        : Ix ↦ TxOut  --^  transaction outputs
+    , txcerts       : DCert*  --^ delegation certificates
+    , mint          : {x : Coin | x = 0}  --^ value minted in this transaction
+    , txfee         : Coin  --^ transaction fee
+    , txvldt        : Slot? × Slot?  --^ validity interval
+    , txwdrls       : Wdrl  --^ reward withdrawals
+    , txUpdates     : Update?  --^ protocol parameter update
+    , txADhash      : AuxiliaryDataHash?  --^ auxiliary data hash
+    };
+
+TxWitness           =
+    { txwitsVKey    : VKey ↦ Sig  --^ VKey witnesses
+    , txwitsScript  : ScriptHash ↦ Script  --^ script witnesses
+    };
+
+Tx                  =
+    { txbody        : TxBody  --^ transaction body
+    , txWitness     : TxWitness --^  transaction witnesses
+    , txAD          : AuxiliaryData? --^ auxiliary data
+    };
+
+AuxiliaryData       =
+    { scripts       : ℙ Script  --^ set of native scripts
+    , metadata      : Metadata?  --^ metadata
+    };
