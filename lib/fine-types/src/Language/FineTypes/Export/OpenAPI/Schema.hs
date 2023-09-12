@@ -12,6 +12,7 @@ module Language.FineTypes.Export.OpenAPI.Schema
 
 import Prelude
 
+import Data.Foldable (fold)
 import Data.OpenApi
     ( AdditionalProperties (AdditionalPropertiesAllowed)
     , Components (_componentsSchemas)
@@ -32,6 +33,7 @@ import Data.OpenApi
     , Schema
         ( _schemaAdditionalProperties
         , _schemaAllOf
+        , _schemaDescription
         , _schemaFormat
         , _schemaItems
         , _schemaMinimum
@@ -44,7 +46,10 @@ import Data.OpenApi
     )
 import Language.FineTypes.Module
     ( Declarations
+    , DocString
+    , Documentation (..)
     , Module (..)
+    , Place (..)
     , resolveVars
     )
 import Language.FineTypes.Typ
@@ -54,6 +59,7 @@ import Language.FineTypes.Typ
     , OpTwo (..)
     , Typ (..)
     , TypConst (..)
+    , TypName
     , everything
     , everywhere
     )
@@ -61,6 +67,7 @@ import Language.FineTypes.Typ
 import qualified Data.HashMap.Strict.InsOrd as MH
 import qualified Data.Map as Map
 import qualified Data.Text as T
+import qualified Language.FineTypes.Module as Module
 
 {-----------------------------------------------------------------------------
     OpenAPI
@@ -76,12 +83,14 @@ schemaFromModule m = mempty{_openApiComponents = ds, _openApiInfo = info'}
         mempty
             { _infoTitle = T.pack $ moduleName m
             }
-    ds = mapDeclarations $ moduleDeclarations m
+    ds = mapDeclarations (moduleDocumentation m) (moduleDeclarations m)
 
-mapDeclarations :: Declarations -> Components
-mapDeclarations ds = mkComponents $ do
+mapDeclarations :: Documentation -> Declarations -> Components
+mapDeclarations doc ds = mkComponents $ do
     (typName, typ) <- Map.toList ds
-    pure (T.pack typName, schemaFromTyp typ)
+    let schema0 = schemaFromTyp typ
+        schema1 = addDocumentation doc (typName, typ) schema0
+    pure (T.pack typName, schema1)
   where
     mkComponents xs = mempty{_componentsSchemas = MH.fromList xs}
 
@@ -250,6 +259,53 @@ schemaFromSumN constructors =
                             Just $ AdditionalPropertiesAllowed False
                         }
         }
+
+{-----------------------------------------------------------------------------
+    Documentation
+------------------------------------------------------------------------------}
+
+-- | Postprocess a 'Schema' to add documentation where appropriate.
+addDocumentation :: Documentation -> (TypName, Typ) -> Schema -> Schema
+addDocumentation (Documentation doc) (tname, typ) =
+    describeTyp . decribeConstructorsOrFields
+  where
+    describeTyp =
+        maybe id addDescription $ Map.lookup (Module.Typ tname) doc
+
+    decribeConstructorsOrFields schema = case typ of
+        ProductN fields ->
+            foldr
+                ($)
+                schema
+                [ adjustProperty (addDescription d) fname
+                | (fname, _) <- fields
+                , Just d <- [Map.lookup (Module.Field tname fname) doc]
+                ]
+        SumN constructors ->
+            foldr
+                ($)
+                schema
+                [ adjustProperty (addDescription d) cname
+                | (cname, _) <- constructors
+                , Just d <- [Map.lookup (Module.Constructor tname cname) doc]
+                ]
+        _ -> schema
+
+-- | Adjust a specific entry in the @_schemaProperties@.
+adjustProperty
+    :: (Schema -> Schema) -> String -> (Schema -> Schema)
+adjustProperty f name s =
+    s{_schemaProperties = MH.adjust g (T.pack name) (_schemaProperties s)}
+  where
+    g (Inline a) = Inline (f a)
+    g x@(Ref _) = x
+
+-- | Add a @_schemaDescription@ from documentation.
+addDescription :: Map.Map Place DocString -> Schema -> Schema
+addDescription doc schema =
+    schema{_schemaDescription = Just $ T.pack description}
+  where
+    description = fold doc
 
 {-----------------------------------------------------------------------------
     Preprocessing
