@@ -63,7 +63,6 @@ spec = do
         specParserOnFile "test/data/DocumentationTest.fine"
         prop "holds on random generated modules"
             $ forAllShrink genModule shrinkModule
-            -- forAll genModule
             $ \m ->
                 let output = prettyPrintModule m
                     m' = fixDocumentationIndentation <$> parseFineTypes output
