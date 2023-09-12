@@ -2,11 +2,11 @@ module Language.FineTypes.Cardano.Ledger.ShelleySpec where
 
 import Prelude
 
+import Data.Either (isRight)
 import Language.FineTypes.Module (collectNotInScope)
 import Language.FineTypes.Parser (parseFineTypes, parseFineTypes')
 import Test.Hspec (Spec, describe, it, shouldBe, shouldSatisfy)
 
-import Data.Either (isRight)
 import qualified Data.Set as Set
 
 ledgerShelleySpec :: FilePath -> Spec
@@ -28,3 +28,4 @@ spec = do
     ledgerShelleySpec "test/data/Cardano/Ledger/Shelley/Block.fine"
     ledgerShelleySpec "test/data/Cardano/Ledger/Shelley/Tx.fine"
     ledgerShelleySpec "test/data/Cardano/Ledger/Shelley/Delegation.fine"
+    ledgerShelleySpec "test/data/Cardano/Ledger/Shelley/Script.fine"
