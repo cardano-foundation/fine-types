@@ -11,7 +11,13 @@ import Test.Hspec.QuickCheck (prop)
 import Test.QuickCheck (Gen, forAll)
 
 genValue :: Gen (Typ, Either Typ Value)
-genValue = genTypAndValue (const False) WithoutConstraints Concrete 6
+genValue =
+    genTypAndValue
+        (const True)
+        (const False)
+        WithoutConstraints
+        Concrete
+        6
 
 spec :: Spec
 spec = do

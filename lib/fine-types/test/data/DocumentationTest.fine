@@ -30,3 +30,10 @@ C =
     -}
     c3 : ℤ? --^ Documentation text after a constructor name.
   };
+
+D =
+    { {-| empty line in indented multiline comment
+
+    -}
+    d1 : Unit
+};

@@ -5,7 +5,12 @@ module Language.FineTypes.Typ.Gen where
 
 import Prelude hiding (round)
 
-import Data.Char (isAlphaNum, isPunctuation, isSymbol, toUpper)
+import Data.Char
+    ( isAlphaNum
+    , isPunctuation
+    , isSymbol
+    , toUpper
+    )
 import Data.List (isInfixOf, nub)
 import Data.Traversable (forM)
 import Language.FineTypes.Typ
@@ -75,7 +80,7 @@ onTop Top f = f
 onTop Rest _ = mempty
 
 -- | Generate a random 'Typ'.
-genTypFiltered
+genTyp
     :: (Typ -> Bool)
     -- ^ Whether the generated 'Typ' should be filtered out
     -> WithConstraints
@@ -85,7 +90,7 @@ genTypFiltered
     -> DepthGen
     -- ^ Maximum depth of the generated 'Typ'
     -> Gen Typ
-genTypFiltered out = go Top
+genTyp out = go Top
   where
     go round hasC mode depth = do
         branching <- onWill <$> willBranch depth
@@ -112,9 +117,6 @@ genTypFiltered out = go Top
         oneof expansion `suchThat` (not . out)
       where
         go' = go Rest hasC mode (depth - 1)
-
-genTyp :: WithConstraints -> Mode -> DepthGen -> Gen Typ
-genTyp = genTypFiltered $ const False
 
 genConstraint :: Int -> Gen Constraint
 genConstraint 0 = pure []

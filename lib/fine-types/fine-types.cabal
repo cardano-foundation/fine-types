@@ -62,6 +62,7 @@ library
     , pretty-simple
     , prettyprinter
     , QuickCheck
+    , QuickCheck-GenT
     , text
     , transformers
     , tree-diff
@@ -77,6 +78,7 @@ library
     Language.FineTypes.Parser
     Language.FineTypes.Typ
     Language.FineTypes.Typ.Gen
+    Language.FineTypes.Typ.PrettyPrinter
     Language.FineTypes.Value
     Language.FineTypes.Value.Gen
 

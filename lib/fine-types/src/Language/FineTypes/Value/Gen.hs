@@ -19,7 +19,7 @@ import Language.FineTypes.Typ.Gen
     ( DepthGen
     , Mode (..)
     , WithConstraints (..)
-    , genTypFiltered
+    , genTyp
     , logScale
     )
 import Language.FineTypes.Value
@@ -36,6 +36,7 @@ import Test.QuickCheck
     , getSize
     , listOf
     , oneof
+    , suchThat
     )
 
 import qualified Data.ByteString as B
@@ -122,11 +123,14 @@ genTypValue typ =
 
 genTypAndValue
     :: (Typ -> Bool)
+    -> (Typ -> Bool)
     -> WithConstraints
     -> Mode
     -> DepthGen
     -> Gen (Typ, Either Typ Value)
-genTypAndValue filteringOut contraints concreteness depth = do
-    typ <- genTypFiltered filteringOut contraints concreteness depth
+genTypAndValue topLevelFilterIn filteringOut contraints concreteness depth = do
+    typ <-
+        genTyp filteringOut contraints concreteness depth
+            `suchThat` topLevelFilterIn
     evalue <- genTypValue typ
     pure (typ, evalue)
