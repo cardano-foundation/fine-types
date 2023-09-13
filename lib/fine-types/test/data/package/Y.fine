@@ -1,0 +1,5 @@
+module Y where
+
+import X(A,B);
+
+C = ℚ × B;
