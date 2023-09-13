@@ -109,3 +109,21 @@ test-suite unit
     Language.FineTypes.Export.OpenAPI.ValueSpec
     Language.FineTypes.ParserSpec
     Language.FineTypes.ValueSpec
+
+executable fine-types
+  import:      language, opts-exe
+  hs-source-dirs:
+    app
+  main-is:
+    Main.hs
+  build-depends:
+    , aeson-pretty
+    , base
+    , bytestring
+    , megaparsec
+    , optparse-applicative
+    , fine-types
+    , with-utf8
+    , yaml
+  other-modules:
+    Options
