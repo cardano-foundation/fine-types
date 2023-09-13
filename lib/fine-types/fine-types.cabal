@@ -114,6 +114,7 @@ test-suite unit
     Language.FineTypes.Cardano.Ledger.ShelleySpec
     Language.FineTypes.Export.OpenAPI.SchemaSpec
     Language.FineTypes.Export.OpenAPI.ValueSpec
+    Language.FineTypes.PackageSpec
     Language.FineTypes.ParserSpec
     Language.FineTypes.ValueSpec
 

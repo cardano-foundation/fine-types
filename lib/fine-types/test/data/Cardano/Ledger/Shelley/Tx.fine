@@ -1,8 +1,8 @@
 module Tx where
 
-import Address(Addr, Addr_rwd, Ix);
+import Address(Addr, Addr_rwd, Ix, Slot);
 import Crypto(VKey, Sig, ScriptHash, Script, KeyHash_G);
-import PParams(Coin, Epoch, PParamsUpdate, Slot);
+import PParams(Coin, Epoch, PParamsUpdate);
 import Delegation(DCert);
 
 {-----------------------------------------------------------------------------

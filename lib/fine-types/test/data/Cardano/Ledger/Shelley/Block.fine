@@ -1,7 +1,8 @@
 module Block where
 
+import Address(Slot);
 import Crypto(Proof,Seed,Sig,VKey,VKey_ev);
-import PParams(KESPeriod,ProtVer,Slot);
+import PParams(KESPeriod,ProtVer);
 import Tx(Tx);
 
 {-----------------------------------------------------------------------------
