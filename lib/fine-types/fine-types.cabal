@@ -55,6 +55,7 @@ library
     , bytestring
     , containers
     , deepseq >= 1.4.4
+    , filepath >= 1.4.2
     , insert-ordered-containers
     , megaparsec ^>= 9.2.1
     , openapi3
@@ -75,12 +76,18 @@ library
     Language.FineTypes.Module
     Language.FineTypes.Module.Gen
     Language.FineTypes.Module.PrettyPrinter
+    Language.FineTypes.Package
     Language.FineTypes.Parser
     Language.FineTypes.Typ
     Language.FineTypes.Typ.Gen
     Language.FineTypes.Typ.PrettyPrinter
     Language.FineTypes.Value
     Language.FineTypes.Value.Gen
+  other-modules:
+    Language.FineTypes.Package.Compile
+    Language.FineTypes.Package.Content
+    Language.FineTypes.Package.Description
+    Language.FineTypes.Package.Parser
 
 test-suite unit
   import:      language, opts-exe
