@@ -9,6 +9,7 @@ import Options
     , parseOptions
     )
 
+import Commands.Check (check)
 import Commands.Convert (convert)
 import Commands.Log (inside, withLogPutLn)
 
@@ -18,4 +19,4 @@ main = withUtf8 $ do
     withLogPutLn optLogFile $ \tracer ->
         case optCommand of
             Convert co -> convert (inside "convert" tracer) co
-            Check _ -> error "Not implemented"
+            Check co -> check (inside "check" tracer) co

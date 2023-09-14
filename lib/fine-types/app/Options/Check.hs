@@ -8,12 +8,19 @@ import Options.Applicative
     ( InfoMod
     , Parser
     , header
+    , help
+    , long
+    , metavar
     , progDesc
+    , short
+    , strOption
+    , value
     )
 import Options.Common (inputOption)
 
-newtype CheckOptions = CheckOptions
+data CheckOptions = CheckOptions
     { optInput :: Maybe FilePath
+    , optDir :: FilePath
     }
 
 checkDescr :: InfoMod a
@@ -24,4 +31,16 @@ checkDescr =
         ]
 
 checkOptions :: Parser CheckOptions
-checkOptions = CheckOptions <$> inputOption
+checkOptions = CheckOptions <$> inputOption <*> dirOption
+
+dirOption :: Parser FilePath
+dirOption =
+    strOption
+        ( mconcat
+            [ long "dir"
+            , short 'd'
+            , metavar "DIR"
+            , help "Directory where modules are located"
+            , value "."
+            ]
+        )
