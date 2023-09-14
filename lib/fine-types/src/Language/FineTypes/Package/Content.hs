@@ -66,9 +66,12 @@ includePackage include package
             `Set.intersection` Map.keysSet modulesPackage
 
 data ErrAddModule
-    = ErrModuleAlreadyInScope
-    | ErrImportNotInScope (Set (ModuleName, TypName))
-    | ErrNamesNotInScope (Set TypName)
+    = -- | The module is already in scope.
+      ErrModuleAlreadyInScope
+    | -- | The module imports a type that is not exported.
+      ErrImportNotInScope (Set (ModuleName, TypName))
+    | -- | The added module uses a type which is not defined.
+      ErrNamesNotInScope (Set TypName)
     deriving (Eq, Ord, Show)
 
 -- | Add a module to the current package if possible.

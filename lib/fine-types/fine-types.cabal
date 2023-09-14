@@ -133,10 +133,12 @@ executable fine-types
     , megaparsec
     , optparse-applicative
     , fine-types
+    , prettyprinter
     , with-utf8
     , yaml
   other-modules:
     Commands.Check
+    Commands.Check.PrettyPrinter
     Commands.Common
     Commands.Convert
     Commands.Log

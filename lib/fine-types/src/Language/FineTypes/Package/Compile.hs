@@ -1,7 +1,7 @@
 -- | A package description is a small program which evaluates to a package.
 module Language.FineTypes.Package.Compile
     ( compilePackageDescription
-    , ErrCompilePackage
+    , ErrCompilePackage (..)
     ) where
 
 import Prelude
@@ -42,14 +42,24 @@ import System.IO.Error (catchIOError)
 ------------------------------------------------------------------------------}
 
 data ErrCompilePackage
-    = ErrFile IOError
-    | ErrParseModuleError ModuleName ErrParseModule
-    | ErrParsePackageError PackageName ErrParsePackage
-    | ErrCompilePackage PackageName ErrCompilePackage
-    | ErrIncludePackage PackageName ErrIncludePackage
-    | ErrIncludePackageNameMismatch PackageName PackageName
-    | ErrAddModule ModuleName ErrAddModule
-    | ErrAddModuleNameMismatch ModuleName ModuleName
+    = -- | Error while reading a file.
+      ErrFile IOError
+    | -- | Error while parsing a module.
+      ErrParseModuleError ModuleName ErrParseModule
+    | -- | Error while parsing an included package description.
+      ErrIncludeParsePackageError PackageName ErrParsePackage
+    | -- | Error while compiling an included package.
+      ErrIncludeCompilePackage PackageName ErrCompilePackage
+    | -- | Error while including a package.
+      ErrIncludePackage PackageName ErrIncludePackage
+    | -- | The package name in the include statement does
+      -- not match the included package name
+      ErrIncludePackageNameMismatch PackageName PackageName
+    | -- | Error while adding a module.
+      ErrAddModule ModuleName ErrAddModule
+    | -- | The module name in the module statement does
+      -- not match the included module name
+      ErrAddModuleNameMismatch ModuleName ModuleName
     deriving (Eq, Show)
 
 -- | Compile a package description to a 'Package' or
@@ -74,13 +84,13 @@ execStatement
 execStatement dir pkg (Include includeName source) = do
     file <- loadSource dir source
     description <-
-        exceptT (ErrParsePackageError includeName)
+        exceptT (ErrIncludeParsePackageError includeName)
             $ parsePackageDescription file
     guardExceptT
         (ErrIncludePackageNameMismatch includeName $ packageName description)
         $ includeName == packageName description
     include <-
-        withExceptT (ErrCompilePackage includeName)
+        withExceptT (ErrIncludeCompilePackage includeName)
             $ ExceptT
             $ compilePackageDescription
                 (changeDirectory dir source)
