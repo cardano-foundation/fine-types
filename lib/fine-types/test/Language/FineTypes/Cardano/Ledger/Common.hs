@@ -35,3 +35,16 @@ basePath = joinPath ["test", "data", "Cardano", "Ledger"]
 ledgerMultiFileSpec :: FilePath -> [FilePath] -> Spec
 ledgerMultiFileSpec era =
     traverse_ (ledgerSpec . (\x -> basePath </> era </> x))
+
+-- specOnFile :: FilePath -> FilePath -> Spec
+-- specOnFile dir filename =
+--     describe ("on package " <> fp) $ do
+--         it "parses" $ do
+--             file <- readFile fp
+--             parsePackageDescription file `shouldSatisfy` isRight
+
+--         it "compiles" $ do
+--             file <- readFile fp
+--             Right pkg <- pure $ parsePackageDescription file
+--             epkg <- compilePackageDescription dir pkg
+--             epkg `shouldSatisfy` isRight
