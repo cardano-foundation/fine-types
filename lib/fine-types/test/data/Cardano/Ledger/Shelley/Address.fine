@@ -1,4 +1,4 @@
-module Address where 
+module  Address where
 
 import Crypto(KeyHash, ScriptHash);
 
@@ -9,7 +9,7 @@ import Crypto(KeyHash, ScriptHash);
 
 Slot = ℕ; -- absolute slot number
 Ix = ℕ; -- index
-Network = 
+Network =
     Σ{ Testnet : Unit
      , Mainnet : Unit
      };
@@ -20,39 +20,39 @@ Credential = KeyHash + ScriptHash;
 Ptr = Slot × Ix × Ix;
 
 -- base address
-Addr_base = 
+Addr_base =
     { network : Network
     , credential_pay : Credential
     , credential_stake : Credential
     };
 
 -- pointer address
-Addr_ptr = 
+Addr_ptr =
     { network : Network
     , credential_pay : Credential
     , ptr : Ptr
     };
 
 -- enterprise address
-Addr_enterprise = 
+Addr_enterprise =
     { network : Network
     , credential_pay : Credential
     };
 
 -- bootstrap address
-Addr_bootstrap = 
+Addr_bootstrap =
     { network : Network
     , keyHash_pay : KeyHash
     };
 
 -- output address
-Addr = Addr_base 
-    + Addr_ptr 
-    + Addr_enterprise 
+Addr = Addr_base
+    + Addr_ptr
+    + Addr_enterprise
     + Addr_bootstrap;
 
 -- reward account
-Addr_rwd = 
+Addr_rwd =
     { network : Network
     , credential_stake : Credential
     };
