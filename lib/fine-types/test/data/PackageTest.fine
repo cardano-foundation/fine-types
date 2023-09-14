@@ -1,0 +1,3 @@
+package PackageTest where
+
+include P2 from "package/P2.fine";

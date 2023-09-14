@@ -1,0 +1,4 @@
+package P2 where
+
+include P1 from "P1.fine";
+module Y from "Y.fine";

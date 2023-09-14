@@ -1,7 +1,14 @@
 -- | Parser for a FineTypes 'Module'.
 module Language.FineTypes.Parser
     ( parseFineTypes
+    , ErrParseModule
     , parseFineTypes'
+
+      -- * Exported lexers
+    , space
+    , symbol
+    , moduleName
+    , typName
     ) where
 
 import Prelude
@@ -71,8 +78,10 @@ import qualified Text.Megaparsec.Char.Lexer as L
 parseFineTypes :: String -> Maybe Module
 parseFineTypes = parseMaybe moduleFull
 
-parseFineTypes' :: String -> Either (ParseErrorBundle String Void) Module
+parseFineTypes' :: String -> Either ErrParseModule Module
 parseFineTypes' = parse moduleFull ""
+
+type ErrParseModule = ParseErrorBundle String Void
 
 {-----------------------------------------------------------------------------
     Parser

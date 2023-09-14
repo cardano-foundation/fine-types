@@ -1,0 +1,4 @@
+module X where
+
+A = ℤ;
+B = A + Bytes;
