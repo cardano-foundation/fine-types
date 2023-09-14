@@ -10,16 +10,16 @@ import Language.FineTypes.Export.OpenAPI.Schema (schemaFromModule)
 import Language.FineTypes.Parser (parseFineTypes')
 import Main.Utf8 (withUtf8)
 import Options
-    ( Commands (Convert)
-    , ConvertOptions (..)
-    , Format (..)
-    , LogFile (..)
+    ( Commands (..)
     , Options (..)
     , parseOptions
     )
 import System.Exit (exitFailure)
 import System.IO (Handle, IOMode (..), hPutStrLn, stderr, stdout, withFile)
 import Text.Megaparsec (errorBundlePretty)
+
+import Options.Convert (ConvertOptions (..), Format (..))
+import Options.Log (LogFile (..))
 
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
@@ -30,6 +30,7 @@ main = withUtf8 $ do
     Options{..} <- parseOptions
     case optCommand of
         Convert co -> convert optLogFile co
+        Check _ -> error "Not implemented"
 
 withLogHandle :: LogFile -> (Handle -> IO a) -> IO a
 withLogHandle StdOut f = f stdout

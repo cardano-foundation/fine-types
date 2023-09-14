@@ -136,3 +136,7 @@ executable fine-types
     , yaml
   other-modules:
     Options
+    Options.Check
+    Options.Common
+    Options.Convert
+    Options.Log
