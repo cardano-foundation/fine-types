@@ -129,10 +129,21 @@ executable fine-types
     , aeson-pretty
     , base
     , bytestring
+    , contra-tracer
     , megaparsec
     , optparse-applicative
     , fine-types
+    , prettyprinter
     , with-utf8
     , yaml
   other-modules:
+    Commands.Check
+    Commands.Check.PrettyPrinter
+    Commands.Common
+    Commands.Convert
+    Commands.Log
     Options
+    Options.Check
+    Options.Common
+    Options.Convert
+    Options.Log

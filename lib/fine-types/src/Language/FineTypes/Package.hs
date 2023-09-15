@@ -17,9 +17,9 @@ module Language.FineTypes.Package
 
       -- * Error types
     , ErrParsePackage
-    , ErrCompilePackage
-    , ErrIncludePackage
-    , ErrAddModule
+    , ErrCompilePackage (..)
+    , ErrIncludePackage (..)
+    , ErrAddModule (..)
     ) where
 
 import Language.FineTypes.Package.Compile
