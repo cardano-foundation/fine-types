@@ -24,7 +24,6 @@ import Test.Hspec
 ------------------------------------------------------------------------------}
 spec :: Spec
 spec = do
-    specOnFile "test/data/Cardano/Ledger" "Shelley.fine"
     specOnFile "test/data/" "PackageTest.fine"
 
 specOnFile :: FilePath -> FilePath -> Spec
