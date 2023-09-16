@@ -12,12 +12,13 @@ import Data.Function ((&))
 import Data.Maybe (fromMaybe)
 import Language.FineTypes.Export.OpenAPI.Schema (schemaFromModule)
 import Language.FineTypes.Parser (parseFineTypes')
-import Options.Convert (ConvertOptions (..), Format (Json, Yaml))
+import Options.Convert (ConvertOptions (..), Format (..))
 import Text.Megaparsec.Error (errorBundlePretty)
 
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.Yaml.Pretty as Y
+import qualified Language.FineTypes.Export.Haskell.Typ as Hs
 
 convert :: Tracer IO String -> ConvertOptions -> IO ()
 convert tracer ConvertOptions{..} = do
@@ -41,4 +42,7 @@ convert tracer ConvertOptions{..} = do
                 Yaml ->
                     Y.encodePretty Y.defConfig schema
                         & maybe B.putStr B.writeFile optOutput
+                Haskell ->
+                    Hs.prettyPrint (Hs.haskellFromModule m')
+                        & maybe putStr writeFile optOutput
             trace "Success!"

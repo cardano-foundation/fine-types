@@ -17,7 +17,7 @@ import Options.Applicative
     )
 import Options.Common (inputOption, outputOption)
 
-data Format = Json | Yaml
+data Format = Json | Yaml | Haskell
 
 data ConvertOptions = ConvertOptions
     { optInput :: Maybe FilePath
@@ -38,7 +38,12 @@ convertOptions = do
     output <- outputOption
     format <-
         asum
-            [ flag' Json
+            [ flag' Haskell
+                $ mconcat
+                    [ long "haskell"
+                    , help "output as Haskell module"
+                    ]
+            , flag' Json
                 $ mconcat
                     [ long "json"
                     , help "output in json format"
