@@ -22,7 +22,7 @@ generateSources lbi =
         callProcess
             "fine-types"
             [ "convert"
-            , "--haskell"
+            , "haskell"
             , "-i"
             , "test/data/HaskellUTxO.fine"
             , "-o"

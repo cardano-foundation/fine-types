@@ -12,7 +12,7 @@ import Data.Function ((&))
 import Data.Maybe (fromMaybe)
 import Language.FineTypes.Export.OpenAPI.Schema (schemaFromModule)
 import Language.FineTypes.Parser (parseFineTypes')
-import Options.Convert (ConvertOptions (..), Format (..))
+import Options.Convert (ConvertOptions (..), Format (..), Schema (..))
 import Text.Megaparsec.Error (errorBundlePretty)
 
 import qualified Data.ByteString as B
@@ -35,14 +35,14 @@ convert tracer ConvertOptions{..} = do
             trace $ errorBundlePretty e
         Right m' -> do
             let schema = schemaFromModule m'
-            case optFormat of
-                Json ->
+            case optSchema of
+                JsonSchema Json ->
                     encodePretty schema
                         & maybe BL.putStr BL.writeFile optOutput
-                Yaml ->
+                JsonSchema Yaml ->
                     Y.encodePretty Y.defConfig schema
                         & maybe B.putStr B.writeFile optOutput
-                Haskell ->
+                HaskellSchema ->
                     Hs.prettyPrint (Hs.haskellFromModule m')
                         & maybe putStr writeFile optOutput
             trace "Success!"

@@ -5,7 +5,8 @@ module Options where
 import Prelude
 
 import Options.Applicative
-    ( command
+    ( Parser
+    , command
     , execParser
     , fullDesc
     , header
@@ -36,12 +37,13 @@ parseOptions =
   where
     options = Options <$> commands <*> optionLogFile
 
-    commands =
-        hsubparser
-            $ mconcat
-                [ command "convert"
-                    $ info (Convert <$> convertOptions) convertDescr
-                , command "check"
-                    $ info (Check <$> checkOptions) checkDescr
-                    -- other commands go here
-                ]
+commands :: Parser Commands
+commands =
+    hsubparser
+        $ mconcat
+            [ command "convert"
+                $ info (Convert <$> convertOptions) convertDescr
+            , command "check"
+                $ info (Check <$> checkOptions) checkDescr
+                -- other commands go here
+            ]
