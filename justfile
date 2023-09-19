@@ -37,4 +37,5 @@ prepare: format lint build0 test
 
 
 @run *args='--help':
+    just build0
     cabal exec -v0 -O0 -j fine-types -- $@

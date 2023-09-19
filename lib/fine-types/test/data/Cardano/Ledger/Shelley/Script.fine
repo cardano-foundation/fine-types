@@ -1,0 +1,16 @@
+module Script where
+
+import Crypto(KeyHash);
+
+{-------------------------------------------------------------------------------
+  Native Scripts
+  Shelley spec, Figure 4
+-------------------------------------------------------------------------------}
+Script = MSig;
+
+MSig =
+    Σ{ RequireSig        : KeyHash
+     , RequireAllOf      : Script*
+     , RequireAnyOf      : Script*
+     , RequireMOfN       : ℕ × Script*
+     };

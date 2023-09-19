@@ -104,6 +104,7 @@ test-suite unit
     , filepath
     , fine-types
     , hspec ^>= 2.11.0
+    , megaparsec
     , openapi3
     , pretty-simple
     , QuickCheck
@@ -112,6 +113,8 @@ test-suite unit
   main-is:
     Spec.hs
   other-modules:
+    Language.FineTypes.Cardano.Ledger.AllegraSpec
+    Language.FineTypes.Cardano.Ledger.Common
     Language.FineTypes.Cardano.Ledger.ShelleySpec
     Language.FineTypes.Export.OpenAPI.SchemaSpec
     Language.FineTypes.Export.OpenAPI.ValueSpec
