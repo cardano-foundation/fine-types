@@ -87,6 +87,7 @@ library
     Language.FineTypes.Typ
     Language.FineTypes.Typ.Gen
     Language.FineTypes.Typ.PrettyPrinter
+    Language.FineTypes.Typ.Rewrite.Maps
     Language.FineTypes.Value
     Language.FineTypes.Value.Gen
   other-modules:
@@ -131,6 +132,7 @@ test-suite unit
     Language.FineTypes.Export.OpenAPI.ValueSpec
     Language.FineTypes.PackageSpec
     Language.FineTypes.ParserSpec
+    Language.FineTypes.TypSpec
     Language.FineTypes.ValueSpec
 
 executable fine-types

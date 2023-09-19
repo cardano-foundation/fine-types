@@ -21,6 +21,9 @@ module Language.FineTypes.Module
     , resolveImports
     , collectNotInScope
     , resolveVars
+
+      -- * Traversals
+    , fmapTyp
     ) where
 
 import Prelude
@@ -169,3 +172,6 @@ collectVars = everything (<>) vars
   where
     vars (Var name) = Set.singleton name
     vars _ = Set.empty
+
+fmapTyp :: (Typ -> Typ) -> Module -> Module
+fmapTyp f m = m{moduleDeclarations = f <$> moduleDeclarations m}
