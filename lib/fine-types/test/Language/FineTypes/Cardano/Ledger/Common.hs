@@ -35,7 +35,7 @@ moduleSpec fp = do
             collectNotInScope m `shouldBe` Set.empty
 
 basePath :: FilePath
-basePath = joinPath ["test", "data", "Cardano", "Ledger"]
+basePath = joinPath ["test", "data", "Cardano", "Ledger", "Specs"]
 
 moduleMultiFileSpec :: FilePath -> [FilePath] -> Spec
 moduleMultiFileSpec era =
