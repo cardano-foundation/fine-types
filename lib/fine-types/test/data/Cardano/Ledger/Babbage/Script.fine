@@ -1,0 +1,20 @@
+module Script where
+
+import Address(Slot);
+import Crypto(KeyHash);
+
+{-------------------------------------------------------------------------------
+  Native Scripts
+  Mary spec, Figure 12
+-------------------------------------------------------------------------------}
+
+Script^native_v2          =
+    Σ{ Signature          : KeyHash
+     , AllOf              : Script^native_v2*
+     , AnyOf              : Script^native_v2*
+     , MOfN               : ℕ × Script^native_v2*
+     , RequireTimeStart   : Slot
+     , RequireTimeExpire  : Slot
+     };
+
+Script^ph1               = Script^native_v2;

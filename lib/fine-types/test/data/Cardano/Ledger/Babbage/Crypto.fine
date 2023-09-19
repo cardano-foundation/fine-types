@@ -1,0 +1,35 @@
+module Crypto where
+
+{-----------------------------------------------------------------------------
+    Cryptographic definitions
+    Shelley spec, Figure 2
+    Alonzo spec, Figure 21
+------------------------------------------------------------------------------}
+
+VKey          = _ ; --^ public verifying key
+KeyHash       = _ ; --^ hash of a public key
+Sig           = _ ; --^ signature
+Script        = _ ; --^ multi-signature script
+ScriptHash    = _ ; --^ hash of a script
+DataHash      = _ ; --^ hash of data
+
+{-----------------------------------------------------------------------------
+    KES Cryptographic definitions
+    Shelley spec, Figure 3
+------------------------------------------------------------------------------}
+
+VKey_ev       = _; --^ public verifying key
+
+{-----------------------------------------------------------------------------
+    VRF definitions
+    Shelley spec, Figure 5
+------------------------------------------------------------------------------}
+
+Seed          = ℕ; --^ seed for pseudo-random number generator
+Proof         = _; --^ VRF proof
+
+{-----------------------------------------------------------------------------
+    Specialized synonyms
+------------------------------------------------------------------------------}
+KeyHash_G     = KeyHash;
+KeyHash_vrf   = KeyHash;

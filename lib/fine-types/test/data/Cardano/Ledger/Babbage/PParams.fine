@@ -1,0 +1,78 @@
+module PParams where
+
+import Crypto(Seed);
+import CostModel(CostModel, Language, Prices, ExUnits);
+
+{-----------------------------------------------------------------------------
+    Protocol parameters
+    Shelley spec, Figure 7
+    Alonzo spec, Figure 1
+------------------------------------------------------------------------------}
+
+Epoch                     = ℕ; --^ epoch number
+KESPeriod                 = ℕ; --^ KES period
+
+Coin                      = ℤ; --^ unit of value
+ProtVer                   = ℕ × ℕ; --^ protocol version
+
+-- Note                   :
+-- The Shelley ledger specification models  PParams  as a dependent function
+-- in order to model  PParamsUpdate  as a finite map where only a few selected
+-- parameters are highlighted for an update.
+-- This is clever, but for the sake of simplicity,
+-- we use a more pedestrian approach here and model both types as products
+-- with field names.
+
+PParams                   =
+    { a                   : ℤ  --^ min fee factor
+    , b                   : ℤ  --^ min fee constant
+    , maxBlockSize        : ℕ  --^ max block body size
+    , maxTxSize           : ℕ  --^ max transaction size
+    , maxHeaderSize       : ℕ  --^ max block header size
+    , poolDeposit         : Coin  --^ stake pool deposit
+    , E_max               : Epoch  --^ epoch bound on pool retirement
+    , n_opt               : { x : ℕ | x > 0 }  --^ desired number of pools
+    , a_0                 : { x : ℚ | x ∈ [0, ∞) }  --^ pool influence
+    , τ                   : { y : ℚ | y ∈ [0, 1] }  --^ treasury expansion
+    , ρ                   : { x : ℚ | x ∈ [0, 1] }  --^ monetary expansion
+    , d                   : { x : ℚ | x ∈ {0 , 1/100, 2/100, ... , 1} }
+                            --^ decentralization parameter
+    , extraEntropy        : Seed  --^ extra entropy
+    , pv                  : ProtVer  --^ protocol version
+    , minPoolCost         : Coin  --^ minimum allowed stake pool cost
+    , costmdls            : Language ↦ CostModel
+    , prices              : Prices
+    , maxTxExUnits        : ExUnits
+    , maxBlockExUnits     : ExUnits
+    , maxValSize          : ℕ
+    , coinsPerUTxOWord    : Coin
+    , collateralPercent   : ℕ
+    , maxCollateralInputs : ℕ
+    };
+
+--| Like PParams, but with a ? for every field.
+PParamsUpdate             =
+    { a                   : ℤ ?
+    , b                   : ℤ ?
+    , maxBlockSize        : ℕ ?
+    , maxTxSize           : ℕ ?
+    , maxHeaderSize       : ℕ ?
+    , poolDeposit         : Coin ?
+    , E_max               : Epoch ?
+    , n_opt               : { x : ℕ | x > 0 } ?
+    , a_0                 : { x : ℚ | x ∈ [0, ∞) } ?
+    , τ                   : { y : ℚ | y ∈ [0, 1] } ?
+    , ρ                   : { x : ℚ | x ∈ [0, 1] } ?
+    , d                   : { x : ℚ | x ∈ {0 , 1/100, 2/100, ... , 1} } ?
+    , extraEntropy        : Seed ?
+    , pv                  : ProtVer ?
+    , minPoolCost         : Coin ?
+    , costmdls            : (Language ↦ CostModel) ?
+    , prices              : Prices ?
+    , maxTxExUnits        : ExUnits ?
+    , maxBlockExUnits     : ExUnits ?
+    , maxValSize          : ℕ ?
+    , coinsPerUTxOWord    : Coin ?
+    , collateralPercent   : ℕ ?
+    , maxCollateralInputs : ℕ ?
+    };
