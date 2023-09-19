@@ -88,6 +88,7 @@ library
     Language.FineTypes.Typ.Gen
     Language.FineTypes.Typ.PrettyPrinter
     Language.FineTypes.Typ.Rewrite.Maps
+    Language.FineTypes.Typ.Rewrite.Constraints
     Language.FineTypes.Value
     Language.FineTypes.Value.Gen
   other-modules:

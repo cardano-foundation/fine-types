@@ -29,9 +29,10 @@ import Language.FineTypes.Typ
     )
 import Language.FineTypes.Typ.Gen
     ( Mode (Concrete)
-    , WithConstraints (WithoutConstraints)
+    , WithConstraints (..)
     , genTyp
     )
+import Language.FineTypes.Typ.Rewrite.Constraints (removeConstraints)
 import Language.FineTypes.Typ.Rewrite.Maps (rewriteMapsAsTuples)
 import Language.FineTypes.Value (Value)
 import Language.FineTypes.Value.Gen (genTypAndValue, genTypValue)
@@ -101,7 +102,15 @@ spec = do
                 )
             $ uncurry validateJSONSchema
 
-    describe "Schema derived from a rewritten module" $ do
+    describe "Schema derived with constraints from a rewritten module" $ do
+        prop "validates json values computed from the same rewritten module"
+            $ forAll
+                (genTyp (const False) WithConstraints Concrete 6)
+            $ \typ ->
+                let typ' = removeConstraints $ rewriteMapsAsTuples typ
+                in  forAll (genTypValue typ') $ validateJSONSchema typ'
+
+    describe "Schema derived without constraints from a rewritten module" $ do
         prop "validates json values computed from the same rewritten module"
             $ forAll
                 (genTyp (const False) WithoutConstraints Concrete 6)
