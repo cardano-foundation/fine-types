@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="annot"><span class="hs-comment">-- | Utilities concerning the Haskell language.</span></span><span>
+</span><span id="line-2"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Export.Haskell.Language</span><span>
+</span><span id="line-3"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#raiseFirstLetter"><span class="hs-identifier">raiseFirstLetter</span></a></span><span>
+</span><span id="line-4"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#hsType"><span class="hs-identifier">hsType</span></a></span><span>
+</span><span id="line-5"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#hsList"><span class="hs-identifier">hsList</span></a></span><span>
+</span><span id="line-6"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#hsUnit"><span class="hs-identifier">hsUnit</span></a></span><span>
+</span><span id="line-7"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#hsPair"><span class="hs-identifier">hsPair</span></a></span><span>
+</span><span id="line-8"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#hsImportQualified"><span class="hs-identifier">hsImportQualified</span></a></span><span>
+</span><span id="line-9"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#hsImportQualifiedAs"><span class="hs-identifier">hsImportQualifiedAs</span></a></span><span>
+</span><span id="line-10"></span><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-11"></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-13"></span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html"><span class="hs-identifier">Language.FineTypes.Typ</span></a></span><span>
+</span><span id="line-15"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier">TypName</span></a></span><span>
+</span><span id="line-16"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-17"></span><span>
+</span><span id="line-18"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Char</span></span><span>
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Language.Haskell.Exts.Simple</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Hs</span></span><span>
+</span><span id="line-20"></span><span>
+</span><span id="line-21"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+    Haskell language utilities
+------------------------------------------------------------------------------}</span><span>
+</span><span id="line-24"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#raiseFirstLetter"><span class="hs-identifier hs-type">raiseFirstLetter</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-25"></span><span id="raiseFirstLetter"><span class="annot"><span class="annottext">raiseFirstLetter :: String -&gt; String
+</span><a href="Language.FineTypes.Export.Haskell.Language.html#raiseFirstLetter"><span class="hs-identifier hs-var hs-var">raiseFirstLetter</span></a></span></span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><span id="line-26"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#raiseFirstLetter"><span class="hs-identifier hs-var">raiseFirstLetter</span></a></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679181094"><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679181094"><span class="hs-identifier hs-var">c</span></a></span></span><span> </span><span class="annot"><span class="hs-glyph hs-type">:</span></span><span> </span><span id="local-6989586621679181095"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679181095"><span class="hs-identifier hs-var">cs</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Char -&gt; Char
+</span><span class="hs-identifier hs-var">Data.Char.toUpper</span></span><span> </span><span class="annot"><span class="annottext">Char
+</span><a href="#local-6989586621679181094"><span class="hs-identifier hs-var">c</span></a></span><span> </span><span class="annot"><span class="annottext">Char -&gt; String -&gt; String
+forall a. a -&gt; [a] -&gt; [a]
+</span><span class="hs-glyph hs-var">:</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679181095"><span class="hs-identifier hs-var">cs</span></a></span><span>
+</span><span id="line-27"></span><span>
+</span><span id="line-28"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#hsType"><span class="hs-identifier hs-type">hsType</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Hs.Type</span></span><span>
+</span><span id="line-29"></span><span id="hsType"><span class="annot"><span class="annottext">hsType :: String -&gt; Type
+</span><a href="Language.FineTypes.Export.Haskell.Language.html#hsType"><span class="hs-identifier hs-var hs-var">hsType</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">QName -&gt; Type
+</span><span class="hs-identifier hs-var">Hs.TyCon</span></span><span> </span><span class="annot"><span class="annottext">(QName -&gt; Type) -&gt; (String -&gt; QName) -&gt; String -&gt; Type
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Name -&gt; QName
+</span><span class="hs-identifier hs-var">Hs.UnQual</span></span><span> </span><span class="annot"><span class="annottext">(Name -&gt; QName) -&gt; (String -&gt; Name) -&gt; String -&gt; QName
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; Name
+</span><span class="hs-identifier hs-var">Hs.Ident</span></span><span>
+</span><span id="line-30"></span><span>
+</span><span id="line-31"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#hsList"><span class="hs-identifier hs-type">hsList</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Hs.Type</span></span><span>
+</span><span id="line-32"></span><span id="hsList"><span class="annot"><span class="annottext">hsList :: Type
+</span><a href="Language.FineTypes.Export.Haskell.Language.html#hsList"><span class="hs-identifier hs-var hs-var">hsList</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">QName -&gt; Type
+</span><span class="hs-identifier hs-var">Hs.TyCon</span></span><span> </span><span class="annot"><span class="annottext">(QName -&gt; Type) -&gt; QName -&gt; Type
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">SpecialCon -&gt; QName
+</span><span class="hs-identifier hs-var">Hs.Special</span></span><span> </span><span class="annot"><span class="annottext">SpecialCon
+</span><span class="hs-identifier hs-var">Hs.ListCon</span></span><span>
+</span><span id="line-33"></span><span>
+</span><span id="line-34"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#hsPair"><span class="hs-identifier hs-type">hsPair</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Hs.Type</span></span><span>
+</span><span id="line-35"></span><span id="hsPair"><span class="annot"><span class="annottext">hsPair :: Type
+</span><a href="Language.FineTypes.Export.Haskell.Language.html#hsPair"><span class="hs-identifier hs-var hs-var">hsPair</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">QName -&gt; Type
+</span><span class="hs-identifier hs-var">Hs.TyCon</span></span><span> </span><span class="annot"><span class="annottext">(QName -&gt; Type) -&gt; QName -&gt; Type
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">SpecialCon -&gt; QName
+</span><span class="hs-identifier hs-var">Hs.Special</span></span><span> </span><span class="annot"><span class="annottext">(SpecialCon -&gt; QName) -&gt; SpecialCon -&gt; QName
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Boxed -&gt; Int -&gt; SpecialCon
+</span><span class="hs-identifier hs-var">Hs.TupleCon</span></span><span> </span><span class="annot"><span class="annottext">Boxed
+</span><span class="hs-identifier hs-var">Hs.Boxed</span></span><span> </span><span class="annot"><span class="annottext">Int
+</span><span class="hs-number">2</span></span><span>
+</span><span id="line-36"></span><span>
+</span><span id="line-37"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#hsUnit"><span class="hs-identifier hs-type">hsUnit</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Hs.Type</span></span><span>
+</span><span id="line-38"></span><span id="hsUnit"><span class="annot"><span class="annottext">hsUnit :: Type
+</span><a href="Language.FineTypes.Export.Haskell.Language.html#hsUnit"><span class="hs-identifier hs-var hs-var">hsUnit</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">QName -&gt; Type
+</span><span class="hs-identifier hs-var">Hs.TyCon</span></span><span> </span><span class="annot"><span class="annottext">(QName -&gt; Type) -&gt; QName -&gt; Type
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">SpecialCon -&gt; QName
+</span><span class="hs-identifier hs-var">Hs.Special</span></span><span> </span><span class="annot"><span class="annottext">SpecialCon
+</span><span class="hs-identifier hs-var">Hs.UnitCon</span></span><span>
+</span><span id="line-39"></span><span>
+</span><span id="line-40"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#hsImportQualified"><span class="hs-identifier hs-type">hsImportQualified</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Hs.ImportDecl</span></span><span>
+</span><span id="line-41"></span><span id="hsImportQualified"><span class="annot"><span class="annottext">hsImportQualified :: String -&gt; ImportDecl
+</span><a href="Language.FineTypes.Export.Haskell.Language.html#hsImportQualified"><span class="hs-identifier hs-var hs-var">hsImportQualified</span></a></span></span><span> </span><span id="local-6989586621679181106"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679181106"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-42"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Hs.ImportDecl</span></span><span>
+</span><span id="line-43"></span><span>        </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">importModule :: ModuleName ()
+</span><span class="hs-identifier hs-var">Hs.importModule</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; ModuleName ()
+</span><span class="hs-identifier hs-var">Hs.ModuleName</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679181106"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-44"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">importQualified :: Bool
+</span><span class="hs-identifier hs-var">Hs.importQualified</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">True</span></span><span>
+</span><span id="line-45"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">importSrc :: Bool
+</span><span class="hs-identifier hs-var">Hs.importSrc</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">False</span></span><span>
+</span><span id="line-46"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">importSafe :: Bool
+</span><span class="hs-identifier hs-var">Hs.importSafe</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">False</span></span><span>
+</span><span id="line-47"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">importPkg :: Maybe String
+</span><span class="hs-identifier hs-var">Hs.importPkg</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe String
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span>
+</span><span id="line-48"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">importAs :: Maybe (ModuleName ())
+</span><span class="hs-identifier hs-var">Hs.importAs</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (ModuleName ())
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span>
+</span><span id="line-49"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">importSpecs :: Maybe (ImportSpecList ())
+</span><span class="hs-identifier hs-var">Hs.importSpecs</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (ImportSpecList ())
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span>
+</span><span id="line-50"></span><span>        </span><span class="hs-special">}</span><span>
+</span><span id="line-51"></span><span>
+</span><span id="line-52"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#hsImportQualifiedAs"><span class="hs-identifier hs-type">hsImportQualifiedAs</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Hs.ImportDecl</span></span><span>
+</span><span id="line-53"></span><span id="hsImportQualifiedAs"><span class="annot"><span class="annottext">hsImportQualifiedAs :: String -&gt; String -&gt; ImportDecl
+</span><a href="Language.FineTypes.Export.Haskell.Language.html#hsImportQualifiedAs"><span class="hs-identifier hs-var hs-var">hsImportQualifiedAs</span></a></span></span><span> </span><span id="local-6989586621679181116"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679181116"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621679181117"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679181117"><span class="hs-keyword hs-var">as</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-54"></span><span>    </span><span class="annot"><span class="hs-identifier hs-type">Hs.ImportDecl</span></span><span>
+</span><span id="line-55"></span><span>        </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">importModule :: ModuleName ()
+</span><span class="hs-identifier hs-var">Hs.importModule</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; ModuleName ()
+</span><span class="hs-identifier hs-var">Hs.ModuleName</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679181116"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-56"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">importQualified :: Bool
+</span><span class="hs-identifier hs-var">Hs.importQualified</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">True</span></span><span>
+</span><span id="line-57"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">importSrc :: Bool
+</span><span class="hs-identifier hs-var">Hs.importSrc</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">False</span></span><span>
+</span><span id="line-58"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">importSafe :: Bool
+</span><span class="hs-identifier hs-var">Hs.importSafe</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">False</span></span><span>
+</span><span id="line-59"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">importPkg :: Maybe String
+</span><span class="hs-identifier hs-var">Hs.importPkg</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe String
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span>
+</span><span id="line-60"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">importAs :: Maybe (ModuleName ())
+</span><span class="hs-identifier hs-var">Hs.importAs</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ModuleName () -&gt; Maybe (ModuleName ())
+forall a. a -&gt; Maybe a
+</span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">(ModuleName () -&gt; Maybe (ModuleName ()))
+-&gt; ModuleName () -&gt; Maybe (ModuleName ())
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ModuleName ()
+</span><span class="hs-identifier hs-var">Hs.ModuleName</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679181117"><span class="hs-keyword hs-var">as</span></a></span><span>
+</span><span id="line-61"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">importSpecs :: Maybe (ImportSpecList ())
+</span><span class="hs-identifier hs-var">Hs.importSpecs</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Maybe (ImportSpecList ())
+forall a. Maybe a
+</span><span class="hs-identifier hs-var">Nothing</span></span><span>
+</span><span id="line-62"></span><span>        </span><span class="hs-special">}</span><span>
+</span><span id="line-63"></span></pre></body></html>

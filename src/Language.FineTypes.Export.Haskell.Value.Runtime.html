@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# HLINT ignore &quot;Use bimap&quot; #-}</span><span>
+</span><span id="line-4"></span><span>
+</span><span id="line-5"></span><span class="annot"><span class="hs-comment">-- | Export values of Haskell types to 'Value'.</span></span><span>
+</span><span id="line-6"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Export.Haskell.Value.Runtime</span><span>
+</span><span id="line-7"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier">ToValue</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-8"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Value.html#Value"><span class="hs-identifier">V.Value</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-9"></span><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-10"></span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-operator">(.)</span></span><span class="hs-special">)</span><span>
+</span><span id="line-12"></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><a href="Language.FineTypes.Value.html"><span class="hs-identifier">Language.FineTypes.Value</span></a></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">V</span></span><span>
+</span><span id="line-14"></span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.ByteString</span></span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Set</span></span><span>
+</span><span id="line-18"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Text</span></span><span>
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Numeric.Natural</span></span><span>
+</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-21"></span><span>
+</span><span id="line-22"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+    Runtime definitions
+------------------------------------------------------------------------------}</span><span>
+</span><span id="line-25"></span><span>
+</span><span id="line-26"></span><span class="hs-comment">-- | Class of types that can be converted to 'Value'.</span><span>
+</span><span id="line-27"></span><span class="hs-comment">--</span><span>
+</span><span id="line-28"></span><span class="hs-comment">-- Note: The 'Ord' constraint is necessary to deal with 'Set'.</span><span>
+</span><span id="line-29"></span><span class="hs-keyword">class</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Prelude.Ord</span></span><span> </span><span class="annot"><a href="#local-6989586621679183718"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span id="ToValue"><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-var">ToValue</span></a></span></span><span> </span><span id="local-6989586621679183718"><span class="annot"><a href="#local-6989586621679183718"><span class="hs-identifier hs-type">a</span></a></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-30"></span><span>    </span><span id="toValue"><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-type">toValue</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="#local-6989586621679183718"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Value.html#Value"><span class="hs-identifier hs-type">V.Value</span></a></span><span>
+</span><span id="line-31"></span><span>
+</span><span id="line-32"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#z"><span class="hs-identifier hs-type">z</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Value.html#ZeroF"><span class="hs-identifier hs-type">V.ZeroF</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Value.html#Value"><span class="hs-identifier hs-type">V.Value</span></a></span><span>
+</span><span id="line-33"></span><span id="z"><span class="annot"><span class="annottext">z :: ZeroF -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#z"><span class="hs-identifier hs-var hs-var">z</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ZeroF -&gt; Value
+</span><a href="Language.FineTypes.Value.html#Zero"><span class="hs-identifier hs-var">V.Zero</span></a></span><span>
+</span><span id="line-34"></span><span>
+</span><span id="line-35"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Prelude.Bool</span></span><span> </span><span class="hs-keyword">where</span><span> </span><span id="local-6989586621679183782"><span class="annot"><span class="annottext">toValue :: Bool -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var hs-var hs-var hs-var">toValue</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ZeroF -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#z"><span class="hs-identifier hs-var">z</span></a></span><span> </span><span class="annot"><span class="annottext">(ZeroF -&gt; Value) -&gt; (Bool -&gt; ZeroF) -&gt; Bool -&gt; Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Bool -&gt; ZeroF
+</span><a href="Language.FineTypes.Value.html#Bool"><span class="hs-identifier hs-var">V.Bool</span></a></span><span>
+</span><span id="line-36"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Data.ByteString.ByteString</span></span><span> </span><span class="hs-keyword">where</span><span> </span><span id="local-6989586621679183789"><span class="annot"><span class="annottext">toValue :: ByteString -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var hs-var hs-var hs-var">toValue</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ZeroF -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#z"><span class="hs-identifier hs-var">z</span></a></span><span> </span><span class="annot"><span class="annottext">(ZeroF -&gt; Value) -&gt; (ByteString -&gt; ZeroF) -&gt; ByteString -&gt; Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; ZeroF
+</span><a href="Language.FineTypes.Value.html#Bytes"><span class="hs-identifier hs-var">V.Bytes</span></a></span><span>
+</span><span id="line-37"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Prelude.Integer</span></span><span> </span><span class="hs-keyword">where</span><span> </span><span id="local-6989586621679183796"><span class="annot"><span class="annottext">toValue :: Integer -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var hs-var hs-var hs-var">toValue</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ZeroF -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#z"><span class="hs-identifier hs-var">z</span></a></span><span> </span><span class="annot"><span class="annottext">(ZeroF -&gt; Value) -&gt; (Integer -&gt; ZeroF) -&gt; Integer -&gt; Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Integer -&gt; ZeroF
+</span><a href="Language.FineTypes.Value.html#Integer"><span class="hs-identifier hs-var">V.Integer</span></a></span><span>
+</span><span id="line-38"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Numeric.Natural.Natural</span></span><span> </span><span class="hs-keyword">where</span><span> </span><span id="local-6989586621679183803"><span class="annot"><span class="annottext">toValue :: Natural -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var hs-var hs-var hs-var">toValue</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ZeroF -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#z"><span class="hs-identifier hs-var">z</span></a></span><span> </span><span class="annot"><span class="annottext">(ZeroF -&gt; Value) -&gt; (Natural -&gt; ZeroF) -&gt; Natural -&gt; Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Natural -&gt; ZeroF
+</span><a href="Language.FineTypes.Value.html#Natural"><span class="hs-identifier hs-var">V.Natural</span></a></span><span>
+</span><span id="line-39"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Data.Text.Text</span></span><span> </span><span class="hs-keyword">where</span><span> </span><span id="local-6989586621679183810"><span class="annot"><span class="annottext">toValue :: Text -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var hs-var hs-var hs-var">toValue</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ZeroF -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#z"><span class="hs-identifier hs-var">z</span></a></span><span> </span><span class="annot"><span class="annottext">(ZeroF -&gt; Value) -&gt; (Text -&gt; ZeroF) -&gt; Text -&gt; Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; ZeroF
+</span><a href="Language.FineTypes.Value.html#Text"><span class="hs-identifier hs-var">V.Text</span></a></span><span>
+</span><span id="line-40"></span><span class="hs-keyword">instance</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span> </span><span id="local-6989586621679183817"><span class="annot"><span class="annottext">toValue :: () -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var hs-var hs-var hs-var">toValue</span></a></span></span><span> </span><span class="annot"><span class="annottext">()
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ZeroF -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#z"><span class="hs-identifier hs-var">z</span></a></span><span> </span><span class="annot"><span class="annottext">ZeroF
+</span><a href="Language.FineTypes.Value.html#Unit"><span class="hs-identifier hs-var">V.Unit</span></a></span><span>
+</span><span id="line-41"></span><span>
+</span><span id="line-42"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679183729"><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679183729"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Prelude.Maybe</span></span><span> </span><span class="annot"><a href="#local-6989586621679183729"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-43"></span><span>    </span><span id="local-6989586621679183829"><span class="annot"><span class="annottext">toValue :: Maybe a -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var hs-var hs-var hs-var">toValue</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">OneF Value -&gt; Value
+</span><a href="Language.FineTypes.Value.html#One"><span class="hs-identifier hs-var">V.One</span></a></span><span> </span><span class="annot"><span class="annottext">(OneF Value -&gt; Value)
+-&gt; (Maybe a -&gt; OneF Value) -&gt; Maybe a -&gt; Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Maybe Value -&gt; OneF Value
+forall a. Maybe a -&gt; OneF a
+</span><a href="Language.FineTypes.Value.html#Option"><span class="hs-identifier hs-var">V.Option</span></a></span><span> </span><span class="annot"><span class="annottext">(Maybe Value -&gt; OneF Value)
+-&gt; (Maybe a -&gt; Maybe Value) -&gt; Maybe a -&gt; OneF Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(a -&gt; Value) -&gt; Maybe a -&gt; Maybe Value
+forall a b. (a -&gt; b) -&gt; Maybe a -&gt; Maybe b
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-identifier hs-var">Prelude.fmap</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; Value
+forall a. ToValue a =&gt; a -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var">toValue</span></a></span><span>
+</span><span id="line-44"></span><span>
+</span><span id="line-45"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679183737"><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679183737"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="#local-6989586621679183737"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">]</span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-46"></span><span>    </span><span id="local-6989586621679183842"><span class="annot"><span class="annottext">toValue :: [a] -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var hs-var hs-var hs-var">toValue</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">OneF Value -&gt; Value
+</span><a href="Language.FineTypes.Value.html#One"><span class="hs-identifier hs-var">V.One</span></a></span><span> </span><span class="annot"><span class="annottext">(OneF Value -&gt; Value) -&gt; ([a] -&gt; OneF Value) -&gt; [a] -&gt; Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">[Value] -&gt; OneF Value
+forall a. [a] -&gt; OneF a
+</span><a href="Language.FineTypes.Value.html#Sequence"><span class="hs-identifier hs-var">V.Sequence</span></a></span><span> </span><span class="annot"><span class="annottext">([Value] -&gt; OneF Value) -&gt; ([a] -&gt; [Value]) -&gt; [a] -&gt; OneF Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(a -&gt; Value) -&gt; [a] -&gt; [Value]
+forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-identifier hs-var">Prelude.fmap</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; Value
+forall a. ToValue a =&gt; a -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var">toValue</span></a></span><span>
+</span><span id="line-47"></span><span>
+</span><span id="line-48"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679183741"><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679183741"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Data.Set.Set</span></span><span> </span><span class="annot"><a href="#local-6989586621679183741"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">)</span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-49"></span><span>    </span><span id="local-6989586621679183854"><span class="annot"><span class="annottext">toValue :: Set a -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var hs-var hs-var hs-var">toValue</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">OneF Value -&gt; Value
+</span><a href="Language.FineTypes.Value.html#One"><span class="hs-identifier hs-var">V.One</span></a></span><span> </span><span class="annot"><span class="annottext">(OneF Value -&gt; Value) -&gt; (Set a -&gt; OneF Value) -&gt; Set a -&gt; Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Set Value -&gt; OneF Value
+forall a. Set a -&gt; OneF a
+</span><a href="Language.FineTypes.Value.html#PowerSet"><span class="hs-identifier hs-var">V.PowerSet</span></a></span><span> </span><span class="annot"><span class="annottext">(Set Value -&gt; OneF Value)
+-&gt; (Set a -&gt; Set Value) -&gt; Set a -&gt; OneF Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(a -&gt; Value) -&gt; Set a -&gt; Set Value
+forall b a. Ord b =&gt; (a -&gt; b) -&gt; Set a -&gt; Set b
+</span><span class="hs-identifier hs-var">Data.Set.map</span></span><span> </span><span class="annot"><span class="annottext">a -&gt; Value
+forall a. ToValue a =&gt; a -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var">toValue</span></a></span><span>
+</span><span id="line-50"></span><span>
+</span><span id="line-51"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679183748"><span id="local-6989586621679183749"><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679183748"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679183749"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Prelude.Either</span></span><span> </span><span class="annot"><a href="#local-6989586621679183748"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679183749"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-52"></span><span>    </span><span id="local-6989586621679183868"><span class="annot"><span class="annottext">toValue :: Either a b -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var hs-var hs-var hs-var">toValue</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Prelude.Left</span></span><span> </span><span id="local-6989586621679183869"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679183869"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Ix -&gt; Value -&gt; Value
+</span><a href="Language.FineTypes.Value.html#Sum"><span class="hs-identifier hs-var">V.Sum</span></a></span><span> </span><span class="annot"><span class="annottext">Ix
+</span><span class="hs-number">0</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a -&gt; Value
+forall a. ToValue a =&gt; a -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var">toValue</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679183869"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-53"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var">toValue</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Prelude.Right</span></span><span> </span><span id="local-6989586621679183871"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679183871"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Ix -&gt; Value -&gt; Value
+</span><a href="Language.FineTypes.Value.html#Sum"><span class="hs-identifier hs-var">V.Sum</span></a></span><span> </span><span class="annot"><span class="annottext">Ix
+</span><span class="hs-number">1</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">b -&gt; Value
+forall a. ToValue a =&gt; a -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var">toValue</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679183871"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-54"></span><span>
+</span><span id="line-55"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679183755"><span id="local-6989586621679183756"><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679183755"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679183756"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679183755"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="#local-6989586621679183756"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-56"></span><span>    </span><span id="local-6989586621679183883"><span class="annot"><span class="annottext">toValue :: (a, b) -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var hs-var hs-var hs-var">toValue</span></a></span></span><span> </span><span class="hs-special">(</span><span id="local-6989586621679183884"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679183884"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679183885"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679183885"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Value] -&gt; Value
+</span><a href="Language.FineTypes.Value.html#Product"><span class="hs-identifier hs-var">V.Product</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">a -&gt; Value
+forall a. ToValue a =&gt; a -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var">toValue</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679183884"><span class="hs-identifier hs-var">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">b -&gt; Value
+forall a. ToValue a =&gt; a -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var">toValue</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679183885"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-57"></span><span>
+</span><span id="line-58"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679183762"><span id="local-6989586621679183763"><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679183762"><span class="hs-identifier hs-type">a</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679183763"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#ToValue"><span class="hs-identifier hs-type">ToValue</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Data.Map.Map</span></span><span> </span><span class="annot"><a href="#local-6989586621679183762"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679183763"><span class="hs-identifier hs-type">b</span></a></span><span class="hs-special">)</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-59"></span><span>    </span><span id="local-6989586621679183899"><span class="annot"><span class="annottext">toValue :: Map a b -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var hs-var hs-var hs-var">toValue</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-60"></span><span>        </span><span class="annot"><span class="annottext">TwoF Value Value -&gt; Value
+</span><a href="Language.FineTypes.Value.html#Two"><span class="hs-identifier hs-var">V.Two</span></a></span><span>
+</span><span id="line-61"></span><span>            </span><span class="annot"><span class="annottext">(TwoF Value Value -&gt; Value)
+-&gt; (Map a b -&gt; TwoF Value Value) -&gt; Map a b -&gt; Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Map Value Value -&gt; TwoF Value Value
+forall a b. Map a b -&gt; TwoF a b
+</span><a href="Language.FineTypes.Value.html#FiniteMap"><span class="hs-identifier hs-var">V.FiniteMap</span></a></span><span>
+</span><span id="line-62"></span><span>            </span><span class="annot"><span class="annottext">(Map Value Value -&gt; TwoF Value Value)
+-&gt; (Map a b -&gt; Map Value Value) -&gt; Map a b -&gt; TwoF Value Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">[(Value, Value)] -&gt; Map Value Value
+forall k a. Ord k =&gt; [(k, a)] -&gt; Map k a
+</span><span class="hs-identifier hs-var">Data.Map.fromList</span></span><span>
+</span><span id="line-63"></span><span>            </span><span class="annot"><span class="annottext">([(Value, Value)] -&gt; Map Value Value)
+-&gt; (Map a b -&gt; [(Value, Value)]) -&gt; Map a b -&gt; Map Value Value
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">((a, b) -&gt; (Value, Value)) -&gt; [(a, b)] -&gt; [(Value, Value)]
+forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
+</span><span class="hs-identifier hs-var">Prelude.map</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="hs-special">(</span><span id="local-6989586621679183903"><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679183903"><span class="hs-identifier hs-var">k</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679183904"><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679183904"><span class="hs-identifier hs-var">v</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">a -&gt; Value
+forall a. ToValue a =&gt; a -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var">toValue</span></a></span><span> </span><span class="annot"><span class="annottext">a
+</span><a href="#local-6989586621679183903"><span class="hs-identifier hs-var">k</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">b -&gt; Value
+forall a. ToValue a =&gt; a -&gt; Value
+</span><a href="Language.FineTypes.Export.Haskell.Value.Runtime.html#toValue"><span class="hs-identifier hs-var">toValue</span></a></span><span> </span><span class="annot"><span class="annottext">b
+</span><a href="#local-6989586621679183904"><span class="hs-identifier hs-var">v</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-64"></span><span>            </span><span class="annot"><span class="annottext">([(a, b)] -&gt; [(Value, Value)])
+-&gt; (Map a b -&gt; [(a, b)]) -&gt; Map a b -&gt; [(Value, Value)]
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Map a b -&gt; [(a, b)]
+forall k a. Map k a -&gt; [(k, a)]
+</span><span class="hs-identifier hs-var">Data.Map.toList</span></span><span>
+</span><span id="line-65"></span></pre></body></html>
