@@ -120,6 +120,7 @@ test-suite unit
     Spec.hs
   other-modules:
     Language.FineTypes.Cardano.Ledger.Common
+    Language.FineTypes.Cardano.Ledger.JSON.BabbageSpec
     Language.FineTypes.Cardano.Ledger.Specs.AlonzoSpec
     Language.FineTypes.Cardano.Ledger.Specs.AllegraSpec
     Language.FineTypes.Cardano.Ledger.Specs.BabbageSpec
