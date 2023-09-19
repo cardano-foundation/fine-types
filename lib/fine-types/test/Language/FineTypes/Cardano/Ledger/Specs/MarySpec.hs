@@ -1,9 +1,9 @@
-module Language.FineTypes.Cardano.Ledger.ShelleySpec
+module Language.FineTypes.Cardano.Ledger.Specs.MarySpec
     ( spec
     )
 where
 
-import Language.FineTypes.Cardano.Ledger.Common
+import Language.FineTypes.Cardano.Ledger.Specs.Common
     ( moduleMultiFileSpec
     , packageSpec
     )
@@ -12,7 +12,7 @@ import Test.Hspec (Spec)
 spec :: Spec
 spec = do
     moduleMultiFileSpec
-        "Shelley"
+        "Mary"
         [ "Crypto.fine"
         , "PParams.fine"
         , "Address.fine"
@@ -20,5 +20,6 @@ spec = do
         , "Tx.fine"
         , "Delegation.fine"
         , "Script.fine"
+        , "Value.fine"
         ]
-    packageSpec "Shelley.fine"
+    packageSpec "Mary.fine"
