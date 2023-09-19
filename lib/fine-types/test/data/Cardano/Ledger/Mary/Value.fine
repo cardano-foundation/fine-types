@@ -1,0 +1,15 @@
+module Value where
+
+import Crypto(ScriptHash);
+
+{-----------------------------------------------------------------------------
+    Transactions
+    Mary spec, Figure 3
+------------------------------------------------------------------------------}
+
+AssetName   = Bytes;
+PolicyID    = ScriptHash;
+AdaIDType   = Σ{ AdaID : Unit};
+AssetID     = AdaIDType + (PolicyID × AssetName);
+Quantity    = ℤ;
+Value       = AssetID ↦0 Quantity;
