@@ -358,7 +358,11 @@ symbol :: String -> Parser String
 symbol = L.symbol space
 
 moduleName :: Parser ModuleName
-moduleName = typName
+moduleName =
+    L.lexeme space
+        $ (:)
+            <$> C.upperChar
+            <*> many (C.alphaNumChar <|> satisfy (`elem` "."))
 
 typName :: Parser TypName
 typName =

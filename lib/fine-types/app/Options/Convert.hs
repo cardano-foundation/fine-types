@@ -1,4 +1,7 @@
 {-# LANGUAGE ApplicativeDo #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+
+{-# HLINT ignore "Use <$>" #-}
 
 module Options.Convert where
 
@@ -8,21 +11,25 @@ import Data.Foldable (asum)
 import Options.Applicative
     ( InfoMod
     , Parser
+    , command
     , flag
     , flag'
     , header
     , help
+    , hsubparser
+    , info
     , long
     , progDesc
     )
 import Options.Common (inputOption, outputOption)
 
 data Format = Json | Yaml
+data Schema = JsonSchema Format | HaskellSchema
 
 data ConvertOptions = ConvertOptions
     { optInput :: Maybe FilePath
     , optOutput :: Maybe FilePath
-    , optFormat :: Format
+    , optSchema :: Schema
     }
 
 convertDescr :: InfoMod a
@@ -36,17 +43,44 @@ convertOptions :: Parser ConvertOptions
 convertOptions = do
     input <- inputOption
     output <- outputOption
-    format <-
-        asum
-            [ flag' Json
-                $ mconcat
-                    [ long "json"
-                    , help "output in json format"
-                    ]
-            , flag Yaml Yaml
-                $ mconcat
-                    [ long "yaml"
-                    , help "output in yaml format (default format)"
-                    ]
+    schema <- schemaP
+    pure $ ConvertOptions input output schema
+
+format :: Parser Format
+format =
+    asum
+        [ flag' Json
+            $ mconcat
+                [ long "json"
+                , help "output in json format"
+                ]
+        , flag Yaml Yaml
+            $ mconcat
+                [ long "yaml"
+                , help "output in yaml format (default format)"
+                ]
+        ]
+
+schemaP :: Parser Schema
+schemaP =
+    hsubparser
+        $ mconcat
+            [ command "haskell"
+                $ info (pure HaskellSchema) haskellDescr
+            , command "json"
+                $ info (JsonSchema <$> format) jsonDescr
             ]
-    pure $ ConvertOptions input output format
+
+jsonDescr :: InfoMod Schema
+jsonDescr =
+    mconcat
+        [ progDesc "Output a json schema"
+        , header "fine-types convert json - output a json schema"
+        ]
+
+haskellDescr :: InfoMod Schema
+haskellDescr =
+    mconcat
+        [ progDesc "Output a Haskell module"
+        , header "fine-types convert haskell - output a Haskell module"
+        ]
