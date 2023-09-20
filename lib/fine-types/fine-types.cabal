@@ -153,9 +153,11 @@ executable fine-types
     Commands.Check.PrettyPrinter
     Commands.Common
     Commands.Convert
+    Commands.Lint
     Commands.Log
     Options
     Options.Check
     Options.Common
     Options.Convert
+    Options.Lint
     Options.Log

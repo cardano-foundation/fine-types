@@ -14,6 +14,7 @@ import Options.Applicative
     , metavar
     , option
     , short
+    , strOption
     , value
     )
 
@@ -41,3 +42,15 @@ outputOption =
 fileReader :: ReadM (Maybe FilePath)
 fileReader = eitherReader $ \case
     file -> Right $ Just file
+
+dirOption :: Parser FilePath
+dirOption =
+    strOption
+        ( mconcat
+            [ long "dir"
+            , short 'd'
+            , metavar "DIR"
+            , help "Directory where modules are located"
+            , value "."
+            ]
+        )
