@@ -16,7 +16,7 @@ import Language.FineTypes.Package
     , parsePackageDescription
     )
 import Language.FineTypes.Parser (parseFineTypes, parseFineTypes')
-import System.FilePath (joinPath, (</>))
+import System.FilePath ((</>))
 import Test.Hspec (Spec, describe, it, shouldBe, shouldSatisfy)
 import Text.Megaparsec (errorBundlePretty)
 
@@ -34,15 +34,12 @@ moduleSpec fp = do
             Just m <- pure $ parseFineTypes file
             collectNotInScope m `shouldBe` Set.empty
 
-basePath :: FilePath
-basePath = joinPath ["test", "data", "Cardano", "Ledger"]
-
-moduleMultiFileSpec :: FilePath -> [FilePath] -> Spec
-moduleMultiFileSpec era =
+moduleMultiFileSpec :: FilePath -> FilePath -> [FilePath] -> Spec
+moduleMultiFileSpec basePath era =
     traverse_ (moduleSpec . (\x -> basePath </> era </> x))
 
-packageSpec :: FilePath -> Spec
-packageSpec era = do
+packageSpec :: FilePath -> FilePath -> Spec
+packageSpec basePath era = do
     let package = basePath </> era
     describe ("on package " <> era) $ do
         it "parses" $ do

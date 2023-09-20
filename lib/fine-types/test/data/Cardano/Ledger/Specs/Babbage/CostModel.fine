@@ -1,0 +1,19 @@
+module CostModel where
+
+{-----------------------------------------------------------------------------
+    Protocol parameters
+    Alonzo spec, Figure 1
+    Babbage spec, Figure 3
+------------------------------------------------------------------------------}
+
+-- Abstract types
+CostModel   = _ ; --^ Coefficients for the cost model
+
+-- Derived types
+Language    =
+    Σ{ PlutusV1 : Unit
+     , PlutusV2 : Unit
+    }; --^ Script Language
+Prices      = ℚ × ℚ; --^ Coefficients for ExUnits prices
+ExUnits     = ℕ × ℕ; --^ Abstract execution units
+LangDepView = Bytes × Bytes; --^ Language Tag and PParams view

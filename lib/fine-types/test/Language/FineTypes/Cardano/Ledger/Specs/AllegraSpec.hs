@@ -1,9 +1,9 @@
-module Language.FineTypes.Cardano.Ledger.AllegraSpec
+module Language.FineTypes.Cardano.Ledger.Specs.AllegraSpec
     ( spec
     )
 where
 
-import Language.FineTypes.Cardano.Ledger.Common
+import Language.FineTypes.Cardano.Ledger.Specs.Common
     ( moduleMultiFileSpec
     , packageSpec
     )

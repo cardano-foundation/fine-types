@@ -1,18 +1,25 @@
-module Language.FineTypes.Cardano.Ledger.MarySpec
+module Language.FineTypes.Cardano.Ledger.JSON.BabbageSpec
     ( spec
     )
 where
+
+import Prelude
 
 import Language.FineTypes.Cardano.Ledger.Common
     ( moduleMultiFileSpec
     , packageSpec
     )
+import System.FilePath (joinPath)
 import Test.Hspec (Spec)
+
+basePath :: FilePath
+basePath = joinPath ["test", "data", "Cardano", "Ledger", "JSON"]
 
 spec :: Spec
 spec = do
     moduleMultiFileSpec
-        "Mary"
+        basePath
+        "Babbage"
         [ "Crypto.fine"
         , "PParams.fine"
         , "Address.fine"
@@ -20,6 +27,6 @@ spec = do
         , "Tx.fine"
         , "Delegation.fine"
         , "Script.fine"
-        , "Value.fine"
+        , "CostModel.fine"
         ]
-    packageSpec "Mary.fine"
+    packageSpec basePath "Babbage.fine"
