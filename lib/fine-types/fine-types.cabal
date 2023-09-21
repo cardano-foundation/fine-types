@@ -141,9 +141,11 @@ executable fine-types
     , aeson-pretty
     , base
     , bytestring
+    , containers
     , contra-tracer
     , megaparsec
     , optparse-applicative
+    , transformers
     , fine-types
     , prettyprinter
     , with-utf8
@@ -153,9 +155,11 @@ executable fine-types
     Commands.Check.PrettyPrinter
     Commands.Common
     Commands.Convert
+    Commands.Lint
     Commands.Log
     Options
     Options.Check
     Options.Common
     Options.Convert
+    Options.Lint
     Options.Log

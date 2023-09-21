@@ -21,12 +21,14 @@ module Language.FineTypes.Module
     , resolveImports
     , collectNotInScope
     , resolveVars
+    , redundantImports
     ) where
 
 import Prelude
 
 import Control.Monad
     ( forM
+    , guard
     )
 import Data.Map
     ( Map
@@ -157,10 +159,14 @@ collectNotInScope :: Module -> Set TypName
 collectNotInScope Module{moduleDeclarations, moduleImports} =
     needed Set.\\ defined
   where
+    defined :: Set TypName
     defined = declaredNames <> importedNames
+
+    declaredNames, importedNames :: Set TypName
     declaredNames = Map.keysSet moduleDeclarations
     importedNames = mconcat (getImportNames <$> Map.elems moduleImports)
 
+    needed :: Set TypName
     needed = mconcat . map collectVars $ Map.elems moduleDeclarations
 
 -- | Collect all 'Var' in a 'Typ'.
@@ -169,3 +175,13 @@ collectVars = everything (<>) vars
   where
     vars (Var name) = Set.singleton name
     vars _ = Set.empty
+
+-- | Find all imports that are not needed.
+redundantImports :: Module -> Set (ModuleName, TypName)
+redundantImports Module{moduleImports, moduleDeclarations} =
+    let needed = mconcat . map collectVars $ Map.elems moduleDeclarations
+    in  Set.fromList $ do
+            (moduleName, ImportNames names) <- Map.toList moduleImports
+            name <- Set.toList names
+            guard $ name `Set.notMember` needed
+            pure (moduleName, name)

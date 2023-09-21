@@ -18,6 +18,7 @@ import Options.Applicative
     )
 import Options.Check (CheckOptions, checkDescr, checkOptions)
 import Options.Convert (ConvertOptions, convertDescr, convertOptions)
+import Options.Lint (LintOptions (..), lintDescr, lintOptions)
 import Options.Log (LogFile, optionLogFile)
 
 data Options = Options
@@ -25,7 +26,7 @@ data Options = Options
     , optLogFile :: LogFile
     }
 
-data Commands = Convert ConvertOptions | Check CheckOptions
+data Commands = Convert ConvertOptions | Check CheckOptions | Lint LintOptions
 
 parseOptions :: IO Options
 parseOptions =
@@ -45,5 +46,7 @@ commands =
                 $ info (Convert <$> convertOptions) convertDescr
             , command "check"
                 $ info (Check <$> checkOptions) checkDescr
+            , command "lint"
+                $ info (Lint <$> lintOptions) lintDescr
                 -- other commands go here
             ]
