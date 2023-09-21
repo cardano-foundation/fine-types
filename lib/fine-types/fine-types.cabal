@@ -119,12 +119,6 @@ test-suite unit
   main-is:
     Spec.hs
   other-modules:
-    Language.FineTypes.Cardano.Ledger.AlonzoSpec
-    Language.FineTypes.Cardano.Ledger.AllegraSpec
-    Language.FineTypes.Cardano.Ledger.BabbageSpec
-    Language.FineTypes.Cardano.Ledger.Common
-    Language.FineTypes.Cardano.Ledger.MarySpec
-    Language.FineTypes.Cardano.Ledger.ShelleySpec
     Language.FineTypes.Export.OpenAPI.SchemaSpec
     Language.FineTypes.Export.OpenAPI.ValueSpec
     Language.FineTypes.PackageSpec

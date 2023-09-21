@@ -25,3 +25,5 @@ cabal*.project.local*
 .ghci
 hie.yaml
 .direnv/
+result
+lib/cardano-ledger-specs/fine-types
