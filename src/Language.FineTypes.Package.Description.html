@@ -18,7 +18,7 @@
 </span><span id="line-17"></span><span>    </span><span class="hs-special">,</span><span> </span><span id="packageStatements"><span class="annot"><span class="annottext">PackageDescription -&gt; [Statement]
 </span><a href="Language.FineTypes.Package.Description.html#packageStatements"><span class="hs-identifier hs-var hs-var">packageStatements</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier hs-type">Statement</span></a></span><span class="hs-special">]</span><span>
 </span><span id="line-18"></span><span>    </span><span class="hs-special">}</span><span>
-</span><span id="line-19"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679179992"><span id="local-6989586621679179999"><span class="annot"><span class="annottext">PackageDescription -&gt; PackageDescription -&gt; Bool
+</span><span id="line-19"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679180097"><span id="local-6989586621679180104"><span class="annot"><span class="annottext">PackageDescription -&gt; PackageDescription -&gt; Bool
 (PackageDescription -&gt; PackageDescription -&gt; Bool)
 -&gt; (PackageDescription -&gt; PackageDescription -&gt; Bool)
 -&gt; Eq PackageDescription
@@ -27,7 +27,7 @@ $c== :: PackageDescription -&gt; PackageDescription -&gt; Bool
 == :: PackageDescription -&gt; PackageDescription -&gt; Bool
 $c/= :: PackageDescription -&gt; PackageDescription -&gt; Bool
 /= :: PackageDescription -&gt; PackageDescription -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679180006"><span id="local-6989586621679180015"><span id="local-6989586621679180019"><span class="annot"><span class="annottext">Int -&gt; PackageDescription -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679180111"><span id="local-6989586621679180120"><span id="local-6989586621679180124"><span class="annot"><span class="annottext">Int -&gt; PackageDescription -&gt; ShowS
 [PackageDescription] -&gt; ShowS
 PackageDescription -&gt; PackageName
 (Int -&gt; PackageDescription -&gt; ShowS)
@@ -49,7 +49,7 @@ showList :: [PackageDescription] -&gt; ShowS
 </span><span id="line-22"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span id="Include"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Include"><span class="hs-identifier hs-var">Include</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span>
 </span><span id="line-23"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span id="Module"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Module"><span class="hs-identifier hs-var">Module</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span>
 </span><span id="line-24"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span id="Assert"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Assert"><span class="hs-identifier hs-var">Assert</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Assertion"><span class="hs-identifier hs-type">Assertion</span></a></span><span>
-</span><span id="line-25"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679180028"><span id="local-6989586621679180038"><span class="annot"><span class="annottext">Statement -&gt; Statement -&gt; Bool
+</span><span id="line-25"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679180133"><span id="local-6989586621679180143"><span class="annot"><span class="annottext">Statement -&gt; Statement -&gt; Bool
 (Statement -&gt; Statement -&gt; Bool)
 -&gt; (Statement -&gt; Statement -&gt; Bool) -&gt; Eq Statement
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -57,7 +57,7 @@ $c== :: Statement -&gt; Statement -&gt; Bool
 == :: Statement -&gt; Statement -&gt; Bool
 $c/= :: Statement -&gt; Statement -&gt; Bool
 /= :: Statement -&gt; Statement -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679180041"><span id="local-6989586621679180054"><span id="local-6989586621679180057"><span class="annot"><span class="annottext">Int -&gt; Statement -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679180146"><span id="local-6989586621679180159"><span id="local-6989586621679180162"><span class="annot"><span class="annottext">Int -&gt; Statement -&gt; ShowS
 [Statement] -&gt; ShowS
 Statement -&gt; PackageName
 (Int -&gt; Statement -&gt; ShowS)
@@ -77,7 +77,7 @@ showList :: [Statement] -&gt; ShowS
 </span><span id="line-26"></span><span>
 </span><span id="line-27"></span><span class="hs-keyword">newtype</span><span> </span><span id="Source"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-var">Source</span></a></span></span><span>
 </span><span id="line-28"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span id="File"><span class="annot"><a href="Language.FineTypes.Package.Description.html#File"><span class="hs-identifier hs-var">File</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
-</span><span id="line-29"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679180062"><span id="local-6989586621679180067"><span class="annot"><span class="annottext">Source -&gt; Source -&gt; Bool
+</span><span id="line-29"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679180167"><span id="local-6989586621679180172"><span class="annot"><span class="annottext">Source -&gt; Source -&gt; Bool
 (Source -&gt; Source -&gt; Bool)
 -&gt; (Source -&gt; Source -&gt; Bool) -&gt; Eq Source
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -85,7 +85,7 @@ $c== :: Source -&gt; Source -&gt; Bool
 == :: Source -&gt; Source -&gt; Bool
 $c/= :: Source -&gt; Source -&gt; Bool
 /= :: Source -&gt; Source -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679180072"><span id="local-6989586621679180077"><span id="local-6989586621679180080"><span class="annot"><span class="annottext">Int -&gt; Source -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679180177"><span id="local-6989586621679180182"><span id="local-6989586621679180185"><span class="annot"><span class="annottext">Int -&gt; Source -&gt; ShowS
 [Source] -&gt; ShowS
 Source -&gt; PackageName
 (Int -&gt; Source -&gt; ShowS)
