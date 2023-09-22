@@ -143,7 +143,8 @@ genConstrainedTyp mode = do
     constraintDepth <- choose (1, 2)
     c <- genConstraint constraintDepth
     typ <- genTyp'
-    pure $ Constrained typ c
+    v <- genName
+    pure $ Constrained v typ c
   where
     complete = onComplete mode
     always = id
@@ -225,10 +226,10 @@ shrinkTyp = \case
             <> (SumN <$> shrinkList shrinkNamed constructors)
     Var _ -> []
     Abstract -> []
-    Constrained typ c ->
+    Constrained v typ c ->
         [typ]
-            <> [Constrained typ' c | typ' <- shrinkTyp typ]
-            <> [Constrained typ c' | c' <- shrinkConstraint c]
+            <> [Constrained v typ' c | typ' <- shrinkTyp typ]
+            <> [Constrained v typ c' | c' <- shrinkConstraint c]
 
 shrinkNamed :: (t, Typ) -> [(t, Typ)]
 shrinkNamed (f, t) = (f,) <$> shrinkTyp t

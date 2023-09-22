@@ -7,6 +7,7 @@ module Language.FineTypes.Typ
       TypName
     , ConstructorName
     , FieldName
+    , VarName
     , Typ (..)
     , TypConst (..)
     , OpOne (..)
@@ -33,6 +34,7 @@ import qualified Data.List as L
 type TypName = String
 type ConstructorName = String
 type FieldName = String
+type VarName = String
 
 -- | A 'Typ' describes a set of values.
 --
@@ -56,7 +58,7 @@ data Typ
     | -- | Disjoint union with constructor names.
       SumN [(ConstructorName, Typ)]
     | -- | A type with a value constraint
-      Constrained Typ Constraint
+      Constrained VarName Typ Constraint
     deriving (Eq, Ord, Show, Generic)
 
 instance ToExpr Typ
@@ -138,8 +140,8 @@ everywhere f = every
         ProductN [(n, every a) | (n, a) <- nas]
     recurse (SumN nas) =
         SumN [(n, every a) | (n, a) <- nas]
-    recurse (Constrained typ c) =
-        Constrained (every typ) c
+    recurse (Constrained v typ c) =
+        Constrained v (every typ) c
 
 -- | Summarise all nodes; top-down, left-to-right.
 everything :: (r -> r -> r) -> (Typ -> r) -> (Typ -> r)
@@ -159,7 +161,7 @@ everything combine f = recurse
         L.foldl' combine (f x) [recurse a | (_, a) <- nas]
     recurse x@(SumN nas) =
         L.foldl' combine (f x) [recurse a | (_, a) <- nas]
-    recurse x@(Constrained typ _) =
+    recurse x@(Constrained _ typ _) =
         f x `combine` recurse typ
 
 depth :: Typ -> Int
@@ -169,7 +171,7 @@ depth = \case
     Two _ a b -> 1 + max (depth a) (depth b)
     ProductN fields -> 1 + maximum (fmap (depth . snd) fields)
     SumN constructors -> 1 + maximum (fmap (depth . snd) constructors)
-    Constrained a _ -> depth a
+    Constrained _ a _ -> depth a
     Abstract -> 0
     Var _ -> 0
 

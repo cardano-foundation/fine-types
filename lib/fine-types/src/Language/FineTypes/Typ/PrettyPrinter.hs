@@ -29,6 +29,7 @@ import Language.FineTypes.Typ
     , Typ (..)
     , TypConst (..)
     , TypName
+    , VarName
     )
 import Prettyprinter
     ( Doc
@@ -58,7 +59,7 @@ requireParens = \case
     SumN _ -> False
     Var _ -> False
     Abstract -> False
-    Constrained _ _ -> False
+    Constrained{} -> False
 
 parens :: Doc ann -> Doc ann
 parens doc = encloseSep "(" ")" " " [doc]
@@ -69,12 +70,15 @@ withParens f x = if requireParens x then parens (f x) else f x
 prettyConstrainedTyp
     :: QueryDocumentation
     -> TypName
+    -> VarName
     -> Typ
     -> Constraint
     -> Doc ann
-prettyConstrainedTyp docs typname typ [] = prettyTyp docs typname typ
-prettyConstrainedTyp docs typname typ constraint =
-    "{ x :"
+prettyConstrainedTyp docs typname _v typ [] = prettyTyp docs typname typ
+prettyConstrainedTyp docs typname v typ constraint =
+    "{"
+        <+> pretty v
+        <+> ":"
         <+> prettyTyp docs typname typ
         <+> prettyText "|"
         <+> prettyConstraint constraint
@@ -154,7 +158,7 @@ prettyTyp docs typname = \case
     SumN constructors -> prettySumN docs typname constructors
     Var name -> pretty name
     Abstract -> prettyText "_"
-    Constrained typ c -> prettyConstrainedTyp docs typname typ c
+    Constrained v typ c -> prettyConstrainedTyp docs typname v typ c
   where
     prettyTyp' = prettyTyp docs typname
 

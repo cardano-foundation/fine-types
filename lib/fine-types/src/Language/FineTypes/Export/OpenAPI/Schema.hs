@@ -104,7 +104,7 @@ supportsJSON =
     isSupportedTyp = everything (&&) isSupported
     isSupported (Two fun _ _) =
         fun `notElem` [PartialFunction, FiniteSupport]
-    isSupported (Constrained _ _) =
+    isSupported Constrained{} =
         False
     isSupported _ = True
 
@@ -203,7 +203,7 @@ schemaFromTyp = go
         schemaFromProductN fields
     go (SumN constructors) =
         schemaFromSumN constructors
-    go (Constrained _ _) =
+    go Constrained{} =
         error "ConstrainedTyp is not supported by JSON schema"
 
 -- | Map a record type to a JSON schema.

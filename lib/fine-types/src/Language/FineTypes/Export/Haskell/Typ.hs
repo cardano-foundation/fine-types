@@ -201,7 +201,7 @@ typeFromTyp = go
         error "Nested Product is not supported by Haskell"
     go (SumN _) =
         error "Nested Sum is not supported by Haskell"
-    go (Constrained typ _) =
+    go (Constrained _ typ _) =
         -- FIXME: Emit a warning.
         -- TODO: Add Liquid Haskell support for top-level definitions? 😲
         -- Currently no good representation for comments / Liquid Haskell
