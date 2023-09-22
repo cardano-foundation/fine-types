@@ -53,16 +53,21 @@ import Language.FineTypes.Module
     , resolveVars
     )
 import Language.FineTypes.Typ
-    ( ConstructorName
+    ( Constraint
+    , ConstructorName
     , FieldName
     , OpOne (..)
     , OpTwo (..)
     , Typ (..)
     , TypConst (..)
     , TypName
+    , VarName
     , everything
     , everywhere
     )
+import Language.FineTypes.Typ.PrettyPrinter (prettyTyp)
+import Prettyprinter (layoutCompact)
+import Prettyprinter.Render.String (renderString)
 
 import qualified Data.HashMap.Strict.InsOrd as MH
 import qualified Data.Map as Map
@@ -104,8 +109,6 @@ supportsJSON =
     isSupportedTyp = everything (&&) isSupported
     isSupported (Two fun _ _) =
         fun `notElem` [PartialFunction, FiniteSupport]
-    isSupported Constrained{} =
-        False
     isSupported _ = True
 
 -- | Convert 'Typ' definitions to JSON.
@@ -203,8 +206,18 @@ schemaFromTyp = go
         schemaFromProductN fields
     go (SumN constructors) =
         schemaFromSumN constructors
-    go Constrained{} =
-        error "ConstrainedTyp is not supported by JSON schema"
+    go (Constrained v t c) =
+        schemaFromConstraint v t c
+
+schemaFromConstraint :: VarName -> Typ -> Constraint -> Schema
+schemaFromConstraint v t c = (schemaFromTyp t){_schemaFormat = Just format}
+  where
+    format =
+        T.pack
+            $ renderString
+            $ layoutCompact
+            $ prettyTyp (const mempty) "no-name"
+            $ Constrained v t c
 
 -- | Map a record type to a JSON schema.
 --

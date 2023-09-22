@@ -60,6 +60,7 @@ jsonFromValue :: Typ -> Value -> JS.Value
 jsonFromValue = go
   where
     go :: Typ -> Value -> JS.Value
+    go (Typ.Constrained _ typ _) value = go typ value
     go (Typ.Two Typ.Product2 ta tb) (Product [a, b]) =
         JS.object ["0" .= go ta a, "1" .= go tb b]
     go (Typ.ProductN fields) (Product ps) =

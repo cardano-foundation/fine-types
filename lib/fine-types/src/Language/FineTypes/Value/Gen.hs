@@ -119,6 +119,7 @@ genTypValue typ =
             ix <- lift $ choose (0, length constructors - 1)
             let (_cn, typ') = constructors !! ix
             Sum ix <$> exceptGenValue typ'
+        Typ.Constrained _ typ' _ -> genTypValue typ'
         typ' -> pure $ Left typ'
 
 genTypAndValue
