@@ -20,7 +20,7 @@ DataHash = Bytes;
 Quantity = ℤ;
 
 Value =
-  { ada    : Quantity
+  { ada    : {x : Quantity | x > 0}
   , assets : Asset*
   };
 

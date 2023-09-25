@@ -76,6 +76,8 @@ newtype TwoF a b
 
 -- | Check whether a 'Value' inhabits the given 'Typ'.
 hasTyp :: Value -> Typ -> Bool
+hasTyp z (Typ.Constrained _ t _) =
+    z `hasTyp` t
 hasTyp (Zero a) (Typ.Zero b) =
     typOf0 a == b
 hasTyp (Zero _) _ =

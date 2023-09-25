@@ -28,7 +28,7 @@ import Language.FineTypes.Typ
     )
 import Language.FineTypes.Typ.Gen
     ( Mode (Concrete)
-    , WithConstraints (WithoutConstraints)
+    , WithConstraints (..)
     )
 import Language.FineTypes.Value.Gen (genTypAndValue)
 import Test.Hspec
@@ -63,7 +63,7 @@ spec = do
                 ( genTypAndValue
                     (const True)
                     unsupported
-                    WithoutConstraints
+                    WithConstraints
                     Concrete
                     6
                 )

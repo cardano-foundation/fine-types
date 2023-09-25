@@ -40,6 +40,7 @@ import Language.FineTypes.Typ
     , Typ (..)
     , TypConst (..)
     , TypName
+    , VarName
     )
 import Text.Megaparsec
     ( ParseErrorBundle
@@ -169,11 +170,11 @@ mkDocumentedDeclaration doc1 name (DocumentedTyp typ fs cs) doc2 =
 
 constrained :: Parser Typ
 constrained = braces $ do
-    _ <- varName
+    v <- varName
     _ <- symbol ":"
     typ <- zeroVar
     _ <- symbol "|"
-    Constrained typ <$> constraint
+    Constrained v typ <$> constraint
 
 abstract :: Parser Typ
 abstract = Abstract <$ symbol "_"
@@ -378,8 +379,6 @@ fieldName :: Parser FieldName
 fieldName =
     L.lexeme space
         $ many (C.alphaNumChar <|> satisfy (`elem` "_^-"))
-
-type VarName = String
 
 varName :: Parser VarName
 varName =
