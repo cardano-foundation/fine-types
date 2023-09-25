@@ -13,7 +13,10 @@ import Language.FineTypes.Export.Haskell.Language
     , raiseFirstLetter
     )
 import Language.FineTypes.Export.Haskell.Value.Compiletime
-    ( declareInstanceToTyp
+    ( declareFromValueFunProduct
+    , declareFromValueFunSum
+    , declareInstanceFromValue
+    , declareInstanceToTyp
     , declareInstanceToValue
     , declareToTypFunProduct
     , declareToTypFunSum
@@ -106,6 +109,9 @@ declarationFromTyp name typ = case typ of
         , declareInstanceToTyp
             name
             (declareToTypFunProduct name fields)
+        , declareInstanceFromValue
+            name
+            (declareFromValueFunProduct name fields)
         ]
     SumN constructors ->
         [ Hs.DataDecl
@@ -120,6 +126,9 @@ declarationFromTyp name typ = case typ of
         , declareInstanceToTyp
             name
             (declareToTypFunSum name constructors)
+        , declareInstanceFromValue
+            name
+            (declareFromValueFunSum name constructors)
         ]
     _ ->
         [Hs.TypeDecl declaredName (typeFromTyp typ)]
