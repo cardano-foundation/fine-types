@@ -54,9 +54,11 @@ library
     , base >=4.14.3.0
     , base16 >= 1.0
     , bytestring
+    , Cabal
     , containers
     , contra-tracer
     , deepseq >= 1.4.4
+    , directory
     , filepath >= 1.4.2
     , haskell-src-exts ^>= 1.23.1
     , haskell-src-exts-simple ^>= 1.23.0
@@ -78,6 +80,7 @@ library
     Language.FineTypes.Commands.Check.PrettyPrinter
     Language.FineTypes.Commands.Common
     Language.FineTypes.Commands.Convert
+    Language.FineTypes.Commands.Convert.Haskell.Cabal
     Language.FineTypes.Commands.Lint
     Language.FineTypes.Commands.Log
     Language.FineTypes.Export.Haskell.Language

@@ -1,4 +1,4 @@
-cabal-version:      3.0
+cabal-version:      3.4
 build-type:         Custom
 name:               fine-types-test
 version:            0.1.0.0
@@ -25,6 +25,7 @@ custom-setup
     , base >=4.14.3.0
     , Cabal >= 3.0 && < 4
     , directory
+    , fine-types
     , filepath
     , process
 
@@ -62,7 +63,6 @@ test-suite haskell
     test
   build-tool-depends:
     , hspec-discover:hspec-discover == 2.*
-    , fine-types:fine-types == 0.1.*
   build-depends:
     , base
     , bytestring

@@ -17,10 +17,10 @@ lint:
     hlint lib
 
 build0:
-    cabal build -v0 -O0 -j fine-types
+    cabal build -v0 -O0 -j all
 
 test:
-    @cabal test -v0 -O0 unit \
+    @cabal test -v0 -O0 all \
         --test-show-details=direct \
         --test-options="--format=checks --color"
     @cabal test -v0 -O0 haskell \
