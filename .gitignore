@@ -26,6 +26,3 @@ cabal*.project.local*
 hie.yaml
 .direnv/
 result
-lib/cardano-ledger-specs/fine-types
-lib/fine-types-test/test/Language/FineTypes/Export/Haskell/HaskellUTxO.hs
-lib/fine-types-test/test/Language/FineTypes/Export/Haskell/HaskellUTxO1.hs
