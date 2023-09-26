@@ -10,16 +10,16 @@ import Prelude
 import Language.FineTypes.Export.Haskell.Language
     ( hsImportQualified
     , hsImportQualifiedAs
-    , hsList
-    , hsPair
-    , hsType
-    , hsUnit
     , raiseFirstLetter
     )
 import Language.FineTypes.Export.Haskell.Value.Compiletime
-    ( declareInstanceToValue
+    ( declareInstanceToTyp
+    , declareInstanceToValue
+    , declareToTypFunProduct
+    , declareToTypFunSum
     , declareToValueFunProduct
     , declareToValueFunSum
+    , typeFromTyp
     )
 import Language.FineTypes.Module
     ( Module (..)
@@ -27,10 +27,7 @@ import Language.FineTypes.Module
 import Language.FineTypes.Typ
     ( ConstructorName
     , FieldName
-    , OpOne (..)
-    , OpTwo (..)
     , Typ (..)
-    , TypConst (..)
     , TypName
     )
 
@@ -76,10 +73,14 @@ haskellFromModule m =
             , "Data.Text"
             , "GHC.Generics"
             , "Numeric.Natural"
+            , "Data.Proxy"
             ]
             <> [ hsImportQualifiedAs
                     "Language.FineTypes.Export.Haskell.Value.Runtime"
                     "FineTypes.Value"
+               , hsImportQualifiedAs
+                    "Language.FineTypes.Typ"
+                    "FineTypes.Typ"
                ]
     declarations =
         concat
@@ -102,6 +103,9 @@ declarationFromTyp name typ = case typ of
         , declareInstanceToValue
             name
             (declareToValueFunProduct name fields)
+        , declareInstanceToTyp
+            name
+            (declareToTypFunProduct name fields)
         ]
     SumN constructors ->
         [ Hs.DataDecl
@@ -113,6 +117,9 @@ declarationFromTyp name typ = case typ of
         , declareInstanceToValue
             name
             (declareToValueFunSum name constructors)
+        , declareInstanceToTyp
+            name
+            (declareToTypFunSum name constructors)
         ]
     _ ->
         [Hs.TypeDecl declaredName (typeFromTyp typ)]
@@ -167,43 +174,3 @@ declareSum _ constructors =
     | (cons, typ) <- constructors
     , let arguments = [typeFromTyp typ]
     ]
-
-typeFromTyp :: Typ -> Hs.Type
-typeFromTyp = go
-  where
-    go Abstract = error "Abstract is not supported by Haskell"
-    go (Var name) = hsType name
-    go (Zero c) = case c of
-        Bool -> hsType "Prelude.Bool"
-        Bytes -> hsType "Data.ByteString.ByteString"
-        Integer -> hsType "Prelude.Integer"
-        Natural -> hsType "Numeric.Natural.Natural"
-        Rational -> hsType "Prelude.Rational"
-        Text -> hsType "Data.Text.Text"
-        Unit -> hsUnit
-    go (One fun a) = fun1 `Hs.TyApp` go a
-      where
-        fun1 = case fun of
-            Option -> hsType "Prelude.Maybe"
-            Sequence -> hsList
-            PowerSet -> hsType "Data.Set.Set"
-    go (Two fun a b) = (fun2 `Hs.TyApp` go a) `Hs.TyApp` go b
-      where
-        fun2 = case fun of
-            Sum2 -> hsType "Prelude.Either"
-            Product2 -> hsPair
-            PartialFunction -> hsType "Data.Map.Map"
-            -- FIXME: FiniteSupport is bogus, we need to
-            -- associate a selected few types with default values.
-            -- Use Jonathan's 'monoidmap' package?
-            FiniteSupport -> hsType "Data.Map.Map"
-    go (ProductN _) =
-        error "Nested Product is not supported by Haskell"
-    go (SumN _) =
-        error "Nested Sum is not supported by Haskell"
-    go (Constrained _ typ _) =
-        -- FIXME: Emit a warning.
-        -- TODO: Add Liquid Haskell support for top-level definitions? 😲
-        -- Currently no good representation for comments / Liquid Haskell
-        -- in haskell-src-exts, though.
-        go typ

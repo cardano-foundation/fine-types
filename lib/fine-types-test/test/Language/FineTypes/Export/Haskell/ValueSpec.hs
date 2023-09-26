@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TypeApplications #-}
 
 module Language.FineTypes.Export.Haskell.ValueSpec
     ( spec
@@ -6,14 +7,17 @@ module Language.FineTypes.Export.Haskell.ValueSpec
 
 import Prelude
 
+import Data.Proxy (Proxy (..))
 import Language.FineTypes.Export.Haskell.Value.Runtime
-    ( ToValue (..)
+    ( ToTyp (..)
+    , ToValue (..)
     )
 import Language.FineTypes.Test.UTxO
     ( AssetID (..)
     , AssetIDNonAda (..)
     , Value
     )
+import Language.FineTypes.Value (hasTyp)
 import Test.Hspec
     ( Spec
     , describe
@@ -33,6 +37,8 @@ spec = do
         it "compiles" True
         it "maps to Value"
             $ toValue example `shouldSatisfy` isFiniteMap
+        it "respects typ vs value law"
+            $ toValue example `shouldSatisfy` flip hasTyp (toTyp (Proxy @Value))
 
 isFiniteMap :: FineTypes.Value -> Bool
 isFiniteMap (FineTypes.Two (FineTypes.FiniteMap _)) = True

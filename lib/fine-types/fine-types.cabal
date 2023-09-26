@@ -120,6 +120,7 @@ test-suite unit
   main-is:
     Spec.hs
   other-modules:
+    Language.FineTypes.Export.Haskell.ValueSpec
     Language.FineTypes.Export.OpenAPI.SchemaSpec
     Language.FineTypes.Export.OpenAPI.ValueSpec
     Language.FineTypes.PackageSpec

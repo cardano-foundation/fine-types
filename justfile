@@ -23,6 +23,9 @@ test:
     @cabal test -v0 -O0 unit \
         --test-show-details=direct \
         --test-options="--format=checks --color"
+    @cabal test -v0 -O0 haskell \
+        --test-show-details=direct \
+        --test-options="--format=checks --color"
 
 test-seed:
     @cabal test -v0 -O0 -j unit \
