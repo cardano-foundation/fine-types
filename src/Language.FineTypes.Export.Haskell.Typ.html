@@ -13,97 +13,100 @@
 </span><span id="line-13"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Language.html#raiseFirstLetter"><span class="hs-identifier">raiseFirstLetter</span></a></span><span>
 </span><span id="line-14"></span><span>    </span><span class="hs-special">)</span><span>
 </span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html"><span class="hs-identifier">Language.FineTypes.Export.Haskell.Value.Compiletime</span></a></span><span>
-</span><span id="line-16"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceToTyp"><span class="hs-identifier">declareInstanceToTyp</span></a></span><span>
-</span><span id="line-17"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceToValue"><span class="hs-identifier">declareInstanceToValue</span></a></span><span>
-</span><span id="line-18"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToTypFunProduct"><span class="hs-identifier">declareToTypFunProduct</span></a></span><span>
-</span><span id="line-19"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToTypFunSum"><span class="hs-identifier">declareToTypFunSum</span></a></span><span>
-</span><span id="line-20"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToValueFunProduct"><span class="hs-identifier">declareToValueFunProduct</span></a></span><span>
-</span><span id="line-21"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToValueFunSum"><span class="hs-identifier">declareToValueFunSum</span></a></span><span>
-</span><span id="line-22"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#typeFromTyp"><span class="hs-identifier">typeFromTyp</span></a></span><span>
-</span><span id="line-23"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-24"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span>
-</span><span id="line-25"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier">Module</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-16"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareFromValueFunProduct"><span class="hs-identifier">declareFromValueFunProduct</span></a></span><span>
+</span><span id="line-17"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareFromValueFunSum"><span class="hs-identifier">declareFromValueFunSum</span></a></span><span>
+</span><span id="line-18"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceFromValue"><span class="hs-identifier">declareInstanceFromValue</span></a></span><span>
+</span><span id="line-19"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceToTyp"><span class="hs-identifier">declareInstanceToTyp</span></a></span><span>
+</span><span id="line-20"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceToValue"><span class="hs-identifier">declareInstanceToValue</span></a></span><span>
+</span><span id="line-21"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToTypFunProduct"><span class="hs-identifier">declareToTypFunProduct</span></a></span><span>
+</span><span id="line-22"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToTypFunSum"><span class="hs-identifier">declareToTypFunSum</span></a></span><span>
+</span><span id="line-23"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToValueFunProduct"><span class="hs-identifier">declareToValueFunProduct</span></a></span><span>
+</span><span id="line-24"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToValueFunSum"><span class="hs-identifier">declareToValueFunSum</span></a></span><span>
+</span><span id="line-25"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#typeFromTyp"><span class="hs-identifier">typeFromTyp</span></a></span><span>
 </span><span id="line-26"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-27"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html"><span class="hs-identifier">Language.FineTypes.Typ</span></a></span><span>
-</span><span id="line-28"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#ConstructorName"><span class="hs-identifier">ConstructorName</span></a></span><span>
-</span><span id="line-29"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#FieldName"><span class="hs-identifier">FieldName</span></a></span><span>
-</span><span id="line-30"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier">Typ</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-31"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier">TypName</span></a></span><span>
-</span><span id="line-32"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-33"></span><span>
-</span><span id="line-34"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Map</span></span><span>
-</span><span id="line-35"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Language.Haskell.Exts.Simple</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Hs</span></span><span>
+</span><span id="line-27"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span>
+</span><span id="line-28"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier">Module</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-29"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-30"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html"><span class="hs-identifier">Language.FineTypes.Typ</span></a></span><span>
+</span><span id="line-31"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#ConstructorName"><span class="hs-identifier">ConstructorName</span></a></span><span>
+</span><span id="line-32"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#FieldName"><span class="hs-identifier">FieldName</span></a></span><span>
+</span><span id="line-33"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier">Typ</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-34"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier">TypName</span></a></span><span>
+</span><span id="line-35"></span><span>    </span><span class="hs-special">)</span><span>
 </span><span id="line-36"></span><span>
-</span><span id="line-37"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+</span><span id="line-37"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Map</span></span><span>
+</span><span id="line-38"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Language.Haskell.Exts.Simple</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Hs</span></span><span>
+</span><span id="line-39"></span><span>
+</span><span id="line-40"></span><span class="hs-comment">{-----------------------------------------------------------------------------
     Haskell
 ------------------------------------------------------------------------------}</span><span>
-</span><span id="line-40"></span><span class="hs-keyword">newtype</span><span> </span><span id="HsModule"><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#HsModule"><span class="hs-identifier hs-var">HsModule</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="HsModule"><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#HsModule"><span class="hs-identifier hs-var">HsModule</span></a></span></span><span> </span><span class="hs-special">{</span><span id="getHsModule"><span class="annot"><span class="annottext">HsModule -&gt; Module
+</span><span id="line-43"></span><span class="hs-keyword">newtype</span><span> </span><span id="HsModule"><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#HsModule"><span class="hs-identifier hs-var">HsModule</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="HsModule"><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#HsModule"><span class="hs-identifier hs-var">HsModule</span></a></span></span><span> </span><span class="hs-special">{</span><span id="getHsModule"><span class="annot"><span class="annottext">HsModule -&gt; Module
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#getHsModule"><span class="hs-identifier hs-var hs-var">getHsModule</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Hs.Module</span></span><span class="hs-special">}</span><span>
-</span><span id="line-41"></span><span>
-</span><span id="line-42"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#prettyPrint"><span class="hs-identifier hs-type">prettyPrint</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#HsModule"><span class="hs-identifier hs-type">HsModule</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
-</span><span id="line-43"></span><span id="prettyPrint"><span class="annot"><span class="annottext">prettyPrint :: HsModule -&gt; String
+</span><span id="line-44"></span><span>
+</span><span id="line-45"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#prettyPrint"><span class="hs-identifier hs-type">prettyPrint</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#HsModule"><span class="hs-identifier hs-type">HsModule</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-46"></span><span id="prettyPrint"><span class="annot"><span class="annottext">prettyPrint :: HsModule -&gt; String
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#prettyPrint"><span class="hs-identifier hs-var hs-var">prettyPrint</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Module -&gt; String
 forall a. Pretty a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">Hs.prettyPrint</span></span><span> </span><span class="annot"><span class="annottext">(Module -&gt; String) -&gt; (HsModule -&gt; Module) -&gt; HsModule -&gt; String
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">HsModule -&gt; Module
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#getHsModule"><span class="hs-identifier hs-var">getHsModule</span></a></span><span>
-</span><span id="line-44"></span><span>
-</span><span id="line-45"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#haskellFromModule"><span class="hs-identifier hs-type">haskellFromModule</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#HsModule"><span class="hs-identifier hs-type">HsModule</span></a></span><span>
-</span><span id="line-46"></span><span id="haskellFromModule"><span class="annot"><span class="annottext">haskellFromModule :: Module -&gt; HsModule
-</span><a href="Language.FineTypes.Export.Haskell.Typ.html#haskellFromModule"><span class="hs-identifier hs-var hs-var">haskellFromModule</span></a></span></span><span> </span><span id="local-6989586621679182116"><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679182116"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-47"></span><span>    </span><span class="annot"><span class="annottext">Module -&gt; HsModule
+</span><span id="line-47"></span><span>
+</span><span id="line-48"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#haskellFromModule"><span class="hs-identifier hs-type">haskellFromModule</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#HsModule"><span class="hs-identifier hs-type">HsModule</span></a></span><span>
+</span><span id="line-49"></span><span id="haskellFromModule"><span class="annot"><span class="annottext">haskellFromModule :: Module -&gt; HsModule
+</span><a href="Language.FineTypes.Export.Haskell.Typ.html#haskellFromModule"><span class="hs-identifier hs-var hs-var">haskellFromModule</span></a></span></span><span> </span><span id="local-6989586621679182971"><span class="annot"><span class="annottext">Module
+</span><a href="#local-6989586621679182971"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-50"></span><span>    </span><span class="annot"><span class="annottext">Module -&gt; HsModule
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#HsModule"><span class="hs-identifier hs-var">HsModule</span></a></span><span>
-</span><span id="line-48"></span><span>        </span><span class="annot"><span class="annottext">(Module -&gt; HsModule) -&gt; Module -&gt; HsModule
+</span><span id="line-51"></span><span>        </span><span class="annot"><span class="annottext">(Module -&gt; HsModule) -&gt; Module -&gt; HsModule
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Maybe ModuleHead
 -&gt; [ModulePragma] -&gt; [ImportDecl] -&gt; [Decl] -&gt; Module
 </span><span class="hs-identifier hs-var">Hs.Module</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ModuleHead -&gt; Maybe ModuleHead
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">ModuleHead
-</span><a href="#local-6989586621679182118"><span class="hs-identifier hs-var">moduleHead</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[ModulePragma]
-</span><a href="#local-6989586621679182119"><span class="hs-identifier hs-var">modulePragmas</span></a></span><span> </span><span class="annot"><span class="annottext">[ImportDecl]
-</span><a href="#local-6989586621679182120"><span class="hs-identifier hs-var">imports</span></a></span><span> </span><span class="annot"><span class="annottext">[Decl]
-</span><a href="#local-6989586621679182121"><span class="hs-identifier hs-var">declarations</span></a></span><span>
-</span><span id="line-49"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-50"></span><span>    </span><span id="local-6989586621679182118"><span class="annot"><span class="annottext">moduleHead :: ModuleHead
-</span><a href="#local-6989586621679182118"><span class="hs-identifier hs-var hs-var">moduleHead</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-51"></span><span>        </span><span class="annot"><span class="annottext">ModuleName
+</span><a href="#local-6989586621679182973"><span class="hs-identifier hs-var">moduleHead</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[ModulePragma]
+</span><a href="#local-6989586621679182974"><span class="hs-identifier hs-var">modulePragmas</span></a></span><span> </span><span class="annot"><span class="annottext">[ImportDecl]
+</span><a href="#local-6989586621679182975"><span class="hs-identifier hs-var">imports</span></a></span><span> </span><span class="annot"><span class="annottext">[Decl]
+</span><a href="#local-6989586621679182976"><span class="hs-identifier hs-var">declarations</span></a></span><span>
+</span><span id="line-52"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-53"></span><span>    </span><span id="local-6989586621679182973"><span class="annot"><span class="annottext">moduleHead :: ModuleHead
+</span><a href="#local-6989586621679182973"><span class="hs-identifier hs-var hs-var">moduleHead</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-54"></span><span>        </span><span class="annot"><span class="annottext">ModuleName
 -&gt; Maybe WarningText -&gt; Maybe ExportSpecList -&gt; ModuleHead
 </span><span class="hs-identifier hs-var">Hs.ModuleHead</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; ModuleName
 </span><span class="hs-identifier hs-var">Hs.ModuleName</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; ModuleName) -&gt; String -&gt; ModuleName
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Module -&gt; String
 </span><a href="Language.FineTypes.Module.html#moduleName"><span class="hs-identifier hs-var">moduleName</span></a></span><span> </span><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679182116"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Maybe WarningText
+</span><a href="#local-6989586621679182971"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Maybe WarningText
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="annot"><span class="annottext">Maybe ExportSpecList
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-52"></span><span>    </span><span id="local-6989586621679182119"><span class="annot"><span class="annottext">modulePragmas :: [ModulePragma]
-</span><a href="#local-6989586621679182119"><span class="hs-identifier hs-var hs-var">modulePragmas</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-53"></span><span>        </span><span class="annot"><span class="annottext">[ModulePragma]
-</span><a href="#local-6989586621679182127"><span class="hs-identifier hs-var">optionsGHC</span></a></span><span> </span><span class="annot"><span class="annottext">[ModulePragma] -&gt; [ModulePragma] -&gt; [ModulePragma]
+</span><span id="line-55"></span><span>    </span><span id="local-6989586621679182974"><span class="annot"><span class="annottext">modulePragmas :: [ModulePragma]
+</span><a href="#local-6989586621679182974"><span class="hs-identifier hs-var hs-var">modulePragmas</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-56"></span><span>        </span><span class="annot"><span class="annottext">[ModulePragma]
+</span><a href="#local-6989586621679182982"><span class="hs-identifier hs-var">optionsGHC</span></a></span><span> </span><span class="annot"><span class="annottext">[ModulePragma] -&gt; [ModulePragma] -&gt; [ModulePragma]
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">[ModulePragma]
-</span><a href="#local-6989586621679182128"><span class="hs-identifier hs-var">languageExtensions</span></a></span><span>
-</span><span id="line-54"></span><span>    </span><span class="hs-comment">-- TODO: Filter set of imported modules in order to avoid switching</span><span>
-</span><span id="line-55"></span><span>    </span><span class="hs-comment">-- off the warning -Wno-unused-imports.</span><span>
-</span><span id="line-56"></span><span>    </span><span id="local-6989586621679182127"><span class="annot"><span class="annottext">optionsGHC :: [ModulePragma]
-</span><a href="#local-6989586621679182127"><span class="hs-identifier hs-var hs-var">optionsGHC</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-57"></span><span>        </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Maybe Tool -&gt; String -&gt; ModulePragma
+</span><a href="#local-6989586621679182983"><span class="hs-identifier hs-var">languageExtensions</span></a></span><span>
+</span><span id="line-57"></span><span>    </span><span class="hs-comment">-- TODO: Filter set of imported modules in order to avoid switching</span><span>
+</span><span id="line-58"></span><span>    </span><span class="hs-comment">-- off the warning -Wno-unused-imports.</span><span>
+</span><span id="line-59"></span><span>    </span><span id="local-6989586621679182982"><span class="annot"><span class="annottext">optionsGHC :: [ModulePragma]
+</span><a href="#local-6989586621679182982"><span class="hs-identifier hs-var hs-var">optionsGHC</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-60"></span><span>        </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Maybe Tool -&gt; String -&gt; ModulePragma
 </span><span class="hs-identifier hs-var">Hs.OptionsPragma</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Tool -&gt; Maybe Tool
 forall a. a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Just</span></span><span> </span><span class="annot"><span class="annottext">Tool
 </span><span class="hs-identifier hs-var">Hs.GHC</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;-Wno-unused-imports&quot;</span></span><span class="hs-special">]</span><span>
-</span><span id="line-58"></span><span>    </span><span id="local-6989586621679182128"><span class="annot"><span class="annottext">languageExtensions :: [ModulePragma]
-</span><a href="#local-6989586621679182128"><span class="hs-identifier hs-var hs-var">languageExtensions</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-59"></span><span>        </span><span class="annot"><span class="annottext">(String -&gt; ModulePragma) -&gt; [String] -&gt; [ModulePragma]
+</span><span id="line-61"></span><span>    </span><span id="local-6989586621679182983"><span class="annot"><span class="annottext">languageExtensions :: [ModulePragma]
+</span><a href="#local-6989586621679182983"><span class="hs-identifier hs-var hs-var">languageExtensions</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-62"></span><span>        </span><span class="annot"><span class="annottext">(String -&gt; ModulePragma) -&gt; [String] -&gt; [ModulePragma]
 forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
 </span><span class="hs-identifier hs-var">map</span></span><span>
-</span><span id="line-60"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Name] -&gt; ModulePragma
+</span><span id="line-63"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[Name] -&gt; ModulePragma
 </span><span class="hs-identifier hs-var">Hs.LanguagePragma</span></span><span> </span><span class="annot"><span class="annottext">([Name] -&gt; ModulePragma)
 -&gt; (String -&gt; [Name]) -&gt; String -&gt; ModulePragma
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
@@ -113,210 +116,226 @@ forall a. a -&gt; [a] -&gt; [a]
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; Name
 </span><span class="hs-identifier hs-var">Hs.Ident</span></span><span class="hs-special">)</span><span>
-</span><span id="line-61"></span><span>            </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">String
+</span><span id="line-64"></span><span>            </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;DeriveGeneric&quot;</span></span><span>
-</span><span id="line-62"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
+</span><span id="line-65"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;DerivingStrategies&quot;</span></span><span> </span><span class="hs-comment">-- see Note [Deriving]</span><span>
-</span><span id="line-63"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
+</span><span id="line-66"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;DuplicateRecordFields&quot;</span></span><span>
-</span><span id="line-64"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
+</span><span id="line-67"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;NoImplicitPrelude&quot;</span></span><span>
-</span><span id="line-65"></span><span>            </span><span class="hs-special">]</span><span>
-</span><span id="line-66"></span><span>    </span><span id="local-6989586621679182120"><span class="annot"><span class="annottext">imports :: [ImportDecl]
-</span><a href="#local-6989586621679182120"><span class="hs-identifier hs-var hs-var">imports</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-67"></span><span>        </span><span class="annot"><span class="annottext">(String -&gt; ImportDecl) -&gt; [String] -&gt; [ImportDecl]
+</span><span id="line-68"></span><span>            </span><span class="hs-special">]</span><span>
+</span><span id="line-69"></span><span>    </span><span id="local-6989586621679182975"><span class="annot"><span class="annottext">imports :: [ImportDecl]
+</span><a href="#local-6989586621679182975"><span class="hs-identifier hs-var hs-var">imports</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-70"></span><span>        </span><span class="annot"><span class="annottext">(String -&gt; ImportDecl) -&gt; [String] -&gt; [ImportDecl]
 forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
 </span><span class="hs-identifier hs-var">map</span></span><span>
-</span><span id="line-68"></span><span>            </span><span class="annot"><span class="annottext">String -&gt; ImportDecl
+</span><span id="line-71"></span><span>            </span><span class="annot"><span class="annottext">String -&gt; ImportDecl
 </span><a href="Language.FineTypes.Export.Haskell.Language.html#hsImportQualified"><span class="hs-identifier hs-var">hsImportQualified</span></a></span><span>
-</span><span id="line-69"></span><span>            </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">String
+</span><span id="line-72"></span><span>            </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Prelude&quot;</span></span><span>
-</span><span id="line-70"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;Data.ByteString&quot;</span></span><span>
-</span><span id="line-71"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;Data.Map&quot;</span></span><span>
-</span><span id="line-72"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;Data.Set&quot;</span></span><span>
 </span><span id="line-73"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;Data.Text&quot;</span></span><span>
+</span><span class="hs-string">&quot;Data.ByteString&quot;</span></span><span>
 </span><span id="line-74"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;GHC.Generics&quot;</span></span><span>
+</span><span class="hs-string">&quot;Data.Map&quot;</span></span><span>
 </span><span id="line-75"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;Numeric.Natural&quot;</span></span><span>
+</span><span class="hs-string">&quot;Data.Set&quot;</span></span><span>
 </span><span id="line-76"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;Data.Text&quot;</span></span><span>
+</span><span id="line-77"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;GHC.Generics&quot;</span></span><span>
+</span><span id="line-78"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;Numeric.Natural&quot;</span></span><span>
+</span><span id="line-79"></span><span>            </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Data.Proxy&quot;</span></span><span>
-</span><span id="line-77"></span><span>            </span><span class="hs-special">]</span><span>
-</span><span id="line-78"></span><span>            </span><span class="annot"><span class="annottext">[ImportDecl] -&gt; [ImportDecl] -&gt; [ImportDecl]
+</span><span id="line-80"></span><span>            </span><span class="hs-special">]</span><span>
+</span><span id="line-81"></span><span>            </span><span class="annot"><span class="annottext">[ImportDecl] -&gt; [ImportDecl] -&gt; [ImportDecl]
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; ImportDecl
 </span><a href="Language.FineTypes.Export.Haskell.Language.html#hsImportQualifiedAs"><span class="hs-identifier hs-var">hsImportQualifiedAs</span></a></span><span>
-</span><span id="line-79"></span><span>                    </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;Language.FineTypes.Export.Haskell.Value.Runtime&quot;</span></span><span>
-</span><span id="line-80"></span><span>                    </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;FineTypes.Value&quot;</span></span><span>
-</span><span id="line-81"></span><span>               </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; ImportDecl
-</span><a href="Language.FineTypes.Export.Haskell.Language.html#hsImportQualifiedAs"><span class="hs-identifier hs-var">hsImportQualifiedAs</span></a></span><span>
 </span><span id="line-82"></span><span>                    </span><span class="annot"><span class="annottext">String
-</span><span class="hs-string">&quot;Language.FineTypes.Typ&quot;</span></span><span>
+</span><span class="hs-string">&quot;Language.FineTypes.Export.Haskell.Value.Runtime&quot;</span></span><span>
 </span><span id="line-83"></span><span>                    </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;FineTypes.Value&quot;</span></span><span>
+</span><span id="line-84"></span><span>               </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; ImportDecl
+</span><a href="Language.FineTypes.Export.Haskell.Language.html#hsImportQualifiedAs"><span class="hs-identifier hs-var">hsImportQualifiedAs</span></a></span><span>
+</span><span id="line-85"></span><span>                    </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;Language.FineTypes.Typ&quot;</span></span><span>
+</span><span id="line-86"></span><span>                    </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;FineTypes.Typ&quot;</span></span><span>
-</span><span id="line-84"></span><span>               </span><span class="hs-special">]</span><span>
-</span><span id="line-85"></span><span>    </span><span id="local-6989586621679182121"><span class="annot"><span class="annottext">declarations :: [Decl]
-</span><a href="#local-6989586621679182121"><span class="hs-identifier hs-var hs-var">declarations</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-86"></span><span>        </span><span class="annot"><span class="annottext">[[Decl]] -&gt; [Decl]
+</span><span id="line-87"></span><span>               </span><span class="hs-special">]</span><span>
+</span><span id="line-88"></span><span>    </span><span id="local-6989586621679182976"><span class="annot"><span class="annottext">declarations :: [Decl]
+</span><a href="#local-6989586621679182976"><span class="hs-identifier hs-var hs-var">declarations</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-89"></span><span>        </span><span class="annot"><span class="annottext">[[Decl]] -&gt; [Decl]
 forall (t :: * -&gt; *) a. Foldable t =&gt; t [a] -&gt; [a]
 </span><span class="hs-identifier hs-var">concat</span></span><span>
-</span><span id="line-87"></span><span>            </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">String -&gt; Typ -&gt; [Decl]
+</span><span id="line-90"></span><span>            </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">String -&gt; Typ -&gt; [Decl]
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#declarationFromTyp"><span class="hs-identifier hs-var">declarationFromTyp</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182138"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679182139"><span class="hs-identifier hs-var">typ</span></a></span><span>
-</span><span id="line-88"></span><span>            </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679182138"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182138"><span class="hs-identifier hs-var">name</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679182139"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679182139"><span class="hs-identifier hs-var">typ</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Map String Typ -&gt; [(String, Typ)]
+</span><a href="#local-6989586621679182993"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679182994"><span class="hs-identifier hs-var">typ</span></a></span><span>
+</span><span id="line-91"></span><span>            </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679182993"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679182993"><span class="hs-identifier hs-var">name</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679182994"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679182994"><span class="hs-identifier hs-var">typ</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Map String Typ -&gt; [(String, Typ)]
 forall k a. Map k a -&gt; [(k, a)]
 </span><span class="hs-identifier hs-var">Map.toList</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Module -&gt; Map String Typ
 </span><a href="Language.FineTypes.Module.html#moduleDeclarations"><span class="hs-identifier hs-var">moduleDeclarations</span></a></span><span> </span><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679182116"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-89"></span><span>            </span><span class="hs-special">]</span><span>
-</span><span id="line-90"></span><span>
-</span><span id="line-91"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+</span><a href="#local-6989586621679182971"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-92"></span><span>            </span><span class="hs-special">]</span><span>
+</span><span id="line-93"></span><span>
+</span><span id="line-94"></span><span class="hs-comment">{-----------------------------------------------------------------------------
     Convert Typ to Haskell declaration
 ------------------------------------------------------------------------------}</span><span>
-</span><span id="line-94"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#declarationFromTyp"><span class="hs-identifier hs-type">declarationFromTyp</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Hs.Decl</span></span><span class="hs-special">]</span><span>
-</span><span id="line-95"></span><span id="declarationFromTyp"><span class="annot"><span class="annottext">declarationFromTyp :: String -&gt; Typ -&gt; [Decl]
-</span><a href="Language.FineTypes.Export.Haskell.Typ.html#declarationFromTyp"><span class="hs-identifier hs-var hs-var">declarationFromTyp</span></a></span></span><span> </span><span id="local-6989586621679182142"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182142"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621679182143"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679182143"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679182143"><span class="hs-identifier hs-var">typ</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-96"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-type">ProductN</span></a></span><span> </span><span id="local-6989586621679182145"><span class="annot"><span class="annottext">[(String, Typ)]
-</span><a href="#local-6989586621679182145"><span class="hs-identifier hs-var">fields</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-97"></span><span>        </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">DataOrNew
+</span><span id="line-97"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#declarationFromTyp"><span class="hs-identifier hs-type">declarationFromTyp</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Hs.Decl</span></span><span class="hs-special">]</span><span>
+</span><span id="line-98"></span><span id="declarationFromTyp"><span class="annot"><span class="annottext">declarationFromTyp :: String -&gt; Typ -&gt; [Decl]
+</span><a href="Language.FineTypes.Export.Haskell.Typ.html#declarationFromTyp"><span class="hs-identifier hs-var hs-var">declarationFromTyp</span></a></span></span><span> </span><span id="local-6989586621679182997"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621679182998"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679182998"><span class="hs-identifier hs-var">typ</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679182998"><span class="hs-identifier hs-var">typ</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-99"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#ProductN"><span class="hs-identifier hs-type">ProductN</span></a></span><span> </span><span id="local-6989586621679183000"><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183000"><span class="hs-identifier hs-var">fields</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-100"></span><span>        </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">DataOrNew
 -&gt; Maybe Context -&gt; DeclHead -&gt; [QualConDecl] -&gt; [Deriving] -&gt; Decl
 </span><span class="hs-identifier hs-var">Hs.DataDecl</span></span><span>
-</span><span id="line-98"></span><span>            </span><span class="annot"><span class="annottext">DataOrNew
+</span><span id="line-101"></span><span>            </span><span class="annot"><span class="annottext">DataOrNew
 </span><span class="hs-identifier hs-var">Hs.DataType</span></span><span>
-</span><span id="line-99"></span><span>            </span><span class="annot"><span class="annottext">Maybe Context
+</span><span id="line-102"></span><span>            </span><span class="annot"><span class="annottext">Maybe Context
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-100"></span><span>            </span><span class="annot"><span class="annottext">DeclHead
-</span><a href="#local-6989586621679182148"><span class="hs-identifier hs-var">declaredName</span></a></span><span>
-</span><span id="line-101"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; [QualConDecl]
+</span><span id="line-103"></span><span>            </span><span class="annot"><span class="annottext">DeclHead
+</span><a href="#local-6989586621679183003"><span class="hs-identifier hs-var">declaredName</span></a></span><span>
+</span><span id="line-104"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; [QualConDecl]
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#declareProduct"><span class="hs-identifier hs-var">declareProduct</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182142"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
-</span><a href="#local-6989586621679182145"><span class="hs-identifier hs-var">fields</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-102"></span><span>            </span><span class="annot"><span class="annottext">[Deriving]
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183000"><span class="hs-identifier hs-var">fields</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-105"></span><span>            </span><span class="annot"><span class="annottext">[Deriving]
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#derivingEqOrdGeneric"><span class="hs-identifier hs-var">derivingEqOrdGeneric</span></a></span><span>
-</span><span id="line-103"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; Decl -&gt; Decl
-</span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceToValue"><span class="hs-identifier hs-var">declareInstanceToValue</span></a></span><span>
-</span><span id="line-104"></span><span>            </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182142"><span class="hs-identifier hs-var">name</span></a></span><span>
-</span><span id="line-105"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; Decl
-</span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToValueFunProduct"><span class="hs-identifier hs-var">declareToValueFunProduct</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182142"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
-</span><a href="#local-6989586621679182145"><span class="hs-identifier hs-var">fields</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-106"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; Decl -&gt; Decl
-</span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceToTyp"><span class="hs-identifier hs-var">declareInstanceToTyp</span></a></span><span>
+</span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceToValue"><span class="hs-identifier hs-var">declareInstanceToValue</span></a></span><span>
 </span><span id="line-107"></span><span>            </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182142"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span>
 </span><span id="line-108"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; Decl
+</span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToValueFunProduct"><span class="hs-identifier hs-var">declareToValueFunProduct</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183000"><span class="hs-identifier hs-var">fields</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-109"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; Decl -&gt; Decl
+</span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceToTyp"><span class="hs-identifier hs-var">declareInstanceToTyp</span></a></span><span>
+</span><span id="line-110"></span><span>            </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-111"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; Decl
 </span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToTypFunProduct"><span class="hs-identifier hs-var">declareToTypFunProduct</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182142"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
-</span><a href="#local-6989586621679182145"><span class="hs-identifier hs-var">fields</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-109"></span><span>        </span><span class="hs-special">]</span><span>
-</span><span id="line-110"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-type">SumN</span></a></span><span> </span><span id="local-6989586621679182152"><span class="annot"><span class="annottext">[(String, Typ)]
-</span><a href="#local-6989586621679182152"><span class="hs-identifier hs-var">constructors</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-111"></span><span>        </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">DataOrNew
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183000"><span class="hs-identifier hs-var">fields</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-112"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; Decl -&gt; Decl
+</span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceFromValue"><span class="hs-identifier hs-var">declareInstanceFromValue</span></a></span><span>
+</span><span id="line-113"></span><span>            </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-114"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; Decl
+</span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareFromValueFunProduct"><span class="hs-identifier hs-var">declareFromValueFunProduct</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183000"><span class="hs-identifier hs-var">fields</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-115"></span><span>        </span><span class="hs-special">]</span><span>
+</span><span id="line-116"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Typ.html#SumN"><span class="hs-identifier hs-type">SumN</span></a></span><span> </span><span id="local-6989586621679183007"><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183007"><span class="hs-identifier hs-var">constructors</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-117"></span><span>        </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">DataOrNew
 -&gt; Maybe Context -&gt; DeclHead -&gt; [QualConDecl] -&gt; [Deriving] -&gt; Decl
 </span><span class="hs-identifier hs-var">Hs.DataDecl</span></span><span>
-</span><span id="line-112"></span><span>            </span><span class="annot"><span class="annottext">DataOrNew
+</span><span id="line-118"></span><span>            </span><span class="annot"><span class="annottext">DataOrNew
 </span><span class="hs-identifier hs-var">Hs.DataType</span></span><span>
-</span><span id="line-113"></span><span>            </span><span class="annot"><span class="annottext">Maybe Context
+</span><span id="line-119"></span><span>            </span><span class="annot"><span class="annottext">Maybe Context
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-114"></span><span>            </span><span class="annot"><span class="annottext">DeclHead
-</span><a href="#local-6989586621679182148"><span class="hs-identifier hs-var">declaredName</span></a></span><span>
-</span><span id="line-115"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; [QualConDecl]
+</span><span id="line-120"></span><span>            </span><span class="annot"><span class="annottext">DeclHead
+</span><a href="#local-6989586621679183003"><span class="hs-identifier hs-var">declaredName</span></a></span><span>
+</span><span id="line-121"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; [QualConDecl]
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#declareSum"><span class="hs-identifier hs-var">declareSum</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182142"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
-</span><a href="#local-6989586621679182152"><span class="hs-identifier hs-var">constructors</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-116"></span><span>            </span><span class="annot"><span class="annottext">[Deriving]
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183007"><span class="hs-identifier hs-var">constructors</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-122"></span><span>            </span><span class="annot"><span class="annottext">[Deriving]
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#derivingEqOrdGeneric"><span class="hs-identifier hs-var">derivingEqOrdGeneric</span></a></span><span>
-</span><span id="line-117"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; Decl -&gt; Decl
+</span><span id="line-123"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; Decl -&gt; Decl
 </span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceToValue"><span class="hs-identifier hs-var">declareInstanceToValue</span></a></span><span>
-</span><span id="line-118"></span><span>            </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182142"><span class="hs-identifier hs-var">name</span></a></span><span>
-</span><span id="line-119"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; Decl
+</span><span id="line-124"></span><span>            </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-125"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; Decl
 </span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToValueFunSum"><span class="hs-identifier hs-var">declareToValueFunSum</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182142"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
-</span><a href="#local-6989586621679182152"><span class="hs-identifier hs-var">constructors</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-120"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; Decl -&gt; Decl
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183007"><span class="hs-identifier hs-var">constructors</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-126"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; Decl -&gt; Decl
 </span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceToTyp"><span class="hs-identifier hs-var">declareInstanceToTyp</span></a></span><span>
-</span><span id="line-121"></span><span>            </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182142"><span class="hs-identifier hs-var">name</span></a></span><span>
-</span><span id="line-122"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; Decl
+</span><span id="line-127"></span><span>            </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-128"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; Decl
 </span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareToTypFunSum"><span class="hs-identifier hs-var">declareToTypFunSum</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182142"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
-</span><a href="#local-6989586621679182152"><span class="hs-identifier hs-var">constructors</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-123"></span><span>        </span><span class="hs-special">]</span><span>
-</span><span id="line-124"></span><span>    </span><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183007"><span class="hs-identifier hs-var">constructors</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-129"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String -&gt; Decl -&gt; Decl
+</span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareInstanceFromValue"><span class="hs-identifier hs-var">declareInstanceFromValue</span></a></span><span>
+</span><span id="line-130"></span><span>            </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-131"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; [(String, Typ)] -&gt; Decl
+</span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#declareFromValueFunSum"><span class="hs-identifier hs-var">declareFromValueFunSum</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183007"><span class="hs-identifier hs-var">constructors</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-132"></span><span>        </span><span class="hs-special">]</span><span>
+</span><span id="line-133"></span><span>    </span><span class="annot"><span class="annottext">Typ
 </span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-125"></span><span>        </span><span class="hs-special">[</span><span class="annot"><span class="annottext">DeclHead -&gt; Type -&gt; Decl
+</span><span id="line-134"></span><span>        </span><span class="hs-special">[</span><span class="annot"><span class="annottext">DeclHead -&gt; Type -&gt; Decl
 </span><span class="hs-identifier hs-var">Hs.TypeDecl</span></span><span> </span><span class="annot"><span class="annottext">DeclHead
-</span><a href="#local-6989586621679182148"><span class="hs-identifier hs-var">declaredName</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; Type
+</span><a href="#local-6989586621679183003"><span class="hs-identifier hs-var">declaredName</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; Type
 </span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#typeFromTyp"><span class="hs-identifier hs-var">typeFromTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679182143"><span class="hs-identifier hs-var">typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
-</span><span id="line-126"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-127"></span><span>    </span><span id="local-6989586621679182148"><span class="annot"><span class="annottext">declaredName :: DeclHead
-</span><a href="#local-6989586621679182148"><span class="hs-identifier hs-var hs-var">declaredName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Name -&gt; DeclHead
+</span><a href="#local-6989586621679182998"><span class="hs-identifier hs-var">typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
+</span><span id="line-135"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-136"></span><span>    </span><span id="local-6989586621679183003"><span class="annot"><span class="annottext">declaredName :: DeclHead
+</span><a href="#local-6989586621679183003"><span class="hs-identifier hs-var hs-var">declaredName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Name -&gt; DeclHead
 </span><span class="hs-identifier hs-var">Hs.DHead</span></span><span> </span><span class="annot"><span class="annottext">(Name -&gt; DeclHead) -&gt; Name -&gt; DeclHead
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; Name
 </span><span class="hs-identifier hs-var">Hs.Ident</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182142"><span class="hs-identifier hs-var">name</span></a></span><span>
-</span><span id="line-128"></span><span>
-</span><span id="line-129"></span><span class="hs-comment">{- Note [Deriving]
+</span><a href="#local-6989586621679182997"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-137"></span><span>
+</span><span id="line-138"></span><span class="hs-comment">{- Note [Deriving]
 
 haskell-src-exts version 1.23.1 is not able to represent
 the Haskell98 deriving clause (`deriving (Eq,Ord,Generic)`).
 Instead, the generated code needs the `DerivingStrategies` extension.
 
 -}</span><span>
-</span><span id="line-136"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#derivingEqOrdGeneric"><span class="hs-identifier hs-type">derivingEqOrdGeneric</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Hs.Deriving</span></span><span class="hs-special">]</span><span>
-</span><span id="line-137"></span><span id="derivingEqOrdGeneric"><span class="annot"><span class="annottext">derivingEqOrdGeneric :: [Deriving]
+</span><span id="line-145"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#derivingEqOrdGeneric"><span class="hs-identifier hs-type">derivingEqOrdGeneric</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Hs.Deriving</span></span><span class="hs-special">]</span><span>
+</span><span id="line-146"></span><span id="derivingEqOrdGeneric"><span class="annot"><span class="annottext">derivingEqOrdGeneric :: [Deriving]
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#derivingEqOrdGeneric"><span class="hs-identifier hs-var hs-var">derivingEqOrdGeneric</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-138"></span><span>    </span><span class="annot"><span class="annottext">(String -&gt; Deriving) -&gt; [String] -&gt; [Deriving]
+</span><span id="line-147"></span><span>    </span><span class="annot"><span class="annottext">(String -&gt; Deriving) -&gt; [String] -&gt; [Deriving]
 forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
 </span><span class="hs-identifier hs-var">map</span></span><span>
-</span><span id="line-139"></span><span>        </span><span class="annot"><span class="annottext">String -&gt; Deriving
-</span><a href="#local-6989586621679182156"><span class="hs-identifier hs-var">derivingClass</span></a></span><span>
-</span><span id="line-140"></span><span>        </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">String
+</span><span id="line-148"></span><span>        </span><span class="annot"><span class="annottext">String -&gt; Deriving
+</span><a href="#local-6989586621679183011"><span class="hs-identifier hs-var">derivingClass</span></a></span><span>
+</span><span id="line-149"></span><span>        </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Prelude.Eq&quot;</span></span><span>
-</span><span id="line-141"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
+</span><span id="line-150"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Prelude.Ord&quot;</span></span><span>
-</span><span id="line-142"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
+</span><span id="line-151"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Prelude.Show&quot;</span></span><span>
-</span><span id="line-143"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
+</span><span id="line-152"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;GHC.Generics.Generic&quot;</span></span><span>
-</span><span id="line-144"></span><span>        </span><span class="hs-special">]</span><span>
-</span><span id="line-145"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-146"></span><span>    </span><span id="local-6989586621679182156"><span class="annot"><span class="annottext">derivingClass :: String -&gt; Deriving
-</span><a href="#local-6989586621679182156"><span class="hs-identifier hs-var hs-var">derivingClass</span></a></span></span><span> </span><span id="local-6989586621679182157"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182157"><span class="hs-identifier hs-var">c</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-147"></span><span>        </span><span class="annot"><span class="annottext">Maybe DerivStrategy -&gt; [InstRule] -&gt; Deriving
+</span><span id="line-153"></span><span>        </span><span class="hs-special">]</span><span>
+</span><span id="line-154"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-155"></span><span>    </span><span id="local-6989586621679183011"><span class="annot"><span class="annottext">derivingClass :: String -&gt; Deriving
+</span><a href="#local-6989586621679183011"><span class="hs-identifier hs-var hs-var">derivingClass</span></a></span></span><span> </span><span id="local-6989586621679183012"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679183012"><span class="hs-identifier hs-var">c</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-156"></span><span>        </span><span class="annot"><span class="annottext">Maybe DerivStrategy -&gt; [InstRule] -&gt; Deriving
 </span><span class="hs-identifier hs-var">Hs.Deriving</span></span><span>
-</span><span id="line-148"></span><span>            </span><span class="annot"><span class="annottext">Maybe DerivStrategy
+</span><span id="line-157"></span><span>            </span><span class="annot"><span class="annottext">Maybe DerivStrategy
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-149"></span><span>            </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Maybe [TyVarBind] -&gt; Maybe Context -&gt; InstHead -&gt; InstRule
+</span><span id="line-158"></span><span>            </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Maybe [TyVarBind] -&gt; Maybe Context -&gt; InstHead -&gt; InstRule
 </span><span class="hs-identifier hs-var">Hs.IRule</span></span><span> </span><span class="annot"><span class="annottext">Maybe [TyVarBind]
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="annot"><span class="annottext">Maybe Context
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; InstHead
-</span><a href="#local-6989586621679182160"><span class="hs-identifier hs-var">instanceHead</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182157"><span class="hs-identifier hs-var">c</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
-</span><span id="line-150"></span><span>    </span><span id="local-6989586621679182160"><span class="annot"><span class="annottext">instanceHead :: String -&gt; InstHead
-</span><a href="#local-6989586621679182160"><span class="hs-identifier hs-var hs-var">instanceHead</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">QName -&gt; InstHead
+</span><a href="#local-6989586621679183015"><span class="hs-identifier hs-var">instanceHead</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679183012"><span class="hs-identifier hs-var">c</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
+</span><span id="line-159"></span><span>    </span><span id="local-6989586621679183015"><span class="annot"><span class="annottext">instanceHead :: String -&gt; InstHead
+</span><a href="#local-6989586621679183015"><span class="hs-identifier hs-var hs-var">instanceHead</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">QName -&gt; InstHead
 </span><span class="hs-identifier hs-var">Hs.IHCon</span></span><span> </span><span class="annot"><span class="annottext">(QName -&gt; InstHead) -&gt; (String -&gt; QName) -&gt; String -&gt; InstHead
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Name -&gt; QName
@@ -324,72 +343,72 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; Name
 </span><span class="hs-identifier hs-var">Hs.Ident</span></span><span>
-</span><span id="line-151"></span><span>
-</span><span id="line-152"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#declareProduct"><span class="hs-identifier hs-type">declareProduct</span></a></span><span>
-</span><span id="line-153"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
-</span><span id="line-154"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#FieldName"><span class="hs-identifier hs-type">FieldName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
-</span><span id="line-155"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Hs.QualConDecl</span></span><span class="hs-special">]</span><span>
-</span><span id="line-156"></span><span id="declareProduct"><span class="annot"><span class="annottext">declareProduct :: String -&gt; [(String, Typ)] -&gt; [QualConDecl]
-</span><a href="Language.FineTypes.Export.Haskell.Typ.html#declareProduct"><span class="hs-identifier hs-var hs-var">declareProduct</span></a></span></span><span> </span><span id="local-6989586621679182163"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182163"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621679182164"><span class="annot"><span class="annottext">[(String, Typ)]
-</span><a href="#local-6989586621679182164"><span class="hs-identifier hs-var">fields</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-157"></span><span>    </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">Maybe [TyVarBind] -&gt; Maybe Context -&gt; ConDecl -&gt; QualConDecl
+</span><span id="line-160"></span><span>
+</span><span id="line-161"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#declareProduct"><span class="hs-identifier hs-type">declareProduct</span></a></span><span>
+</span><span id="line-162"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
+</span><span id="line-163"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#FieldName"><span class="hs-identifier hs-type">FieldName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
+</span><span id="line-164"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Hs.QualConDecl</span></span><span class="hs-special">]</span><span>
+</span><span id="line-165"></span><span id="declareProduct"><span class="annot"><span class="annottext">declareProduct :: String -&gt; [(String, Typ)] -&gt; [QualConDecl]
+</span><a href="Language.FineTypes.Export.Haskell.Typ.html#declareProduct"><span class="hs-identifier hs-var hs-var">declareProduct</span></a></span></span><span> </span><span id="local-6989586621679183018"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679183018"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span id="local-6989586621679183019"><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183019"><span class="hs-identifier hs-var">fields</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-166"></span><span>    </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">Maybe [TyVarBind] -&gt; Maybe Context -&gt; ConDecl -&gt; QualConDecl
 </span><span class="hs-identifier hs-var">Hs.QualConDecl</span></span><span> </span><span class="annot"><span class="annottext">Maybe [TyVarBind]
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="annot"><span class="annottext">Maybe Context
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-158"></span><span>        </span><span class="annot"><span class="annottext">(ConDecl -&gt; QualConDecl) -&gt; ConDecl -&gt; QualConDecl
+</span><span id="line-167"></span><span>        </span><span class="annot"><span class="annottext">(ConDecl -&gt; QualConDecl) -&gt; ConDecl -&gt; QualConDecl
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Name -&gt; [FieldDecl] -&gt; ConDecl
 </span><span class="hs-identifier hs-var">Hs.RecDecl</span></span><span>
-</span><span id="line-159"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Name
+</span><span id="line-168"></span><span>            </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Name
 </span><span class="hs-identifier hs-var">Hs.Ident</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182163"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-160"></span><span>            </span><span class="hs-special">[</span><span class="annot"><span class="annottext">[Name] -&gt; Type -&gt; FieldDecl
+</span><a href="#local-6989586621679183018"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-169"></span><span>            </span><span class="hs-special">[</span><span class="annot"><span class="annottext">[Name] -&gt; Type -&gt; FieldDecl
 </span><span class="hs-identifier hs-var">Hs.FieldDecl</span></span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">String -&gt; Name
 </span><span class="hs-identifier hs-var">Hs.Ident</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182168"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; Type
+</span><a href="#local-6989586621679183023"><span class="hs-identifier hs-var">n</span></a></span><span class="hs-special">]</span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Typ -&gt; Type
 </span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#typeFromTyp"><span class="hs-identifier hs-var">typeFromTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679182169"><span class="hs-identifier hs-var">t</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679182168"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182168"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679182169"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679182169"><span class="hs-identifier hs-var">t</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
-</span><a href="#local-6989586621679182164"><span class="hs-identifier hs-var">fields</span></a></span><span class="hs-special">]</span><span>
-</span><span id="line-161"></span><span>    </span><span class="hs-special">]</span><span>
-</span><span id="line-162"></span><span>
-</span><span id="line-163"></span><span class="hs-comment">-- | Declare a Haskell type with constructors, corresponding to</span><span>
-</span><span id="line-164"></span><span class="hs-comment">-- a disjoint sum of types.</span><span>
-</span><span id="line-165"></span><span class="hs-comment">--</span><span>
-</span><span id="line-166"></span><span class="hs-comment">-- TODO: What about enumerations, i.e. when the arguments are 'Unit'?</span><span>
-</span><span id="line-167"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#declareSum"><span class="hs-identifier hs-type">declareSum</span></a></span><span>
-</span><span id="line-168"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
-</span><span id="line-169"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#ConstructorName"><span class="hs-identifier hs-type">ConstructorName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
-</span><span id="line-170"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Hs.QualConDecl</span></span><span class="hs-special">]</span><span>
-</span><span id="line-171"></span><span id="declareSum"><span class="annot"><span class="annottext">declareSum :: String -&gt; [(String, Typ)] -&gt; [QualConDecl]
+</span><a href="#local-6989586621679183024"><span class="hs-identifier hs-var">t</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679183023"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679183023"><span class="hs-identifier hs-var">n</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679183024"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679183024"><span class="hs-identifier hs-var">t</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183019"><span class="hs-identifier hs-var">fields</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-170"></span><span>    </span><span class="hs-special">]</span><span>
+</span><span id="line-171"></span><span>
+</span><span id="line-172"></span><span class="hs-comment">-- | Declare a Haskell type with constructors, corresponding to</span><span>
+</span><span id="line-173"></span><span class="hs-comment">-- a disjoint sum of types.</span><span>
+</span><span id="line-174"></span><span class="hs-comment">--</span><span>
+</span><span id="line-175"></span><span class="hs-comment">-- TODO: What about enumerations, i.e. when the arguments are 'Unit'?</span><span>
+</span><span id="line-176"></span><span class="annot"><a href="Language.FineTypes.Export.Haskell.Typ.html#declareSum"><span class="hs-identifier hs-type">declareSum</span></a></span><span>
+</span><span id="line-177"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
+</span><span id="line-178"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#ConstructorName"><span class="hs-identifier hs-type">ConstructorName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#Typ"><span class="hs-identifier hs-type">Typ</span></a></span><span class="hs-special">)</span><span class="hs-special">]</span><span>
+</span><span id="line-179"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="hs-identifier hs-type">Hs.QualConDecl</span></span><span class="hs-special">]</span><span>
+</span><span id="line-180"></span><span id="declareSum"><span class="annot"><span class="annottext">declareSum :: String -&gt; [(String, Typ)] -&gt; [QualConDecl]
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#declareSum"><span class="hs-identifier hs-var hs-var">declareSum</span></a></span></span><span> </span><span class="annot"><span class="annottext">String
-</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679182170"><span class="annot"><span class="annottext">[(String, Typ)]
-</span><a href="#local-6989586621679182170"><span class="hs-identifier hs-var">constructors</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-172"></span><span>    </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">Maybe [TyVarBind] -&gt; Maybe Context -&gt; ConDecl -&gt; QualConDecl
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679183025"><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183025"><span class="hs-identifier hs-var">constructors</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-181"></span><span>    </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">Maybe [TyVarBind] -&gt; Maybe Context -&gt; ConDecl -&gt; QualConDecl
 </span><span class="hs-identifier hs-var">Hs.QualConDecl</span></span><span> </span><span class="annot"><span class="annottext">Maybe [TyVarBind]
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="annot"><span class="annottext">Maybe Context
 forall a. Maybe a
 </span><span class="hs-identifier hs-var">Nothing</span></span><span>
-</span><span id="line-173"></span><span>        </span><span class="annot"><span class="annottext">(ConDecl -&gt; QualConDecl) -&gt; ConDecl -&gt; QualConDecl
+</span><span id="line-182"></span><span>        </span><span class="annot"><span class="annottext">(ConDecl -&gt; QualConDecl) -&gt; ConDecl -&gt; QualConDecl
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Name -&gt; [Type] -&gt; ConDecl
 </span><span class="hs-identifier hs-var">Hs.ConDecl</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Name
 </span><span class="hs-identifier hs-var">Hs.Ident</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; String
 </span><a href="Language.FineTypes.Export.Haskell.Language.html#raiseFirstLetter"><span class="hs-identifier hs-var">raiseFirstLetter</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182172"><span class="hs-identifier hs-var">cons</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[Type]
-</span><a href="#local-6989586621679182173"><span class="hs-identifier hs-var">arguments</span></a></span><span>
-</span><span id="line-174"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679182172"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679182172"><span class="hs-identifier hs-var">cons</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679182174"><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679182174"><span class="hs-identifier hs-var">typ</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
-</span><a href="#local-6989586621679182170"><span class="hs-identifier hs-var">constructors</span></a></span><span>
-</span><span id="line-175"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679182173"><span class="annot"><span class="annottext">arguments :: [Type]
-</span><a href="#local-6989586621679182173"><span class="hs-identifier hs-var hs-var">arguments</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Typ -&gt; Type
+</span><a href="#local-6989586621679183027"><span class="hs-identifier hs-var">cons</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">[Type]
+</span><a href="#local-6989586621679183028"><span class="hs-identifier hs-var">arguments</span></a></span><span>
+</span><span id="line-183"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679183027"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679183027"><span class="hs-identifier hs-var">cons</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679183029"><span class="annot"><span class="annottext">Typ
+</span><a href="#local-6989586621679183029"><span class="hs-identifier hs-var">typ</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[(String, Typ)]
+</span><a href="#local-6989586621679183025"><span class="hs-identifier hs-var">constructors</span></a></span><span>
+</span><span id="line-184"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679183028"><span class="annot"><span class="annottext">arguments :: [Type]
+</span><a href="#local-6989586621679183028"><span class="hs-identifier hs-var hs-var">arguments</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="annot"><span class="annottext">Typ -&gt; Type
 </span><a href="Language.FineTypes.Export.Haskell.Value.Compiletime.html#typeFromTyp"><span class="hs-identifier hs-var">typeFromTyp</span></a></span><span> </span><span class="annot"><span class="annottext">Typ
-</span><a href="#local-6989586621679182174"><span class="hs-identifier hs-var">typ</span></a></span><span class="hs-special">]</span><span>
-</span><span id="line-176"></span><span>    </span><span class="hs-special">]</span><span>
-</span><span id="line-177"></span></pre></body></html>
+</span><a href="#local-6989586621679183029"><span class="hs-identifier hs-var">typ</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-185"></span><span>    </span><span class="hs-special">]</span><span>
+</span><span id="line-186"></span></pre></body></html>
