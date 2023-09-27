@@ -27,6 +27,13 @@ test:
         --test-show-details=direct \
         --test-options="--format=checks --color"
 
+test-autogen:
+    @cabal test -v0 -O0 -j haskell \
+        --test-show-details=direct \
+        --test-options="--format=checks --no-color"
+
+
+
 test-seed:
     @cabal test -v0 -O0 -j unit \
         --test-show-details=direct \
