@@ -12,6 +12,7 @@ where
 
 import Prelude
 
+import Language.FineTypes.Commands.Lint (LintOptions (..))
 import Options.Applicative
     ( InfoMod
     , Parser
@@ -19,11 +20,6 @@ import Options.Applicative
     , progDesc
     )
 import Options.Common (dirOption, inputOption)
-
-data LintOptions = LintOptions
-    { optInput :: Maybe FilePath
-    , optDir :: FilePath
-    }
 
 lintDescr :: InfoMod a
 lintDescr =

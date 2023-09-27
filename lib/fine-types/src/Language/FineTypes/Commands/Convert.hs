@@ -1,24 +1,32 @@
 {-# LANGUAGE RecordWildCards #-}
 
-module Commands.Convert where
+module Language.FineTypes.Commands.Convert where
 
 import Prelude
 
-import Commands.Common (readInput)
-import Commands.Log (inside)
 import Control.Tracer (Tracer, traceWith)
 import Data.Aeson.Encode.Pretty (encodePretty)
 import Data.Function ((&))
 import Data.Maybe (fromMaybe)
+import Language.FineTypes.Commands.Common (readInput)
+import Language.FineTypes.Commands.Log (inside)
 import Language.FineTypes.Export.OpenAPI.Schema (schemaFromModule)
 import Language.FineTypes.Parser (parseFineTypes')
-import Options.Convert (ConvertOptions (..), Format (..), Schema (..))
 import Text.Megaparsec.Error (errorBundlePretty)
 
 import qualified Data.ByteString as B
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.Yaml.Pretty as Y
 import qualified Language.FineTypes.Export.Haskell.Typ as Hs
+
+data Format = Json | Yaml
+data Schema = JsonSchema Format | HaskellSchema
+
+data ConvertOptions = ConvertOptions
+    { optInput :: Maybe FilePath
+    , optOutput :: Maybe FilePath
+    , optSchema :: Schema
+    }
 
 convert :: Tracer IO String -> ConvertOptions -> IO ()
 convert tracer ConvertOptions{..} = do

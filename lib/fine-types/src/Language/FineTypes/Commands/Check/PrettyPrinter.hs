@@ -1,7 +1,7 @@
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Commands.Check.PrettyPrinter where
+module Language.FineTypes.Commands.Check.PrettyPrinter where
 
 import Prelude
 

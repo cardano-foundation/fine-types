@@ -1,30 +1,35 @@
 {-# LANGUAGE RecordWildCards #-}
 
-module Commands.Lint
+module Language.FineTypes.Commands.Lint
     ( lint
+    , LintOptions (..)
     ) where
 
 import Prelude
 
-import Commands.Check.PrettyPrinter
+import Control.Tracer (Tracer, traceWith)
+import Data.Foldable (toList)
+import Data.Maybe (fromMaybe)
+import Language.FineTypes.Commands.Check.PrettyPrinter
     ( renderCompilePackageError
     , renderParsePackageError
     )
-import Commands.Common (readInput)
-import Commands.Log (inside)
-import Control.Tracer (Tracer, traceWith)
-import Data.Maybe (fromMaybe)
+import Language.FineTypes.Commands.Common (readInput)
+import Language.FineTypes.Commands.Log (inside)
 import Language.FineTypes.Module (redundantImports)
 import Language.FineTypes.Package
     ( Package (..)
     , compilePackageDescription
     , parsePackageDescription
     )
-import Options.Lint (LintOptions (..))
 import System.Exit (exitFailure)
 
-import Data.Foldable (toList)
 import qualified Data.Map as Map
+
+data LintOptions = LintOptions
+    { optInput :: Maybe FilePath
+    , optDir :: FilePath
+    }
 
 lint :: Tracer IO String -> LintOptions -> IO ()
 lint tracer LintOptions{..} = do

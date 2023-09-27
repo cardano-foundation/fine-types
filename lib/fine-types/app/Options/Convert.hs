@@ -3,11 +3,17 @@
 
 {-# HLINT ignore "Use <$>" #-}
 
-module Options.Convert where
+module Options.Convert (ConvertOptions, convertDescr, convertOptions)
+where
 
 import Prelude
 
 import Data.Foldable (asum)
+import Language.FineTypes.Commands.Convert
+    ( ConvertOptions (..)
+    , Format (..)
+    , Schema (..)
+    )
 import Options.Applicative
     ( InfoMod
     , Parser
@@ -22,15 +28,6 @@ import Options.Applicative
     , progDesc
     )
 import Options.Common (inputOption, outputOption)
-
-data Format = Json | Yaml
-data Schema = JsonSchema Format | HaskellSchema
-
-data ConvertOptions = ConvertOptions
-    { optInput :: Maybe FilePath
-    , optOutput :: Maybe FilePath
-    , optSchema :: Schema
-    }
 
 convertDescr :: InfoMod a
 convertDescr =

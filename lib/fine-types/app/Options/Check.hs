@@ -1,9 +1,11 @@
 {-# LANGUAGE ApplicativeDo #-}
 
-module Options.Check where
+module Options.Check (CheckOptions, checkDescr, checkOptions)
+where
 
 import Prelude
 
+import Language.FineTypes.Commands.Check (CheckOptions (..))
 import Options.Applicative
     ( InfoMod
     , Parser
@@ -11,11 +13,6 @@ import Options.Applicative
     , progDesc
     )
 import Options.Common (dirOption, inputOption)
-
-data CheckOptions = CheckOptions
-    { optInput :: Maybe FilePath
-    , optDir :: FilePath
-    }
 
 checkDescr :: InfoMod a
 checkDescr =
