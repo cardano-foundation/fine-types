@@ -9,7 +9,8 @@ import Prelude
 
 import Data.Proxy (Proxy (..))
 import Language.FineTypes.Export.Haskell.Value.Runtime
-    ( ToTyp (..)
+    ( FromValue (..)
+    , ToTyp (..)
     , ToValue (..)
     )
 import Language.FineTypes.Test.UTxO
@@ -39,6 +40,11 @@ spec = do
             $ toValue example `shouldSatisfy` isFiniteMap
         it "respects typ vs value law"
             $ toValue example `shouldSatisfy` flip hasTyp (toTyp (Proxy @Value))
+        it "respect from-to value law"
+            $ fromValue (toValue example) `shouldSatisfy` (== example)
+        it "respects to-from value law"
+            $ toValue (fromValue (toValue example) :: Value)
+                `shouldSatisfy` (== toValue example)
 
 isFiniteMap :: FineTypes.Value -> Bool
 isFiniteMap (FineTypes.Two (FineTypes.FiniteMap _)) = True

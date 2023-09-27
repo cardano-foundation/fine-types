@@ -7,6 +7,9 @@ module Language.FineTypes.Export.Haskell.Value.Compiletime
     , declareToTypFunProduct
     , declareInstanceToTyp
     , typeFromTyp
+    , declareInstanceFromValue
+    , declareFromValueFunProduct
+    , declareFromValueFunSum
     ) where
 
 import Prelude
@@ -51,7 +54,16 @@ declareInstanceToValue
     :: TypName -> Hs.Decl -> Hs.Decl
 declareInstanceToValue = declareInstance "ToValue"
 
--- | Declare the function `toValue` for a record type.
+-- | Declare an @instance FromValue@ for a record type.
+declareInstanceFromValue
+    :: TypName -> Hs.Decl -> Hs.Decl
+declareInstanceFromValue = declareInstance "FromValue"
+
+{-----------------------------------------------------------------------------
+    Declarations of Products
+------------------------------------------------------------------------------}
+
+-- | Declare the funcion `toValue` for a record type.
 declareToValueFunProduct
     :: TypName
     -> [(FieldName, Typ)]
@@ -102,6 +114,54 @@ declareToTypFunProduct _ fields =
             $ typeFromTyp typ
     proxy = Hs.Qual (Hs.ModuleName "Data.Proxy") (Hs.Ident "Proxy")
     productN = Hs.Con (runtimeTyp "ProductN")
+
+-- | Declare the function `fromValue` for a record type.
+declareFromValueFunProduct
+    :: TypName
+    -> [(FieldName, Typ)]
+    -> Hs.Decl
+declareFromValueFunProduct constructor fields =
+    Hs.FunBind
+        [ Hs.Match
+            (Hs.Ident "fromValue")
+            [Hs.PApp (runtime "Product") [Hs.PList pats]]
+            ( Hs.UnGuardedRhs
+                $ foldl
+                    Hs.App
+                    (Hs.Con $ Hs.UnQual $ Hs.Ident $ raiseFirstLetter constructor)
+                    args
+            )
+            Nothing
+        , Hs.Match
+            (Hs.Ident "fromValue")
+            [Hs.PWildCard]
+            (errorE "fromValue: unexpected value")
+            Nothing
+        ]
+  where
+    pats =
+        [ Hs.PVar (Hs.Ident $ field <> "_pat")
+        | (field, _) <- fields
+        ]
+    args =
+        [ Hs.App
+            (Hs.Var $ runtime "fromValue")
+            $ Hs.Var (Hs.UnQual $ Hs.Ident $ field <> "_pat")
+        | (field, _) <- fields
+        ]
+
+errorE :: String -> Hs.Rhs
+errorE msg =
+    Hs.UnGuardedRhs
+        $ Hs.App
+            ( Hs.Var
+                $ Hs.Qual (Hs.ModuleName "Prelude") (Hs.Ident "error")
+            )
+            (Hs.Lit $ Hs.String msg)
+
+{-----------------------------------------------------------------------------
+    Declarations of Sums
+------------------------------------------------------------------------------}
 
 -- | Declare the function `toValue` for a sum type.
 declareToValueFunSum
@@ -158,6 +218,40 @@ declareToTypFunSum _ constructors =
             $ typeFromTyp typ
     proxy = Hs.Qual (Hs.ModuleName "Data.Proxy") (Hs.Ident "Proxy")
     sumN = Hs.Con (runtimeTyp "SumN")
+
+-- | Declare the function `fromValue` for a sum type.
+declareFromValueFunSum
+    :: TypName
+    -> [(ConstructorName, Typ)]
+    -> Hs.Decl
+declareFromValueFunSum _ constructors =
+    let positives = do
+            (ix, (c, _typ)) <- zip [0 ..] constructors
+            pure
+                $ Hs.Match
+                    (Hs.Ident "fromValue")
+                    [pat ix]
+                    ( Hs.UnGuardedRhs
+                        $ Hs.App
+                            (Hs.Con $ Hs.UnQual $ Hs.Ident $ raiseFirstLetter c)
+                        $ Hs.App (Hs.Var $ runtime "fromValue")
+                        $ Hs.Var (Hs.UnQual $ Hs.Ident "x")
+                    )
+                    Nothing
+        negatives =
+            Hs.Match
+                (Hs.Ident "fromValue")
+                [Hs.PWildCard]
+                (errorE "fromValue: unexpected value")
+                Nothing
+    in  Hs.FunBind $ positives ++ [negatives]
+  where
+    pat ix =
+        Hs.PApp
+            (runtime "Sum")
+            [ Hs.PLit Hs.Signless (Hs.Int ix)
+            , Hs.PVar (Hs.Ident "x")
+            ]
 
 {-----------------------------------------------------------------------------
     Expression utilities
