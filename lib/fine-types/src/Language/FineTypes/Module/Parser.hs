@@ -12,20 +12,22 @@ import Data.Map (Map)
 import Data.Void
     ( Void
     )
+import Language.FineTypes.Documentation
+    ( DocString
+    , Documentation
+    , Place (..)
+    , document
+    )
 import Language.FineTypes.Documentation.Parser
     ( documentationPost
     , documentationPre
     )
 import Language.FineTypes.Module
     ( Declarations
-    , DocString
-    , Documentation
     , Import (..)
     , Imports
     , Module (Module)
     , ModuleName
-    , Place (..)
-    , document
     )
 import Language.FineTypes.Parser.Common (typName)
 import Language.FineTypes.Parser.Lexer
@@ -51,6 +53,7 @@ import Text.Megaparsec
 
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
+import qualified Language.FineTypes.Documentation as Documentation
 import qualified Language.FineTypes.Module as Module
 import qualified Text.Megaparsec.Char as C
 import qualified Text.Megaparsec.Char.Lexer as L
@@ -139,12 +142,18 @@ mkDocumentedDeclaration doc1 name (DocumentedTyp typ fs cs) doc2 =
     decl = Map.singleton name typ
     docs =
         mconcat
-            [ document (Module.Typ name) d
+            [ document (Documentation.Typ name) d
             | d <- [doc1, doc2]
             , not (Map.null d)
             ]
-            <> mconcat [document (Module.Field name f) d | (f, d) <- fs]
-            <> mconcat [document (Module.Constructor name c) d | (c, d) <- cs]
+            <> mconcat
+                [ document (Documentation.Field name f) d
+                | (f, d) <- fs
+                ]
+            <> mconcat
+                [ document (Documentation.Constructor name c) d
+                | (c, d) <- cs
+                ]
 
 moduleName :: Parser ModuleName
 moduleName =

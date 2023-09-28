@@ -9,13 +9,13 @@ import Prelude
 
 import Data.Char (isSpace)
 import Data.Map (Map)
+import Language.FineTypes.Documentation
+    ( DocString
+    , Place (..)
+    )
 import Language.FineTypes.Documentation.Parser
     ( documentationPost
     , documentationPre
-    )
-import Language.FineTypes.Module
-    ( DocString
-    , Place (..)
     )
 import Language.FineTypes.Parser.Common (typName)
 import Language.FineTypes.Parser.Lexer

@@ -44,12 +44,14 @@ import Data.OpenApi
         , _schemaType
         )
     )
+import Language.FineTypes.Documentation
+    ( DocString
+    , Documentation (Documentation)
+    , Place
+    )
 import Language.FineTypes.Module
     ( Declarations
-    , DocString
-    , Documentation (..)
     , Module (..)
-    , Place (..)
     , resolveVars
     )
 import Language.FineTypes.Typ
@@ -72,7 +74,7 @@ import Prettyprinter.Render.String (renderString)
 import qualified Data.HashMap.Strict.InsOrd as MH
 import qualified Data.Map as Map
 import qualified Data.Text as T
-import qualified Language.FineTypes.Module as Module
+import qualified Language.FineTypes.Documentation as Documentation
 
 {-----------------------------------------------------------------------------
     OpenAPI
@@ -283,7 +285,7 @@ addDocumentation (Documentation doc) (tname, typ) =
     describeTyp . decribeConstructorsOrFields
   where
     describeTyp =
-        maybe id addDescription $ Map.lookup (Module.Typ tname) doc
+        maybe id addDescription $ Map.lookup (Documentation.Typ tname) doc
 
     decribeConstructorsOrFields schema = case typ of
         ProductN fields ->
@@ -292,7 +294,7 @@ addDocumentation (Documentation doc) (tname, typ) =
                 schema
                 [ adjustProperty (addDescription d) fname
                 | (fname, _) <- fields
-                , Just d <- [Map.lookup (Module.Field tname fname) doc]
+                , Just d <- [Map.lookup (Documentation.Field tname fname) doc]
                 ]
         SumN constructors ->
             foldr
@@ -300,7 +302,8 @@ addDocumentation (Documentation doc) (tname, typ) =
                 schema
                 [ adjustProperty (addDescription d) cname
                 | (cname, _) <- constructors
-                , Just d <- [Map.lookup (Module.Constructor tname cname) doc]
+                , Just d <-
+                    [Map.lookup (Documentation.Constructor tname cname) doc]
                 ]
         _ -> schema
 

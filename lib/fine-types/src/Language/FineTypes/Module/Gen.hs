@@ -18,16 +18,18 @@ import Data.Char
     )
 import Data.List (isInfixOf)
 import Data.Set (Set)
+import Language.FineTypes.Documentation
+    ( Documentation (..)
+    , Identifier (..)
+    , Place (..)
+    , document
+    )
 import Language.FineTypes.Module
     ( Declarations
-    , Documentation (..)
-    , Identifier (..)
     , Import (..)
     , Imports
     , Module (..)
     , ModuleName
-    , Place (..)
-    , document
     )
 import Language.FineTypes.Typ
     ( Typ (..)

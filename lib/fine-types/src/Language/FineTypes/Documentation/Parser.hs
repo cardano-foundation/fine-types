@@ -4,7 +4,7 @@ import Prelude
 
 import Control.Applicative ((<|>))
 import Data.Map (Map)
-import Language.FineTypes.Module (DocString, Place (..))
+import Language.FineTypes.Documentation (DocString, Place (..))
 import Language.FineTypes.Parser.Lexer (line, space)
 import Language.FineTypes.Parser.Types (Parser)
 import Text.Megaparsec

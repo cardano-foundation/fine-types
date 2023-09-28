@@ -10,12 +10,14 @@ import Prelude
 import Data.Either (isRight)
 import Data.Foldable (fold, toList)
 import Data.TreeDiff.QuickCheck (ediffEq)
-import Language.FineTypes.Module
+import Language.FineTypes.Documentation
     ( Documentation (..)
     , Identifier (..)
     , IdentifierDocumentation
-    , Module (..)
     , Place (..)
+    )
+import Language.FineTypes.Module
+    ( Module (..)
     , collectNotInScope
     )
 import Language.FineTypes.Module.Gen (genModule, shrinkModule)

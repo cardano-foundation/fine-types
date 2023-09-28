@@ -12,7 +12,8 @@ import Prelude
 import Data.Set (Set)
 import Data.TreeDiff (ToExpr)
 import GHC.Generics (Generic)
-import Language.FineTypes.Module (Documentation, ModuleName)
+import Language.FineTypes.Documentation (Documentation)
+import Language.FineTypes.Module (ModuleName)
 import Language.FineTypes.Typ (TypName)
 
 -- | A 'Signature' is a collection of 'Typ' names and documentation.

@@ -12,15 +12,17 @@ import Data.Map (Map)
 import Data.Void
     ( Void
     )
+import Language.FineTypes.Documentation
+    ( DocString
+    , Place (..)
+    , document
+    )
 import Language.FineTypes.Documentation.Parser
     ( documentationPost
     , documentationPre
     )
 import Language.FineTypes.Module
-    ( DocString
-    , ModuleName
-    , Place (..)
-    , document
+    ( ModuleName
     )
 import Language.FineTypes.Parser.Common (typName)
 import Language.FineTypes.Parser.Lexer (space, symbol)
@@ -43,7 +45,7 @@ import Text.Megaparsec
 
 import qualified Data.Map.Strict as Map
 import qualified Data.Set as Set
-import qualified Language.FineTypes.Module as Module
+import qualified Language.FineTypes.Documentation as Documentation
 import qualified Language.FineTypes.Signature as Signature
 import qualified Text.Megaparsec.Char as C
 import qualified Text.Megaparsec.Char.Lexer as L
@@ -110,7 +112,7 @@ mkDocumentedDeclaration doc1 name doc2 =
     decl = Set.singleton name
     docs =
         mconcat
-            [ document (Module.Typ name) d
+            [ document (Documentation.Typ name) d
             | d <- [doc1, doc2]
             , not (Map.null d)
             ]

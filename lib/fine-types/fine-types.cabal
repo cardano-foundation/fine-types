@@ -83,6 +83,7 @@ library
     Language.FineTypes.Commands.Convert.Haskell.Cabal
     Language.FineTypes.Commands.Lint
     Language.FineTypes.Commands.Log
+    Language.FineTypes.Documentation
     Language.FineTypes.Documentation.Parser
     Language.FineTypes.Export.Haskell.Language
     Language.FineTypes.Export.Haskell.Typ
