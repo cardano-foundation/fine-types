@@ -24,3 +24,6 @@ data Signature = Signature
     deriving (Eq, Show, Generic)
 
 instance ToExpr Signature
+
+type Declarations = Set TypName
+type DocumentedDeclarations = (Declarations, Documentation)
