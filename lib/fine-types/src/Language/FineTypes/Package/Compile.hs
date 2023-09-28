@@ -21,6 +21,7 @@ import Language.FineTypes.Package.Content
     , ErrIncludePackage
     , Package (..)
     , addModule
+    , addSignature
     , emptyPackage
     , includePackage
     )
@@ -34,6 +35,8 @@ import Language.FineTypes.Package.Parser
     ( ErrParsePackage
     , parsePackageDescription
     )
+import Language.FineTypes.Signature (Signature (signatureName))
+import Language.FineTypes.Signature.Parser (parseSignature')
 import System.FilePath (takeDirectory, (</>))
 import System.IO.Error (catchIOError)
 
@@ -107,6 +110,16 @@ execStatement dir pkg (Module modName source) = do
         $ modName == moduleName m
     exceptT (ErrAddModule modName)
         $ addModule m pkg
+execStatement dir pkg (Signature modName source) = do
+    file <- loadSource dir source
+    m <-
+        exceptT (ErrParseModuleError modName)
+            $ parseSignature' file
+    guardExceptT
+        (ErrAddModuleNameMismatch modName $ signatureName m)
+        $ modName == signatureName m
+    exceptT (ErrAddModule modName)
+        $ addSignature m pkg
 execStatement _ pkg (Assert _) =
     pure pkg
 

@@ -21,6 +21,7 @@ data PackageDescription = PackageDescription
 data Statement
     = Include PackageName Source
     | Module ModuleName Source
+    | Signature ModuleName Source
     | Assert Assertion
     deriving (Eq, Show)
 
