@@ -11,6 +11,7 @@ module Language.FineTypes.Package.Content
       -- * Error types
     , ErrIncludePackage (..)
     , ErrAddModule (..)
+    , addSignature
     ) where
 
 import Prelude
@@ -24,6 +25,7 @@ import Language.FineTypes.Module
     , ModuleName
     , collectNotInScope
     )
+import Language.FineTypes.Signature (Signature (..))
 import Language.FineTypes.Typ (TypName)
 
 import qualified Data.Map as Map
@@ -35,7 +37,7 @@ import qualified Data.Set as Set
 
 -- | A package is a collection of module or signature definitions.
 newtype Package = Package
-    { packageModules :: Map ModuleName Module
+    { packageModules :: Map ModuleName (Either Signature Module)
     }
     deriving (Eq, Show)
 
@@ -87,7 +89,11 @@ addModule mo@Module{..} Package{..}
     | otherwise =
         Right
             Package
-                { packageModules = Map.insert moduleName mo packageModules
+                { packageModules =
+                    Map.insert
+                        moduleName
+                        (Right mo)
+                        packageModules
                 }
   where
     -- FIXME: Substitute provenance for all the defined 'Typ'!.
@@ -103,5 +109,22 @@ addModule mo@Module{..} Package{..}
     isDefinedIn typName modName =
         case Map.lookup modName packageModules of
             Nothing -> False
-            Just Module{moduleDeclarations = ds} ->
+            Just (Right Module{moduleDeclarations = ds}) ->
                 typName `Map.member` ds
+            Just (Left Signature{signatureDeclarations = ds}) ->
+                typName `Set.member` ds
+
+addSignature
+    :: Signature -> Package -> Either ErrAddModule Package
+addSignature sig@Signature{..} Package{..}
+    | signatureName `Map.member` packageModules =
+        Left ErrModuleAlreadyInScope
+    | otherwise =
+        Right
+            Package
+                { packageModules =
+                    Map.insert
+                        signatureName
+                        (Left sig)
+                        packageModules
+                }

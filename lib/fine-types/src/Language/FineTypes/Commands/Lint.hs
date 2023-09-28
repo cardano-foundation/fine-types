@@ -52,8 +52,10 @@ lint tracer LintOptions{..} = do
                     exitFailure
                 Right (Package ms) -> do
                     rs <- sequence $ do
-                        (mname, module') <- Map.assocs ms
-                        (imodule, iname) <- toList $ redundantImports module'
+                        (mname, sigOrMod) <- Map.assocs ms
+                        (imodule, iname) <- case sigOrMod of
+                            Left _ -> []
+                            Right module' -> toList $ redundantImports module'
                         pure
                             $ traceWith
                                 (inside ("module " <> mname) tracer)

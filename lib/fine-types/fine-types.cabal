@@ -95,6 +95,7 @@ library
     Language.FineTypes.Module.PrettyPrinter
     Language.FineTypes.Package
     Language.FineTypes.Parser
+    Language.FineTypes.Signature
     Language.FineTypes.Typ
     Language.FineTypes.Typ.Gen
     Language.FineTypes.Typ.PrettyPrinter
