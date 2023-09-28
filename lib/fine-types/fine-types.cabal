@@ -102,6 +102,7 @@ library
     Language.FineTypes.Parser.Types
     Language.FineTypes.Signature
     Language.FineTypes.Signature.Parser
+    Language.FineTypes.Signature.PrettyPrinter
     Language.FineTypes.Typ
     Language.FineTypes.Typ.Gen
     Language.FineTypes.Typ.Parser

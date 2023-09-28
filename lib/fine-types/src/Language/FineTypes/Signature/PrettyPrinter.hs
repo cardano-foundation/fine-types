@@ -8,38 +8,30 @@ module Language.FineTypes.Signature.PrettyPrinter
 
 import Prelude
 
+import Data.Foldable (toList)
 import Language.FineTypes.Documentation (Documentation (..))
 import Language.FineTypes.Signature
-    ( Signature (..)
+    ( Declarations
+    , Signature (..)
     )
 import Language.FineTypes.Typ
-    ( Typ (..)
-    , TypName
+    ( TypName
     )
 import Language.FineTypes.Typ.PrettyPrinter
     ( QueryDocumentation
     , addDocs
-    , prettyTyp
     )
 import Prettyprinter
     ( Doc
     , Pretty (pretty)
-    , comma
-    , concatWith
     , defaultLayoutOptions
-    , group
     , layoutPretty
-    , line
-    , line'
-    , nest
-    , space
     , vsep
     , (<+>)
     )
 import Prettyprinter.Render.Text (renderStrict)
 
 import qualified Data.Map as Map
-import qualified Data.Set as Set
 import qualified Data.Text as T
 import qualified Language.FineTypes.Documentation as Documentation
 
@@ -71,12 +63,10 @@ prettySignature
                 ]
 
 prettyDeclarations :: QueryDocumentation -> Declarations -> Doc ann
-prettyDeclarations docs = vsep . map (prettyDeclaration docs) . Map.toList
+prettyDeclarations docs = vsep . map (prettyDeclaration docs) . toList
 
-prettyDeclaration :: QueryDocumentation -> (TypName, Typ) -> Doc ann
-prettyDeclaration docs (name, typ) =
+prettyDeclaration :: QueryDocumentation -> TypName -> Doc ann
+prettyDeclaration docs name =
     addDocs docs (Documentation.Typ name)
         $ pretty name
-            <+> prettyText "="
-            <+> prettyTyp docs name typ
             <> prettyText ";"
