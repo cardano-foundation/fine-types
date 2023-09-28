@@ -6,18 +6,15 @@ module Language.FineTypes.Package.Parser
 import Prelude
 
 import Data.Void (Void)
+import Language.FineTypes.Module.Parser (moduleName)
 import Language.FineTypes.Package.Description
     ( PackageDescription (PackageDescription)
     , PackageName
     , Source (..)
     , Statement (..)
     )
-import Language.FineTypes.Parser
-    ( moduleName
-    , space
-    , symbol
-    , typName
-    )
+import Language.FineTypes.Parser.Common (typName)
+import Language.FineTypes.Parser.Lexer (space, symbol)
 import Text.Megaparsec
     ( ParseErrorBundle
     , Parsec

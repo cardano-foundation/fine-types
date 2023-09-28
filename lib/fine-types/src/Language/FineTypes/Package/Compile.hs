@@ -15,6 +15,7 @@ import Control.Monad.Trans.Except
     , withExceptT
     )
 import Language.FineTypes.Module (ModuleName, moduleName)
+import Language.FineTypes.Module.Parser (ErrParseModule, parseFineTypes')
 import Language.FineTypes.Package.Content
     ( ErrAddModule
     , ErrIncludePackage
@@ -33,7 +34,6 @@ import Language.FineTypes.Package.Parser
     ( ErrParsePackage
     , parsePackageDescription
     )
-import Language.FineTypes.Parser (ErrParseModule, parseFineTypes')
 import System.FilePath (takeDirectory, (</>))
 import System.IO.Error (catchIOError)
 

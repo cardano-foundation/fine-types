@@ -83,6 +83,7 @@ library
     Language.FineTypes.Commands.Convert.Haskell.Cabal
     Language.FineTypes.Commands.Lint
     Language.FineTypes.Commands.Log
+    Language.FineTypes.Documentation.Parser
     Language.FineTypes.Export.Haskell.Language
     Language.FineTypes.Export.Haskell.Typ
     Language.FineTypes.Export.Haskell.Value.Compiletime
@@ -92,12 +93,16 @@ library
     Language.FineTypes.Export.OpenAPI.Value.ToJSON
     Language.FineTypes.Module
     Language.FineTypes.Module.Gen
+    Language.FineTypes.Module.Parser
     Language.FineTypes.Module.PrettyPrinter
     Language.FineTypes.Package
-    Language.FineTypes.Parser
+    Language.FineTypes.Parser.Common
+    Language.FineTypes.Parser.Lexer
+    Language.FineTypes.Parser.Types
     Language.FineTypes.Signature
     Language.FineTypes.Typ
     Language.FineTypes.Typ.Gen
+    Language.FineTypes.Typ.Parser
     Language.FineTypes.Typ.PrettyPrinter
     Language.FineTypes.Value
     Language.FineTypes.Value.Gen

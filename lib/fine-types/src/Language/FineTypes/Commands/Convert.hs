@@ -11,7 +11,7 @@ import Data.Maybe (fromMaybe)
 import Language.FineTypes.Commands.Common (readInput)
 import Language.FineTypes.Commands.Log (inside)
 import Language.FineTypes.Export.OpenAPI.Schema (schemaFromModule)
-import Language.FineTypes.Parser (parseFineTypes')
+import Language.FineTypes.Module.Parser (parseFineTypes')
 import Text.Megaparsec.Error (errorBundlePretty)
 
 import qualified Data.ByteString as B

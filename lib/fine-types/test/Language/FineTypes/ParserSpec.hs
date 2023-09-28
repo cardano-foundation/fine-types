@@ -19,11 +19,11 @@ import Language.FineTypes.Module
     , collectNotInScope
     )
 import Language.FineTypes.Module.Gen (genModule, shrinkModule)
-import Language.FineTypes.Module.PrettyPrinter (prettyPrintModule)
-import Language.FineTypes.Parser
+import Language.FineTypes.Module.Parser
     ( parseFineTypes
     , parseFineTypes'
     )
+import Language.FineTypes.Module.PrettyPrinter (prettyPrintModule)
 import Language.FineTypes.Typ
     ( Typ (..)
     , everything

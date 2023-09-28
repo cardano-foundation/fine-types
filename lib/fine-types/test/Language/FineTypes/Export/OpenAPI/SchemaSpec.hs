@@ -18,7 +18,7 @@ import Language.FineTypes.Export.OpenAPI.Schema
     )
 import Language.FineTypes.Export.OpenAPI.Value.ToJSON (jsonFromValue)
 import Language.FineTypes.Export.OpenAPI.ValueSpec (jsonInfo)
-import Language.FineTypes.Parser
+import Language.FineTypes.Module.Parser
     ( parseFineTypes
     )
 import Language.FineTypes.Typ
