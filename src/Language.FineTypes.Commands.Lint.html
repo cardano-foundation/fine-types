@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE RecordWildCards #-}</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Commands.Lint</span><span>
+</span><span id="line-4"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Lint.html#lint"><span class="hs-identifier">lint</span></a></span><span>
+</span><span id="line-5"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Lint.html#LintOptions"><span class="hs-identifier">LintOptions</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-6"></span><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-7"></span><span>
+</span><span id="line-8"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-9"></span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Tracer</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Tracer</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">traceWith</span></span><span class="hs-special">)</span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Foldable</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">toList</span></span><span class="hs-special">)</span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Maybe</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">fromMaybe</span></span><span class="hs-special">)</span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Check.PrettyPrinter.html"><span class="hs-identifier">Language.FineTypes.Commands.Check.PrettyPrinter</span></a></span><span>
+</span><span id="line-14"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Check.PrettyPrinter.html#renderCompilePackageError"><span class="hs-identifier">renderCompilePackageError</span></a></span><span>
+</span><span id="line-15"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Check.PrettyPrinter.html#renderParsePackageError"><span class="hs-identifier">renderParsePackageError</span></a></span><span>
+</span><span id="line-16"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Common.html"><span class="hs-identifier">Language.FineTypes.Commands.Common</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Commands.Common.html#readInput"><span class="hs-identifier">readInput</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-18"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Log.html"><span class="hs-identifier">Language.FineTypes.Commands.Log</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Commands.Log.html#inside"><span class="hs-identifier">inside</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#redundantImports"><span class="hs-identifier">redundantImports</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.html"><span class="hs-identifier">Language.FineTypes.Package</span></a></span><span>
+</span><span id="line-21"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier">Package</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-22"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#compilePackageDescription"><span class="hs-identifier">compilePackageDescription</span></a></span><span>
+</span><span id="line-23"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#parsePackageDescription"><span class="hs-identifier">parsePackageDescription</span></a></span><span>
+</span><span id="line-24"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-25"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">System.Exit</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">exitFailure</span></span><span class="hs-special">)</span><span>
+</span><span id="line-26"></span><span>
+</span><span id="line-27"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Map</span></span><span>
+</span><span id="line-28"></span><span>
+</span><span id="line-29"></span><span class="hs-keyword">data</span><span> </span><span id="LintOptions"><span class="annot"><a href="Language.FineTypes.Commands.Lint.html#LintOptions"><span class="hs-identifier hs-var">LintOptions</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="LintOptions"><span class="annot"><a href="Language.FineTypes.Commands.Lint.html#LintOptions"><span class="hs-identifier hs-var">LintOptions</span></a></span></span><span>
+</span><span id="line-30"></span><span>    </span><span class="hs-special">{</span><span> </span><span id="optInput"><span class="annot"><span class="annottext">LintOptions -&gt; Maybe String
+</span><a href="Language.FineTypes.Commands.Lint.html#optInput"><span class="hs-identifier hs-var hs-var">optInput</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
+</span><span id="line-31"></span><span>    </span><span class="hs-special">,</span><span> </span><span id="optDir"><span class="annot"><span class="annottext">LintOptions -&gt; String
+</span><a href="Language.FineTypes.Commands.Lint.html#optDir"><span class="hs-identifier hs-var hs-var">optDir</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
+</span><span id="line-32"></span><span>    </span><span class="hs-special">}</span><span>
+</span><span id="line-33"></span><span>
+</span><span id="line-34"></span><span class="annot"><a href="Language.FineTypes.Commands.Lint.html#lint"><span class="hs-identifier hs-type">lint</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Tracer</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Lint.html#LintOptions"><span class="hs-identifier hs-type">LintOptions</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-35"></span><span id="lint"><span class="annot"><span class="annottext">lint :: Tracer IO String -&gt; LintOptions -&gt; IO ()
+</span><a href="Language.FineTypes.Commands.Lint.html#lint"><span class="hs-identifier hs-var hs-var">lint</span></a></span></span><span> </span><span id="local-6989586621679220295"><span class="annot"><span class="annottext">Tracer IO String
+</span><a href="#local-6989586621679220295"><span class="hs-identifier hs-var">tracer</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Lint.html#LintOptions"><span class="hs-identifier hs-type">LintOptions</span></a></span><span class="hs-special">{</span><span id="local-6989586621679220296"><span id="local-6989586621679220297"><span class="annot"><span class="annottext">String
+Maybe String
+optInput :: LintOptions -&gt; Maybe String
+optDir :: LintOptions -&gt; String
+optInput :: Maybe String
+optDir :: String
+</span><a href="Language.FineTypes.Commands.Lint.html#optInput"><span class="hs-glyph hs-var hs-var hs-var hs-var">..</span></a></span></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-36"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679220299"><span class="annot"><span class="annottext">trace :: String -&gt; IO ()
+</span><a href="#local-6989586621679220299"><span class="hs-identifier hs-var hs-var">trace</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Tracer IO String -&gt; String -&gt; IO ()
+forall (m :: * -&gt; *) a. Monad m =&gt; Tracer m a -&gt; a -&gt; m ()
+</span><span class="hs-identifier hs-var">traceWith</span></span><span> </span><span class="annot"><span class="annottext">Tracer IO String
+</span><a href="#local-6989586621679220295"><span class="hs-identifier hs-var">tracer</span></a></span><span>
+</span><span id="line-37"></span><span>    </span><span id="local-6989586621679220300"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679220300"><span class="hs-identifier hs-var">package</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Tracer IO String -&gt; Maybe String -&gt; IO String
+</span><a href="Language.FineTypes.Commands.Common.html#readInput"><span class="hs-identifier hs-var">readInput</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Tracer IO String -&gt; Tracer IO String
+</span><a href="Language.FineTypes.Commands.Log.html#inside"><span class="hs-identifier hs-var">inside</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;readInput&quot;</span></span><span> </span><span class="annot"><span class="annottext">Tracer IO String
+</span><a href="#local-6989586621679220295"><span class="hs-identifier hs-var">tracer</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Maybe String
+</span><a href="#local-6989586621679220296"><span class="hs-identifier hs-var">optInput</span></a></span><span>
+</span><span id="line-38"></span><span>    </span><span class="annot"><span class="annottext">String -&gt; IO ()
+</span><a href="#local-6989586621679220299"><span class="hs-identifier hs-var">trace</span></a></span><span>
+</span><span id="line-39"></span><span>        </span><span class="annot"><span class="annottext">(String -&gt; IO ()) -&gt; String -&gt; IO ()
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;Linting &quot;</span></span><span>
+</span><span id="line-40"></span><span>            </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; Maybe String -&gt; String
+forall a. a -&gt; Maybe a -&gt; a
+</span><span class="hs-identifier hs-var">fromMaybe</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;&lt;stdin&gt;&quot;</span></span><span> </span><span class="annot"><span class="annottext">Maybe String
+</span><a href="#local-6989586621679220296"><span class="hs-identifier hs-var">optInput</span></a></span><span>
+</span><span id="line-41"></span><span>    </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">String -&gt; Either ErrParsePackage PackageDescription
+</span><a href="Language.FineTypes.Package.Parser.html#parsePackageDescription"><span class="hs-identifier hs-var">parsePackageDescription</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679220300"><span class="hs-identifier hs-var">package</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-42"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679220301"><span class="annot"><span class="annottext">ErrParsePackage
+</span><a href="#local-6989586621679220301"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-43"></span><span>            </span><span class="annot"><span class="annottext">String -&gt; IO ()
+</span><a href="#local-6989586621679220299"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;Failed to parse input file:&quot;</span></span><span>
+</span><span id="line-44"></span><span>            </span><span class="annot"><span class="annottext">String -&gt; IO ()
+</span><a href="#local-6989586621679220299"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">(String -&gt; IO ()) -&gt; String -&gt; IO ()
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ErrParsePackage -&gt; String
+</span><a href="Language.FineTypes.Commands.Check.PrettyPrinter.html#renderParsePackageError"><span class="hs-identifier hs-var">renderParsePackageError</span></a></span><span> </span><span class="annot"><span class="annottext">ErrParsePackage
+</span><a href="#local-6989586621679220301"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><span id="line-45"></span><span>            </span><span class="annot"><span class="annottext">IO ()
+forall a. IO a
+</span><span class="hs-identifier hs-var">exitFailure</span></span><span>
+</span><span id="line-46"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679220302"><span class="annot"><span class="annottext">PackageDescription
+</span><a href="#local-6989586621679220302"><span class="hs-identifier hs-var">pd</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-47"></span><span>            </span><span id="local-6989586621679220303"><span class="annot"><span class="annottext">Either ErrCompilePackage Package
+</span><a href="#local-6989586621679220303"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">String
+-&gt; PackageDescription -&gt; IO (Either ErrCompilePackage Package)
+</span><a href="Language.FineTypes.Package.Compile.html#compilePackageDescription"><span class="hs-identifier hs-var">compilePackageDescription</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679220297"><span class="hs-identifier hs-var">optDir</span></a></span><span> </span><span class="annot"><span class="annottext">PackageDescription
+</span><a href="#local-6989586621679220302"><span class="hs-identifier hs-var">pd</span></a></span><span>
+</span><span id="line-48"></span><span>            </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Either ErrCompilePackage Package
+</span><a href="#local-6989586621679220303"><span class="hs-identifier hs-var">r</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-49"></span><span>                </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679220304"><span class="annot"><span class="annottext">ErrCompilePackage
+</span><a href="#local-6989586621679220304"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-50"></span><span>                    </span><span class="annot"><span class="annottext">String -&gt; IO ()
+</span><a href="#local-6989586621679220299"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;Failed to compile package description:&quot;</span></span><span>
+</span><span id="line-51"></span><span>                    </span><span class="annot"><span class="annottext">String -&gt; IO ()
+</span><a href="#local-6989586621679220299"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">(String -&gt; IO ()) -&gt; String -&gt; IO ()
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ErrCompilePackage -&gt; String
+</span><a href="Language.FineTypes.Commands.Check.PrettyPrinter.html#renderCompilePackageError"><span class="hs-identifier hs-var">renderCompilePackageError</span></a></span><span> </span><span class="annot"><span class="annottext">ErrCompilePackage
+</span><a href="#local-6989586621679220304"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><span id="line-52"></span><span>                    </span><span class="annot"><span class="annottext">IO ()
+forall a. IO a
+</span><span class="hs-identifier hs-var">exitFailure</span></span><span>
+</span><span id="line-53"></span><span>                </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span> </span><span id="local-6989586621679220306"><span class="annot"><span class="annottext">Map String Module
+</span><a href="#local-6989586621679220306"><span class="hs-identifier hs-var">ms</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-54"></span><span>                    </span><span id="local-6989586621679220307"><span class="annot"><span class="annottext">[()]
+</span><a href="#local-6989586621679220307"><span class="hs-identifier hs-var">rs</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">[IO ()] -&gt; IO [()]
+forall (t :: * -&gt; *) (m :: * -&gt; *) a.
+(Traversable t, Monad m) =&gt;
+t (m a) -&gt; m (t a)
+forall (m :: * -&gt; *) a. Monad m =&gt; [m a] -&gt; m [a]
+</span><span class="hs-identifier hs-var">sequence</span></span><span> </span><span class="annot"><span class="annottext">([IO ()] -&gt; IO [()]) -&gt; [IO ()] -&gt; IO [()]
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-55"></span><span>                        </span><span class="hs-special">(</span><span id="local-6989586621679220309"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679220309"><span class="hs-identifier hs-var">mname</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679220310"><span class="annot"><span class="annottext">Module
+</span><a href="#local-6989586621679220310"><span class="hs-identifier hs-var">module'</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Map String Module -&gt; [(String, Module)]
+forall k a. Map k a -&gt; [(k, a)]
+</span><span class="hs-identifier hs-var">Map.assocs</span></span><span> </span><span class="annot"><span class="annottext">Map String Module
+</span><a href="#local-6989586621679220306"><span class="hs-identifier hs-var">ms</span></a></span><span>
+</span><span id="line-56"></span><span>                        </span><span class="hs-special">(</span><span id="local-6989586621679220312"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679220312"><span class="hs-identifier hs-var">imodule</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679220313"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679220313"><span class="hs-identifier hs-var">iname</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Set (String, String) -&gt; [(String, String)]
+forall a. Set a -&gt; [a]
+forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; [a]
+</span><span class="hs-identifier hs-var">toList</span></span><span> </span><span class="annot"><span class="annottext">(Set (String, String) -&gt; [(String, String)])
+-&gt; Set (String, String) -&gt; [(String, String)]
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Module -&gt; Set (String, String)
+</span><a href="Language.FineTypes.Module.html#redundantImports"><span class="hs-identifier hs-var">redundantImports</span></a></span><span> </span><span class="annot"><span class="annottext">Module
+</span><a href="#local-6989586621679220310"><span class="hs-identifier hs-var">module'</span></a></span><span>
+</span><span id="line-57"></span><span>                        </span><span class="annot"><span class="annottext">IO () -&gt; [IO ()]
+forall a. a -&gt; [a]
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span>
+</span><span id="line-58"></span><span>                            </span><span class="annot"><span class="annottext">(IO () -&gt; [IO ()]) -&gt; IO () -&gt; [IO ()]
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Tracer IO String -&gt; String -&gt; IO ()
+forall (m :: * -&gt; *) a. Monad m =&gt; Tracer m a -&gt; a -&gt; m ()
+</span><span class="hs-identifier hs-var">traceWith</span></span><span>
+</span><span id="line-59"></span><span>                                </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Tracer IO String -&gt; Tracer IO String
+</span><a href="Language.FineTypes.Commands.Log.html#inside"><span class="hs-identifier hs-var">inside</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;module &quot;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679220309"><span class="hs-identifier hs-var">mname</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Tracer IO String
+</span><a href="#local-6989586621679220295"><span class="hs-identifier hs-var">tracer</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-60"></span><span>                            </span><span class="annot"><span class="annottext">(String -&gt; IO ()) -&gt; String -&gt; IO ()
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;Redundant import: &quot;</span></span><span>
+</span><span id="line-61"></span><span>                                </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679220312"><span class="hs-identifier hs-var">imodule</span></a></span><span>
+</span><span id="line-62"></span><span>                                </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;(&quot;</span></span><span>
+</span><span id="line-63"></span><span>                                </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679220313"><span class="hs-identifier hs-var">iname</span></a></span><span>
+</span><span id="line-64"></span><span>                                </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;)&quot;</span></span><span>
+</span><span id="line-65"></span><span>                    </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">[()]
+</span><a href="#local-6989586621679220307"><span class="hs-identifier hs-var">rs</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-66"></span><span>                        </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">String -&gt; IO ()
+</span><a href="#local-6989586621679220299"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;Success!&quot;</span></span><span>
+</span><span id="line-67"></span><span>                        </span><span class="annot"><span class="annottext">[()]
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">IO ()
+forall a. IO a
+</span><span class="hs-identifier hs-var">exitFailure</span></span><span>
+</span><span id="line-68"></span></pre></body></html>
