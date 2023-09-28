@@ -1,0 +1,6 @@
+module Cardano.Wallet.Deposit.HTTP.Types.JSON where
+
+Index = ℕ;
+Address = Bytes;
+
+Addresses = (Index × Address)*;
