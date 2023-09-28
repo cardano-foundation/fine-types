@@ -1,22 +1,26 @@
 {-# LANGUAGE RecordWildCards #-}
 
-module Commands.Check where
+module Language.FineTypes.Commands.Check where
 
 import Prelude
 
-import Commands.Check.PrettyPrinter
+import Control.Tracer (Tracer, traceWith)
+import Language.FineTypes.Commands.Check.PrettyPrinter
     ( renderCompilePackageError
     , renderParsePackageError
     )
-import Commands.Common (readInput)
-import Commands.Log (inside)
-import Control.Tracer (Tracer, traceWith)
+import Language.FineTypes.Commands.Common (readInput)
+import Language.FineTypes.Commands.Log (inside)
 import Language.FineTypes.Package
     ( compilePackageDescription
     , parsePackageDescription
     )
-import Options.Check (CheckOptions (..))
 import System.Exit (exitFailure)
+
+data CheckOptions = CheckOptions
+    { optInput :: Maybe FilePath
+    , optDir :: FilePath
+    }
 
 check :: Tracer IO String -> CheckOptions -> IO ()
 check tracer CheckOptions{..} = do

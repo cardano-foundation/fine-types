@@ -1,10 +1,11 @@
 {-# LANGUAGE ApplicativeDo #-}
 
-module Options.Log where
+module Options.Log (LogFile, optionLogFile) where
 
 import Prelude
 
 import Data.Foldable (asum)
+import Language.FineTypes.Commands.Log (LogFile (..))
 import Options.Applicative
     ( Parser
     , flag
@@ -14,8 +15,6 @@ import Options.Applicative
     , metavar
     , strOption
     )
-
-data LogFile = LogFile FilePath | StdOut | StdErr
 
 optionLogFile :: Parser LogFile
 optionLogFile =

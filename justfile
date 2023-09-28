@@ -17,15 +17,22 @@ lint:
     hlint lib
 
 build0:
-    cabal build -v0 -O0 -j fine-types
+    cabal build -v0 -O0 -j all
 
 test:
-    @cabal test -v0 -O0 unit \
+    @cabal test -v0 -O0 all \
         --test-show-details=direct \
         --test-options="--format=checks --color"
     @cabal test -v0 -O0 haskell \
         --test-show-details=direct \
         --test-options="--format=checks --color"
+
+test-autogen:
+    @cabal test -v0 -O0 -j haskell \
+        --test-show-details=direct \
+        --test-options="--format=checks --no-color"
+
+
 
 test-seed:
     @cabal test -v0 -O0 -j unit \

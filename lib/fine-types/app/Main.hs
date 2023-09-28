@@ -2,10 +2,10 @@
 
 import Prelude
 
-import Commands.Check (check)
-import Commands.Convert (convert)
-import Commands.Lint (lint)
-import Commands.Log (inside, withLogPutLn)
+import Language.FineTypes.Commands.Check (check)
+import Language.FineTypes.Commands.Convert (convert)
+import Language.FineTypes.Commands.Lint (lint)
+import Language.FineTypes.Commands.Log (inside, withLogPutLn)
 import Main.Utf8 (withUtf8)
 import Options
     ( Commands (..)

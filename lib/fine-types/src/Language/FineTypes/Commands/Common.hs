@@ -1,4 +1,4 @@
-module Commands.Common where
+module Language.FineTypes.Commands.Common where
 
 import Prelude
 
