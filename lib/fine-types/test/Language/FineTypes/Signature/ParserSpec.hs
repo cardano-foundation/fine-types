@@ -14,6 +14,8 @@ import Language.FineTypes.Signature.PrettyPrinter (prettyPrintSignature)
 import Test.Hspec
     ( Spec
     , describe
+    , it
+    , shouldBe
     )
 import Test.Hspec.QuickCheck (prop)
 import Test.QuickCheck
@@ -39,3 +41,13 @@ spec = do
                         $ counterexample (show $ parseSignature' output)
                         $ ediffEq m'
                         $ Just m
+        specPrettyOnFile "test/data/signature/TxAbstract.fine"
+
+specPrettyOnFile :: FilePath -> Spec
+specPrettyOnFile fp = do
+    it ("holds for file" <> fp) $ do
+        file <- readFile fp
+        Just m <- pure $ parseSignature file
+        let output = prettyPrintSignature m
+            m' = parseSignature output
+        m' `shouldBe` Just m

@@ -1,0 +1,28 @@
+signature TxAbstract where
+
+{-----------------------------------------------------------------------------
+    Transactions
+    Shelley spec, Figure 10
+    Mary spec, Figure 5
+    Alonzo spec, Figure 2
+    Babbage spec, Figure 1
+------------------------------------------------------------------------------}
+-- Abstract types
+
+ScriptIntegrityHash; --^ Script data hash
+Script_plc         ; --^ Plutus core scripts
+Data               ; --^ Generic script data
+TxId               ; --^ transaction identifier
+
+
+{-|
+    Transaction inputs
+    Shelley spec, Figure 10
+    Mary spec, Figure 5
+    Alonzo spec, Figure 2
+    Babbage spec, Figure 1
+-}
+Metadatum          ; 
+
+--| auxiliary data hash
+AuxiliaryDataHash  ;
