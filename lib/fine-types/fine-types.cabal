@@ -148,6 +148,7 @@ test-suite unit
     Language.FineTypes.Export.OpenAPI.ValueSpec
     Language.FineTypes.PackageSpec
     Language.FineTypes.ParserSpec
+    Language.FineTypes.Signature.ParserSpec
     Language.FineTypes.ValueSpec
 
 executable fine-types
