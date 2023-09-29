@@ -15,7 +15,7 @@ import Control.Monad.Trans.Except
     , withExceptT
     )
 import Language.FineTypes.Module (ModuleName, moduleName)
-import Language.FineTypes.Module.Parser (ErrParseModule, parseFineTypes')
+import Language.FineTypes.Module.Parser (ErrParseModule, parseModule')
 import Language.FineTypes.Package.Content
     ( ErrAddModule
     , ErrIncludePackage
@@ -104,7 +104,7 @@ execStatement dir pkg (Module modName source) = do
     file <- loadSource dir source
     m <-
         exceptT (ErrParseModuleError modName)
-            $ parseFineTypes' file
+            $ parseModule' file
     guardExceptT
         (ErrAddModuleNameMismatch modName $ moduleName m)
         $ modName == moduleName m

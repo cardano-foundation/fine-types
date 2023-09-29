@@ -22,8 +22,8 @@ import Language.FineTypes.Module
     )
 import Language.FineTypes.Module.Gen (genModule, shrinkModule)
 import Language.FineTypes.Module.Parser
-    ( parseFineTypes
-    , parseFineTypes'
+    ( parseModule
+    , parseModule'
     )
 import Language.FineTypes.Module.PrettyPrinter (prettyPrintModule)
 import Language.FineTypes.Typ
@@ -53,7 +53,7 @@ import qualified Data.Set as Set
 ------------------------------------------------------------------------------}
 spec :: Spec
 spec = do
-    describe "parseFineTypes" $ do
+    describe "parseModule" $ do
         specParserOnFile "test/data/ParseTestBabbage.fine"
         specParserOnFile "test/data/HaskellUTxO.fine"
         specParserOnFile "test/data/DocumentationTest.fine"
@@ -67,12 +67,12 @@ spec = do
             $ forAllShrink genModule shrinkModule
             $ \m ->
                 let output = prettyPrintModule m
-                    m' = fixDocumentationIndentation <$> parseFineTypes output
+                    m' = fixDocumentationIndentation <$> parseModule output
                 in  classify (allPositive $ countTyps m) "fat"
                         $ property
                         $ counterexample (show (m', m))
                         $ counterexample output
-                        $ counterexample (show $ parseFineTypes' output)
+                        $ counterexample (show $ parseModule' output)
                         $ ediffEq m'
                         $ Just m
 
@@ -97,17 +97,17 @@ specParserOnFile fp = do
     describe ("on file " <> fp) $ do
         it ("parses the file " <> fp) $ do
             file <- readFile fp
-            parseFineTypes' file `shouldSatisfy` isRight
+            parseModule' file `shouldSatisfy` isRight
         it ("detects undefined names on " <> fp) $ do
             file <- readFile fp
-            Just m <- pure $ parseFineTypes file
+            Just m <- pure $ parseModule file
             collectNotInScope m `shouldBe` Set.empty
 
 specParsesDocumentation :: Spec
 specParsesDocumentation =
     it "parses documentation" $ do
         Just Module{moduleDocumentation = Documentation doc} <-
-            parseFineTypes <$> readFile "test/data/DocumentationTest.fine"
+            parseModule <$> readFile "test/data/DocumentationTest.fine"
         places (fold doc)
             `shouldBe` [BeforeMultiline, Before, After]
         places (doc Map.! Field "B" "b2")
@@ -121,9 +121,9 @@ specPrettyOnFile :: FilePath -> Spec
 specPrettyOnFile fp = do
     it ("holds for file" <> fp) $ do
         file <- readFile fp
-        Just m <- pure $ parseFineTypes file
+        Just m <- pure $ parseModule file
         let output = prettyPrintModule m
-            m' = fixDocumentationIndentation <$> parseFineTypes output
+            m' = fixDocumentationIndentation <$> parseModule output
         m' `shouldBe` Just m
 
 {-----------------------------------------------------------------------------

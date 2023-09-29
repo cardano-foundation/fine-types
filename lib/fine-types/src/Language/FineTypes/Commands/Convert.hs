@@ -11,7 +11,7 @@ import Data.Maybe (fromMaybe)
 import Language.FineTypes.Commands.Common (readInput)
 import Language.FineTypes.Commands.Log (inside)
 import Language.FineTypes.Export.OpenAPI.Schema (schemaFromModule)
-import Language.FineTypes.Module.Parser (parseFineTypes')
+import Language.FineTypes.Module.Parser (parseModule')
 import Text.Megaparsec.Error (errorBundlePretty)
 
 import qualified Data.ByteString as B
@@ -37,7 +37,7 @@ convert tracer ConvertOptions{..} = do
             <> fromMaybe "<stdin>" optInput
             <> " to "
             <> fromMaybe "<stdout>" optOutput
-    case parseFineTypes' m of
+    case parseModule' m of
         Left e -> do
             trace "Failed to parse input file:"
             trace $ errorBundlePretty e
