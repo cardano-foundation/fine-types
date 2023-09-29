@@ -1,0 +1,4 @@
+signature S where
+
+--| The type of the state of the mind
+SType;

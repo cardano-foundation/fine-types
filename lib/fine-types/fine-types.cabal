@@ -116,6 +116,7 @@ library
     Language.FineTypes.Package.Content
     Language.FineTypes.Package.Description
     Language.FineTypes.Package.Parser
+    Language.FineTypes.ToExpr
 
 
 test-suite unit
@@ -134,8 +135,10 @@ test-suite unit
     , filepath
     , fine-types
     , hspec ^>= 2.11.0
+    , HUnit
     , megaparsec
     , openapi3
+    , pretty
     , pretty-simple
     , QuickCheck
     , text

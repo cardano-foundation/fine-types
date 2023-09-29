@@ -16,7 +16,7 @@ module Language.FineTypes.Package
     , compilePackageDescription
 
       -- * Error types
-    , ErrParsePackage
+    , ErrParsePackage (..)
     , ErrCompilePackage (..)
     , ErrIncludePackage (..)
     , ErrAddModule (..)

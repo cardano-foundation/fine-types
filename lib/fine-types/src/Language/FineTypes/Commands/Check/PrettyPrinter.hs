@@ -12,6 +12,7 @@ import Language.FineTypes.Package
     , ErrIncludePackage (..)
     , ErrParsePackage
     )
+import Language.FineTypes.Package.Parser (ErrParsePackage (..))
 import Prettyprinter
     ( Doc
     , Pretty (pretty)
@@ -37,7 +38,7 @@ prettyPrintCompilePackage = \case
         prettyString "Error while parsing module"
             <+> pretty mn
                 </> indent 4 (pretty (errorBundlePretty e))
-    ErrIncludeParsePackageError pn e ->
+    ErrIncludeParsePackageError pn (ErrParsePackage e) ->
         prettyString "Error while parsing included package"
             <+> pretty pn
                 </> pretty (errorBundlePretty e)
@@ -97,3 +98,4 @@ renderParsePackageError =
         . layoutSmart defaultLayoutOptions
         . pretty
         . errorBundlePretty
+        . parseErrorBundle

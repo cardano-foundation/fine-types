@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE TupleSections #-}
 
@@ -19,6 +20,8 @@ import Prelude
 import Data.Foldable (fold)
 import Data.Map (Map)
 import Data.Set (Set)
+import Data.TreeDiff (ToExpr)
+import GHC.Generics (Generic)
 import Language.FineTypes.Module
     ( Import (getImportNames)
     , Module (..)
@@ -39,14 +42,18 @@ import qualified Data.Set as Set
 newtype Package = Package
     { packageModules :: Map ModuleName (Either Signature Module)
     }
-    deriving (Eq, Show)
+    deriving (Eq, Show, Generic)
+
+instance ToExpr Package
 
 emptyPackage :: Package
 emptyPackage = Package Map.empty
 
 newtype ErrIncludePackage
     = ErrModulesAlreadyInScope (Set ModuleName)
-    deriving (Eq, Show)
+    deriving (Eq, Show, Generic)
+
+instance ToExpr ErrIncludePackage
 
 -- | Include a package in the current package if possible.
 includePackage
@@ -74,7 +81,9 @@ data ErrAddModule
       ErrImportNotInScope (Set (ModuleName, TypName))
     | -- | The added module uses a type which is not defined.
       ErrNamesNotInScope (Set TypName)
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Ord, Show, Generic)
+
+instance ToExpr ErrAddModule
 
 -- | Add a module to the current package if possible.
 addModule
