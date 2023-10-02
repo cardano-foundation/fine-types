@@ -1,0 +1,3 @@
+package FailToIncludeWithNameMismatch where
+
+include NameMismatch from "./packages/NameMismatch.fine";

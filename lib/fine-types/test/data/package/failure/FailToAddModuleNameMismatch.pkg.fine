@@ -1,0 +1,3 @@
+package FailToAddModuleNameMismatch where
+
+module NameMismatch from "./modules/NameMismatch.fine";

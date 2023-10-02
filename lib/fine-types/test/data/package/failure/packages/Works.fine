@@ -1,0 +1,3 @@
+package Works where
+
+module Works from "../modules/Works.fine";

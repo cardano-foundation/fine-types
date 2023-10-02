@@ -1,0 +1,4 @@
+package FailToInclude where
+
+include Works from "./packages/Works.fine";
+include Works from "./packages/Works.fine";

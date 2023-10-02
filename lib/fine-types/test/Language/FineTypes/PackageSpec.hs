@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE OverloadedLists #-}
 
 module Language.FineTypes.PackageSpec
@@ -7,13 +8,13 @@ module Language.FineTypes.PackageSpec
 import Prelude
 
 import Control.Monad (unless)
-import Data.Function (on)
 import Data.TreeDiff (ToExpr (..), ediff, prettyEditExprCompact)
 import Language.FineTypes.Documentation (Documentation (..), Place (..))
 import Language.FineTypes.Module (Import (..), Module (..))
 import Language.FineTypes.Package
-    ( ErrAddModule (ErrNamesNotInScope)
+    ( ErrAddModule (..)
     , ErrCompilePackage (..)
+    , ErrIncludePackage (..)
     , ErrParsePackage (..)
     , Package (..)
     , PackageDescription (..)
@@ -47,38 +48,41 @@ import qualified Language.FineTypes.Package as Pkg
     Tests lib
 ------------------------------------------------------------------------------}
 
+prettyFailure :: ToExpr a => a -> a -> IO ()
+prettyFailure x y = assertFailure . render . prettyEditExprCompact $ ediff x y
+
 assertWithEDiff :: (ToExpr a) => (a -> a -> Bool) -> a -> a -> IO ()
-assertWithEDiff eq x y =
-    unless (eq x y)
-        $ assertFailure
-        $ render
-        $ prettyEditExprCompact
-        $ ediff x y
+assertWithEDiff eq x y = unless (eq x y) $ prettyFailure x y
+
 assertWithEDiffOnEq :: (ToExpr a, Eq a) => a -> a -> IO ()
 assertWithEDiffOnEq = assertWithEDiff (==)
 
-assertWithEDiffOnEqExpr :: (ToExpr a) => a -> a -> IO ()
-assertWithEDiffOnEqExpr = assertWithEDiff ((==) `on` toExpr)
-
 assertWithEDiffOfEither
-    :: (ToExpr a, ToExpr b, Eq b)
-    => Either a b
+    :: (ToExpr a, ToExpr b, Eq b, Eq a)
+    => Maybe (a -> Bool)
+    -> Either a b
     -> Either a b
     -> IO ()
-assertWithEDiffOfEither (Left x) (Left y) = assertWithEDiffOnEqExpr x y
-assertWithEDiffOfEither (Right x) (Right y) = assertWithEDiffOnEq x y
-assertWithEDiffOfEither x y = assertWithEDiff (\_x _y -> False) x y
+assertWithEDiffOfEither m (Left x) (Left y) = case m of
+    Nothing -> assertWithEDiffOnEq x y
+    Just m' ->
+        if m' x
+            then pure ()
+            else prettyFailure x y
+assertWithEDiffOfEither _m (Right x) (Right y) = assertWithEDiffOnEq x y
+assertWithEDiffOfEither _m x y = assertWithEDiff (\_x _y -> False) x y
 
 parserSpec
     :: FilePath
     -> FilePath
     -> Either ErrParsePackage PackageDescription
+    -> Maybe (ErrParsePackage -> Bool)
     -> Spec
-parserSpec dir filename pkgConf =
+parserSpec dir filename pkgConf match =
     describe ("on package " <> fp) $ do
         it "parses" $ do
             file <- readFile fp
-            assertWithEDiffOfEither (parsePackageDescription file) pkgConf
+            assertWithEDiffOfEither match (parsePackageDescription file) pkgConf
   where
     fp = dir </> filename
 
@@ -86,14 +90,15 @@ compilationSpec
     :: FilePath
     -> FilePath
     -> Either ErrCompilePackage Package
+    -> Maybe (ErrCompilePackage -> Bool)
     -> Spec
-compilationSpec dir filename compiledPackage =
+compilationSpec dir filename compiledPackage match =
     describe ("on package " <> fp) $ do
         it "compiles" $ do
             file <- readFile fp
             Right pkg <- pure $ parsePackageDescription file
             epkg <- compilePackageDescription dir pkg
-            assertWithEDiffOfEither epkg compiledPackage
+            assertWithEDiffOfEither match epkg compiledPackage
   where
     fp = dir </> filename
 
@@ -110,6 +115,12 @@ spec = do
         failToParseAnImport
         failToParseAnInclude
         failToCompileAnInclude
+        failToInclude
+        failToIncludeWithNameMismatch
+        failToAddModuleModuleAlreadyInScope
+        failToAddModuleImportNotInScope
+        failToAddModuleNamesNotInScope
+        failToAddModuleNameMismatch
 
 failToParse :: Spec
 failToParse =
@@ -117,6 +128,8 @@ failToParse =
         "test/data/package/failure"
         "FailToParse.pkg.fine"
         (Left $ ErrParsePackage undefined)
+        $ Just
+        $ \(ErrParsePackage _) -> True
 
 failToParseAnImport :: Spec
 failToParseAnImport =
@@ -124,6 +137,10 @@ failToParseAnImport =
         "test/data/package/failure"
         "FailToParseAnImport.pkg.fine"
         (Left $ ErrParseModuleError "FailToParse" undefined)
+        $ Just
+        $ \case
+            (ErrParseModuleError "FailToParse" _) -> True
+            _ -> False
 
 failToParseAnInclude :: Spec
 failToParseAnInclude =
@@ -131,6 +148,10 @@ failToParseAnInclude =
         "test/data/package/failure"
         "FailToParseAnInclude.pkg.fine"
         (Left $ ErrIncludeParsePackageError "FailToParse" undefined)
+        $ Just
+        $ \case
+            (ErrIncludeParsePackageError "FailToParse" _) -> True
+            _ -> False
 
 failToCompileAnInclude :: Spec
 failToCompileAnInclude = do
@@ -141,14 +162,77 @@ failToCompileAnInclude = do
             $ ErrIncludeCompilePackage "FailToCompile"
             $ ErrParseModuleError "FailToParse" undefined
         )
+        $ Just
+        $ \case
+            ( ErrIncludeCompilePackage
+                    "FailToCompile"
+                    (ErrParseModuleError "FailToParse" _)
+                ) -> True
+            _ -> False
+
     compilationSpec
         "test/data/package/failure"
-        "FailToCompileAnInclude2.pkg.fine"
+        "FailToCompileAnIncludeNamesNotInScope.pkg.fine"
         ( Left
-            $ ErrIncludeCompilePackage "FailToCompile2"
+            $ ErrIncludeCompilePackage "FailToCompileNamesNotInScope"
             $ ErrAddModule "FailToCompile"
             $ ErrNamesNotInScope ["B"]
         )
+        Nothing
+
+failToInclude :: Spec
+failToInclude =
+    compilationSpec
+        "test/data/package/failure"
+        "FailToInclude.pkg.fine"
+        ( Left
+            $ ErrIncludePackage "Works"
+            $ ErrModulesAlreadyInScope ["Works"]
+        )
+        Nothing
+
+failToIncludeWithNameMismatch :: Spec
+failToIncludeWithNameMismatch =
+    compilationSpec
+        "test/data/package/failure"
+        "FailToIncludeWithNameMismatch.pkg.fine"
+        (Left $ ErrIncludePackageNameMismatch "NameMismatch" "MameMismatch")
+        Nothing
+
+failToAddModuleModuleAlreadyInScope :: Spec
+failToAddModuleModuleAlreadyInScope =
+    compilationSpec
+        "test/data/package/failure"
+        "FailToAddModuleModuleAlreadyInScope.pkg.fine"
+        (Left $ ErrAddModule "Works" ErrModuleAlreadyInScope)
+        Nothing
+
+failToAddModuleImportNotInScope :: Spec
+failToAddModuleImportNotInScope =
+    compilationSpec
+        "test/data/package/failure"
+        "FailToAddModuleImportNotInScope.pkg.fine"
+        ( Left
+            $ ErrAddModule "Importing"
+            $ ErrImportNotInScope [("Works", "Absent")]
+        )
+        Nothing
+
+failToAddModuleNamesNotInScope :: Spec
+failToAddModuleNamesNotInScope =
+    compilationSpec
+        "test/data/package/failure"
+        "FailToAddModuleNamesNotInScope.pkg.fine"
+        (Left $ ErrAddModule "NamesNotInScope" $ ErrNamesNotInScope ["B"])
+        Nothing
+
+failToAddModuleNameMismatch :: Spec
+failToAddModuleNameMismatch =
+    compilationSpec
+        "test/data/package/failure"
+        "FailToAddModuleNameMismatch.pkg.fine"
+        (Left $ ErrAddModuleNameMismatch "NameMismatch" "MameMismatch")
+        Nothing
 
 positiveOnPackageTest :: Spec
 positiveOnPackageTest = do
@@ -156,10 +240,12 @@ positiveOnPackageTest = do
         "test/data/"
         "PackageTest.fine"
         (Right packageTestPackageDescription)
+        Nothing
     compilationSpec
         "test/data/"
         "PackageTest.fine"
         (Right packageTestCompiledPackage)
+        Nothing
   where
     packageTestPackageDescription :: PackageDescription
     packageTestPackageDescription =
