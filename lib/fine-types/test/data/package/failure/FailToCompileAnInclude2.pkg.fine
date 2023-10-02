@@ -1,0 +1,3 @@
+package FailToCompileAnInclude2 where
+
+include FailToCompile2 from "./packages/FailToCompile2.fine";

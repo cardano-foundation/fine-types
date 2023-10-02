@@ -16,6 +16,7 @@ import Text.Megaparsec.Error (ParseError (..))
 
 instance ToExpr (ParseErrorBundle String Void) where
     toExpr _ = toExpr "ParseErrorBundle"
+
 instance ToExpr (ParseError String Void) where
     toExpr _ = toExpr "ParseError"
 

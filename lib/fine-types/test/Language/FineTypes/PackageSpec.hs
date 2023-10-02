@@ -6,13 +6,15 @@ module Language.FineTypes.PackageSpec
 
 import Prelude
 
-import Control.Monad (when)
-import Data.TreeDiff (ediff, prettyEditExprCompact)
+import Control.Monad (unless)
+import Data.Function (on)
+import Data.TreeDiff (ToExpr (..), ediff, prettyEditExprCompact)
 import Language.FineTypes.Documentation (Documentation (..), Place (..))
 import Language.FineTypes.Module (Import (..), Module (..))
 import Language.FineTypes.Package
-    ( ErrCompilePackage
-    , ErrParsePackage
+    ( ErrAddModule (ErrNamesNotInScope)
+    , ErrCompilePackage (..)
+    , ErrParsePackage (..)
     , Package (..)
     , PackageDescription (..)
     , Source (..)
@@ -33,39 +35,65 @@ import Test.Hspec
     ( Spec
     , describe
     , it
-    , shouldBe
     )
 import Text.PrettyPrint (render)
 
 import qualified Language.FineTypes.Documentation as Doc
 import qualified Language.FineTypes.Package as Pkg
+    ( Statement (Include, Signature)
+    )
 
 {-----------------------------------------------------------------------------
     Tests lib
 ------------------------------------------------------------------------------}
 
-specOnFile
+assertWithEDiff :: (ToExpr a) => (a -> a -> Bool) -> a -> a -> IO ()
+assertWithEDiff eq x y =
+    unless (eq x y)
+        $ assertFailure
+        $ render
+        $ prettyEditExprCompact
+        $ ediff x y
+assertWithEDiffOnEq :: (ToExpr a, Eq a) => a -> a -> IO ()
+assertWithEDiffOnEq = assertWithEDiff (==)
+
+assertWithEDiffOnEqExpr :: (ToExpr a) => a -> a -> IO ()
+assertWithEDiffOnEqExpr = assertWithEDiff ((==) `on` toExpr)
+
+assertWithEDiffOfEither
+    :: (ToExpr a, ToExpr b, Eq b)
+    => Either a b
+    -> Either a b
+    -> IO ()
+assertWithEDiffOfEither (Left x) (Left y) = assertWithEDiffOnEqExpr x y
+assertWithEDiffOfEither (Right x) (Right y) = assertWithEDiffOnEq x y
+assertWithEDiffOfEither x y = assertWithEDiff (\_x _y -> False) x y
+
+parserSpec
     :: FilePath
     -> FilePath
     -> Either ErrParsePackage PackageDescription
-    -> Either ErrCompilePackage Package
     -> Spec
-specOnFile dir filename pkgConf compiledPackage =
+parserSpec dir filename pkgConf =
     describe ("on package " <> fp) $ do
         it "parses" $ do
             file <- readFile fp
-            parsePackageDescription file
-                `shouldBe` pkgConf
+            assertWithEDiffOfEither (parsePackageDescription file) pkgConf
+  where
+    fp = dir </> filename
 
+compilationSpec
+    :: FilePath
+    -> FilePath
+    -> Either ErrCompilePackage Package
+    -> Spec
+compilationSpec dir filename compiledPackage =
+    describe ("on package " <> fp) $ do
         it "compiles" $ do
             file <- readFile fp
             Right pkg <- pure $ parsePackageDescription file
             epkg <- compilePackageDescription dir pkg
-            when (epkg /= compiledPackage)
-                $ assertFailure
-                $ render
-                $ prettyEditExprCompact
-                $ ediff epkg compiledPackage
+            assertWithEDiffOfEither epkg compiledPackage
   where
     fp = dir </> filename
 
@@ -77,13 +105,60 @@ spec :: Spec
 spec = do
     describe "positive" $ do
         positiveOnPackageTest
+    describe "negative" $ do
+        failToParse
+        failToParseAnImport
+        failToParseAnInclude
+        failToCompileAnInclude
+
+failToParse :: Spec
+failToParse =
+    parserSpec
+        "test/data/package/failure"
+        "FailToParse.pkg.fine"
+        (Left $ ErrParsePackage undefined)
+
+failToParseAnImport :: Spec
+failToParseAnImport =
+    compilationSpec
+        "test/data/package/failure"
+        "FailToParseAnImport.pkg.fine"
+        (Left $ ErrParseModuleError "FailToParse" undefined)
+
+failToParseAnInclude :: Spec
+failToParseAnInclude =
+    compilationSpec
+        "test/data/package/failure"
+        "FailToParseAnInclude.pkg.fine"
+        (Left $ ErrIncludeParsePackageError "FailToParse" undefined)
+
+failToCompileAnInclude :: Spec
+failToCompileAnInclude = do
+    compilationSpec
+        "test/data/package/failure"
+        "FailToCompileAnInclude.pkg.fine"
+        ( Left
+            $ ErrIncludeCompilePackage "FailToCompile"
+            $ ErrParseModuleError "FailToParse" undefined
+        )
+    compilationSpec
+        "test/data/package/failure"
+        "FailToCompileAnInclude2.pkg.fine"
+        ( Left
+            $ ErrIncludeCompilePackage "FailToCompile2"
+            $ ErrAddModule "FailToCompile"
+            $ ErrNamesNotInScope ["B"]
+        )
 
 positiveOnPackageTest :: Spec
-positiveOnPackageTest =
-    specOnFile
+positiveOnPackageTest = do
+    parserSpec
         "test/data/"
         "PackageTest.fine"
         (Right packageTestPackageDescription)
+    compilationSpec
+        "test/data/"
+        "PackageTest.fine"
         (Right packageTestCompiledPackage)
   where
     packageTestPackageDescription :: PackageDescription

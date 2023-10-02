@@ -1,17 +1,22 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 -- | Parser for a FineTypes 'Module'.
 module Language.FineTypes.Module.Parser
     ( parseModule
-    , ErrParseModule
+    , ErrParseModule (..)
     , moduleName
     , parseModule'
     ) where
 
 import Prelude
 
+import Data.Bifunctor (first)
 import Data.Map (Map)
+import Data.TreeDiff (ToExpr (..))
 import Data.Void
     ( Void
     )
+import GHC.Generics (Generic)
 import Language.FineTypes.Documentation
     ( DocString
     , Documentation
@@ -68,9 +73,14 @@ parseModule :: String -> Maybe Module
 parseModule = parseMaybe moduleFull
 
 parseModule' :: String -> Either ErrParseModule Module
-parseModule' = parse moduleFull ""
+parseModule' = first ErrParseModule . parse moduleFull ""
 
-type ErrParseModule = ParseErrorBundle String Void
+newtype ErrParseModule = ErrParseModule
+    {parseErrorBundle :: ParseErrorBundle String Void}
+    deriving (Eq, Show, Generic)
+
+instance ToExpr ErrParseModule where
+    toExpr _ = toExpr "ErrParseModule"
 
 {-----------------------------------------------------------------------------
     Parser

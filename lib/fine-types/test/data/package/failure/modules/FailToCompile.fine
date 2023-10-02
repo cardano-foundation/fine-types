@@ -1,0 +1,3 @@
+module FailToCompile where
+
+A = B;

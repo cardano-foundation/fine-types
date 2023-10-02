@@ -19,7 +19,7 @@ import Control.Monad.Trans.Except
 import Data.TreeDiff (ToExpr)
 import GHC.Generics (Generic)
 import Language.FineTypes.Module (ModuleName, moduleName)
-import Language.FineTypes.Module.Parser (ErrParseModule, parseModule')
+import Language.FineTypes.Module.Parser (ErrParseModule (..), parseModule')
 import Language.FineTypes.Package.Content
     ( ErrAddModule
     , ErrIncludePackage
@@ -121,7 +121,7 @@ execStatement dir pkg (Module modName source) = do
 execStatement dir pkg (Signature modName source) = do
     file <- loadSource dir source
     m <-
-        exceptT (ErrParseModuleError modName)
+        exceptT (ErrParseModuleError modName . ErrParseModule)
             $ parseSignature' file
     guardExceptT
         (ErrAddModuleNameMismatch modName $ signatureName m)

@@ -1,0 +1,3 @@
+package FailToParseAnInclude where
+
+include FailToParse from "./packages/FailToParse.fine";

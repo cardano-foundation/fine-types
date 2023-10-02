@@ -28,6 +28,7 @@ inputOption =
             , help "input file (stdin if not specified)"
             , value Nothing
             ]
+
 outputOption :: Parser (Maybe FilePath)
 outputOption =
     option fileReader

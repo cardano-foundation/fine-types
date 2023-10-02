@@ -1,0 +1,4 @@
+
+package FailToCompile where
+
+module FailToParse from "../modules/FailToParse.fine";

@@ -26,3 +26,4 @@ cabal*.project.local*
 hie.yaml
 .direnv/
 result
+vtjust.fifo

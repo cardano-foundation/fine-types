@@ -6,6 +6,7 @@ module Language.FineTypes.Commands.Check.PrettyPrinter where
 import Prelude
 
 import Data.Foldable (toList)
+import Language.FineTypes.Module.Parser (ErrParseModule (..))
 import Language.FineTypes.Package
     ( ErrAddModule (..)
     , ErrCompilePackage (..)
@@ -26,6 +27,8 @@ import Prettyprinter
 import Prettyprinter.Render.String (renderString)
 import Text.Megaparsec (errorBundlePretty)
 
+import qualified Language.FineTypes.Package as Pkg
+
 prettyString :: String -> Doc ann
 prettyString = pretty
 
@@ -34,7 +37,7 @@ prettyPrintCompilePackage = \case
     ErrFile ioE ->
         prettyString "Error while reading a file:"
             <+> pretty (show ioE)
-    ErrParseModuleError mn e ->
+    ErrParseModuleError mn (ErrParseModule e) ->
         prettyString "Error while parsing module"
             <+> pretty mn
                 </> indent 4 (pretty (errorBundlePretty e))
@@ -98,4 +101,4 @@ renderParsePackageError =
         . layoutSmart defaultLayoutOptions
         . pretty
         . errorBundlePretty
-        . parseErrorBundle
+        . Pkg.parseErrorBundle

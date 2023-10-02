@@ -1,0 +1,4 @@
+
+package FailToCompile2 where
+
+module FailToCompile from "../modules/FailToCompile.fine";
