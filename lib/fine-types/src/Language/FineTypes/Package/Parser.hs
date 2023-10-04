@@ -1,23 +1,25 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 module Language.FineTypes.Package.Parser
-    ( ErrParsePackage
+    ( ErrParsePackage (..)
     , parsePackageDescription
     ) where
 
 import Prelude
 
+import Data.Bifunctor (first)
+import Data.TreeDiff (ToExpr (..))
 import Data.Void (Void)
+import GHC.Generics (Generic)
+import Language.FineTypes.Module.Parser (moduleName)
 import Language.FineTypes.Package.Description
     ( PackageDescription (PackageDescription)
     , PackageName
     , Source (..)
     , Statement (..)
     )
-import Language.FineTypes.Parser
-    ( moduleName
-    , space
-    , symbol
-    , typName
-    )
+import Language.FineTypes.Parser.Common (typName)
+import Language.FineTypes.Parser.Lexer (space, symbol)
 import Text.Megaparsec
     ( ParseErrorBundle
     , Parsec
@@ -34,9 +36,14 @@ import qualified Text.Megaparsec.Char as C
     Exported functions
 ------------------------------------------------------------------------------}
 parsePackageDescription :: String -> Either ErrParsePackage PackageDescription
-parsePackageDescription = parse packageFull ""
+parsePackageDescription = first ErrParsePackage . parse packageFull ""
 
-type ErrParsePackage = ParseErrorBundle String Void
+newtype ErrParsePackage = ErrParsePackage
+    {parseErrorBundle :: ParseErrorBundle String Void}
+    deriving (Eq, Show, Generic)
+
+instance ToExpr ErrParsePackage where
+    toExpr _ = toExpr "ErrParsePackage"
 
 {-----------------------------------------------------------------------------
     Parser
@@ -62,6 +69,7 @@ statement :: Parser Statement
 statement =
     (Include <$ symbol "include" <*> packageName <*> source)
         <|> (Module <$ symbol "module" <*> moduleName <*> source)
+        <|> (Signature <$ symbol "signature" <*> moduleName <*> source)
         <|> (Assert () <$ symbol "assert")
 
 source :: Parser Source

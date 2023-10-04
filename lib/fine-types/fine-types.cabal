@@ -83,6 +83,9 @@ library
     Language.FineTypes.Commands.Convert.Haskell.Cabal
     Language.FineTypes.Commands.Lint
     Language.FineTypes.Commands.Log
+    Language.FineTypes.Documentation
+    Language.FineTypes.Documentation.Gen
+    Language.FineTypes.Documentation.Parser
     Language.FineTypes.Export.Haskell.Language
     Language.FineTypes.Export.Haskell.Typ
     Language.FineTypes.Export.Haskell.Value.Compiletime
@@ -92,11 +95,19 @@ library
     Language.FineTypes.Export.OpenAPI.Value.ToJSON
     Language.FineTypes.Module
     Language.FineTypes.Module.Gen
+    Language.FineTypes.Module.Parser
     Language.FineTypes.Module.PrettyPrinter
     Language.FineTypes.Package
-    Language.FineTypes.Parser
+    Language.FineTypes.Parser.Common
+    Language.FineTypes.Parser.Lexer
+    Language.FineTypes.Parser.Types
+    Language.FineTypes.Signature
+    Language.FineTypes.Signature.Gen
+    Language.FineTypes.Signature.Parser
+    Language.FineTypes.Signature.PrettyPrinter
     Language.FineTypes.Typ
     Language.FineTypes.Typ.Gen
+    Language.FineTypes.Typ.Parser
     Language.FineTypes.Typ.PrettyPrinter
     Language.FineTypes.Value
     Language.FineTypes.Value.Gen
@@ -105,6 +116,7 @@ library
     Language.FineTypes.Package.Content
     Language.FineTypes.Package.Description
     Language.FineTypes.Package.Parser
+    Language.FineTypes.ToExpr
 
 
 test-suite unit
@@ -123,8 +135,10 @@ test-suite unit
     , filepath
     , fine-types
     , hspec ^>= 2.11.0
+    , HUnit
     , megaparsec
     , openapi3
+    , pretty
     , pretty-simple
     , QuickCheck
     , text
@@ -137,6 +151,7 @@ test-suite unit
     Language.FineTypes.Export.OpenAPI.ValueSpec
     Language.FineTypes.PackageSpec
     Language.FineTypes.ParserSpec
+    Language.FineTypes.Signature.ParserSpec
     Language.FineTypes.ValueSpec
 
 executable fine-types

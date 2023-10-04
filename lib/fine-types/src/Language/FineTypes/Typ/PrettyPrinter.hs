@@ -14,7 +14,7 @@ import Prelude
 
 import Control.Applicative ((<|>))
 import Data.Functor ((<&>))
-import Language.FineTypes.Module
+import Language.FineTypes.Documentation
     ( Identifier (..)
     , IdentifierDocumentation
     , Place (..)

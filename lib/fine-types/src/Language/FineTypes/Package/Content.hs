@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE TupleSections #-}
 
@@ -11,6 +12,7 @@ module Language.FineTypes.Package.Content
       -- * Error types
     , ErrIncludePackage (..)
     , ErrAddModule (..)
+    , addSignature
     ) where
 
 import Prelude
@@ -18,12 +20,15 @@ import Prelude
 import Data.Foldable (fold)
 import Data.Map (Map)
 import Data.Set (Set)
+import Data.TreeDiff (ToExpr)
+import GHC.Generics (Generic)
 import Language.FineTypes.Module
     ( Import (getImportNames)
     , Module (..)
     , ModuleName
     , collectNotInScope
     )
+import Language.FineTypes.Signature (Signature (..))
 import Language.FineTypes.Typ (TypName)
 
 import qualified Data.Map as Map
@@ -35,16 +40,20 @@ import qualified Data.Set as Set
 
 -- | A package is a collection of module or signature definitions.
 newtype Package = Package
-    { packageModules :: Map ModuleName Module
+    { packageModules :: Map ModuleName (Either Signature Module)
     }
-    deriving (Eq, Show)
+    deriving (Eq, Show, Generic)
+
+instance ToExpr Package
 
 emptyPackage :: Package
 emptyPackage = Package Map.empty
 
 newtype ErrIncludePackage
     = ErrModulesAlreadyInScope (Set ModuleName)
-    deriving (Eq, Show)
+    deriving (Eq, Show, Generic)
+
+instance ToExpr ErrIncludePackage
 
 -- | Include a package in the current package if possible.
 includePackage
@@ -72,7 +81,9 @@ data ErrAddModule
       ErrImportNotInScope (Set (ModuleName, TypName))
     | -- | The added module uses a type which is not defined.
       ErrNamesNotInScope (Set TypName)
-    deriving (Eq, Ord, Show)
+    deriving (Eq, Ord, Show, Generic)
+
+instance ToExpr ErrAddModule
 
 -- | Add a module to the current package if possible.
 addModule
@@ -87,7 +98,11 @@ addModule mo@Module{..} Package{..}
     | otherwise =
         Right
             Package
-                { packageModules = Map.insert moduleName mo packageModules
+                { packageModules =
+                    Map.insert
+                        moduleName
+                        (Right mo)
+                        packageModules
                 }
   where
     -- FIXME: Substitute provenance for all the defined 'Typ'!.
@@ -103,5 +118,22 @@ addModule mo@Module{..} Package{..}
     isDefinedIn typName modName =
         case Map.lookup modName packageModules of
             Nothing -> False
-            Just Module{moduleDeclarations = ds} ->
+            Just (Right Module{moduleDeclarations = ds}) ->
                 typName `Map.member` ds
+            Just (Left Signature{signatureDeclarations = ds}) ->
+                typName `Set.member` ds
+
+addSignature
+    :: Signature -> Package -> Either ErrAddModule Package
+addSignature sig@Signature{..} Package{..}
+    | signatureName `Map.member` packageModules =
+        Left ErrModuleAlreadyInScope
+    | otherwise =
+        Right
+            Package
+                { packageModules =
+                    Map.insert
+                        signatureName
+                        (Left sig)
+                        packageModules
+                }

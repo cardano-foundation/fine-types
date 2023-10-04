@@ -1,0 +1,3 @@
+package FailToParseAnImport where
+
+module FailToParse from "./modules/FailToParse.fine";

@@ -18,8 +18,8 @@ import Language.FineTypes.Export.OpenAPI.Schema
     )
 import Language.FineTypes.Export.OpenAPI.Value.ToJSON (jsonFromValue)
 import Language.FineTypes.Export.OpenAPI.ValueSpec (jsonInfo)
-import Language.FineTypes.Parser
-    ( parseFineTypes
+import Language.FineTypes.Module.Parser
+    ( parseModule
     )
 import Language.FineTypes.Typ
     ( OpTwo (FiniteSupport, PartialFunction)
@@ -48,7 +48,7 @@ spec = do
     describe "OpenApi export on JsonUTxO.fine" $ do
         let readModule = do
                 file <- readFile "test/data/JsonUTxO.fine"
-                Just m <- pure $ parseFineTypes file
+                Just m <- pure $ parseModule file
                 pure m
         it "has a 'Typ' that supports JSON" $ do
             m <- readModule

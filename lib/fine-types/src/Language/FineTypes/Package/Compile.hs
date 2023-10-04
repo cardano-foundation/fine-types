@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveGeneric #-}
+
 -- | A package description is a small program which evaluates to a package.
 module Language.FineTypes.Package.Compile
     ( compilePackageDescription
@@ -14,12 +16,16 @@ import Control.Monad.Trans.Except
     , throwE
     , withExceptT
     )
+import Data.TreeDiff (ToExpr)
+import GHC.Generics (Generic)
 import Language.FineTypes.Module (ModuleName, moduleName)
+import Language.FineTypes.Module.Parser (ErrParseModule (..), parseModule')
 import Language.FineTypes.Package.Content
     ( ErrAddModule
     , ErrIncludePackage
     , Package (..)
     , addModule
+    , addSignature
     , emptyPackage
     , includePackage
     )
@@ -33,7 +39,10 @@ import Language.FineTypes.Package.Parser
     ( ErrParsePackage
     , parsePackageDescription
     )
-import Language.FineTypes.Parser (ErrParseModule, parseFineTypes')
+import Language.FineTypes.Parser.Common ()
+import Language.FineTypes.Signature (Signature (signatureName))
+import Language.FineTypes.Signature.Parser (parseSignature')
+import Language.FineTypes.ToExpr ()
 import System.FilePath (takeDirectory, (</>))
 import System.IO.Error (catchIOError)
 
@@ -60,7 +69,9 @@ data ErrCompilePackage
     | -- | The module name in the module statement does
       -- not match the included module name
       ErrAddModuleNameMismatch ModuleName ModuleName
-    deriving (Eq, Show)
+    deriving (Eq, Show, Generic)
+
+instance ToExpr ErrCompilePackage
 
 -- | Compile a package description to a 'Package' or
 -- return a descriptive error message.
@@ -101,12 +112,22 @@ execStatement dir pkg (Module modName source) = do
     file <- loadSource dir source
     m <-
         exceptT (ErrParseModuleError modName)
-            $ parseFineTypes' file
+            $ parseModule' file
     guardExceptT
         (ErrAddModuleNameMismatch modName $ moduleName m)
         $ modName == moduleName m
     exceptT (ErrAddModule modName)
         $ addModule m pkg
+execStatement dir pkg (Signature modName source) = do
+    file <- loadSource dir source
+    m <-
+        exceptT (ErrParseModuleError modName . ErrParseModule)
+            $ parseSignature' file
+    guardExceptT
+        (ErrAddModuleNameMismatch modName $ signatureName m)
+        $ modName == signatureName m
+    exceptT (ErrAddModule modName)
+        $ addSignature m pkg
 execStatement _ pkg (Assert _) =
     pure pkg
 

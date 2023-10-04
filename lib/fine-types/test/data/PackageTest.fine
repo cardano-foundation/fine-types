@@ -1,3 +1,4 @@
 package PackageTest where
 
+signature S from "package/S.fine";
 include P2 from "package/P2.fine";

@@ -8,10 +8,9 @@ module Language.FineTypes.Module.PrettyPrinter
 
 import Prelude
 
+import Language.FineTypes.Documentation (Documentation (..))
 import Language.FineTypes.Module
     ( Declarations
-    , Documentation (..)
-    , Identifier (..)
     , Import (..)
     , Imports
     , Module (..)
@@ -46,6 +45,7 @@ import Prettyprinter.Render.Text (renderStrict)
 import qualified Data.Map as Map
 import qualified Data.Set as Set
 import qualified Data.Text as T
+import qualified Language.FineTypes.Documentation as Documentation
 
 prettyText :: T.Text -> Doc ann
 prettyText = pretty
@@ -95,7 +95,7 @@ prettyDeclarations docs = vsep . map (prettyDeclaration docs) . Map.toList
 
 prettyDeclaration :: QueryDocumentation -> (TypName, Typ) -> Doc ann
 prettyDeclaration docs (name, typ) =
-    addDocs docs (Typ name)
+    addDocs docs (Documentation.Typ name)
         $ pretty name
             <+> prettyText "="
             <+> prettyTyp docs name typ
