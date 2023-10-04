@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DeriveGeneric #-}</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Signature</span><span>
+</span><span id="line-4"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier">Signature</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-5"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Declarations"><span class="hs-identifier">Declarations</span></a></span><span>
+</span><span id="line-6"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#DocumentedDeclarations"><span class="hs-identifier">DocumentedDeclarations</span></a></span><span>
+</span><span id="line-7"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-8"></span><span class="hs-keyword">where</span><span>
+</span><span id="line-9"></span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-11"></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Set</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Set</span></span><span class="hs-special">)</span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.TreeDiff</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">ToExpr</span></span><span class="hs-special">)</span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html"><span class="hs-identifier">Language.FineTypes.Documentation</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier">Documentation</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier">ModuleName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html"><span class="hs-identifier">Language.FineTypes.Typ</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier">TypName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-18"></span><span>
+</span><span id="line-19"></span><span class="annot"><span class="hs-comment">-- | A 'Signature' is a collection of 'Typ' names and documentation.</span></span><span>
+</span><span id="line-20"></span><span class="hs-keyword">data</span><span> </span><span id="Signature"><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-var">Signature</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Signature"><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-var">Signature</span></a></span></span><span>
+</span><span id="line-21"></span><span>    </span><span class="hs-special">{</span><span> </span><span id="signatureName"><span class="annot"><span class="annottext">Signature -&gt; ModuleName
+</span><a href="Language.FineTypes.Signature.html#signatureName"><span class="hs-identifier hs-var hs-var">signatureName</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span>
+</span><span id="line-22"></span><span>    </span><span class="hs-special">,</span><span> </span><span id="signatureDeclarations"><span class="annot"><span class="annottext">Signature -&gt; Set ModuleName
+</span><a href="Language.FineTypes.Signature.html#signatureDeclarations"><span class="hs-identifier hs-var hs-var">signatureDeclarations</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
+</span><span id="line-23"></span><span>    </span><span class="hs-special">,</span><span> </span><span id="signatureDocumentation"><span class="annot"><span class="annottext">Signature -&gt; Documentation
+</span><a href="Language.FineTypes.Signature.html#signatureDocumentation"><span class="hs-identifier hs-var hs-var">signatureDocumentation</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span><span>
+</span><span id="line-24"></span><span>    </span><span class="hs-special">}</span><span>
+</span><span id="line-25"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679224633"><span id="local-6989586621679224642"><span class="annot"><span class="annottext">Signature -&gt; Signature -&gt; Bool
+(Signature -&gt; Signature -&gt; Bool)
+-&gt; (Signature -&gt; Signature -&gt; Bool) -&gt; Eq Signature
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+$c== :: Signature -&gt; Signature -&gt; Bool
+== :: Signature -&gt; Signature -&gt; Bool
+$c/= :: Signature -&gt; Signature -&gt; Bool
+/= :: Signature -&gt; Signature -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679224648"><span id="local-6989586621679224659"><span id="local-6989586621679224663"><span class="annot"><span class="annottext">Int -&gt; Signature -&gt; ShowS
+[Signature] -&gt; ShowS
+Signature -&gt; ModuleName
+(Int -&gt; Signature -&gt; ShowS)
+-&gt; (Signature -&gt; ModuleName)
+-&gt; ([Signature] -&gt; ShowS)
+-&gt; Show Signature
+forall a.
+(Int -&gt; a -&gt; ShowS)
+-&gt; (a -&gt; ModuleName) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+$cshowsPrec :: Int -&gt; Signature -&gt; ShowS
+showsPrec :: Int -&gt; Signature -&gt; ShowS
+$cshow :: Signature -&gt; ModuleName
+show :: Signature -&gt; ModuleName
+$cshowList :: [Signature] -&gt; ShowS
+showList :: [Signature] -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679224668"><span id="local-6989586621679224670"><span class="annot"><span class="annottext">(forall x. Signature -&gt; Rep Signature x)
+-&gt; (forall x. Rep Signature x -&gt; Signature) -&gt; Generic Signature
+forall x. Rep Signature x -&gt; Signature
+forall x. Signature -&gt; Rep Signature x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cfrom :: forall x. Signature -&gt; Rep Signature x
+from :: forall x. Signature -&gt; Rep Signature x
+$cto :: forall x. Rep Signature x -&gt; Signature
+to :: forall x. Rep Signature x -&gt; Signature
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-26"></span><span>
+</span><span id="line-27"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679224674"><span id="local-6989586621679224681"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span></span></span><span>
+</span><span id="line-28"></span><span>
+</span><span id="line-29"></span><span class="hs-keyword">type</span><span> </span><span id="Declarations"><span class="annot"><a href="Language.FineTypes.Signature.html#Declarations"><span class="hs-identifier hs-var">Declarations</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
+</span><span id="line-30"></span><span class="hs-keyword">type</span><span> </span><span id="DocumentedDeclarations"><span class="annot"><a href="Language.FineTypes.Signature.html#DocumentedDeclarations"><span class="hs-identifier hs-var">DocumentedDeclarations</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Signature.html#Declarations"><span class="hs-identifier hs-type">Declarations</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-31"></span></pre></body></html>

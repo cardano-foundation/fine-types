@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DeriveGeneric #-}</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="annot"><span class="hs-comment">-- | A 'Module' is a collection of 'Typ' definitions.</span></span><span>
+</span><span id="line-4"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Documentation</span><span>
+</span><span id="line-5"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-comment">-- * Documentation texts</span></span><span>
+</span><span id="line-6"></span><span>      </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Identifier"><span class="hs-identifier">Identifier</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-7"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#DocString"><span class="hs-identifier">DocString</span></a></span><span>
+</span><span id="line-8"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#IdentifierDocumentation"><span class="hs-identifier">IdentifierDocumentation</span></a></span><span>
+</span><span id="line-9"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier">Documentation</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-10"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Place"><span class="hs-identifier">Place</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-11"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#document"><span class="hs-identifier">document</span></a></span><span>
+</span><span id="line-12"></span><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-13"></span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-15"></span><span>
+</span><span id="line-16"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span>
+</span><span id="line-17"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier">Map</span></span><span>
+</span><span id="line-18"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.TreeDiff</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">ToExpr</span></span><span class="hs-special">)</span><span>
+</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-21"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html"><span class="hs-identifier">Language.FineTypes.Typ</span></a></span><span>
+</span><span id="line-22"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#ConstructorName"><span class="hs-identifier">ConstructorName</span></a></span><span>
+</span><span id="line-23"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#FieldName"><span class="hs-identifier">FieldName</span></a></span><span>
+</span><span id="line-24"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier">TypName</span></a></span><span>
+</span><span id="line-25"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-26"></span><span>
+</span><span id="line-27"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Map</span></span><span>
+</span><span id="line-28"></span><span>
+</span><span id="line-29"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+    Documentation texts
+------------------------------------------------------------------------------}</span><span>
+</span><span id="line-32"></span><span>
+</span><span id="line-33"></span><span class="hs-comment">-- | An 'Identifier' refers to a specific 'TypName'</span><span>
+</span><span id="line-34"></span><span class="hs-comment">-- or one of its fields or constructors.</span><span>
+</span><span id="line-35"></span><span class="hs-keyword">data</span><span> </span><span id="Identifier"><span class="annot"><a href="Language.FineTypes.Documentation.html#Identifier"><span class="hs-identifier hs-var">Identifier</span></a></span></span><span>
+</span><span id="line-36"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span id="Typ"><span class="annot"><a href="Language.FineTypes.Documentation.html#Typ"><span class="hs-identifier hs-var">Typ</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
+</span><span id="line-37"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span id="Field"><span class="annot"><a href="Language.FineTypes.Documentation.html#Field"><span class="hs-identifier hs-var">Field</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#FieldName"><span class="hs-identifier hs-type">FieldName</span></a></span><span>
+</span><span id="line-38"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span id="Constructor"><span class="annot"><a href="Language.FineTypes.Documentation.html#Constructor"><span class="hs-identifier hs-var">Constructor</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#ConstructorName"><span class="hs-identifier hs-type">ConstructorName</span></a></span><span>
+</span><span id="line-39"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679223855"><span id="local-6989586621679223864"><span class="annot"><span class="annottext">Identifier -&gt; Identifier -&gt; Bool
+(Identifier -&gt; Identifier -&gt; Bool)
+-&gt; (Identifier -&gt; Identifier -&gt; Bool) -&gt; Eq Identifier
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+$c== :: Identifier -&gt; Identifier -&gt; Bool
+== :: Identifier -&gt; Identifier -&gt; Bool
+$c/= :: Identifier -&gt; Identifier -&gt; Bool
+/= :: Identifier -&gt; Identifier -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679223872"><span id="local-6989586621679223881"><span id="local-6989586621679223889"><span id="local-6989586621679223893"><span id="local-6989586621679223896"><span id="local-6989586621679223899"><span id="local-6989586621679223902"><span class="annot"><span class="annottext">Eq Identifier
+Eq Identifier =&gt;
+(Identifier -&gt; Identifier -&gt; Ordering)
+-&gt; (Identifier -&gt; Identifier -&gt; Bool)
+-&gt; (Identifier -&gt; Identifier -&gt; Bool)
+-&gt; (Identifier -&gt; Identifier -&gt; Bool)
+-&gt; (Identifier -&gt; Identifier -&gt; Bool)
+-&gt; (Identifier -&gt; Identifier -&gt; Identifier)
+-&gt; (Identifier -&gt; Identifier -&gt; Identifier)
+-&gt; Ord Identifier
+Identifier -&gt; Identifier -&gt; Bool
+Identifier -&gt; Identifier -&gt; Ordering
+Identifier -&gt; Identifier -&gt; Identifier
+forall a.
+Eq a =&gt;
+(a -&gt; a -&gt; Ordering)
+-&gt; (a -&gt; a -&gt; Bool)
+-&gt; (a -&gt; a -&gt; Bool)
+-&gt; (a -&gt; a -&gt; Bool)
+-&gt; (a -&gt; a -&gt; Bool)
+-&gt; (a -&gt; a -&gt; a)
+-&gt; (a -&gt; a -&gt; a)
+-&gt; Ord a
+$ccompare :: Identifier -&gt; Identifier -&gt; Ordering
+compare :: Identifier -&gt; Identifier -&gt; Ordering
+$c&lt; :: Identifier -&gt; Identifier -&gt; Bool
+&lt; :: Identifier -&gt; Identifier -&gt; Bool
+$c&lt;= :: Identifier -&gt; Identifier -&gt; Bool
+&lt;= :: Identifier -&gt; Identifier -&gt; Bool
+$c&gt; :: Identifier -&gt; Identifier -&gt; Bool
+&gt; :: Identifier -&gt; Identifier -&gt; Bool
+$c&gt;= :: Identifier -&gt; Identifier -&gt; Bool
+&gt;= :: Identifier -&gt; Identifier -&gt; Bool
+$cmax :: Identifier -&gt; Identifier -&gt; Identifier
+max :: Identifier -&gt; Identifier -&gt; Identifier
+$cmin :: Identifier -&gt; Identifier -&gt; Identifier
+min :: Identifier -&gt; Identifier -&gt; Identifier
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679223907"><span id="local-6989586621679223920"><span id="local-6989586621679223924"><span class="annot"><span class="annottext">Int -&gt; Identifier -&gt; ShowS
+[Identifier] -&gt; ShowS
+Identifier -&gt; TypName
+(Int -&gt; Identifier -&gt; ShowS)
+-&gt; (Identifier -&gt; TypName)
+-&gt; ([Identifier] -&gt; ShowS)
+-&gt; Show Identifier
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; TypName) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+$cshowsPrec :: Int -&gt; Identifier -&gt; ShowS
+showsPrec :: Int -&gt; Identifier -&gt; ShowS
+$cshow :: Identifier -&gt; TypName
+show :: Identifier -&gt; TypName
+$cshowList :: [Identifier] -&gt; ShowS
+showList :: [Identifier] -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679223929"><span id="local-6989586621679223931"><span class="annot"><span class="annottext">(forall x. Identifier -&gt; Rep Identifier x)
+-&gt; (forall x. Rep Identifier x -&gt; Identifier) -&gt; Generic Identifier
+forall x. Rep Identifier x -&gt; Identifier
+forall x. Identifier -&gt; Rep Identifier x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cfrom :: forall x. Identifier -&gt; Rep Identifier x
+from :: forall x. Identifier -&gt; Rep Identifier x
+$cto :: forall x. Rep Identifier x -&gt; Identifier
+to :: forall x. Rep Identifier x -&gt; Identifier
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-40"></span><span>
+</span><span id="line-41"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679223935"><span id="local-6989586621679223942"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Identifier"><span class="hs-identifier hs-type">Identifier</span></a></span></span></span><span>
+</span><span id="line-42"></span><span>
+</span><span id="line-43"></span><span class="hs-keyword">type</span><span> </span><span id="DocString"><span class="annot"><a href="Language.FineTypes.Documentation.html#DocString"><span class="hs-identifier hs-var">DocString</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-44"></span><span>
+</span><span id="line-45"></span><span class="annot"><span class="hs-comment">-- | Documentation texts associated to one identifier.</span></span><span>
+</span><span id="line-46"></span><span class="hs-keyword">type</span><span> </span><span id="IdentifierDocumentation"><span class="annot"><a href="Language.FineTypes.Documentation.html#IdentifierDocumentation"><span class="hs-identifier hs-var">IdentifierDocumentation</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Place"><span class="hs-identifier hs-type">Place</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#DocString"><span class="hs-identifier hs-type">DocString</span></a></span><span>
+</span><span id="line-47"></span><span>
+</span><span id="line-48"></span><span class="annot"><span class="hs-comment">-- | Documentation texts associated to 'Identifiers'.</span></span><span>
+</span><span id="line-49"></span><span class="hs-keyword">newtype</span><span> </span><span id="Documentation"><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-var">Documentation</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Documentation"><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-var">Documentation</span></a></span></span><span>
+</span><span id="line-50"></span><span>    </span><span class="hs-special">{</span><span id="getDocumentation"><span class="annot"><span class="annottext">Documentation -&gt; Map Identifier IdentifierDocumentation
+</span><a href="Language.FineTypes.Documentation.html#getDocumentation"><span class="hs-identifier hs-var hs-var">getDocumentation</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Identifier"><span class="hs-identifier hs-type">Identifier</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#IdentifierDocumentation"><span class="hs-identifier hs-type">IdentifierDocumentation</span></a></span><span class="hs-special">}</span><span>
+</span><span id="line-51"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679223987"><span id="local-6989586621679223994"><span class="annot"><span class="annottext">Documentation -&gt; Documentation -&gt; Bool
+(Documentation -&gt; Documentation -&gt; Bool)
+-&gt; (Documentation -&gt; Documentation -&gt; Bool) -&gt; Eq Documentation
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+$c== :: Documentation -&gt; Documentation -&gt; Bool
+== :: Documentation -&gt; Documentation -&gt; Bool
+$c/= :: Documentation -&gt; Documentation -&gt; Bool
+/= :: Documentation -&gt; Documentation -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679224008"><span id="local-6989586621679224015"><span id="local-6989586621679224019"><span class="annot"><span class="annottext">Int -&gt; Documentation -&gt; ShowS
+[Documentation] -&gt; ShowS
+Documentation -&gt; TypName
+(Int -&gt; Documentation -&gt; ShowS)
+-&gt; (Documentation -&gt; TypName)
+-&gt; ([Documentation] -&gt; ShowS)
+-&gt; Show Documentation
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; TypName) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+$cshowsPrec :: Int -&gt; Documentation -&gt; ShowS
+showsPrec :: Int -&gt; Documentation -&gt; ShowS
+$cshow :: Documentation -&gt; TypName
+show :: Documentation -&gt; TypName
+$cshowList :: [Documentation] -&gt; ShowS
+showList :: [Documentation] -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679224026"><span id="local-6989586621679224028"><span class="annot"><span class="annottext">(forall x. Documentation -&gt; Rep Documentation x)
+-&gt; (forall x. Rep Documentation x -&gt; Documentation)
+-&gt; Generic Documentation
+forall x. Rep Documentation x -&gt; Documentation
+forall x. Documentation -&gt; Rep Documentation x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cfrom :: forall x. Documentation -&gt; Rep Documentation x
+from :: forall x. Documentation -&gt; Rep Documentation x
+$cto :: forall x. Rep Documentation x -&gt; Documentation
+to :: forall x. Rep Documentation x -&gt; Documentation
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-52"></span><span>
+</span><span id="line-53"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679224031"><span id="local-6989586621679224038"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span></span></span><span>
+</span><span id="line-54"></span><span>
+</span><span id="line-55"></span><span class="annot"><span class="hs-comment">-- | Place for putting documentation</span></span><span>
+</span><span id="line-56"></span><span class="hs-keyword">data</span><span> </span><span id="Place"><span class="annot"><a href="Language.FineTypes.Documentation.html#Place"><span class="hs-identifier hs-var">Place</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="BeforeMultiline"><span class="annot"><a href="Language.FineTypes.Documentation.html#BeforeMultiline"><span class="hs-identifier hs-var">BeforeMultiline</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="Before"><span class="annot"><a href="Language.FineTypes.Documentation.html#Before"><span class="hs-identifier hs-var">Before</span></a></span></span><span> </span><span class="hs-glyph">|</span><span> </span><span id="After"><span class="annot"><a href="Language.FineTypes.Documentation.html#After"><span class="hs-identifier hs-var">After</span></a></span></span><span>
+</span><span id="line-57"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679224069"><span id="local-6989586621679224071"><span class="annot"><span class="annottext">Place -&gt; Place -&gt; Bool
+(Place -&gt; Place -&gt; Bool) -&gt; (Place -&gt; Place -&gt; Bool) -&gt; Eq Place
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+$c== :: Place -&gt; Place -&gt; Bool
+== :: Place -&gt; Place -&gt; Bool
+$c/= :: Place -&gt; Place -&gt; Bool
+/= :: Place -&gt; Place -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679224076"><span id="local-6989586621679224078"><span id="local-6989586621679224080"><span id="local-6989586621679224084"><span id="local-6989586621679224087"><span id="local-6989586621679224090"><span id="local-6989586621679224093"><span class="annot"><span class="annottext">Eq Place
+Eq Place =&gt;
+(Place -&gt; Place -&gt; Ordering)
+-&gt; (Place -&gt; Place -&gt; Bool)
+-&gt; (Place -&gt; Place -&gt; Bool)
+-&gt; (Place -&gt; Place -&gt; Bool)
+-&gt; (Place -&gt; Place -&gt; Bool)
+-&gt; (Place -&gt; Place -&gt; Place)
+-&gt; (Place -&gt; Place -&gt; Place)
+-&gt; Ord Place
+Place -&gt; Place -&gt; Bool
+Place -&gt; Place -&gt; Ordering
+Place -&gt; Place -&gt; Place
+forall a.
+Eq a =&gt;
+(a -&gt; a -&gt; Ordering)
+-&gt; (a -&gt; a -&gt; Bool)
+-&gt; (a -&gt; a -&gt; Bool)
+-&gt; (a -&gt; a -&gt; Bool)
+-&gt; (a -&gt; a -&gt; Bool)
+-&gt; (a -&gt; a -&gt; a)
+-&gt; (a -&gt; a -&gt; a)
+-&gt; Ord a
+$ccompare :: Place -&gt; Place -&gt; Ordering
+compare :: Place -&gt; Place -&gt; Ordering
+$c&lt; :: Place -&gt; Place -&gt; Bool
+&lt; :: Place -&gt; Place -&gt; Bool
+$c&lt;= :: Place -&gt; Place -&gt; Bool
+&lt;= :: Place -&gt; Place -&gt; Bool
+$c&gt; :: Place -&gt; Place -&gt; Bool
+&gt; :: Place -&gt; Place -&gt; Bool
+$c&gt;= :: Place -&gt; Place -&gt; Bool
+&gt;= :: Place -&gt; Place -&gt; Bool
+$cmax :: Place -&gt; Place -&gt; Place
+max :: Place -&gt; Place -&gt; Place
+$cmin :: Place -&gt; Place -&gt; Place
+min :: Place -&gt; Place -&gt; Place
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679224096"><span id="local-6989586621679224098"><span id="local-6989586621679224101"><span class="annot"><span class="annottext">Int -&gt; Place -&gt; ShowS
+[Place] -&gt; ShowS
+Place -&gt; TypName
+(Int -&gt; Place -&gt; ShowS)
+-&gt; (Place -&gt; TypName) -&gt; ([Place] -&gt; ShowS) -&gt; Show Place
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; TypName) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+$cshowsPrec :: Int -&gt; Place -&gt; ShowS
+showsPrec :: Int -&gt; Place -&gt; ShowS
+$cshow :: Place -&gt; TypName
+show :: Place -&gt; TypName
+$cshowList :: [Place] -&gt; ShowS
+showList :: [Place] -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679224104"><span id="local-6989586621679224106"><span class="annot"><span class="annottext">(forall x. Place -&gt; Rep Place x)
+-&gt; (forall x. Rep Place x -&gt; Place) -&gt; Generic Place
+forall x. Rep Place x -&gt; Place
+forall x. Place -&gt; Rep Place x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cfrom :: forall x. Place -&gt; Rep Place x
+from :: forall x. Place -&gt; Rep Place x
+$cto :: forall x. Rep Place x -&gt; Place
+to :: forall x. Rep Place x -&gt; Place
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-58"></span><span>
+</span><span id="line-59"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679224109"><span id="local-6989586621679224115"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Place"><span class="hs-identifier hs-type">Place</span></a></span></span></span><span>
+</span><span id="line-60"></span><span>
+</span><span id="line-61"></span><span class="annot"><a href="Language.FineTypes.Documentation.html#document"><span class="hs-identifier hs-type">document</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Identifier"><span class="hs-identifier hs-type">Identifier</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Place"><span class="hs-identifier hs-type">Place</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#DocString"><span class="hs-identifier hs-type">DocString</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span><span>
+</span><span id="line-62"></span><span id="document"><span class="annot"><span class="annottext">document :: Identifier -&gt; IdentifierDocumentation -&gt; Documentation
+</span><a href="Language.FineTypes.Documentation.html#document"><span class="hs-identifier hs-var hs-var">document</span></a></span></span><span> </span><span id="local-6989586621679224132"><span class="annot"><span class="annottext">Identifier
+</span><a href="#local-6989586621679224132"><span class="hs-identifier hs-var">i</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation -&gt; Documentation
+</span><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-var">Documentation</span></a></span><span> </span><span class="annot"><span class="annottext">(Map Identifier IdentifierDocumentation -&gt; Documentation)
+-&gt; (IdentifierDocumentation
+    -&gt; Map Identifier IdentifierDocumentation)
+-&gt; IdentifierDocumentation
+-&gt; Documentation
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Identifier
+-&gt; IdentifierDocumentation
+-&gt; Map Identifier IdentifierDocumentation
+forall k a. k -&gt; a -&gt; Map k a
+</span><span class="hs-identifier hs-var">Map.singleton</span></span><span> </span><span class="annot"><span class="annottext">Identifier
+</span><a href="#local-6989586621679224132"><span class="hs-identifier hs-var">i</span></a></span><span>
+</span><span id="line-63"></span><span>
+</span><span id="line-64"></span><span class="hs-comment">-- | Concatenates texts when multiple texts are associated</span><span>
+</span><span id="line-65"></span><span class="hs-comment">-- with the same identifier.</span><span>
+</span><span id="line-66"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679224137"><span id="local-6989586621679224141"><span class="annot"><span class="hs-identifier hs-type">Semigroup</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-67"></span><span>    </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span><span> </span><span id="local-6989586621679224150"><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation
+</span><a href="#local-6989586621679224150"><span class="hs-identifier hs-var">a</span></a></span></span><span class="hs-special">)</span><span> </span><span id="local-6989586621679224151"><span class="annot"><span class="annottext">&lt;&gt; :: Documentation -&gt; Documentation -&gt; Documentation
+</span><span class="hs-operator hs-var hs-var hs-var hs-var">&lt;&gt;</span></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span><span> </span><span id="local-6989586621679224152"><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation
+</span><a href="#local-6989586621679224152"><span class="hs-identifier hs-var">b</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-68"></span><span>        </span><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation -&gt; Documentation
+</span><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-var">Documentation</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(IdentifierDocumentation
+ -&gt; IdentifierDocumentation -&gt; IdentifierDocumentation)
+-&gt; Map Identifier IdentifierDocumentation
+-&gt; Map Identifier IdentifierDocumentation
+-&gt; Map Identifier IdentifierDocumentation
+forall k a. Ord k =&gt; (a -&gt; a -&gt; a) -&gt; Map k a -&gt; Map k a -&gt; Map k a
+</span><span class="hs-identifier hs-var">Map.unionWith</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(TypName -&gt; ShowS)
+-&gt; IdentifierDocumentation
+-&gt; IdentifierDocumentation
+-&gt; IdentifierDocumentation
+forall k a. Ord k =&gt; (a -&gt; a -&gt; a) -&gt; Map k a -&gt; Map k a -&gt; Map k a
+</span><span class="hs-identifier hs-var">Map.unionWith</span></span><span> </span><span class="annot"><span class="annottext">TypName -&gt; ShowS
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">(&lt;&gt;)</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation
+</span><a href="#local-6989586621679224150"><span class="hs-identifier hs-var">a</span></a></span><span> </span><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation
+</span><a href="#local-6989586621679224152"><span class="hs-identifier hs-var">b</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-69"></span><span>
+</span><span id="line-70"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679224158"><span id="local-6989586621679224162"><span class="annot"><span class="hs-identifier hs-type">Monoid</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-71"></span><span>    </span><span id="local-6989586621679224168"><span class="annot"><span class="annottext">mempty :: Documentation
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">mempty</span></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation -&gt; Documentation
+</span><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-var">Documentation</span></a></span><span> </span><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation
+forall a. Monoid a =&gt; a
+</span><span class="hs-identifier hs-var">mempty</span></span><span>
+</span><span id="line-72"></span></pre></body></html>

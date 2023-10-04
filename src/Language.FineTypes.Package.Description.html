@@ -1,24 +1,28 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="annot"><span class="hs-comment">-- | A package description is a small program which evaluates to a package.</span></span><span>
-</span><span id="line-2"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Package.Description</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-3"></span><span>
-</span><span id="line-4"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DeriveGeneric #-}</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="annot"><span class="hs-comment">-- | A package description is a small program which evaluates to a package.</span></span><span>
+</span><span id="line-4"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Package.Description</span><span> </span><span class="hs-keyword">where</span><span>
 </span><span id="line-5"></span><span>
-</span><span id="line-6"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier">ModuleName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-6"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
 </span><span id="line-7"></span><span>
-</span><span id="line-8"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+</span><span id="line-8"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.TreeDiff</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">ToExpr</span></span><span class="hs-special">)</span><span>
+</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier">ModuleName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-11"></span><span>
+</span><span id="line-12"></span><span class="hs-comment">{-----------------------------------------------------------------------------
     Package Description
 ------------------------------------------------------------------------------}</span><span>
-</span><span id="line-11"></span><span class="hs-keyword">type</span><span> </span><span id="PackageName"><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-var">PackageName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
-</span><span id="line-12"></span><span>
-</span><span id="line-13"></span><span class="hs-comment">-- | A 'PackageDescription' is a sequence of 'Statement' that evaluate</span><span>
-</span><span id="line-14"></span><span class="hs-comment">-- to a 'Package'.</span><span>
-</span><span id="line-15"></span><span class="hs-keyword">data</span><span> </span><span id="PackageDescription"><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-var">PackageDescription</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="PackageDescription"><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-var">PackageDescription</span></a></span></span><span>
-</span><span id="line-16"></span><span>    </span><span class="hs-special">{</span><span> </span><span id="packageName"><span class="annot"><span class="annottext">PackageDescription -&gt; PackageName
+</span><span id="line-15"></span><span class="hs-keyword">type</span><span> </span><span id="PackageName"><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-var">PackageName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-16"></span><span>
+</span><span id="line-17"></span><span class="hs-comment">-- | A 'PackageDescription' is a sequence of 'Statement' that evaluate</span><span>
+</span><span id="line-18"></span><span class="hs-comment">-- to a 'Package'.</span><span>
+</span><span id="line-19"></span><span class="hs-keyword">data</span><span> </span><span id="PackageDescription"><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-var">PackageDescription</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="PackageDescription"><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-var">PackageDescription</span></a></span></span><span>
+</span><span id="line-20"></span><span>    </span><span class="hs-special">{</span><span> </span><span id="packageName"><span class="annot"><span class="annottext">PackageDescription -&gt; PackageName
 </span><a href="Language.FineTypes.Package.Description.html#packageName"><span class="hs-identifier hs-var hs-var">packageName</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span>
-</span><span id="line-17"></span><span>    </span><span class="hs-special">,</span><span> </span><span id="packageStatements"><span class="annot"><span class="annottext">PackageDescription -&gt; [Statement]
+</span><span id="line-21"></span><span>    </span><span class="hs-special">,</span><span> </span><span id="packageStatements"><span class="annot"><span class="annottext">PackageDescription -&gt; [Statement]
 </span><a href="Language.FineTypes.Package.Description.html#packageStatements"><span class="hs-identifier hs-var hs-var">packageStatements</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier hs-type">Statement</span></a></span><span class="hs-special">]</span><span>
-</span><span id="line-18"></span><span>    </span><span class="hs-special">}</span><span>
-</span><span id="line-19"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679219259"><span id="local-6989586621679219266"><span class="annot"><span class="annottext">PackageDescription -&gt; PackageDescription -&gt; Bool
+</span><span id="line-22"></span><span>    </span><span class="hs-special">}</span><span>
+</span><span id="line-23"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679224795"><span id="local-6989586621679224802"><span class="annot"><span class="annottext">PackageDescription -&gt; PackageDescription -&gt; Bool
 (PackageDescription -&gt; PackageDescription -&gt; Bool)
 -&gt; (PackageDescription -&gt; PackageDescription -&gt; Bool)
 -&gt; Eq PackageDescription
@@ -27,7 +31,7 @@ $c== :: PackageDescription -&gt; PackageDescription -&gt; Bool
 == :: PackageDescription -&gt; PackageDescription -&gt; Bool
 $c/= :: PackageDescription -&gt; PackageDescription -&gt; Bool
 /= :: PackageDescription -&gt; PackageDescription -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679219273"><span id="local-6989586621679219282"><span id="local-6989586621679219286"><span class="annot"><span class="annottext">Int -&gt; PackageDescription -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679224809"><span id="local-6989586621679224818"><span id="local-6989586621679224822"><span class="annot"><span class="annottext">Int -&gt; PackageDescription -&gt; ShowS
 [PackageDescription] -&gt; ShowS
 PackageDescription -&gt; PackageName
 (Int -&gt; PackageDescription -&gt; ShowS)
@@ -43,13 +47,27 @@ $cshow :: PackageDescription -&gt; PackageName
 show :: PackageDescription -&gt; PackageName
 $cshowList :: [PackageDescription] -&gt; ShowS
 showList :: [PackageDescription] -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-20"></span><span>
-</span><span id="line-21"></span><span class="hs-keyword">data</span><span> </span><span id="Statement"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier hs-var">Statement</span></a></span></span><span>
-</span><span id="line-22"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span id="Include"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Include"><span class="hs-identifier hs-var">Include</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span>
-</span><span id="line-23"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span id="Module"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Module"><span class="hs-identifier hs-var">Module</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span>
-</span><span id="line-24"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span id="Assert"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Assert"><span class="hs-identifier hs-var">Assert</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Assertion"><span class="hs-identifier hs-type">Assertion</span></a></span><span>
-</span><span id="line-25"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679219295"><span id="local-6989586621679219305"><span class="annot"><span class="annottext">Statement -&gt; Statement -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679224828"><span id="local-6989586621679224830"><span class="annot"><span class="annottext">(forall x. PackageDescription -&gt; Rep PackageDescription x)
+-&gt; (forall x. Rep PackageDescription x -&gt; PackageDescription)
+-&gt; Generic PackageDescription
+forall x. Rep PackageDescription x -&gt; PackageDescription
+forall x. PackageDescription -&gt; Rep PackageDescription x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cfrom :: forall x. PackageDescription -&gt; Rep PackageDescription x
+from :: forall x. PackageDescription -&gt; Rep PackageDescription x
+$cto :: forall x. Rep PackageDescription x -&gt; PackageDescription
+to :: forall x. Rep PackageDescription x -&gt; PackageDescription
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-24"></span><span>
+</span><span id="line-25"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679224834"><span id="local-6989586621679224841"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-type">PackageDescription</span></a></span></span></span><span>
+</span><span id="line-26"></span><span>
+</span><span id="line-27"></span><span class="hs-keyword">data</span><span> </span><span id="Statement"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier hs-var">Statement</span></a></span></span><span>
+</span><span id="line-28"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span id="Include"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Include"><span class="hs-identifier hs-var">Include</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span>
+</span><span id="line-29"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span id="Module"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Module"><span class="hs-identifier hs-var">Module</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span>
+</span><span id="line-30"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span id="Signature"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Signature"><span class="hs-identifier hs-var">Signature</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span>
+</span><span id="line-31"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span id="Assert"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Assert"><span class="hs-identifier hs-var">Assert</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Assertion"><span class="hs-identifier hs-type">Assertion</span></a></span><span>
+</span><span id="line-32"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679224891"><span id="local-6989586621679224903"><span class="annot"><span class="annottext">Statement -&gt; Statement -&gt; Bool
 (Statement -&gt; Statement -&gt; Bool)
 -&gt; (Statement -&gt; Statement -&gt; Bool) -&gt; Eq Statement
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -57,7 +75,7 @@ $c== :: Statement -&gt; Statement -&gt; Bool
 == :: Statement -&gt; Statement -&gt; Bool
 $c/= :: Statement -&gt; Statement -&gt; Bool
 /= :: Statement -&gt; Statement -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679219308"><span id="local-6989586621679219321"><span id="local-6989586621679219324"><span class="annot"><span class="annottext">Int -&gt; Statement -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679224906"><span id="local-6989586621679224922"><span id="local-6989586621679224925"><span class="annot"><span class="annottext">Int -&gt; Statement -&gt; ShowS
 [Statement] -&gt; ShowS
 Statement -&gt; PackageName
 (Int -&gt; Statement -&gt; ShowS)
@@ -73,11 +91,23 @@ $cshow :: Statement -&gt; PackageName
 show :: Statement -&gt; PackageName
 $cshowList :: [Statement] -&gt; ShowS
 showList :: [Statement] -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-26"></span><span>
-</span><span id="line-27"></span><span class="hs-keyword">newtype</span><span> </span><span id="Source"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-var">Source</span></a></span></span><span>
-</span><span id="line-28"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span id="File"><span class="annot"><a href="Language.FineTypes.Package.Description.html#File"><span class="hs-identifier hs-var">File</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
-</span><span id="line-29"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679219329"><span id="local-6989586621679219334"><span class="annot"><span class="annottext">Source -&gt; Source -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679224928"><span id="local-6989586621679224930"><span class="annot"><span class="annottext">(forall x. Statement -&gt; Rep Statement x)
+-&gt; (forall x. Rep Statement x -&gt; Statement) -&gt; Generic Statement
+forall x. Rep Statement x -&gt; Statement
+forall x. Statement -&gt; Rep Statement x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cfrom :: forall x. Statement -&gt; Rep Statement x
+from :: forall x. Statement -&gt; Rep Statement x
+$cto :: forall x. Rep Statement x -&gt; Statement
+to :: forall x. Rep Statement x -&gt; Statement
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-33"></span><span>
+</span><span id="line-34"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679224933"><span id="local-6989586621679224939"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier hs-type">Statement</span></a></span></span></span><span>
+</span><span id="line-35"></span><span>
+</span><span id="line-36"></span><span class="hs-keyword">newtype</span><span> </span><span id="Source"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-var">Source</span></a></span></span><span>
+</span><span id="line-37"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span id="File"><span class="annot"><a href="Language.FineTypes.Package.Description.html#File"><span class="hs-identifier hs-var">File</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
+</span><span id="line-38"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679224982"><span id="local-6989586621679224987"><span class="annot"><span class="annottext">Source -&gt; Source -&gt; Bool
 (Source -&gt; Source -&gt; Bool)
 -&gt; (Source -&gt; Source -&gt; Bool) -&gt; Eq Source
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -85,7 +115,7 @@ $c== :: Source -&gt; Source -&gt; Bool
 == :: Source -&gt; Source -&gt; Bool
 $c/= :: Source -&gt; Source -&gt; Bool
 /= :: Source -&gt; Source -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679219339"><span id="local-6989586621679219344"><span id="local-6989586621679219347"><span class="annot"><span class="annottext">Int -&gt; Source -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679224992"><span id="local-6989586621679224997"><span id="local-6989586621679225000"><span class="annot"><span class="annottext">Int -&gt; Source -&gt; ShowS
 [Source] -&gt; ShowS
 Source -&gt; PackageName
 (Int -&gt; Source -&gt; ShowS)
@@ -99,10 +129,22 @@ $cshow :: Source -&gt; PackageName
 show :: Source -&gt; PackageName
 $cshowList :: [Source] -&gt; ShowS
 showList :: [Source] -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-30"></span><span>
-</span><span id="line-31"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679225003"><span id="local-6989586621679225005"><span class="annot"><span class="annottext">(forall x. Source -&gt; Rep Source x)
+-&gt; (forall x. Rep Source x -&gt; Source) -&gt; Generic Source
+forall x. Rep Source x -&gt; Source
+forall x. Source -&gt; Rep Source x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cfrom :: forall x. Source -&gt; Rep Source x
+from :: forall x. Source -&gt; Rep Source x
+$cto :: forall x. Rep Source x -&gt; Source
+to :: forall x. Rep Source x -&gt; Source
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-39"></span><span>
+</span><span id="line-40"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679225008"><span id="local-6989586621679225014"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span></span></span><span>
+</span><span id="line-41"></span><span>
+</span><span id="line-42"></span><span class="hs-comment">{-----------------------------------------------------------------------------
     Assertions
 ------------------------------------------------------------------------------}</span><span>
-</span><span id="line-34"></span><span class="hs-keyword">type</span><span> </span><span id="Assertion"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Assertion"><span class="hs-identifier hs-var">Assertion</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
-</span><span id="line-35"></span></pre></body></html>
+</span><span id="line-45"></span><span class="hs-keyword">type</span><span> </span><span id="Assertion"><span class="annot"><a href="Language.FineTypes.Package.Description.html#Assertion"><span class="hs-identifier hs-var">Assertion</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-46"></span></pre></body></html>

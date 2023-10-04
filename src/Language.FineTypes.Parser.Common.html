@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Parser.Common</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-4"></span><span>
+</span><span id="line-5"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Lexer.html"><span class="hs-identifier">Language.FineTypes.Parser.Lexer</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Parser.Lexer.html#space"><span class="hs-identifier">space</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-6"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Types.html"><span class="hs-identifier">Language.FineTypes.Parser.Types</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Parser.Types.html#Parser"><span class="hs-identifier">Parser</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-7"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html"><span class="hs-identifier">Language.FineTypes.Typ</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier">TypName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-8"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Text.Megaparsec</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">many</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">satisfy</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-operator">(&lt;|&gt;)</span></span><span class="hs-special">)</span><span>
+</span><span id="line-9"></span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Text.Megaparsec.Char</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">C</span></span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Text.Megaparsec.Char.Lexer</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">L</span></span><span>
+</span><span id="line-12"></span><span>
+</span><span id="line-13"></span><span class="annot"><a href="Language.FineTypes.Parser.Common.html#typName"><span class="hs-identifier hs-type">typName</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Types.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
+</span><span id="line-14"></span><span id="typName"><span class="annot"><span class="annottext">typName :: Parser [Char]
+</span><a href="Language.FineTypes.Parser.Common.html#typName"><span class="hs-identifier hs-var hs-var">typName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-15"></span><span>    </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity () -&gt; Parser [Char] -&gt; Parser [Char]
+forall e s (m :: * -&gt; *) a. MonadParsec e s m =&gt; m () -&gt; m a -&gt; m a
+</span><span class="hs-identifier hs-var">L.lexeme</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity ()
+</span><a href="Language.FineTypes.Parser.Lexer.html#space"><span class="hs-identifier hs-var">space</span></a></span><span>
+</span><span id="line-16"></span><span>        </span><span class="annot"><span class="annottext">(Parser [Char] -&gt; Parser [Char]) -&gt; Parser [Char] -&gt; Parser [Char]
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">:</span><span class="hs-special">)</span><span>
+</span><span id="line-17"></span><span>            </span><span class="annot"><span class="annottext">(Char -&gt; [Char] -&gt; [Char])
+-&gt; ParsecT Void [Char] Identity Char
+-&gt; ParsecT Void [Char] Identity ([Char] -&gt; [Char])
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity Char
+ParsecT Void [Char] Identity (Token [Char])
+forall e s (m :: * -&gt; *).
+(MonadParsec e s m, Token s ~ Char) =&gt;
+m (Token s)
+</span><span class="hs-identifier hs-var">C.upperChar</span></span><span>
+</span><span id="line-18"></span><span>            </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity ([Char] -&gt; [Char])
+-&gt; Parser [Char] -&gt; Parser [Char]
+forall a b.
+ParsecT Void [Char] Identity (a -&gt; b)
+-&gt; ParsecT Void [Char] Identity a -&gt; ParsecT Void [Char] Identity b
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity Char -&gt; Parser [Char]
+forall (m :: * -&gt; *) a. MonadPlus m =&gt; m a -&gt; m [a]
+</span><span class="hs-identifier hs-var">many</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity Char
+ParsecT Void [Char] Identity (Token [Char])
+forall e s (m :: * -&gt; *).
+(MonadParsec e s m, Token s ~ Char) =&gt;
+m (Token s)
+</span><span class="hs-identifier hs-var">C.alphaNumChar</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void [Char] Identity Char
+-&gt; ParsecT Void [Char] Identity Char
+-&gt; ParsecT Void [Char] Identity Char
+forall a.
+ParsecT Void [Char] Identity a
+-&gt; ParsecT Void [Char] Identity a -&gt; ParsecT Void [Char] Identity a
+forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
+</span><span class="hs-operator hs-var">&lt;|&gt;</span></span><span> </span><span class="annot"><span class="annottext">(Token [Char] -&gt; Bool)
+-&gt; ParsecT Void [Char] Identity (Token [Char])
+forall e s (m :: * -&gt; *).
+MonadParsec e s m =&gt;
+(Token s -&gt; Bool) -&gt; m (Token s)
+</span><span class="hs-identifier hs-var">satisfy</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Token [Char] -&gt; [Token [Char]] -&gt; Bool
+forall a. Eq a =&gt; a -&gt; [a] -&gt; Bool
+forall (t :: * -&gt; *) a. (Foldable t, Eq a) =&gt; a -&gt; t a -&gt; Bool
+</span><span class="hs-operator hs-var">`elem`</span></span><span> </span><span class="annot"><span class="annottext">[Char]
+[Token [Char]]
+</span><span class="hs-string">&quot;_^-&quot;</span></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-19"></span></pre></body></html>

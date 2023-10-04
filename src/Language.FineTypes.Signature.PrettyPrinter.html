@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE NamedFieldPuns #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE OverloadedStrings #-}</span><span>
+</span><span id="line-3"></span><span>
+</span><span id="line-4"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Signature.PrettyPrinter</span><span>
+</span><span id="line-5"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyPrintSignature"><span class="hs-identifier">prettyPrintSignature</span></a></span><span>
+</span><span id="line-6"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettySignature"><span class="hs-identifier">prettySignature</span></a></span><span>
+</span><span id="line-7"></span><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-8"></span><span>
+</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-10"></span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Foldable</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">toList</span></span><span class="hs-special">)</span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html"><span class="hs-identifier">Language.FineTypes.Documentation</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier">Documentation</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html"><span class="hs-identifier">Language.FineTypes.Signature</span></a></span><span>
+</span><span id="line-14"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Declarations"><span class="hs-identifier">Declarations</span></a></span><span>
+</span><span id="line-15"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier">Signature</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-16"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html"><span class="hs-identifier">Language.FineTypes.Typ</span></a></span><span>
+</span><span id="line-18"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier">TypName</span></a></span><span>
+</span><span id="line-19"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.PrettyPrinter.html"><span class="hs-identifier">Language.FineTypes.Typ.PrettyPrinter</span></a></span><span>
+</span><span id="line-21"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.PrettyPrinter.html#QueryDocumentation"><span class="hs-identifier">QueryDocumentation</span></a></span><span>
+</span><span id="line-22"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.PrettyPrinter.html#addDocs"><span class="hs-identifier">addDocs</span></a></span><span>
+</span><span id="line-23"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-24"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prettyprinter</span></span><span>
+</span><span id="line-25"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier">Doc</span></span><span>
+</span><span id="line-26"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">Pretty</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">pretty</span></span><span class="hs-special">)</span><span>
+</span><span id="line-27"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">defaultLayoutOptions</span></span><span>
+</span><span id="line-28"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">layoutPretty</span></span><span>
+</span><span id="line-29"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">vsep</span></span><span>
+</span><span id="line-30"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-operator">(&lt;+&gt;)</span></span><span>
+</span><span id="line-31"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-32"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prettyprinter.Render.Text</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">renderStrict</span></span><span class="hs-special">)</span><span>
+</span><span id="line-33"></span><span>
+</span><span id="line-34"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Map</span></span><span>
+</span><span id="line-35"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Text</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">T</span></span><span>
+</span><span id="line-36"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html"><span class="hs-identifier">Language.FineTypes.Documentation</span></a></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Documentation</span></span><span>
+</span><span id="line-37"></span><span>
+</span><span id="line-38"></span><span id="local-6989586621679228908"><span class="annot"><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-type">prettyText</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">T.Text</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679228908"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-39"></span><span id="prettyText"><span class="annot"><span class="annottext">prettyText :: forall ann. Text -&gt; Doc ann
+</span><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var hs-var">prettyText</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
+forall ann. Text -&gt; Doc ann
+forall a ann. Pretty a =&gt; a -&gt; Doc ann
+</span><span class="hs-identifier hs-var">pretty</span></span><span>
+</span><span id="line-40"></span><span>
+</span><span id="line-41"></span><span class="annot"><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyPrintSignature"><span class="hs-identifier hs-type">prettyPrintSignature</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-42"></span><span id="prettyPrintSignature"><span class="annot"><span class="annottext">prettyPrintSignature :: Signature -&gt; String
+</span><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyPrintSignature"><span class="hs-identifier hs-var hs-var">prettyPrintSignature</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-43"></span><span>    </span><span class="annot"><span class="annottext">Text -&gt; String
+</span><span class="hs-identifier hs-var">T.unpack</span></span><span>
+</span><span id="line-44"></span><span>        </span><span class="annot"><span class="annottext">(Text -&gt; String) -&gt; (Signature -&gt; Text) -&gt; Signature -&gt; String
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">SimpleDocStream Any -&gt; Text
+forall ann. SimpleDocStream ann -&gt; Text
+</span><span class="hs-identifier hs-var">renderStrict</span></span><span>
+</span><span id="line-45"></span><span>        </span><span class="annot"><span class="annottext">(SimpleDocStream Any -&gt; Text)
+-&gt; (Signature -&gt; SimpleDocStream Any) -&gt; Signature -&gt; Text
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">LayoutOptions -&gt; Doc Any -&gt; SimpleDocStream Any
+forall ann. LayoutOptions -&gt; Doc ann -&gt; SimpleDocStream ann
+</span><span class="hs-identifier hs-var">layoutPretty</span></span><span> </span><span class="annot"><span class="annottext">LayoutOptions
+</span><span class="hs-identifier hs-var">defaultLayoutOptions</span></span><span>
+</span><span id="line-46"></span><span>        </span><span class="annot"><span class="annottext">(Doc Any -&gt; SimpleDocStream Any)
+-&gt; (Signature -&gt; Doc Any) -&gt; Signature -&gt; SimpleDocStream Any
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Signature -&gt; Doc Any
+forall ann. Signature -&gt; Doc ann
+</span><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettySignature"><span class="hs-identifier hs-var">prettySignature</span></a></span><span>
+</span><span id="line-47"></span><span>
+</span><span id="line-48"></span><span class="annot"><span class="hs-comment">-- | Pretty print a 'Signature'.</span></span><span>
+</span><span id="line-49"></span><span id="local-6989586621679228922"><span class="annot"><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettySignature"><span class="hs-identifier hs-type">prettySignature</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679228922"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-50"></span><span id="prettySignature"><span class="annot"><span class="annottext">prettySignature :: forall ann. Signature -&gt; Doc ann
+</span><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettySignature"><span class="hs-identifier hs-var hs-var">prettySignature</span></a></span></span><span>
+</span><span id="line-51"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span><span>
+</span><span id="line-52"></span><span>        </span><span class="hs-special">{</span><span> </span><span id="local-6989586621679228979"><span class="annot"><span class="annottext">String
+signatureName :: String
+signatureName :: Signature -&gt; String
+</span><a href="#local-6989586621679228979"><span class="hs-identifier hs-var hs-var">signatureName</span></a></span></span><span>
+</span><span id="line-53"></span><span>        </span><span class="hs-special">,</span><span> </span><span id="local-6989586621679228981"><span class="annot"><span class="annottext">Set String
+signatureDeclarations :: Set String
+signatureDeclarations :: Signature -&gt; Set String
+</span><a href="#local-6989586621679228981"><span class="hs-identifier hs-var hs-var">signatureDeclarations</span></a></span></span><span>
+</span><span id="line-54"></span><span>        </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">signatureDocumentation :: Signature -&gt; Documentation
+</span><a href="Language.FineTypes.Signature.html#signatureDocumentation"><span class="hs-identifier hs-var">signatureDocumentation</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span><span> </span><span id="local-6989586621679228985"><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation
+</span><a href="#local-6989586621679228985"><span class="hs-identifier hs-var">docs'</span></a></span></span><span>
+</span><span id="line-55"></span><span>        </span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-56"></span><span>        </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679228992"><span class="annot"><span class="annottext">docs :: Identifier -&gt; IdentifierDocumentation
+</span><a href="#local-6989586621679228992"><span class="hs-identifier hs-var hs-var">docs</span></a></span></span><span> </span><span id="local-6989586621679228993"><span class="annot"><span class="annottext">Identifier
+</span><a href="#local-6989586621679228993"><span class="hs-identifier hs-var">i</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">IdentifierDocumentation
+-&gt; Identifier
+-&gt; Map Identifier IdentifierDocumentation
+-&gt; IdentifierDocumentation
+forall k a. Ord k =&gt; a -&gt; k -&gt; Map k a -&gt; a
+</span><span class="hs-identifier hs-var">Map.findWithDefault</span></span><span> </span><span class="annot"><span class="annottext">IdentifierDocumentation
+forall a. Monoid a =&gt; a
+</span><span class="hs-identifier hs-var">mempty</span></span><span> </span><span class="annot"><span class="annottext">Identifier
+</span><a href="#local-6989586621679228993"><span class="hs-identifier hs-var">i</span></a></span><span> </span><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation
+</span><a href="#local-6989586621679228985"><span class="hs-identifier hs-var">docs'</span></a></span><span>
+</span><span id="line-57"></span><span>        </span><span class="hs-keyword">in</span><span>  </span><span class="annot"><span class="annottext">[Doc ann] -&gt; Doc ann
+forall ann. [Doc ann] -&gt; Doc ann
+</span><span class="hs-identifier hs-var">vsep</span></span><span>
+</span><span id="line-58"></span><span>                </span><span class="hs-special">[</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
+forall ann. Text -&gt; Doc ann
+</span><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;signature&quot;</span></span><span>
+</span><span id="line-59"></span><span>                    </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; Doc ann
+forall ann. String -&gt; Doc ann
+forall a ann. Pretty a =&gt; a -&gt; Doc ann
+</span><span class="hs-identifier hs-var">pretty</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679228979"><span class="hs-identifier hs-var">signatureName</span></a></span><span>
+</span><span id="line-60"></span><span>                    </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+forall ann. Doc ann -&gt; Doc ann -&gt; Doc ann
+</span><span class="hs-operator hs-var">&lt;+&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
+forall ann. Text -&gt; Doc ann
+</span><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;where&quot;</span></span><span>
+</span><span id="line-61"></span><span>                </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
+forall ann. Text -&gt; Doc ann
+</span><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;&quot;</span></span><span>
+</span><span id="line-62"></span><span>                </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">(Identifier -&gt; IdentifierDocumentation) -&gt; Set String -&gt; Doc ann
+forall ann.
+(Identifier -&gt; IdentifierDocumentation) -&gt; Set String -&gt; Doc ann
+</span><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyDeclarations"><span class="hs-identifier hs-var">prettyDeclarations</span></a></span><span> </span><span class="annot"><span class="annottext">Identifier -&gt; IdentifierDocumentation
+</span><a href="#local-6989586621679228992"><span class="hs-identifier hs-var">docs</span></a></span><span> </span><span class="annot"><span class="annottext">Set String
+</span><a href="#local-6989586621679228981"><span class="hs-identifier hs-var">signatureDeclarations</span></a></span><span>
+</span><span id="line-63"></span><span>                </span><span class="hs-special">]</span><span>
+</span><span id="line-64"></span><span>
+</span><span id="line-65"></span><span id="local-6989586621679228938"><span class="annot"><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyDeclarations"><span class="hs-identifier hs-type">prettyDeclarations</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.PrettyPrinter.html#QueryDocumentation"><span class="hs-identifier hs-type">QueryDocumentation</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Declarations"><span class="hs-identifier hs-type">Declarations</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679228938"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-66"></span><span id="prettyDeclarations"><span class="annot"><span class="annottext">prettyDeclarations :: forall ann.
+(Identifier -&gt; IdentifierDocumentation) -&gt; Set String -&gt; Doc ann
+</span><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyDeclarations"><span class="hs-identifier hs-var hs-var">prettyDeclarations</span></a></span></span><span> </span><span id="local-6989586621679228998"><span class="annot"><span class="annottext">Identifier -&gt; IdentifierDocumentation
+</span><a href="#local-6989586621679228998"><span class="hs-identifier hs-var">docs</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">[Doc ann] -&gt; Doc ann
+forall ann. [Doc ann] -&gt; Doc ann
+</span><span class="hs-identifier hs-var">vsep</span></span><span> </span><span class="annot"><span class="annottext">([Doc ann] -&gt; Doc ann)
+-&gt; (Set String -&gt; [Doc ann]) -&gt; Set String -&gt; Doc ann
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Doc ann) -&gt; [String] -&gt; [Doc ann]
+forall a b. (a -&gt; b) -&gt; [a] -&gt; [b]
+</span><span class="hs-identifier hs-var">map</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">(Identifier -&gt; IdentifierDocumentation) -&gt; String -&gt; Doc ann
+forall ann.
+(Identifier -&gt; IdentifierDocumentation) -&gt; String -&gt; Doc ann
+</span><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyDeclaration"><span class="hs-identifier hs-var">prettyDeclaration</span></a></span><span> </span><span class="annot"><span class="annottext">Identifier -&gt; IdentifierDocumentation
+</span><a href="#local-6989586621679228998"><span class="hs-identifier hs-var">docs</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">([String] -&gt; [Doc ann])
+-&gt; (Set String -&gt; [String]) -&gt; Set String -&gt; [Doc ann]
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Set String -&gt; [String]
+forall a. Set a -&gt; [a]
+forall (t :: * -&gt; *) a. Foldable t =&gt; t a -&gt; [a]
+</span><span class="hs-identifier hs-var">toList</span></span><span>
+</span><span id="line-67"></span><span>
+</span><span id="line-68"></span><span id="local-6989586621679228942"><span class="annot"><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyDeclaration"><span class="hs-identifier hs-type">prettyDeclaration</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.PrettyPrinter.html#QueryDocumentation"><span class="hs-identifier hs-type">QueryDocumentation</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Doc</span></span><span> </span><span class="annot"><a href="#local-6989586621679228942"><span class="hs-identifier hs-type">ann</span></a></span></span><span>
+</span><span id="line-69"></span><span id="prettyDeclaration"><span class="annot"><span class="annottext">prettyDeclaration :: forall ann.
+(Identifier -&gt; IdentifierDocumentation) -&gt; String -&gt; Doc ann
+</span><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyDeclaration"><span class="hs-identifier hs-var hs-var">prettyDeclaration</span></a></span></span><span> </span><span id="local-6989586621679229005"><span class="annot"><span class="annottext">Identifier -&gt; IdentifierDocumentation
+</span><a href="#local-6989586621679229005"><span class="hs-identifier hs-var">docs</span></a></span></span><span> </span><span id="local-6989586621679229006"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679229006"><span class="hs-identifier hs-var">name</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-70"></span><span>    </span><span class="annot"><span class="annottext">(Identifier -&gt; IdentifierDocumentation)
+-&gt; Identifier -&gt; Doc ann -&gt; Doc ann
+forall ann.
+(Identifier -&gt; IdentifierDocumentation)
+-&gt; Identifier -&gt; Doc ann -&gt; Doc ann
+</span><a href="Language.FineTypes.Typ.PrettyPrinter.html#addDocs"><span class="hs-identifier hs-var">addDocs</span></a></span><span> </span><span class="annot"><span class="annottext">Identifier -&gt; IdentifierDocumentation
+</span><a href="#local-6989586621679229005"><span class="hs-identifier hs-var">docs</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Identifier
+</span><a href="Language.FineTypes.Documentation.html#Typ"><span class="hs-identifier hs-var">Documentation.Typ</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679229006"><span class="hs-identifier hs-var">name</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-71"></span><span>        </span><span class="annot"><span class="annottext">(Doc ann -&gt; Doc ann) -&gt; Doc ann -&gt; Doc ann
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; Doc ann
+forall ann. String -&gt; Doc ann
+forall a ann. Pretty a =&gt; a -&gt; Doc ann
+</span><span class="hs-identifier hs-var">pretty</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679229006"><span class="hs-identifier hs-var">name</span></a></span><span>
+</span><span id="line-72"></span><span>            </span><span class="annot"><span class="annottext">Doc ann -&gt; Doc ann -&gt; Doc ann
+forall a. Semigroup a =&gt; a -&gt; a -&gt; a
+</span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">Text -&gt; Doc ann
+forall ann. Text -&gt; Doc ann
+</span><a href="Language.FineTypes.Signature.PrettyPrinter.html#prettyText"><span class="hs-identifier hs-var">prettyText</span></a></span><span> </span><span class="annot"><span class="annottext">Text
+</span><span class="hs-string">&quot;;&quot;</span></span><span>
+</span><span id="line-73"></span></pre></body></html>

@@ -1,66 +1,75 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="annot"><span class="hs-comment">-- | A package description is a small program which evaluates to a package.</span></span><span>
-</span><span id="line-2"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Package.Compile</span><span>
-</span><span id="line-3"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#compilePackageDescription"><span class="hs-identifier">compilePackageDescription</span></a></span><span>
-</span><span id="line-4"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier">ErrCompilePackage</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-5"></span><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-6"></span><span>
-</span><span id="line-7"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DeriveGeneric #-}</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="annot"><span class="hs-comment">-- | A package description is a small program which evaluates to a package.</span></span><span>
+</span><span id="line-4"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Package.Compile</span><span>
+</span><span id="line-5"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#compilePackageDescription"><span class="hs-identifier">compilePackageDescription</span></a></span><span>
+</span><span id="line-6"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier">ErrCompilePackage</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-7"></span><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
 </span><span id="line-8"></span><span>
-</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">foldM</span></span><span class="hs-special">)</span><span>
-</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad.Trans.Except</span></span><span>
-</span><span id="line-11"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier">ExceptT</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-12"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">except</span></span><span>
-</span><span id="line-13"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">runExceptT</span></span><span>
-</span><span id="line-14"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">throwE</span></span><span>
-</span><span id="line-15"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">withExceptT</span></span><span>
-</span><span id="line-16"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-17"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier">ModuleName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#moduleName"><span class="hs-identifier">moduleName</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-18"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html"><span class="hs-identifier">Language.FineTypes.Package.Content</span></a></span><span>
-</span><span id="line-19"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrAddModule"><span class="hs-identifier">ErrAddModule</span></a></span><span>
-</span><span id="line-20"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrIncludePackage"><span class="hs-identifier">ErrIncludePackage</span></a></span><span>
-</span><span id="line-21"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier">Package</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-22"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#addModule"><span class="hs-identifier">addModule</span></a></span><span>
-</span><span id="line-23"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#emptyPackage"><span class="hs-identifier">emptyPackage</span></a></span><span>
-</span><span id="line-24"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#includePackage"><span class="hs-identifier">includePackage</span></a></span><span>
-</span><span id="line-25"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-26"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html"><span class="hs-identifier">Language.FineTypes.Package.Description</span></a></span><span>
-</span><span id="line-27"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier">PackageDescription</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-28"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier">PackageName</span></a></span><span>
-</span><span id="line-29"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier">Source</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-30"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier">Statement</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-10"></span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">foldM</span></span><span class="hs-special">)</span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad.Trans.Except</span></span><span>
+</span><span id="line-13"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier">ExceptT</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-14"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">except</span></span><span>
+</span><span id="line-15"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">runExceptT</span></span><span>
+</span><span id="line-16"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">throwE</span></span><span>
+</span><span id="line-17"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">withExceptT</span></span><span>
+</span><span id="line-18"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.TreeDiff</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">ToExpr</span></span><span class="hs-special">)</span><span>
+</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-21"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier">ModuleName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#moduleName"><span class="hs-identifier">moduleName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-22"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.Parser.html"><span class="hs-identifier">Language.FineTypes.Module.Parser</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.Parser.html#ErrParseModule"><span class="hs-identifier">ErrParseModule</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.Parser.html#parseModule%27"><span class="hs-identifier">parseModule'</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-23"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html"><span class="hs-identifier">Language.FineTypes.Package.Content</span></a></span><span>
+</span><span id="line-24"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrAddModule"><span class="hs-identifier">ErrAddModule</span></a></span><span>
+</span><span id="line-25"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrIncludePackage"><span class="hs-identifier">ErrIncludePackage</span></a></span><span>
+</span><span id="line-26"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier">Package</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-27"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#addModule"><span class="hs-identifier">addModule</span></a></span><span>
+</span><span id="line-28"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#addSignature"><span class="hs-identifier">addSignature</span></a></span><span>
+</span><span id="line-29"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#emptyPackage"><span class="hs-identifier">emptyPackage</span></a></span><span>
+</span><span id="line-30"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#includePackage"><span class="hs-identifier">includePackage</span></a></span><span>
 </span><span id="line-31"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-32"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html"><span class="hs-identifier">Language.FineTypes.Package.Parser</span></a></span><span>
-</span><span id="line-33"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier">ErrParsePackage</span></a></span><span>
-</span><span id="line-34"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#parsePackageDescription"><span class="hs-identifier">parsePackageDescription</span></a></span><span>
-</span><span id="line-35"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-36"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html"><span class="hs-identifier">Language.FineTypes.Parser</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Parser.html#ErrParseModule"><span class="hs-identifier">ErrParseModule</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#parseFineTypes%27"><span class="hs-identifier">parseFineTypes'</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-37"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">System.FilePath</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">takeDirectory</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-operator">(&lt;/&gt;)</span></span><span class="hs-special">)</span><span>
-</span><span id="line-38"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">System.IO.Error</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">catchIOError</span></span><span class="hs-special">)</span><span>
-</span><span id="line-39"></span><span>
-</span><span id="line-40"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+</span><span id="line-32"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html"><span class="hs-identifier">Language.FineTypes.Package.Description</span></a></span><span>
+</span><span id="line-33"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier">PackageDescription</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-34"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier">PackageName</span></a></span><span>
+</span><span id="line-35"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier">Source</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-36"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier">Statement</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-37"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-38"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html"><span class="hs-identifier">Language.FineTypes.Package.Parser</span></a></span><span>
+</span><span id="line-39"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier">ErrParsePackage</span></a></span><span>
+</span><span id="line-40"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#parsePackageDescription"><span class="hs-identifier">parsePackageDescription</span></a></span><span>
+</span><span id="line-41"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-42"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Common.html"><span class="hs-identifier">Language.FineTypes.Parser.Common</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-43"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html"><span class="hs-identifier">Language.FineTypes.Signature</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier">Signature</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Signature.html#signatureName"><span class="hs-identifier">signatureName</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-44"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.Parser.html"><span class="hs-identifier">Language.FineTypes.Signature.Parser</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Signature.Parser.html#parseSignature%27"><span class="hs-identifier">parseSignature'</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-45"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.ToExpr.html"><span class="hs-identifier">Language.FineTypes.ToExpr</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
+</span><span id="line-46"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">System.FilePath</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">takeDirectory</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-operator">(&lt;/&gt;)</span></span><span class="hs-special">)</span><span>
+</span><span id="line-47"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">System.IO.Error</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">catchIOError</span></span><span class="hs-special">)</span><span>
+</span><span id="line-48"></span><span>
+</span><span id="line-49"></span><span class="hs-comment">{-----------------------------------------------------------------------------
     Package compiler
 ------------------------------------------------------------------------------}</span><span>
-</span><span id="line-43"></span><span>
-</span><span id="line-44"></span><span class="hs-keyword">data</span><span> </span><span id="ErrCompilePackage"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier hs-var">ErrCompilePackage</span></a></span></span><span>
-</span><span id="line-45"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-comment">-- | Error while reading a file.</span></span><span>
-</span><span id="line-46"></span><span>      </span><span id="ErrFile"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrFile"><span class="hs-identifier hs-var">ErrFile</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IOError</span></span><span>
-</span><span id="line-47"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Error while parsing a module.</span></span><span>
-</span><span id="line-48"></span><span>      </span><span id="ErrParseModuleError"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrParseModuleError"><span class="hs-identifier hs-var">ErrParseModuleError</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#ErrParseModule"><span class="hs-identifier hs-type">ErrParseModule</span></a></span><span>
-</span><span id="line-49"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Error while parsing an included package description.</span></span><span>
-</span><span id="line-50"></span><span>      </span><span id="ErrIncludeParsePackageError"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrIncludeParsePackageError"><span class="hs-identifier hs-var">ErrIncludeParsePackageError</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier hs-type">ErrParsePackage</span></a></span><span>
-</span><span id="line-51"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Error while compiling an included package.</span></span><span>
-</span><span id="line-52"></span><span>      </span><span id="ErrIncludeCompilePackage"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrIncludeCompilePackage"><span class="hs-identifier hs-var">ErrIncludeCompilePackage</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier hs-type">ErrCompilePackage</span></a></span><span>
-</span><span id="line-53"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Error while including a package.</span></span><span>
-</span><span id="line-54"></span><span>      </span><span id="ErrIncludePackage"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrIncludePackage"><span class="hs-identifier hs-var">ErrIncludePackage</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrIncludePackage"><span class="hs-identifier hs-type">ErrIncludePackage</span></a></span><span>
-</span><span id="line-55"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="hs-comment">-- | The package name in the include statement does</span><span>
-</span><span id="line-56"></span><span>      </span><span class="hs-comment">-- not match the included package name</span><span>
-</span><span id="line-57"></span><span>      </span><span id="ErrIncludePackageNameMismatch"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrIncludePackageNameMismatch"><span class="hs-identifier hs-var">ErrIncludePackageNameMismatch</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span>
-</span><span id="line-58"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Error while adding a module.</span></span><span>
-</span><span id="line-59"></span><span>      </span><span id="ErrAddModule"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrAddModule"><span class="hs-identifier hs-var">ErrAddModule</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrAddModule"><span class="hs-identifier hs-type">ErrAddModule</span></a></span><span>
-</span><span id="line-60"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="hs-comment">-- | The module name in the module statement does</span><span>
-</span><span id="line-61"></span><span>      </span><span class="hs-comment">-- not match the included module name</span><span>
-</span><span id="line-62"></span><span>      </span><span id="ErrAddModuleNameMismatch"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrAddModuleNameMismatch"><span class="hs-identifier hs-var">ErrAddModuleNameMismatch</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span>
-</span><span id="line-63"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679219875"><span id="local-6989586621679219899"><span class="annot"><span class="annottext">ErrCompilePackage -&gt; ErrCompilePackage -&gt; Bool
+</span><span id="line-52"></span><span>
+</span><span id="line-53"></span><span class="hs-keyword">data</span><span> </span><span id="ErrCompilePackage"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier hs-var">ErrCompilePackage</span></a></span></span><span>
+</span><span id="line-54"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-comment">-- | Error while reading a file.</span></span><span>
+</span><span id="line-55"></span><span>      </span><span id="ErrFile"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrFile"><span class="hs-identifier hs-var">ErrFile</span></a></span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IOError</span></span><span>
+</span><span id="line-56"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Error while parsing a module.</span></span><span>
+</span><span id="line-57"></span><span>      </span><span id="ErrParseModuleError"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrParseModuleError"><span class="hs-identifier hs-var">ErrParseModuleError</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.Parser.html#ErrParseModule"><span class="hs-identifier hs-type">ErrParseModule</span></a></span><span>
+</span><span id="line-58"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Error while parsing an included package description.</span></span><span>
+</span><span id="line-59"></span><span>      </span><span id="ErrIncludeParsePackageError"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrIncludeParsePackageError"><span class="hs-identifier hs-var">ErrIncludeParsePackageError</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier hs-type">ErrParsePackage</span></a></span><span>
+</span><span id="line-60"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Error while compiling an included package.</span></span><span>
+</span><span id="line-61"></span><span>      </span><span id="ErrIncludeCompilePackage"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrIncludeCompilePackage"><span class="hs-identifier hs-var">ErrIncludeCompilePackage</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier hs-type">ErrCompilePackage</span></a></span><span>
+</span><span id="line-62"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Error while including a package.</span></span><span>
+</span><span id="line-63"></span><span>      </span><span id="ErrIncludePackage"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrIncludePackage"><span class="hs-identifier hs-var">ErrIncludePackage</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrIncludePackage"><span class="hs-identifier hs-type">ErrIncludePackage</span></a></span><span>
+</span><span id="line-64"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="hs-comment">-- | The package name in the include statement does</span><span>
+</span><span id="line-65"></span><span>      </span><span class="hs-comment">-- not match the included package name</span><span>
+</span><span id="line-66"></span><span>      </span><span id="ErrIncludePackageNameMismatch"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrIncludePackageNameMismatch"><span class="hs-identifier hs-var">ErrIncludePackageNameMismatch</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span>
+</span><span id="line-67"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | Error while adding a module.</span></span><span>
+</span><span id="line-68"></span><span>      </span><span id="ErrAddModule"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrAddModule"><span class="hs-identifier hs-var">ErrAddModule</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrAddModule"><span class="hs-identifier hs-type">ErrAddModule</span></a></span><span>
+</span><span id="line-69"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="hs-comment">-- | The module name in the module statement does</span><span>
+</span><span id="line-70"></span><span>      </span><span class="hs-comment">-- not match the included module name</span><span>
+</span><span id="line-71"></span><span>      </span><span id="ErrAddModuleNameMismatch"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrAddModuleNameMismatch"><span class="hs-identifier hs-var">ErrAddModuleNameMismatch</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span>
+</span><span id="line-72"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679228048"><span id="local-6989586621679228071"><span class="annot"><span class="annottext">ErrCompilePackage -&gt; ErrCompilePackage -&gt; Bool
 (ErrCompilePackage -&gt; ErrCompilePackage -&gt; Bool)
 -&gt; (ErrCompilePackage -&gt; ErrCompilePackage -&gt; Bool)
 -&gt; Eq ErrCompilePackage
@@ -69,7 +78,7 @@ $c== :: ErrCompilePackage -&gt; ErrCompilePackage -&gt; Bool
 == :: ErrCompilePackage -&gt; ErrCompilePackage -&gt; Bool
 $c/= :: ErrCompilePackage -&gt; ErrCompilePackage -&gt; Bool
 /= :: ErrCompilePackage -&gt; ErrCompilePackage -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679219904"><span id="local-6989586621679219939"><span id="local-6989586621679219942"><span class="annot"><span class="annottext">Int -&gt; ErrCompilePackage -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679228075"><span id="local-6989586621679228109"><span id="local-6989586621679228112"><span class="annot"><span class="annottext">Int -&gt; ErrCompilePackage -&gt; ShowS
 [ErrCompilePackage] -&gt; ShowS
 ErrCompilePackage -&gt; PackageName
 (Int -&gt; ErrCompilePackage -&gt; ShowS)
@@ -85,26 +94,39 @@ $cshow :: ErrCompilePackage -&gt; PackageName
 show :: ErrCompilePackage -&gt; PackageName
 $cshowList :: [ErrCompilePackage] -&gt; ShowS
 showList :: [ErrCompilePackage] -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-64"></span><span>
-</span><span id="line-65"></span><span class="hs-comment">-- | Compile a package description to a 'Package' or</span><span>
-</span><span id="line-66"></span><span class="hs-comment">-- return a descriptive error message.</span><span>
-</span><span id="line-67"></span><span class="hs-comment">--</span><span>
-</span><span id="line-68"></span><span class="hs-comment">-- The first argument is a directory which is used as base</span><span>
-</span><span id="line-69"></span><span class="hs-comment">-- for resolving relative filenames.</span><span>
-</span><span id="line-70"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#compilePackageDescription"><span class="hs-identifier hs-type">compilePackageDescription</span></a></span><span>
-</span><span id="line-71"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
-</span><span id="line-72"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-type">PackageDescription</span></a></span><span>
-</span><span id="line-73"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier hs-type">ErrCompilePackage</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-74"></span><span id="compilePackageDescription"><span class="annot"><span class="annottext">compilePackageDescription :: PackageName
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679228117"><span id="local-6989586621679228119"><span class="annot"><span class="annottext">(forall x. ErrCompilePackage -&gt; Rep ErrCompilePackage x)
+-&gt; (forall x. Rep ErrCompilePackage x -&gt; ErrCompilePackage)
+-&gt; Generic ErrCompilePackage
+forall x. Rep ErrCompilePackage x -&gt; ErrCompilePackage
+forall x. ErrCompilePackage -&gt; Rep ErrCompilePackage x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cfrom :: forall x. ErrCompilePackage -&gt; Rep ErrCompilePackage x
+from :: forall x. ErrCompilePackage -&gt; Rep ErrCompilePackage x
+$cto :: forall x. Rep ErrCompilePackage x -&gt; ErrCompilePackage
+to :: forall x. Rep ErrCompilePackage x -&gt; ErrCompilePackage
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-73"></span><span>
+</span><span id="line-74"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679228123"><span id="local-6989586621679228130"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier hs-type">ErrCompilePackage</span></a></span></span></span><span>
+</span><span id="line-75"></span><span>
+</span><span id="line-76"></span><span class="hs-comment">-- | Compile a package description to a 'Package' or</span><span>
+</span><span id="line-77"></span><span class="hs-comment">-- return a descriptive error message.</span><span>
+</span><span id="line-78"></span><span class="hs-comment">--</span><span>
+</span><span id="line-79"></span><span class="hs-comment">-- The first argument is a directory which is used as base</span><span>
+</span><span id="line-80"></span><span class="hs-comment">-- for resolving relative filenames.</span><span>
+</span><span id="line-81"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#compilePackageDescription"><span class="hs-identifier hs-type">compilePackageDescription</span></a></span><span>
+</span><span id="line-82"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
+</span><span id="line-83"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-type">PackageDescription</span></a></span><span>
+</span><span id="line-84"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier hs-type">ErrCompilePackage</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-85"></span><span id="compilePackageDescription"><span class="annot"><span class="annottext">compilePackageDescription :: PackageName
 -&gt; PackageDescription -&gt; IO (Either ErrCompilePackage Package)
-</span><a href="Language.FineTypes.Package.Compile.html#compilePackageDescription"><span class="hs-identifier hs-var hs-var">compilePackageDescription</span></a></span></span><span> </span><span id="local-6989586621679219949"><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219949"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-75"></span><span>    </span><span class="annot"><span class="annottext">ExceptT ErrCompilePackage IO Package
+</span><a href="Language.FineTypes.Package.Compile.html#compilePackageDescription"><span class="hs-identifier hs-var hs-var">compilePackageDescription</span></a></span></span><span> </span><span id="local-6989586621679228221"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228221"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-86"></span><span>    </span><span class="annot"><span class="annottext">ExceptT ErrCompilePackage IO Package
 -&gt; IO (Either ErrCompilePackage Package)
 forall e (m :: * -&gt; *) a. ExceptT e m a -&gt; m (Either e a)
 </span><span class="hs-identifier hs-var">runExceptT</span></span><span>
-</span><span id="line-76"></span><span>        </span><span class="annot"><span class="annottext">(ExceptT ErrCompilePackage IO Package
+</span><span id="line-87"></span><span>        </span><span class="annot"><span class="annottext">(ExceptT ErrCompilePackage IO Package
  -&gt; IO (Either ErrCompilePackage Package))
 -&gt; (PackageDescription -&gt; ExceptT ErrCompilePackage IO Package)
 -&gt; PackageDescription
@@ -118,73 +140,73 @@ forall (t :: * -&gt; *) (m :: * -&gt; *) b a.
 </span><span class="hs-identifier hs-var">foldM</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName
 -&gt; Package -&gt; Statement -&gt; ExceptT ErrCompilePackage IO Package
 </span><a href="Language.FineTypes.Package.Compile.html#execStatement"><span class="hs-identifier hs-var">execStatement</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219949"><span class="hs-identifier hs-var">dir</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679228221"><span class="hs-identifier hs-var">dir</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Package
 </span><a href="Language.FineTypes.Package.Content.html#emptyPackage"><span class="hs-identifier hs-var">emptyPackage</span></a></span><span>
-</span><span id="line-77"></span><span>        </span><span class="annot"><span class="annottext">([Statement] -&gt; ExceptT ErrCompilePackage IO Package)
+</span><span id="line-88"></span><span>        </span><span class="annot"><span class="annottext">([Statement] -&gt; ExceptT ErrCompilePackage IO Package)
 -&gt; (PackageDescription -&gt; [Statement])
 -&gt; PackageDescription
 -&gt; ExceptT ErrCompilePackage IO Package
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">PackageDescription -&gt; [Statement]
 </span><a href="Language.FineTypes.Package.Description.html#packageStatements"><span class="hs-identifier hs-var">packageStatements</span></a></span><span>
-</span><span id="line-78"></span><span>
-</span><span id="line-79"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#execStatement"><span class="hs-identifier hs-type">execStatement</span></a></span><span>
-</span><span id="line-80"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
-</span><span id="line-81"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
-</span><span id="line-82"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier hs-type">Statement</span></a></span><span>
-</span><span id="line-83"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ExceptT</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier hs-type">ErrCompilePackage</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
-</span><span id="line-84"></span><span id="execStatement"><span class="annot"><span class="annottext">execStatement :: PackageName
+</span><span id="line-89"></span><span>
+</span><span id="line-90"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#execStatement"><span class="hs-identifier hs-type">execStatement</span></a></span><span>
+</span><span id="line-91"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
+</span><span id="line-92"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
+</span><span id="line-93"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier hs-type">Statement</span></a></span><span>
+</span><span id="line-94"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ExceptT</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier hs-type">ErrCompilePackage</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
+</span><span id="line-95"></span><span id="execStatement"><span class="annot"><span class="annottext">execStatement :: PackageName
 -&gt; Package -&gt; Statement -&gt; ExceptT ErrCompilePackage IO Package
-</span><a href="Language.FineTypes.Package.Compile.html#execStatement"><span class="hs-identifier hs-var hs-var">execStatement</span></a></span></span><span> </span><span id="local-6989586621679219953"><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219953"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span id="local-6989586621679219954"><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219954"><span class="hs-identifier hs-var">pkg</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Include"><span class="hs-identifier hs-type">Include</span></a></span><span> </span><span id="local-6989586621679219956"><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219956"><span class="hs-identifier hs-var">includeName</span></a></span></span><span> </span><span id="local-6989586621679219957"><span class="annot"><span class="annottext">Source
-</span><a href="#local-6989586621679219957"><span class="hs-identifier hs-var">source</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-85"></span><span>    </span><span id="local-6989586621679219958"><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219958"><span class="hs-identifier hs-var">file</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; Source -&gt; ExceptT ErrCompilePackage IO PackageName
+</span><a href="Language.FineTypes.Package.Compile.html#execStatement"><span class="hs-identifier hs-var hs-var">execStatement</span></a></span></span><span> </span><span id="local-6989586621679228225"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228225"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span id="local-6989586621679228226"><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679228226"><span class="hs-identifier hs-var">pkg</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Include"><span class="hs-identifier hs-type">Include</span></a></span><span> </span><span id="local-6989586621679228228"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228228"><span class="hs-identifier hs-var">includeName</span></a></span></span><span> </span><span id="local-6989586621679228229"><span class="annot"><span class="annottext">Source
+</span><a href="#local-6989586621679228229"><span class="hs-identifier hs-var">source</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-96"></span><span>    </span><span id="local-6989586621679228230"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228230"><span class="hs-identifier hs-var">file</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; Source -&gt; ExceptT ErrCompilePackage IO PackageName
 </span><a href="Language.FineTypes.Package.Compile.html#loadSource"><span class="hs-identifier hs-var">loadSource</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219953"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">Source
-</span><a href="#local-6989586621679219957"><span class="hs-identifier hs-var">source</span></a></span><span>
-</span><span id="line-86"></span><span>    </span><span id="local-6989586621679219960"><span class="annot"><span class="annottext">PackageDescription
-</span><a href="#local-6989586621679219960"><span class="hs-identifier hs-var">description</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
-</span><span id="line-87"></span><span>        </span><span class="annot"><span class="annottext">(ErrParseModule -&gt; ErrCompilePackage)
--&gt; Either ErrParseModule PackageDescription
+</span><a href="#local-6989586621679228225"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">Source
+</span><a href="#local-6989586621679228229"><span class="hs-identifier hs-var">source</span></a></span><span>
+</span><span id="line-97"></span><span>    </span><span id="local-6989586621679228232"><span class="annot"><span class="annottext">PackageDescription
+</span><a href="#local-6989586621679228232"><span class="hs-identifier hs-var">description</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
+</span><span id="line-98"></span><span>        </span><span class="annot"><span class="annottext">(ErrParsePackage -&gt; ErrCompilePackage)
+-&gt; Either ErrParsePackage PackageDescription
 -&gt; ExceptT ErrCompilePackage IO PackageDescription
 forall e e' a. (e -&gt; e') -&gt; Either e a -&gt; ExceptT e' IO a
-</span><a href="Language.FineTypes.Package.Compile.html#exceptT"><span class="hs-identifier hs-var">exceptT</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; ErrParseModule -&gt; ErrCompilePackage
+</span><a href="Language.FineTypes.Package.Compile.html#exceptT"><span class="hs-identifier hs-var">exceptT</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; ErrParsePackage -&gt; ErrCompilePackage
 </span><a href="Language.FineTypes.Package.Compile.html#ErrIncludeParsePackageError"><span class="hs-identifier hs-var">ErrIncludeParsePackageError</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219956"><span class="hs-identifier hs-var">includeName</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-88"></span><span>            </span><span class="annot"><span class="annottext">(Either ErrParseModule PackageDescription
+</span><a href="#local-6989586621679228228"><span class="hs-identifier hs-var">includeName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-99"></span><span>            </span><span class="annot"><span class="annottext">(Either ErrParsePackage PackageDescription
  -&gt; ExceptT ErrCompilePackage IO PackageDescription)
--&gt; Either ErrParseModule PackageDescription
+-&gt; Either ErrParsePackage PackageDescription
 -&gt; ExceptT ErrCompilePackage IO PackageDescription
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; Either ErrParseModule PackageDescription
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; Either ErrParsePackage PackageDescription
 </span><a href="Language.FineTypes.Package.Parser.html#parsePackageDescription"><span class="hs-identifier hs-var">parsePackageDescription</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219958"><span class="hs-identifier hs-var">file</span></a></span><span>
-</span><span id="line-89"></span><span>    </span><span class="annot"><span class="annottext">ErrCompilePackage -&gt; Bool -&gt; ExceptT ErrCompilePackage IO ()
+</span><a href="#local-6989586621679228230"><span class="hs-identifier hs-var">file</span></a></span><span>
+</span><span id="line-100"></span><span>    </span><span class="annot"><span class="annottext">ErrCompilePackage -&gt; Bool -&gt; ExceptT ErrCompilePackage IO ()
 forall (m :: * -&gt; *) e. Monad m =&gt; e -&gt; Bool -&gt; ExceptT e m ()
 </span><a href="Language.FineTypes.Package.Compile.html#guardExceptT"><span class="hs-identifier hs-var">guardExceptT</span></a></span><span>
-</span><span id="line-90"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; PackageName -&gt; ErrCompilePackage
+</span><span id="line-101"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; PackageName -&gt; ErrCompilePackage
 </span><a href="Language.FineTypes.Package.Compile.html#ErrIncludePackageNameMismatch"><span class="hs-identifier hs-var">ErrIncludePackageNameMismatch</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219956"><span class="hs-identifier hs-var">includeName</span></a></span><span> </span><span class="annot"><span class="annottext">(PackageName -&gt; ErrCompilePackage)
+</span><a href="#local-6989586621679228228"><span class="hs-identifier hs-var">includeName</span></a></span><span> </span><span class="annot"><span class="annottext">(PackageName -&gt; ErrCompilePackage)
 -&gt; PackageName -&gt; ErrCompilePackage
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PackageDescription -&gt; PackageName
 </span><a href="Language.FineTypes.Package.Description.html#packageName"><span class="hs-identifier hs-var">packageName</span></a></span><span> </span><span class="annot"><span class="annottext">PackageDescription
-</span><a href="#local-6989586621679219960"><span class="hs-identifier hs-var">description</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-91"></span><span>        </span><span class="annot"><span class="annottext">(Bool -&gt; ExceptT ErrCompilePackage IO ())
+</span><a href="#local-6989586621679228232"><span class="hs-identifier hs-var">description</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-102"></span><span>        </span><span class="annot"><span class="annottext">(Bool -&gt; ExceptT ErrCompilePackage IO ())
 -&gt; Bool -&gt; ExceptT ErrCompilePackage IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219956"><span class="hs-identifier hs-var">includeName</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; PackageName -&gt; Bool
+</span><a href="#local-6989586621679228228"><span class="hs-identifier hs-var">includeName</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; PackageName -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">PackageDescription -&gt; PackageName
 </span><a href="Language.FineTypes.Package.Description.html#packageName"><span class="hs-identifier hs-var">packageName</span></a></span><span> </span><span class="annot"><span class="annottext">PackageDescription
-</span><a href="#local-6989586621679219960"><span class="hs-identifier hs-var">description</span></a></span><span>
-</span><span id="line-92"></span><span>    </span><span id="local-6989586621679219964"><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219964"><span class="hs-identifier hs-var">include</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
-</span><span id="line-93"></span><span>        </span><span class="annot"><span class="annottext">(ErrCompilePackage -&gt; ErrCompilePackage)
+</span><a href="#local-6989586621679228232"><span class="hs-identifier hs-var">description</span></a></span><span>
+</span><span id="line-103"></span><span>    </span><span id="local-6989586621679228236"><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679228236"><span class="hs-identifier hs-var">include</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
+</span><span id="line-104"></span><span>        </span><span class="annot"><span class="annottext">(ErrCompilePackage -&gt; ErrCompilePackage)
 -&gt; ExceptT ErrCompilePackage IO Package
 -&gt; ExceptT ErrCompilePackage IO Package
 forall (m :: * -&gt; *) e e' a.
@@ -192,8 +214,8 @@ Functor m =&gt;
 (e -&gt; e') -&gt; ExceptT e m a -&gt; ExceptT e' m a
 </span><span class="hs-identifier hs-var">withExceptT</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; ErrCompilePackage -&gt; ErrCompilePackage
 </span><a href="Language.FineTypes.Package.Compile.html#ErrIncludeCompilePackage"><span class="hs-identifier hs-var">ErrIncludeCompilePackage</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219956"><span class="hs-identifier hs-var">includeName</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-94"></span><span>            </span><span class="annot"><span class="annottext">(ExceptT ErrCompilePackage IO Package
+</span><a href="#local-6989586621679228228"><span class="hs-identifier hs-var">includeName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-105"></span><span>            </span><span class="annot"><span class="annottext">(ExceptT ErrCompilePackage IO Package
  -&gt; ExceptT ErrCompilePackage IO Package)
 -&gt; ExceptT ErrCompilePackage IO Package
 -&gt; ExceptT ErrCompilePackage IO Package
@@ -202,7 +224,7 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 -&gt; ExceptT ErrCompilePackage IO Package
 forall e (m :: * -&gt; *) a. m (Either e a) -&gt; ExceptT e m a
 </span><span class="hs-identifier hs-var">ExceptT</span></span><span>
-</span><span id="line-95"></span><span>            </span><span class="annot"><span class="annottext">(IO (Either ErrCompilePackage Package)
+</span><span id="line-106"></span><span>            </span><span class="annot"><span class="annottext">(IO (Either ErrCompilePackage Package)
  -&gt; ExceptT ErrCompilePackage IO Package)
 -&gt; IO (Either ErrCompilePackage Package)
 -&gt; ExceptT ErrCompilePackage IO Package
@@ -210,109 +232,178 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PackageName
 -&gt; PackageDescription -&gt; IO (Either ErrCompilePackage Package)
 </span><a href="Language.FineTypes.Package.Compile.html#compilePackageDescription"><span class="hs-identifier hs-var">compilePackageDescription</span></a></span><span>
-</span><span id="line-96"></span><span>                </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; Source -&gt; PackageName
+</span><span id="line-107"></span><span>                </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; Source -&gt; PackageName
 </span><a href="Language.FineTypes.Package.Compile.html#changeDirectory"><span class="hs-identifier hs-var">changeDirectory</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219953"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">Source
-</span><a href="#local-6989586621679219957"><span class="hs-identifier hs-var">source</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-97"></span><span>                </span><span class="annot"><span class="annottext">PackageDescription
-</span><a href="#local-6989586621679219960"><span class="hs-identifier hs-var">description</span></a></span><span>
-</span><span id="line-98"></span><span>    </span><span class="annot"><span class="annottext">(ErrIncludePackage -&gt; ErrCompilePackage)
+</span><a href="#local-6989586621679228225"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">Source
+</span><a href="#local-6989586621679228229"><span class="hs-identifier hs-var">source</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-108"></span><span>                </span><span class="annot"><span class="annottext">PackageDescription
+</span><a href="#local-6989586621679228232"><span class="hs-identifier hs-var">description</span></a></span><span>
+</span><span id="line-109"></span><span>    </span><span class="annot"><span class="annottext">(ErrIncludePackage -&gt; ErrCompilePackage)
 -&gt; Either ErrIncludePackage Package
 -&gt; ExceptT ErrCompilePackage IO Package
 forall e e' a. (e -&gt; e') -&gt; Either e a -&gt; ExceptT e' IO a
 </span><a href="Language.FineTypes.Package.Compile.html#exceptT"><span class="hs-identifier hs-var">exceptT</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; ErrIncludePackage -&gt; ErrCompilePackage
 </span><a href="Language.FineTypes.Package.Compile.html#ErrIncludePackage"><span class="hs-identifier hs-var">ErrIncludePackage</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219956"><span class="hs-identifier hs-var">includeName</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-99"></span><span>        </span><span class="annot"><span class="annottext">(Either ErrIncludePackage Package
+</span><a href="#local-6989586621679228228"><span class="hs-identifier hs-var">includeName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-110"></span><span>        </span><span class="annot"><span class="annottext">(Either ErrIncludePackage Package
  -&gt; ExceptT ErrCompilePackage IO Package)
 -&gt; Either ErrIncludePackage Package
 -&gt; ExceptT ErrCompilePackage IO Package
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Package -&gt; Package -&gt; Either ErrIncludePackage Package
 </span><a href="Language.FineTypes.Package.Content.html#includePackage"><span class="hs-identifier hs-var">includePackage</span></a></span><span> </span><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219964"><span class="hs-identifier hs-var">include</span></a></span><span> </span><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219954"><span class="hs-identifier hs-var">pkg</span></a></span><span>
-</span><span id="line-100"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#execStatement"><span class="hs-identifier hs-var">execStatement</span></a></span><span> </span><span id="local-6989586621679219967"><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219967"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span id="local-6989586621679219968"><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219968"><span class="hs-identifier hs-var">pkg</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span> </span><span id="local-6989586621679219970"><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219970"><span class="hs-identifier hs-var">modName</span></a></span></span><span> </span><span id="local-6989586621679219971"><span class="annot"><span class="annottext">Source
-</span><a href="#local-6989586621679219971"><span class="hs-identifier hs-var">source</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-101"></span><span>    </span><span id="local-6989586621679219972"><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219972"><span class="hs-identifier hs-var">file</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; Source -&gt; ExceptT ErrCompilePackage IO PackageName
+</span><a href="#local-6989586621679228236"><span class="hs-identifier hs-var">include</span></a></span><span> </span><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679228226"><span class="hs-identifier hs-var">pkg</span></a></span><span>
+</span><span id="line-111"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#execStatement"><span class="hs-identifier hs-var">execStatement</span></a></span><span> </span><span id="local-6989586621679228239"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228239"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span id="local-6989586621679228240"><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679228240"><span class="hs-identifier hs-var">pkg</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span> </span><span id="local-6989586621679228242"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228242"><span class="hs-identifier hs-var">modName</span></a></span></span><span> </span><span id="local-6989586621679228243"><span class="annot"><span class="annottext">Source
+</span><a href="#local-6989586621679228243"><span class="hs-identifier hs-var">source</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-112"></span><span>    </span><span id="local-6989586621679228244"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228244"><span class="hs-identifier hs-var">file</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; Source -&gt; ExceptT ErrCompilePackage IO PackageName
 </span><a href="Language.FineTypes.Package.Compile.html#loadSource"><span class="hs-identifier hs-var">loadSource</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219967"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">Source
-</span><a href="#local-6989586621679219971"><span class="hs-identifier hs-var">source</span></a></span><span>
-</span><span id="line-102"></span><span>    </span><span id="local-6989586621679219973"><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679219973"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
-</span><span id="line-103"></span><span>        </span><span class="annot"><span class="annottext">(ErrParseModule -&gt; ErrCompilePackage)
+</span><a href="#local-6989586621679228239"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">Source
+</span><a href="#local-6989586621679228243"><span class="hs-identifier hs-var">source</span></a></span><span>
+</span><span id="line-113"></span><span>    </span><span id="local-6989586621679228245"><span class="annot"><span class="annottext">Module
+</span><a href="#local-6989586621679228245"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
+</span><span id="line-114"></span><span>        </span><span class="annot"><span class="annottext">(ErrParseModule -&gt; ErrCompilePackage)
 -&gt; Either ErrParseModule Module
 -&gt; ExceptT ErrCompilePackage IO Module
 forall e e' a. (e -&gt; e') -&gt; Either e a -&gt; ExceptT e' IO a
 </span><a href="Language.FineTypes.Package.Compile.html#exceptT"><span class="hs-identifier hs-var">exceptT</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; ErrParseModule -&gt; ErrCompilePackage
 </span><a href="Language.FineTypes.Package.Compile.html#ErrParseModuleError"><span class="hs-identifier hs-var">ErrParseModuleError</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219970"><span class="hs-identifier hs-var">modName</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-104"></span><span>            </span><span class="annot"><span class="annottext">(Either ErrParseModule Module
+</span><a href="#local-6989586621679228242"><span class="hs-identifier hs-var">modName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-115"></span><span>            </span><span class="annot"><span class="annottext">(Either ErrParseModule Module
  -&gt; ExceptT ErrCompilePackage IO Module)
 -&gt; Either ErrParseModule Module
 -&gt; ExceptT ErrCompilePackage IO Module
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; Either ErrParseModule Module
-</span><a href="Language.FineTypes.Parser.html#parseFineTypes%27"><span class="hs-identifier hs-var">parseFineTypes'</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219972"><span class="hs-identifier hs-var">file</span></a></span><span>
-</span><span id="line-105"></span><span>    </span><span class="annot"><span class="annottext">ErrCompilePackage -&gt; Bool -&gt; ExceptT ErrCompilePackage IO ()
+</span><a href="Language.FineTypes.Module.Parser.html#parseModule%27"><span class="hs-identifier hs-var">parseModule'</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228244"><span class="hs-identifier hs-var">file</span></a></span><span>
+</span><span id="line-116"></span><span>    </span><span class="annot"><span class="annottext">ErrCompilePackage -&gt; Bool -&gt; ExceptT ErrCompilePackage IO ()
 forall (m :: * -&gt; *) e. Monad m =&gt; e -&gt; Bool -&gt; ExceptT e m ()
 </span><a href="Language.FineTypes.Package.Compile.html#guardExceptT"><span class="hs-identifier hs-var">guardExceptT</span></a></span><span>
-</span><span id="line-106"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; PackageName -&gt; ErrCompilePackage
+</span><span id="line-117"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; PackageName -&gt; ErrCompilePackage
 </span><a href="Language.FineTypes.Package.Compile.html#ErrAddModuleNameMismatch"><span class="hs-identifier hs-var">ErrAddModuleNameMismatch</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219970"><span class="hs-identifier hs-var">modName</span></a></span><span> </span><span class="annot"><span class="annottext">(PackageName -&gt; ErrCompilePackage)
+</span><a href="#local-6989586621679228242"><span class="hs-identifier hs-var">modName</span></a></span><span> </span><span class="annot"><span class="annottext">(PackageName -&gt; ErrCompilePackage)
 -&gt; PackageName -&gt; ErrCompilePackage
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Module -&gt; PackageName
 </span><a href="Language.FineTypes.Module.html#moduleName"><span class="hs-identifier hs-var">moduleName</span></a></span><span> </span><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679219973"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-107"></span><span>        </span><span class="annot"><span class="annottext">(Bool -&gt; ExceptT ErrCompilePackage IO ())
+</span><a href="#local-6989586621679228245"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-118"></span><span>        </span><span class="annot"><span class="annottext">(Bool -&gt; ExceptT ErrCompilePackage IO ())
 -&gt; Bool -&gt; ExceptT ErrCompilePackage IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219970"><span class="hs-identifier hs-var">modName</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; PackageName -&gt; Bool
+</span><a href="#local-6989586621679228242"><span class="hs-identifier hs-var">modName</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; PackageName -&gt; Bool
 forall a. Eq a =&gt; a -&gt; a -&gt; Bool
 </span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Module -&gt; PackageName
 </span><a href="Language.FineTypes.Module.html#moduleName"><span class="hs-identifier hs-var">moduleName</span></a></span><span> </span><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679219973"><span class="hs-identifier hs-var">m</span></a></span><span>
-</span><span id="line-108"></span><span>    </span><span class="annot"><span class="annottext">(ErrAddModule -&gt; ErrCompilePackage)
+</span><a href="#local-6989586621679228245"><span class="hs-identifier hs-var">m</span></a></span><span>
+</span><span id="line-119"></span><span>    </span><span class="annot"><span class="annottext">(ErrAddModule -&gt; ErrCompilePackage)
 -&gt; Either ErrAddModule Package
 -&gt; ExceptT ErrCompilePackage IO Package
 forall e e' a. (e -&gt; e') -&gt; Either e a -&gt; ExceptT e' IO a
 </span><a href="Language.FineTypes.Package.Compile.html#exceptT"><span class="hs-identifier hs-var">exceptT</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; ErrAddModule -&gt; ErrCompilePackage
 </span><a href="Language.FineTypes.Package.Compile.html#ErrAddModule"><span class="hs-identifier hs-var">ErrAddModule</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219970"><span class="hs-identifier hs-var">modName</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-109"></span><span>        </span><span class="annot"><span class="annottext">(Either ErrAddModule Package
+</span><a href="#local-6989586621679228242"><span class="hs-identifier hs-var">modName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-120"></span><span>        </span><span class="annot"><span class="annottext">(Either ErrAddModule Package
  -&gt; ExceptT ErrCompilePackage IO Package)
 -&gt; Either ErrAddModule Package
 -&gt; ExceptT ErrCompilePackage IO Package
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Module -&gt; Package -&gt; Either ErrAddModule Package
 </span><a href="Language.FineTypes.Package.Content.html#addModule"><span class="hs-identifier hs-var">addModule</span></a></span><span> </span><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679219973"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219968"><span class="hs-identifier hs-var">pkg</span></a></span><span>
-</span><span id="line-110"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#execStatement"><span class="hs-identifier hs-var">execStatement</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679219974"><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219974"><span class="hs-identifier hs-var">pkg</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Assert"><span class="hs-identifier hs-type">Assert</span></a></span><span> </span><span class="annot"><span class="annottext">()
+</span><a href="#local-6989586621679228245"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679228240"><span class="hs-identifier hs-var">pkg</span></a></span><span>
+</span><span id="line-121"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#execStatement"><span class="hs-identifier hs-var">execStatement</span></a></span><span> </span><span id="local-6989586621679228246"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228246"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span id="local-6989586621679228247"><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679228247"><span class="hs-identifier hs-var">pkg</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span><span> </span><span id="local-6989586621679228249"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228249"><span class="hs-identifier hs-var">modName</span></a></span></span><span> </span><span id="local-6989586621679228250"><span class="annot"><span class="annottext">Source
+</span><a href="#local-6989586621679228250"><span class="hs-identifier hs-var">source</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-122"></span><span>    </span><span id="local-6989586621679228251"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228251"><span class="hs-identifier hs-var">file</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; Source -&gt; ExceptT ErrCompilePackage IO PackageName
+</span><a href="Language.FineTypes.Package.Compile.html#loadSource"><span class="hs-identifier hs-var">loadSource</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228246"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">Source
+</span><a href="#local-6989586621679228250"><span class="hs-identifier hs-var">source</span></a></span><span>
+</span><span id="line-123"></span><span>    </span><span id="local-6989586621679228252"><span class="annot"><span class="annottext">Signature
+</span><a href="#local-6989586621679228252"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
+</span><span id="line-124"></span><span>        </span><span class="annot"><span class="annottext">(ErrParseSignature -&gt; ErrCompilePackage)
+-&gt; Either ErrParseSignature Signature
+-&gt; ExceptT ErrCompilePackage IO Signature
+forall e e' a. (e -&gt; e') -&gt; Either e a -&gt; ExceptT e' IO a
+</span><a href="Language.FineTypes.Package.Compile.html#exceptT"><span class="hs-identifier hs-var">exceptT</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; ErrParseModule -&gt; ErrCompilePackage
+</span><a href="Language.FineTypes.Package.Compile.html#ErrParseModuleError"><span class="hs-identifier hs-var">ErrParseModuleError</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228249"><span class="hs-identifier hs-var">modName</span></a></span><span> </span><span class="annot"><span class="annottext">(ErrParseModule -&gt; ErrCompilePackage)
+-&gt; (ErrParseSignature -&gt; ErrParseModule)
+-&gt; ErrParseSignature
+-&gt; ErrCompilePackage
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">ErrParseSignature -&gt; ErrParseModule
+</span><a href="Language.FineTypes.Module.Parser.html#ErrParseModule"><span class="hs-identifier hs-var">ErrParseModule</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-125"></span><span>            </span><span class="annot"><span class="annottext">(Either ErrParseSignature Signature
+ -&gt; ExceptT ErrCompilePackage IO Signature)
+-&gt; Either ErrParseSignature Signature
+-&gt; ExceptT ErrCompilePackage IO Signature
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; Either ErrParseSignature Signature
+</span><a href="Language.FineTypes.Signature.Parser.html#parseSignature%27"><span class="hs-identifier hs-var">parseSignature'</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228251"><span class="hs-identifier hs-var">file</span></a></span><span>
+</span><span id="line-126"></span><span>    </span><span class="annot"><span class="annottext">ErrCompilePackage -&gt; Bool -&gt; ExceptT ErrCompilePackage IO ()
+forall (m :: * -&gt; *) e. Monad m =&gt; e -&gt; Bool -&gt; ExceptT e m ()
+</span><a href="Language.FineTypes.Package.Compile.html#guardExceptT"><span class="hs-identifier hs-var">guardExceptT</span></a></span><span>
+</span><span id="line-127"></span><span>        </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; PackageName -&gt; ErrCompilePackage
+</span><a href="Language.FineTypes.Package.Compile.html#ErrAddModuleNameMismatch"><span class="hs-identifier hs-var">ErrAddModuleNameMismatch</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228249"><span class="hs-identifier hs-var">modName</span></a></span><span> </span><span class="annot"><span class="annottext">(PackageName -&gt; ErrCompilePackage)
+-&gt; PackageName -&gt; ErrCompilePackage
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Signature -&gt; PackageName
+</span><a href="Language.FineTypes.Signature.html#signatureName"><span class="hs-identifier hs-var">signatureName</span></a></span><span> </span><span class="annot"><span class="annottext">Signature
+</span><a href="#local-6989586621679228252"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-128"></span><span>        </span><span class="annot"><span class="annottext">(Bool -&gt; ExceptT ErrCompilePackage IO ())
+-&gt; Bool -&gt; ExceptT ErrCompilePackage IO ()
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228249"><span class="hs-identifier hs-var">modName</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; PackageName -&gt; Bool
+forall a. Eq a =&gt; a -&gt; a -&gt; Bool
+</span><span class="hs-operator hs-var">==</span></span><span> </span><span class="annot"><span class="annottext">Signature -&gt; PackageName
+</span><a href="Language.FineTypes.Signature.html#signatureName"><span class="hs-identifier hs-var">signatureName</span></a></span><span> </span><span class="annot"><span class="annottext">Signature
+</span><a href="#local-6989586621679228252"><span class="hs-identifier hs-var">m</span></a></span><span>
+</span><span id="line-129"></span><span>    </span><span class="annot"><span class="annottext">(ErrAddModule -&gt; ErrCompilePackage)
+-&gt; Either ErrAddModule Package
+-&gt; ExceptT ErrCompilePackage IO Package
+forall e e' a. (e -&gt; e') -&gt; Either e a -&gt; ExceptT e' IO a
+</span><a href="Language.FineTypes.Package.Compile.html#exceptT"><span class="hs-identifier hs-var">exceptT</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; ErrAddModule -&gt; ErrCompilePackage
+</span><a href="Language.FineTypes.Package.Compile.html#ErrAddModule"><span class="hs-identifier hs-var">ErrAddModule</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228249"><span class="hs-identifier hs-var">modName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-130"></span><span>        </span><span class="annot"><span class="annottext">(Either ErrAddModule Package
+ -&gt; ExceptT ErrCompilePackage IO Package)
+-&gt; Either ErrAddModule Package
+-&gt; ExceptT ErrCompilePackage IO Package
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Signature -&gt; Package -&gt; Either ErrAddModule Package
+</span><a href="Language.FineTypes.Package.Content.html#addSignature"><span class="hs-identifier hs-var">addSignature</span></a></span><span> </span><span class="annot"><span class="annottext">Signature
+</span><a href="#local-6989586621679228252"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679228247"><span class="hs-identifier hs-var">pkg</span></a></span><span>
+</span><span id="line-131"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#execStatement"><span class="hs-identifier hs-var">execStatement</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName
+</span><span class="hs-identifier">_</span></span><span> </span><span id="local-6989586621679228254"><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679228254"><span class="hs-identifier hs-var">pkg</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Assert"><span class="hs-identifier hs-type">Assert</span></a></span><span> </span><span class="annot"><span class="annottext">()
 </span><span class="hs-identifier">_</span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-111"></span><span>    </span><span class="annot"><span class="annottext">Package -&gt; ExceptT ErrCompilePackage IO Package
+</span><span id="line-132"></span><span>    </span><span class="annot"><span class="annottext">Package -&gt; ExceptT ErrCompilePackage IO Package
 forall a. a -&gt; ExceptT ErrCompilePackage IO a
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219974"><span class="hs-identifier hs-var">pkg</span></a></span><span>
-</span><span id="line-112"></span><span>
-</span><span id="line-113"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#loadSource"><span class="hs-identifier hs-type">loadSource</span></a></span><span>
-</span><span id="line-114"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
-</span><span id="line-115"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span>
-</span><span id="line-116"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ExceptT</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier hs-type">ErrCompilePackage</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
-</span><span id="line-117"></span><span id="loadSource"><span class="annot"><span class="annottext">loadSource :: PackageName -&gt; Source -&gt; ExceptT ErrCompilePackage IO PackageName
-</span><a href="Language.FineTypes.Package.Compile.html#loadSource"><span class="hs-identifier hs-var hs-var">loadSource</span></a></span></span><span> </span><span id="local-6989586621679219976"><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219976"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#File"><span class="hs-identifier hs-type">File</span></a></span><span> </span><span id="local-6989586621679219978"><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219978"><span class="hs-identifier hs-var">path</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(IOError -&gt; ErrCompilePackage)
+</span><a href="#local-6989586621679228254"><span class="hs-identifier hs-var">pkg</span></a></span><span>
+</span><span id="line-133"></span><span>
+</span><span id="line-134"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#loadSource"><span class="hs-identifier hs-type">loadSource</span></a></span><span>
+</span><span id="line-135"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
+</span><span id="line-136"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span>
+</span><span id="line-137"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ExceptT</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#ErrCompilePackage"><span class="hs-identifier hs-type">ErrCompilePackage</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-138"></span><span id="loadSource"><span class="annot"><span class="annottext">loadSource :: PackageName -&gt; Source -&gt; ExceptT ErrCompilePackage IO PackageName
+</span><a href="Language.FineTypes.Package.Compile.html#loadSource"><span class="hs-identifier hs-var hs-var">loadSource</span></a></span></span><span> </span><span id="local-6989586621679228256"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228256"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#File"><span class="hs-identifier hs-type">File</span></a></span><span> </span><span id="local-6989586621679228258"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228258"><span class="hs-identifier hs-var">path</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(IOError -&gt; ErrCompilePackage)
 -&gt; ExceptT IOError IO PackageName
 -&gt; ExceptT ErrCompilePackage IO PackageName
 forall (m :: * -&gt; *) e e' a.
@@ -334,16 +425,16 @@ forall e (m :: * -&gt; *) a. m (Either e a) -&gt; ExceptT e m a
 -&gt; ExceptT ErrCompilePackage IO PackageName
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-118"></span><span>    </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; Either IOError PackageName
+</span><span id="line-139"></span><span>    </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName -&gt; Either IOError PackageName
 forall a b. b -&gt; Either a b
 </span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="annot"><span class="annottext">(PackageName -&gt; Either IOError PackageName)
 -&gt; IO PackageName -&gt; IO (Either IOError PackageName)
 forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; IO PackageName
 </span><span class="hs-identifier hs-var">readFile</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219976"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; ShowS
+</span><a href="#local-6989586621679228256"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; ShowS
 </span><span class="hs-operator hs-var">&lt;/&gt;</span></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219978"><span class="hs-identifier hs-var">path</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">IO (Either IOError PackageName)
+</span><a href="#local-6989586621679228258"><span class="hs-identifier hs-var">path</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">IO (Either IOError PackageName)
 -&gt; (IOError -&gt; IO (Either IOError PackageName))
 -&gt; IO (Either IOError PackageName)
 forall a. IO a -&gt; (IOError -&gt; IO a) -&gt; IO a
@@ -358,46 +449,46 @@ forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">IOError -&gt; Either IOError PackageName
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span class="hs-special">)</span><span>
-</span><span id="line-119"></span><span>
-</span><span id="line-120"></span><span class="annot"><span class="hs-comment">-- | Change the current directory to use the 'Source' as base.</span></span><span>
-</span><span id="line-121"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#changeDirectory"><span class="hs-identifier hs-type">changeDirectory</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
-</span><span id="line-122"></span><span id="changeDirectory"><span class="annot"><span class="annottext">changeDirectory :: PackageName -&gt; Source -&gt; PackageName
-</span><a href="Language.FineTypes.Package.Compile.html#changeDirectory"><span class="hs-identifier hs-var hs-var">changeDirectory</span></a></span></span><span> </span><span id="local-6989586621679219981"><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219981"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#File"><span class="hs-identifier hs-type">File</span></a></span><span> </span><span id="local-6989586621679219982"><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219982"><span class="hs-identifier hs-var">path</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219981"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; ShowS
+</span><span id="line-140"></span><span>
+</span><span id="line-141"></span><span class="annot"><span class="hs-comment">-- | Change the current directory to use the 'Source' as base.</span></span><span>
+</span><span id="line-142"></span><span class="annot"><a href="Language.FineTypes.Package.Compile.html#changeDirectory"><span class="hs-identifier hs-type">changeDirectory</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
+</span><span id="line-143"></span><span id="changeDirectory"><span class="annot"><span class="annottext">changeDirectory :: PackageName -&gt; Source -&gt; PackageName
+</span><a href="Language.FineTypes.Package.Compile.html#changeDirectory"><span class="hs-identifier hs-var hs-var">changeDirectory</span></a></span></span><span> </span><span id="local-6989586621679228261"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228261"><span class="hs-identifier hs-var">dir</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#File"><span class="hs-identifier hs-type">File</span></a></span><span> </span><span id="local-6989586621679228262"><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228262"><span class="hs-identifier hs-var">path</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">PackageName
+</span><a href="#local-6989586621679228261"><span class="hs-identifier hs-var">dir</span></a></span><span> </span><span class="annot"><span class="annottext">PackageName -&gt; ShowS
 </span><span class="hs-operator hs-var">&lt;/&gt;</span></span><span> </span><span class="annot"><span class="annottext">ShowS
 </span><span class="hs-identifier hs-var">takeDirectory</span></span><span> </span><span class="annot"><span class="annottext">PackageName
-</span><a href="#local-6989586621679219982"><span class="hs-identifier hs-var">path</span></a></span><span>
-</span><span id="line-123"></span><span>
-</span><span id="line-124"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+</span><a href="#local-6989586621679228262"><span class="hs-identifier hs-var">path</span></a></span><span>
+</span><span id="line-144"></span><span>
+</span><span id="line-145"></span><span class="hs-comment">{-----------------------------------------------------------------------------
     Utilities
 ------------------------------------------------------------------------------}</span><span>
-</span><span id="line-127"></span><span id="local-6989586621679219791"><span id="local-6989586621679219792"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#guardExceptT"><span class="hs-identifier hs-type">guardExceptT</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="annot"><a href="#local-6989586621679219791"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679219792"><span class="hs-identifier hs-type">e</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ExceptT</span></span><span> </span><span class="annot"><a href="#local-6989586621679219792"><span class="hs-identifier hs-type">e</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679219791"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span></span></span><span>
-</span><span id="line-128"></span><span id="guardExceptT"><span class="annot"><span class="annottext">guardExceptT :: forall (m :: * -&gt; *) e. Monad m =&gt; e -&gt; Bool -&gt; ExceptT e m ()
-</span><a href="Language.FineTypes.Package.Compile.html#guardExceptT"><span class="hs-identifier hs-var hs-var">guardExceptT</span></a></span></span><span> </span><span id="local-6989586621679219990"><span class="annot"><span class="annottext">e
-</span><a href="#local-6989586621679219990"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span id="local-6989586621679219991"><span class="annot"><span class="annottext">Bool
-</span><a href="#local-6989586621679219991"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Bool
-</span><a href="#local-6989586621679219991"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">() -&gt; ExceptT e m ()
+</span><span id="line-148"></span><span id="local-6989586621679227955"><span id="local-6989586621679227956"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#guardExceptT"><span class="hs-identifier hs-type">guardExceptT</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Monad</span></span><span> </span><span class="annot"><a href="#local-6989586621679227955"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679227956"><span class="hs-identifier hs-type">e</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ExceptT</span></span><span> </span><span class="annot"><a href="#local-6989586621679227956"><span class="hs-identifier hs-type">e</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679227955"><span class="hs-identifier hs-type">m</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span></span></span><span>
+</span><span id="line-149"></span><span id="guardExceptT"><span class="annot"><span class="annottext">guardExceptT :: forall (m :: * -&gt; *) e. Monad m =&gt; e -&gt; Bool -&gt; ExceptT e m ()
+</span><a href="Language.FineTypes.Package.Compile.html#guardExceptT"><span class="hs-identifier hs-var hs-var">guardExceptT</span></a></span></span><span> </span><span id="local-6989586621679228270"><span class="annot"><span class="annottext">e
+</span><a href="#local-6989586621679228270"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span id="local-6989586621679228271"><span class="annot"><span class="annottext">Bool
+</span><a href="#local-6989586621679228271"><span class="hs-identifier hs-var">b</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">if</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><a href="#local-6989586621679228271"><span class="hs-identifier hs-var">b</span></a></span><span> </span><span class="hs-keyword">then</span><span> </span><span class="annot"><span class="annottext">() -&gt; ExceptT e m ()
 forall a. a -&gt; ExceptT e m a
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span> </span><span class="hs-keyword">else</span><span> </span><span class="annot"><span class="annottext">e -&gt; ExceptT e m ()
 forall (m :: * -&gt; *) e a. Monad m =&gt; e -&gt; ExceptT e m a
 </span><span class="hs-identifier hs-var">throwE</span></span><span> </span><span class="annot"><span class="annottext">e
-</span><a href="#local-6989586621679219990"><span class="hs-identifier hs-var">e</span></a></span><span>
-</span><span id="line-129"></span><span>
-</span><span id="line-130"></span><span id="local-6989586621679219785"><span id="local-6989586621679219786"><span id="local-6989586621679219787"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#exceptT"><span class="hs-identifier hs-type">exceptT</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679219785"><span class="hs-identifier hs-type">e</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679219786"><span class="hs-identifier hs-type">e'</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="#local-6989586621679219785"><span class="hs-identifier hs-type">e</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679219787"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ExceptT</span></span><span> </span><span class="annot"><a href="#local-6989586621679219786"><span class="hs-identifier hs-type">e'</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679219787"><span class="hs-identifier hs-type">a</span></a></span></span></span></span><span>
-</span><span id="line-131"></span><span id="exceptT"><span class="annot"><span class="annottext">exceptT :: forall e e' a. (e -&gt; e') -&gt; Either e a -&gt; ExceptT e' IO a
-</span><a href="Language.FineTypes.Package.Compile.html#exceptT"><span class="hs-identifier hs-var hs-var">exceptT</span></a></span></span><span> </span><span id="local-6989586621679219994"><span class="annot"><span class="annottext">e -&gt; e'
-</span><a href="#local-6989586621679219994"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(e -&gt; e') -&gt; ExceptT e IO a -&gt; ExceptT e' IO a
+</span><a href="#local-6989586621679228270"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><span id="line-150"></span><span>
+</span><span id="line-151"></span><span id="local-6989586621679227949"><span id="local-6989586621679227950"><span id="local-6989586621679227951"><span class="annot"><a href="Language.FineTypes.Package.Compile.html#exceptT"><span class="hs-identifier hs-type">exceptT</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="annot"><a href="#local-6989586621679227949"><span class="hs-identifier hs-type">e</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="#local-6989586621679227950"><span class="hs-identifier hs-type">e'</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="#local-6989586621679227949"><span class="hs-identifier hs-type">e</span></a></span><span> </span><span class="annot"><a href="#local-6989586621679227951"><span class="hs-identifier hs-type">a</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ExceptT</span></span><span> </span><span class="annot"><a href="#local-6989586621679227950"><span class="hs-identifier hs-type">e'</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><a href="#local-6989586621679227951"><span class="hs-identifier hs-type">a</span></a></span></span></span></span><span>
+</span><span id="line-152"></span><span id="exceptT"><span class="annot"><span class="annottext">exceptT :: forall e e' a. (e -&gt; e') -&gt; Either e a -&gt; ExceptT e' IO a
+</span><a href="Language.FineTypes.Package.Compile.html#exceptT"><span class="hs-identifier hs-var hs-var">exceptT</span></a></span></span><span> </span><span id="local-6989586621679228274"><span class="annot"><span class="annottext">e -&gt; e'
+</span><a href="#local-6989586621679228274"><span class="hs-identifier hs-var">f</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(e -&gt; e') -&gt; ExceptT e IO a -&gt; ExceptT e' IO a
 forall (m :: * -&gt; *) e e' a.
 Functor m =&gt;
 (e -&gt; e') -&gt; ExceptT e m a -&gt; ExceptT e' m a
 </span><span class="hs-identifier hs-var">withExceptT</span></span><span> </span><span class="annot"><span class="annottext">e -&gt; e'
-</span><a href="#local-6989586621679219994"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(ExceptT e IO a -&gt; ExceptT e' IO a)
+</span><a href="#local-6989586621679228274"><span class="hs-identifier hs-var">f</span></a></span><span> </span><span class="annot"><span class="annottext">(ExceptT e IO a -&gt; ExceptT e' IO a)
 -&gt; (Either e a -&gt; ExceptT e IO a) -&gt; Either e a -&gt; ExceptT e' IO a
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Either e a -&gt; ExceptT e IO a
 forall (m :: * -&gt; *) e a. Monad m =&gt; Either e a -&gt; ExceptT e m a
 </span><span class="hs-identifier hs-var">except</span></span><span>
-</span><span id="line-132"></span></pre></body></html>
+</span><span id="line-153"></span></pre></body></html>

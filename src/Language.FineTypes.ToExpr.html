@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE FlexibleInstances #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# OPTIONS_GHC -Wno-orphans #-}</span><span>
+</span><span id="line-3"></span><span>
+</span><span id="line-4"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.ToExpr</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-5"></span><span>
+</span><span id="line-6"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-7"></span><span>
+</span><span id="line-8"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Void</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Void</span></span><span class="hs-special">)</span><span>
+</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Text.Megaparsec</span></span><span>
+</span><span id="line-10"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier">ParseErrorBundle</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-11"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-12"></span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.TreeDiff</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">ToExpr</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">GHC.IO.Exception</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">IOException</span></span><span class="hs-special">)</span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Text.Megaparsec.Error</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">ParseError</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-16"></span><span>
+</span><span id="line-17"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679222698"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">ParseErrorBundle</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Void</span></span><span class="hs-special">)</span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-18"></span><span>    </span><span id="local-6989586621679222706"><span class="annot"><span class="annottext">toExpr :: ParseErrorBundle String Void -&gt; Expr
+</span><a href="#local-6989586621679222706"><span class="hs-identifier hs-var hs-var hs-var hs-var">toExpr</span></a></span></span><span> </span><span class="annot"><span class="annottext">ParseErrorBundle String Void
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; Expr
+forall a. ToExpr a =&gt; a -&gt; Expr
+</span><span class="hs-identifier hs-var">toExpr</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;ParseErrorBundle&quot;</span></span><span>
+</span><span id="line-19"></span><span>
+</span><span id="line-20"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679222710"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">ParseError</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Void</span></span><span class="hs-special">)</span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-21"></span><span>    </span><span id="local-6989586621679222715"><span class="annot"><span class="annottext">toExpr :: ParseError String Void -&gt; Expr
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">toExpr</span></span></span><span> </span><span class="annot"><span class="annottext">ParseError String Void
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; Expr
+forall a. ToExpr a =&gt; a -&gt; Expr
+</span><span class="hs-identifier hs-var">toExpr</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;ParseError&quot;</span></span><span>
+</span><span id="line-22"></span><span>
+</span><span id="line-23"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679222718"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IOException</span></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-24"></span><span>    </span><span id="local-6989586621679222723"><span class="annot"><span class="annottext">toExpr :: IOException -&gt; Expr
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var">toExpr</span></span></span><span> </span><span class="annot"><span class="annottext">IOException
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; Expr
+forall a. ToExpr a =&gt; a -&gt; Expr
+</span><span class="hs-identifier hs-var">toExpr</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;IOException&quot;</span></span><span>
+</span><span id="line-25"></span></pre></body></html>

@@ -1,44 +1,49 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE RecordWildCards #-}</span><span>
-</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE TupleSections #-}</span><span>
-</span><span id="line-3"></span><span>
-</span><span id="line-4"></span><span class="annot"><span class="hs-comment">-- | A package contains named modules.</span></span><span>
-</span><span id="line-5"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Package.Content</span><span>
-</span><span id="line-6"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier">Package</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-7"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#emptyPackage"><span class="hs-identifier">emptyPackage</span></a></span><span>
-</span><span id="line-8"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#includePackage"><span class="hs-identifier">includePackage</span></a></span><span>
-</span><span id="line-9"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#addModule"><span class="hs-identifier">addModule</span></a></span><span>
-</span><span id="line-10"></span><span>
-</span><span id="line-11"></span><span>      </span><span class="annot"><span class="hs-comment">-- * Error types</span></span><span>
-</span><span id="line-12"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrIncludePackage"><span class="hs-identifier">ErrIncludePackage</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-13"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrAddModule"><span class="hs-identifier">ErrAddModule</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-14"></span><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-15"></span><span>
-</span><span id="line-16"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DeriveGeneric #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE RecordWildCards #-}</span><span>
+</span><span id="line-3"></span><span class="hs-pragma">{-# LANGUAGE TupleSections #-}</span><span>
+</span><span id="line-4"></span><span>
+</span><span id="line-5"></span><span class="annot"><span class="hs-comment">-- | A package contains named modules.</span></span><span>
+</span><span id="line-6"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Package.Content</span><span>
+</span><span id="line-7"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier">Package</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-8"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#emptyPackage"><span class="hs-identifier">emptyPackage</span></a></span><span>
+</span><span id="line-9"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#includePackage"><span class="hs-identifier">includePackage</span></a></span><span>
+</span><span id="line-10"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#addModule"><span class="hs-identifier">addModule</span></a></span><span>
+</span><span id="line-11"></span><span>
+</span><span id="line-12"></span><span>      </span><span class="annot"><span class="hs-comment">-- * Error types</span></span><span>
+</span><span id="line-13"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrIncludePackage"><span class="hs-identifier">ErrIncludePackage</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-14"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrAddModule"><span class="hs-identifier">ErrAddModule</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-15"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#addSignature"><span class="hs-identifier">addSignature</span></a></span><span>
+</span><span id="line-16"></span><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
 </span><span id="line-17"></span><span>
-</span><span id="line-18"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Foldable</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">fold</span></span><span class="hs-special">)</span><span>
-</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Map</span></span><span class="hs-special">)</span><span>
-</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Set</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Set</span></span><span class="hs-special">)</span><span>
-</span><span id="line-21"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span>
-</span><span id="line-22"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Import"><span class="hs-identifier">Import</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#getImportNames"><span class="hs-identifier">getImportNames</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-23"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier">Module</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-24"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier">ModuleName</span></a></span><span>
-</span><span id="line-25"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#collectNotInScope"><span class="hs-identifier">collectNotInScope</span></a></span><span>
-</span><span id="line-26"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-27"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html"><span class="hs-identifier">Language.FineTypes.Typ</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier">TypName</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-28"></span><span>
-</span><span id="line-29"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Map</span></span><span>
-</span><span id="line-30"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Set</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Set</span></span><span>
-</span><span id="line-31"></span><span>
-</span><span id="line-32"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+</span><span id="line-18"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-19"></span><span>
+</span><span id="line-20"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Foldable</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">fold</span></span><span class="hs-special">)</span><span>
+</span><span id="line-21"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Map</span></span><span class="hs-special">)</span><span>
+</span><span id="line-22"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Set</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Set</span></span><span class="hs-special">)</span><span>
+</span><span id="line-23"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.TreeDiff</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">ToExpr</span></span><span class="hs-special">)</span><span>
+</span><span id="line-24"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-25"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span>
+</span><span id="line-26"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Import"><span class="hs-identifier">Import</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#getImportNames"><span class="hs-identifier">getImportNames</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-27"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier">Module</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-28"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier">ModuleName</span></a></span><span>
+</span><span id="line-29"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#collectNotInScope"><span class="hs-identifier">collectNotInScope</span></a></span><span>
+</span><span id="line-30"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-31"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html"><span class="hs-identifier">Language.FineTypes.Signature</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier">Signature</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-32"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html"><span class="hs-identifier">Language.FineTypes.Typ</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier">TypName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-33"></span><span>
+</span><span id="line-34"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Map</span></span><span>
+</span><span id="line-35"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Set</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Set</span></span><span>
+</span><span id="line-36"></span><span>
+</span><span id="line-37"></span><span class="hs-comment">{-----------------------------------------------------------------------------
     Package content
 ------------------------------------------------------------------------------}</span><span>
-</span><span id="line-35"></span><span>
-</span><span id="line-36"></span><span class="annot"><span class="hs-comment">-- | A package is a collection of module or signature definitions.</span></span><span>
-</span><span id="line-37"></span><span class="hs-keyword">newtype</span><span> </span><span id="Package"><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-var">Package</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Package"><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-var">Package</span></a></span></span><span>
-</span><span id="line-38"></span><span>    </span><span class="hs-special">{</span><span> </span><span id="packageModules"><span class="annot"><span class="annottext">Package -&gt; Map ModuleName Module
-</span><a href="Language.FineTypes.Package.Content.html#packageModules"><span class="hs-identifier hs-var hs-var">packageModules</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span>
-</span><span id="line-39"></span><span>    </span><span class="hs-special">}</span><span>
-</span><span id="line-40"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679219566"><span id="local-6989586621679219573"><span class="annot"><span class="annottext">Package -&gt; Package -&gt; Bool
+</span><span id="line-40"></span><span>
+</span><span id="line-41"></span><span class="annot"><span class="hs-comment">-- | A package is a collection of module or signature definitions.</span></span><span>
+</span><span id="line-42"></span><span class="hs-keyword">newtype</span><span> </span><span id="Package"><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-var">Package</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="Package"><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-var">Package</span></a></span></span><span>
+</span><span id="line-43"></span><span>    </span><span class="hs-special">{</span><span> </span><span id="packageModules"><span class="annot"><span class="annottext">Package -&gt; Map ModuleName (Either Signature Module)
+</span><a href="Language.FineTypes.Package.Content.html#packageModules"><span class="hs-identifier hs-var hs-var">packageModules</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-44"></span><span>    </span><span class="hs-special">}</span><span>
+</span><span id="line-45"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679225174"><span id="local-6989586621679225181"><span class="annot"><span class="annottext">Package -&gt; Package -&gt; Bool
 (Package -&gt; Package -&gt; Bool)
 -&gt; (Package -&gt; Package -&gt; Bool) -&gt; Eq Package
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -46,7 +51,7 @@ $c== :: Package -&gt; Package -&gt; Bool
 == :: Package -&gt; Package -&gt; Bool
 $c/= :: Package -&gt; Package -&gt; Bool
 /= :: Package -&gt; Package -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679219586"><span id="local-6989586621679219594"><span id="local-6989586621679219598"><span class="annot"><span class="annottext">Int -&gt; Package -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679225200"><span id="local-6989586621679225208"><span id="local-6989586621679225212"><span class="annot"><span class="annottext">Int -&gt; Package -&gt; ShowS
 [Package] -&gt; ShowS
 Package -&gt; ModuleName
 (Int -&gt; Package -&gt; ShowS)
@@ -60,18 +65,30 @@ $cshow :: Package -&gt; ModuleName
 show :: Package -&gt; ModuleName
 $cshowList :: [Package] -&gt; ShowS
 showList :: [Package] -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-41"></span><span>
-</span><span id="line-42"></span><span class="annot"><a href="Language.FineTypes.Package.Content.html#emptyPackage"><span class="hs-identifier hs-type">emptyPackage</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
-</span><span id="line-43"></span><span id="emptyPackage"><span class="annot"><span class="annottext">emptyPackage :: Package
-</span><a href="Language.FineTypes.Package.Content.html#emptyPackage"><span class="hs-identifier hs-var hs-var">emptyPackage</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map ModuleName Module -&gt; Package
-</span><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-var">Package</span></a></span><span> </span><span class="annot"><span class="annottext">Map ModuleName Module
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679225224"><span id="local-6989586621679225226"><span class="annot"><span class="annottext">(forall x. Package -&gt; Rep Package x)
+-&gt; (forall x. Rep Package x -&gt; Package) -&gt; Generic Package
+forall x. Rep Package x -&gt; Package
+forall x. Package -&gt; Rep Package x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cfrom :: forall x. Package -&gt; Rep Package x
+from :: forall x. Package -&gt; Rep Package x
+$cto :: forall x. Rep Package x -&gt; Package
+to :: forall x. Rep Package x -&gt; Package
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-46"></span><span>
+</span><span id="line-47"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679225230"><span id="local-6989586621679225237"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span></span></span><span>
+</span><span id="line-48"></span><span>
+</span><span id="line-49"></span><span class="annot"><a href="Language.FineTypes.Package.Content.html#emptyPackage"><span class="hs-identifier hs-type">emptyPackage</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
+</span><span id="line-50"></span><span id="emptyPackage"><span class="annot"><span class="annottext">emptyPackage :: Package
+</span><a href="Language.FineTypes.Package.Content.html#emptyPackage"><span class="hs-identifier hs-var hs-var">emptyPackage</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module) -&gt; Package
+</span><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-var">Package</span></a></span><span> </span><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module)
 forall k a. Map k a
 </span><span class="hs-identifier hs-var">Map.empty</span></span><span>
-</span><span id="line-44"></span><span>
-</span><span id="line-45"></span><span class="hs-keyword">newtype</span><span> </span><span id="ErrIncludePackage"><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrIncludePackage"><span class="hs-identifier hs-var">ErrIncludePackage</span></a></span></span><span>
-</span><span id="line-46"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span id="ErrModulesAlreadyInScope"><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrModulesAlreadyInScope"><span class="hs-identifier hs-var">ErrModulesAlreadyInScope</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-47"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679219608"><span id="local-6989586621679219614"><span class="annot"><span class="annottext">ErrIncludePackage -&gt; ErrIncludePackage -&gt; Bool
+</span><span id="line-51"></span><span>
+</span><span id="line-52"></span><span class="hs-keyword">newtype</span><span> </span><span id="ErrIncludePackage"><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrIncludePackage"><span class="hs-identifier hs-var">ErrIncludePackage</span></a></span></span><span>
+</span><span id="line-53"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span id="ErrModulesAlreadyInScope"><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrModulesAlreadyInScope"><span class="hs-identifier hs-var">ErrModulesAlreadyInScope</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-54"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679225282"><span id="local-6989586621679225288"><span class="annot"><span class="annottext">ErrIncludePackage -&gt; ErrIncludePackage -&gt; Bool
 (ErrIncludePackage -&gt; ErrIncludePackage -&gt; Bool)
 -&gt; (ErrIncludePackage -&gt; ErrIncludePackage -&gt; Bool)
 -&gt; Eq ErrIncludePackage
@@ -80,7 +97,7 @@ $c== :: ErrIncludePackage -&gt; ErrIncludePackage -&gt; Bool
 == :: ErrIncludePackage -&gt; ErrIncludePackage -&gt; Bool
 $c/= :: ErrIncludePackage -&gt; ErrIncludePackage -&gt; Bool
 /= :: ErrIncludePackage -&gt; ErrIncludePackage -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679219622"><span id="local-6989586621679219628"><span id="local-6989586621679219632"><span class="annot"><span class="annottext">Int -&gt; ErrIncludePackage -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679225296"><span id="local-6989586621679225302"><span id="local-6989586621679225306"><span class="annot"><span class="annottext">Int -&gt; ErrIncludePackage -&gt; ShowS
 [ErrIncludePackage] -&gt; ShowS
 ErrIncludePackage -&gt; ModuleName
 (Int -&gt; ErrIncludePackage -&gt; ShowS)
@@ -96,68 +113,81 @@ $cshow :: ErrIncludePackage -&gt; ModuleName
 show :: ErrIncludePackage -&gt; ModuleName
 $cshowList :: [ErrIncludePackage] -&gt; ShowS
 showList :: [ErrIncludePackage] -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-48"></span><span>
-</span><span id="line-49"></span><span class="annot"><span class="hs-comment">-- | Include a package in the current package if possible.</span></span><span>
-</span><span id="line-50"></span><span class="annot"><a href="Language.FineTypes.Package.Content.html#includePackage"><span class="hs-identifier hs-type">includePackage</span></a></span><span>
-</span><span id="line-51"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
-</span><span id="line-52"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
-</span><span id="line-53"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrIncludePackage"><span class="hs-identifier hs-type">ErrIncludePackage</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
-</span><span id="line-54"></span><span id="includePackage"><span class="annot"><span class="annottext">includePackage :: Package -&gt; Package -&gt; Either ErrIncludePackage Package
-</span><a href="Language.FineTypes.Package.Content.html#includePackage"><span class="hs-identifier hs-var hs-var">includePackage</span></a></span></span><span> </span><span id="local-6989586621679219635"><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219635"><span class="hs-identifier hs-var">include</span></a></span></span><span> </span><span id="local-6989586621679219636"><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219636"><span class="hs-identifier hs-var">package</span></a></span></span><span>
-</span><span id="line-55"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679225310"><span id="local-6989586621679225312"><span class="annot"><span class="annottext">(forall x. ErrIncludePackage -&gt; Rep ErrIncludePackage x)
+-&gt; (forall x. Rep ErrIncludePackage x -&gt; ErrIncludePackage)
+-&gt; Generic ErrIncludePackage
+forall x. Rep ErrIncludePackage x -&gt; ErrIncludePackage
+forall x. ErrIncludePackage -&gt; Rep ErrIncludePackage x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cfrom :: forall x. ErrIncludePackage -&gt; Rep ErrIncludePackage x
+from :: forall x. ErrIncludePackage -&gt; Rep ErrIncludePackage x
+$cto :: forall x. Rep ErrIncludePackage x -&gt; ErrIncludePackage
+to :: forall x. Rep ErrIncludePackage x -&gt; ErrIncludePackage
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-55"></span><span>
+</span><span id="line-56"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679225315"><span id="local-6989586621679225322"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrIncludePackage"><span class="hs-identifier hs-type">ErrIncludePackage</span></a></span></span></span><span>
+</span><span id="line-57"></span><span>
+</span><span id="line-58"></span><span class="annot"><span class="hs-comment">-- | Include a package in the current package if possible.</span></span><span>
+</span><span id="line-59"></span><span class="annot"><a href="Language.FineTypes.Package.Content.html#includePackage"><span class="hs-identifier hs-type">includePackage</span></a></span><span>
+</span><span id="line-60"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
+</span><span id="line-61"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
+</span><span id="line-62"></span><span>    </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrIncludePackage"><span class="hs-identifier hs-type">ErrIncludePackage</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
+</span><span id="line-63"></span><span id="includePackage"><span class="annot"><span class="annottext">includePackage :: Package -&gt; Package -&gt; Either ErrIncludePackage Package
+</span><a href="Language.FineTypes.Package.Content.html#includePackage"><span class="hs-identifier hs-var hs-var">includePackage</span></a></span></span><span> </span><span id="local-6989586621679225342"><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679225342"><span class="hs-identifier hs-var">include</span></a></span></span><span> </span><span id="local-6989586621679225343"><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679225343"><span class="hs-identifier hs-var">package</span></a></span></span><span>
+</span><span id="line-64"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool
 </span><span class="hs-identifier hs-var">not</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Set ModuleName -&gt; Bool
 forall a. Set a -&gt; Bool
 </span><span class="hs-identifier hs-var">Set.null</span></span><span> </span><span class="annot"><span class="annottext">Set ModuleName
-</span><a href="#local-6989586621679219639"><span class="hs-identifier hs-var">invalidModules</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-56"></span><span>        </span><span class="annot"><span class="annottext">ErrIncludePackage -&gt; Either ErrIncludePackage Package
+</span><a href="#local-6989586621679225346"><span class="hs-identifier hs-var">invalidModules</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-65"></span><span>        </span><span class="annot"><span class="annottext">ErrIncludePackage -&gt; Either ErrIncludePackage Package
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">(ErrIncludePackage -&gt; Either ErrIncludePackage Package)
 -&gt; ErrIncludePackage -&gt; Either ErrIncludePackage Package
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Set ModuleName -&gt; ErrIncludePackage
 </span><a href="Language.FineTypes.Package.Content.html#ErrModulesAlreadyInScope"><span class="hs-identifier hs-var">ErrModulesAlreadyInScope</span></a></span><span> </span><span class="annot"><span class="annottext">Set ModuleName
-</span><a href="#local-6989586621679219639"><span class="hs-identifier hs-var">invalidModules</span></a></span><span>
-</span><span id="line-57"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><a href="#local-6989586621679225346"><span class="hs-identifier hs-var">invalidModules</span></a></span><span>
+</span><span id="line-66"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-58"></span><span>        </span><span class="annot"><span class="annottext">Package -&gt; Either ErrIncludePackage Package
+</span><span id="line-67"></span><span>        </span><span class="annot"><span class="annottext">Package -&gt; Either ErrIncludePackage Package
 forall a b. b -&gt; Either a b
 </span><span class="hs-identifier hs-var">Right</span></span><span>
-</span><span id="line-59"></span><span>            </span><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219636"><span class="hs-identifier hs-var">package</span></a></span><span class="hs-special">{</span><span class="annot"><a href="Language.FineTypes.Package.Content.html#packageModules"><span class="hs-identifier hs-var">packageModules</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><a href="#local-6989586621679219640"><span class="hs-identifier hs-type">modulesInclude</span></a></span><span> </span><span class="annot"><span class="hs-operator hs-type">&lt;&gt;</span></span><span> </span><span class="annot"><a href="#local-6989586621679219641"><span class="hs-identifier hs-type">modulesPackage</span></a></span><span class="hs-special">}</span><span>
-</span><span id="line-60"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-61"></span><span>    </span><span id="local-6989586621679219640"><span class="annot"><span class="annottext">modulesInclude :: Map ModuleName Module
-</span><a href="#local-6989586621679219640"><span class="hs-identifier hs-var hs-var">modulesInclude</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Package -&gt; Map ModuleName Module
+</span><span id="line-68"></span><span>            </span><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679225343"><span class="hs-identifier hs-var">package</span></a></span><span class="hs-special">{</span><span class="annot"><a href="Language.FineTypes.Package.Content.html#packageModules"><span class="hs-identifier hs-var">packageModules</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><a href="#local-6989586621679225347"><span class="hs-identifier hs-type">modulesInclude</span></a></span><span> </span><span class="annot"><span class="hs-operator hs-type">&lt;&gt;</span></span><span> </span><span class="annot"><a href="#local-6989586621679225348"><span class="hs-identifier hs-type">modulesPackage</span></a></span><span class="hs-special">}</span><span>
+</span><span id="line-69"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-70"></span><span>    </span><span id="local-6989586621679225347"><span class="annot"><span class="annottext">modulesInclude :: Map ModuleName (Either Signature Module)
+</span><a href="#local-6989586621679225347"><span class="hs-identifier hs-var hs-var">modulesInclude</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Package -&gt; Map ModuleName (Either Signature Module)
 </span><a href="Language.FineTypes.Package.Content.html#packageModules"><span class="hs-identifier hs-var">packageModules</span></a></span><span> </span><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219635"><span class="hs-identifier hs-var">include</span></a></span><span>
-</span><span id="line-62"></span><span>    </span><span id="local-6989586621679219641"><span class="annot"><span class="annottext">modulesPackage :: Map ModuleName Module
-</span><a href="#local-6989586621679219641"><span class="hs-identifier hs-var hs-var">modulesPackage</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Package -&gt; Map ModuleName Module
+</span><a href="#local-6989586621679225342"><span class="hs-identifier hs-var">include</span></a></span><span>
+</span><span id="line-71"></span><span>    </span><span id="local-6989586621679225348"><span class="annot"><span class="annottext">modulesPackage :: Map ModuleName (Either Signature Module)
+</span><a href="#local-6989586621679225348"><span class="hs-identifier hs-var hs-var">modulesPackage</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Package -&gt; Map ModuleName (Either Signature Module)
 </span><a href="Language.FineTypes.Package.Content.html#packageModules"><span class="hs-identifier hs-var">packageModules</span></a></span><span> </span><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679219636"><span class="hs-identifier hs-var">package</span></a></span><span>
-</span><span id="line-63"></span><span>
-</span><span id="line-64"></span><span>    </span><span id="local-6989586621679219639"><span class="annot"><span class="annottext">invalidModules :: Set ModuleName
-</span><a href="#local-6989586621679219639"><span class="hs-identifier hs-var hs-var">invalidModules</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-65"></span><span>        </span><span class="annot"><span class="annottext">Map ModuleName Module -&gt; Set ModuleName
+</span><a href="#local-6989586621679225343"><span class="hs-identifier hs-var">package</span></a></span><span>
+</span><span id="line-72"></span><span>
+</span><span id="line-73"></span><span>    </span><span id="local-6989586621679225346"><span class="annot"><span class="annottext">invalidModules :: Set ModuleName
+</span><a href="#local-6989586621679225346"><span class="hs-identifier hs-var hs-var">invalidModules</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-74"></span><span>        </span><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module) -&gt; Set ModuleName
 forall k a. Map k a -&gt; Set k
-</span><span class="hs-identifier hs-var">Map.keysSet</span></span><span> </span><span class="annot"><span class="annottext">Map ModuleName Module
-</span><a href="#local-6989586621679219640"><span class="hs-identifier hs-var">modulesInclude</span></a></span><span>
-</span><span id="line-66"></span><span>            </span><span class="annot"><span class="annottext">Set ModuleName -&gt; Set ModuleName -&gt; Set ModuleName
+</span><span class="hs-identifier hs-var">Map.keysSet</span></span><span> </span><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module)
+</span><a href="#local-6989586621679225347"><span class="hs-identifier hs-var">modulesInclude</span></a></span><span>
+</span><span id="line-75"></span><span>            </span><span class="annot"><span class="annottext">Set ModuleName -&gt; Set ModuleName -&gt; Set ModuleName
 forall a. Ord a =&gt; Set a -&gt; Set a -&gt; Set a
-</span><span class="hs-operator hs-var">`Set.intersection`</span></span><span> </span><span class="annot"><span class="annottext">Map ModuleName Module -&gt; Set ModuleName
+</span><span class="hs-operator hs-var">`Set.intersection`</span></span><span> </span><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module) -&gt; Set ModuleName
 forall k a. Map k a -&gt; Set k
-</span><span class="hs-identifier hs-var">Map.keysSet</span></span><span> </span><span class="annot"><span class="annottext">Map ModuleName Module
-</span><a href="#local-6989586621679219641"><span class="hs-identifier hs-var">modulesPackage</span></a></span><span>
-</span><span id="line-67"></span><span>
-</span><span id="line-68"></span><span class="hs-keyword">data</span><span> </span><span id="ErrAddModule"><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrAddModule"><span class="hs-identifier hs-var">ErrAddModule</span></a></span></span><span>
-</span><span id="line-69"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-comment">-- | The module is already in scope.</span></span><span>
-</span><span id="line-70"></span><span>      </span><span id="ErrModuleAlreadyInScope"><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrModuleAlreadyInScope"><span class="hs-identifier hs-var">ErrModuleAlreadyInScope</span></a></span></span><span>
-</span><span id="line-71"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | The module imports a type that is not exported.</span></span><span>
-</span><span id="line-72"></span><span>      </span><span id="ErrImportNotInScope"><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrImportNotInScope"><span class="hs-identifier hs-var">ErrImportNotInScope</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
-</span><span id="line-73"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | The added module uses a type which is not defined.</span></span><span>
-</span><span id="line-74"></span><span>      </span><span id="ErrNamesNotInScope"><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrNamesNotInScope"><span class="hs-identifier hs-var">ErrNamesNotInScope</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-75"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679219650"><span id="local-6989586621679219656"><span class="annot"><span class="annottext">ErrAddModule -&gt; ErrAddModule -&gt; Bool
+</span><span class="hs-identifier hs-var">Map.keysSet</span></span><span> </span><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module)
+</span><a href="#local-6989586621679225348"><span class="hs-identifier hs-var">modulesPackage</span></a></span><span>
+</span><span id="line-76"></span><span>
+</span><span id="line-77"></span><span class="hs-keyword">data</span><span> </span><span id="ErrAddModule"><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrAddModule"><span class="hs-identifier hs-var">ErrAddModule</span></a></span></span><span>
+</span><span id="line-78"></span><span>    </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-comment">-- | The module is already in scope.</span></span><span>
+</span><span id="line-79"></span><span>      </span><span id="ErrModuleAlreadyInScope"><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrModuleAlreadyInScope"><span class="hs-identifier hs-var">ErrModuleAlreadyInScope</span></a></span></span><span>
+</span><span id="line-80"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | The module imports a type that is not exported.</span></span><span>
+</span><span id="line-81"></span><span>      </span><span id="ErrImportNotInScope"><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrImportNotInScope"><span class="hs-identifier hs-var">ErrImportNotInScope</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-82"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="hs-comment">-- | The added module uses a type which is not defined.</span></span><span>
+</span><span id="line-83"></span><span>      </span><span id="ErrNamesNotInScope"><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrNamesNotInScope"><span class="hs-identifier hs-var">ErrNamesNotInScope</span></a></span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Set</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-84"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679225357"><span id="local-6989586621679225363"><span class="annot"><span class="annottext">ErrAddModule -&gt; ErrAddModule -&gt; Bool
 (ErrAddModule -&gt; ErrAddModule -&gt; Bool)
 -&gt; (ErrAddModule -&gt; ErrAddModule -&gt; Bool) -&gt; Eq ErrAddModule
 forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
@@ -165,7 +195,7 @@ $c== :: ErrAddModule -&gt; ErrAddModule -&gt; Bool
 == :: ErrAddModule -&gt; ErrAddModule -&gt; Bool
 $c/= :: ErrAddModule -&gt; ErrAddModule -&gt; Bool
 /= :: ErrAddModule -&gt; ErrAddModule -&gt; Bool
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679219665"><span id="local-6989586621679219671"><span id="local-6989586621679219676"><span id="local-6989586621679219680"><span id="local-6989586621679219683"><span id="local-6989586621679219686"><span id="local-6989586621679219689"><span class="annot"><span class="annottext">Eq ErrAddModule
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679225372"><span id="local-6989586621679225378"><span id="local-6989586621679225383"><span id="local-6989586621679225387"><span id="local-6989586621679225390"><span id="local-6989586621679225393"><span id="local-6989586621679225396"><span class="annot"><span class="annottext">Eq ErrAddModule
 Eq ErrAddModule =&gt;
 (ErrAddModule -&gt; ErrAddModule -&gt; Ordering)
 -&gt; (ErrAddModule -&gt; ErrAddModule -&gt; Bool)
@@ -202,7 +232,7 @@ $cmax :: ErrAddModule -&gt; ErrAddModule -&gt; ErrAddModule
 max :: ErrAddModule -&gt; ErrAddModule -&gt; ErrAddModule
 $cmin :: ErrAddModule -&gt; ErrAddModule -&gt; ErrAddModule
 min :: ErrAddModule -&gt; ErrAddModule -&gt; ErrAddModule
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679219694"><span id="local-6989586621679219702"><span id="local-6989586621679219706"><span class="annot"><span class="annottext">Int -&gt; ErrAddModule -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Ord</span></span></span></span></span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679225401"><span id="local-6989586621679225409"><span id="local-6989586621679225413"><span class="annot"><span class="annottext">Int -&gt; ErrAddModule -&gt; ShowS
 [ErrAddModule] -&gt; ShowS
 ErrAddModule -&gt; ModuleName
 (Int -&gt; ErrAddModule -&gt; ShowS)
@@ -218,14 +248,27 @@ $cshow :: ErrAddModule -&gt; ModuleName
 show :: ErrAddModule -&gt; ModuleName
 $cshowList :: [ErrAddModule] -&gt; ShowS
 showList :: [ErrAddModule] -&gt; ShowS
-</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">)</span><span>
-</span><span id="line-76"></span><span>
-</span><span id="line-77"></span><span class="annot"><span class="hs-comment">-- | Add a module to the current package if possible.</span></span><span>
-</span><span id="line-78"></span><span class="annot"><a href="Language.FineTypes.Package.Content.html#addModule"><span class="hs-identifier hs-type">addModule</span></a></span><span>
-</span><span id="line-79"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrAddModule"><span class="hs-identifier hs-type">ErrAddModule</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
-</span><span id="line-80"></span><span id="addModule"><span class="annot"><span class="annottext">addModule :: Module -&gt; Package -&gt; Either ErrAddModule Package
-</span><a href="Language.FineTypes.Package.Content.html#addModule"><span class="hs-identifier hs-var hs-var">addModule</span></a></span></span><span> </span><span id="local-6989586621679219711"><span class="annot"><span class="annottext">mo :: Module
-</span><a href="#local-6989586621679219711"><span class="hs-identifier hs-var">mo</span></a></span></span><span class="hs-glyph">@</span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span class="hs-special">{</span><span id="local-6989586621679219713"><span id="local-6989586621679219714"><span id="local-6989586621679219715"><span id="local-6989586621679219716"><span class="annot"><span class="annottext">ModuleName
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679225419"><span id="local-6989586621679225421"><span class="annot"><span class="annottext">(forall x. ErrAddModule -&gt; Rep ErrAddModule x)
+-&gt; (forall x. Rep ErrAddModule x -&gt; ErrAddModule)
+-&gt; Generic ErrAddModule
+forall x. Rep ErrAddModule x -&gt; ErrAddModule
+forall x. ErrAddModule -&gt; Rep ErrAddModule x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cfrom :: forall x. ErrAddModule -&gt; Rep ErrAddModule x
+from :: forall x. ErrAddModule -&gt; Rep ErrAddModule x
+$cto :: forall x. Rep ErrAddModule x -&gt; ErrAddModule
+to :: forall x. Rep ErrAddModule x -&gt; ErrAddModule
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-85"></span><span>
+</span><span id="line-86"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679225424"><span id="local-6989586621679225431"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrAddModule"><span class="hs-identifier hs-type">ErrAddModule</span></a></span></span></span><span>
+</span><span id="line-87"></span><span>
+</span><span id="line-88"></span><span class="annot"><span class="hs-comment">-- | Add a module to the current package if possible.</span></span><span>
+</span><span id="line-89"></span><span class="annot"><a href="Language.FineTypes.Package.Content.html#addModule"><span class="hs-identifier hs-type">addModule</span></a></span><span>
+</span><span id="line-90"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrAddModule"><span class="hs-identifier hs-type">ErrAddModule</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
+</span><span id="line-91"></span><span id="addModule"><span class="annot"><span class="annottext">addModule :: Module -&gt; Package -&gt; Either ErrAddModule Package
+</span><a href="Language.FineTypes.Package.Content.html#addModule"><span class="hs-identifier hs-var hs-var">addModule</span></a></span></span><span> </span><span id="local-6989586621679225465"><span class="annot"><span class="annottext">mo :: Module
+</span><a href="#local-6989586621679225465"><span class="hs-identifier hs-var">mo</span></a></span></span><span class="hs-glyph">@</span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span class="hs-special">{</span><span id="local-6989586621679225467"><span id="local-6989586621679225468"><span id="local-6989586621679225469"><span id="local-6989586621679225470"><span class="annot"><span class="annottext">ModuleName
 Declarations
 Imports
 Documentation
@@ -237,69 +280,77 @@ moduleName :: Module -&gt; ModuleName
 moduleImports :: Module -&gt; Imports
 moduleDeclarations :: Module -&gt; Declarations
 moduleDocumentation :: Module -&gt; Documentation
-</span><a href="#local-6989586621679219713"><span class="hs-glyph hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">..</span></a></span></span></span></span></span><span class="hs-special">}</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span class="hs-special">{</span><span id="local-6989586621679219721"><span class="annot"><span class="annottext">Map ModuleName Module
-packageModules :: Package -&gt; Map ModuleName Module
-packageModules :: Map ModuleName Module
+</span><a href="#local-6989586621679225467"><span class="hs-glyph hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">..</span></a></span></span></span></span></span><span class="hs-special">}</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span class="hs-special">{</span><span id="local-6989586621679225475"><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module)
+packageModules :: Package -&gt; Map ModuleName (Either Signature Module)
+packageModules :: Map ModuleName (Either Signature Module)
 </span><a href="Language.FineTypes.Package.Content.html#packageModules"><span class="hs-glyph hs-var hs-var">..</span></a></span></span><span class="hs-special">}</span><span>
-</span><span id="line-81"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">ModuleName
-</span><a href="#local-6989586621679219713"><span class="hs-identifier hs-var">moduleName</span></a></span><span> </span><span class="annot"><span class="annottext">ModuleName -&gt; Map ModuleName Module -&gt; Bool
+</span><span id="line-92"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">ModuleName
+</span><a href="#local-6989586621679225467"><span class="hs-identifier hs-var">moduleName</span></a></span><span> </span><span class="annot"><span class="annottext">ModuleName -&gt; Map ModuleName (Either Signature Module) -&gt; Bool
 forall k a. Ord k =&gt; k -&gt; Map k a -&gt; Bool
-</span><span class="hs-operator hs-var">`Map.member`</span></span><span> </span><span class="annot"><span class="annottext">Map ModuleName Module
-</span><a href="#local-6989586621679219721"><span class="hs-identifier hs-var">packageModules</span></a></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-82"></span><span>        </span><span class="annot"><span class="annottext">ErrAddModule -&gt; Either ErrAddModule Package
+</span><span class="hs-operator hs-var">`Map.member`</span></span><span> </span><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module)
+</span><a href="#local-6989586621679225475"><span class="hs-identifier hs-var">packageModules</span></a></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-93"></span><span>        </span><span class="annot"><span class="annottext">ErrAddModule -&gt; Either ErrAddModule Package
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">ErrAddModule
 </span><a href="Language.FineTypes.Package.Content.html#ErrModuleAlreadyInScope"><span class="hs-identifier hs-var">ErrModuleAlreadyInScope</span></a></span><span>
-</span><span id="line-83"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool
+</span><span id="line-94"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool
 </span><span class="hs-identifier hs-var">not</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Set (ModuleName, ModuleName) -&gt; Bool
 forall a. Set a -&gt; Bool
 </span><span class="hs-identifier hs-var">Set.null</span></span><span> </span><span class="annot"><span class="annottext">Set (ModuleName, ModuleName)
-</span><a href="#local-6989586621679219723"><span class="hs-identifier hs-var">invalidImports</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-84"></span><span>        </span><span class="annot"><span class="annottext">ErrAddModule -&gt; Either ErrAddModule Package
+</span><a href="#local-6989586621679225477"><span class="hs-identifier hs-var">invalidImports</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-95"></span><span>        </span><span class="annot"><span class="annottext">ErrAddModule -&gt; Either ErrAddModule Package
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">(ErrAddModule -&gt; Either ErrAddModule Package)
 -&gt; ErrAddModule -&gt; Either ErrAddModule Package
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Set (ModuleName, ModuleName) -&gt; ErrAddModule
 </span><a href="Language.FineTypes.Package.Content.html#ErrImportNotInScope"><span class="hs-identifier hs-var">ErrImportNotInScope</span></a></span><span> </span><span class="annot"><span class="annottext">Set (ModuleName, ModuleName)
-</span><a href="#local-6989586621679219723"><span class="hs-identifier hs-var">invalidImports</span></a></span><span>
-</span><span id="line-85"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool
+</span><a href="#local-6989586621679225477"><span class="hs-identifier hs-var">invalidImports</span></a></span><span>
+</span><span id="line-96"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool -&gt; Bool
 </span><span class="hs-identifier hs-var">not</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Set ModuleName -&gt; Bool
 forall a. Set a -&gt; Bool
 </span><span class="hs-identifier hs-var">Set.null</span></span><span> </span><span class="annot"><span class="annottext">Set ModuleName
-</span><a href="#local-6989586621679219724"><span class="hs-identifier hs-var">namesNotInScope</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-86"></span><span>        </span><span class="annot"><span class="annottext">ErrAddModule -&gt; Either ErrAddModule Package
+</span><a href="#local-6989586621679225478"><span class="hs-identifier hs-var">namesNotInScope</span></a></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-97"></span><span>        </span><span class="annot"><span class="annottext">ErrAddModule -&gt; Either ErrAddModule Package
 forall a b. a -&gt; Either a b
 </span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">(ErrAddModule -&gt; Either ErrAddModule Package)
 -&gt; ErrAddModule -&gt; Either ErrAddModule Package
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Set ModuleName -&gt; ErrAddModule
 </span><a href="Language.FineTypes.Package.Content.html#ErrNamesNotInScope"><span class="hs-identifier hs-var">ErrNamesNotInScope</span></a></span><span> </span><span class="annot"><span class="annottext">Set ModuleName
-</span><a href="#local-6989586621679219724"><span class="hs-identifier hs-var">namesNotInScope</span></a></span><span>
-</span><span id="line-87"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><a href="#local-6989586621679225478"><span class="hs-identifier hs-var">namesNotInScope</span></a></span><span>
+</span><span id="line-98"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-88"></span><span>        </span><span class="annot"><span class="annottext">Package -&gt; Either ErrAddModule Package
+</span><span id="line-99"></span><span>        </span><span class="annot"><span class="annottext">Package -&gt; Either ErrAddModule Package
 forall a b. b -&gt; Either a b
 </span><span class="hs-identifier hs-var">Right</span></span><span>
-</span><span id="line-89"></span><span>            </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
-</span><span id="line-90"></span><span>                </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">packageModules :: Map ModuleName Module
-</span><a href="Language.FineTypes.Package.Content.html#packageModules"><span class="hs-identifier hs-var">packageModules</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ModuleName
--&gt; Module -&gt; Map ModuleName Module -&gt; Map ModuleName Module
+</span><span id="line-100"></span><span>            </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
+</span><span id="line-101"></span><span>                </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">packageModules :: Map ModuleName (Either Signature Module)
+</span><a href="Language.FineTypes.Package.Content.html#packageModules"><span class="hs-identifier hs-var">packageModules</span></a></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-102"></span><span>                    </span><span class="annot"><span class="annottext">ModuleName
+-&gt; Either Signature Module
+-&gt; Map ModuleName (Either Signature Module)
+-&gt; Map ModuleName (Either Signature Module)
 forall k a. Ord k =&gt; k -&gt; a -&gt; Map k a -&gt; Map k a
-</span><span class="hs-identifier hs-var">Map.insert</span></span><span> </span><span class="annot"><span class="annottext">ModuleName
-</span><a href="#local-6989586621679219713"><span class="hs-identifier hs-var">moduleName</span></a></span><span> </span><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679219711"><span class="hs-identifier hs-var">mo</span></a></span><span> </span><span class="annot"><span class="annottext">Map ModuleName Module
-</span><a href="#local-6989586621679219721"><span class="hs-identifier hs-var">packageModules</span></a></span><span>
-</span><span id="line-91"></span><span>                </span><span class="hs-special">}</span><span>
-</span><span id="line-92"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-93"></span><span>    </span><span class="hs-comment">-- FIXME: Substitute provenance for all the defined 'Typ'!.</span><span>
-</span><span id="line-94"></span><span>    </span><span id="local-6989586621679219724"><span class="annot"><span class="annottext">namesNotInScope :: Set ModuleName
-</span><a href="#local-6989586621679219724"><span class="hs-identifier hs-var hs-var">namesNotInScope</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Module -&gt; Set ModuleName
+</span><span class="hs-identifier hs-var">Map.insert</span></span><span>
+</span><span id="line-103"></span><span>                        </span><span class="annot"><span class="annottext">ModuleName
+</span><a href="#local-6989586621679225467"><span class="hs-identifier hs-var">moduleName</span></a></span><span>
+</span><span id="line-104"></span><span>                        </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Module -&gt; Either Signature Module
+forall a b. b -&gt; Either a b
+</span><span class="hs-identifier hs-var">Right</span></span><span> </span><span class="annot"><span class="annottext">Module
+</span><a href="#local-6989586621679225465"><span class="hs-identifier hs-var">mo</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-105"></span><span>                        </span><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module)
+</span><a href="#local-6989586621679225475"><span class="hs-identifier hs-var">packageModules</span></a></span><span>
+</span><span id="line-106"></span><span>                </span><span class="hs-special">}</span><span>
+</span><span id="line-107"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-108"></span><span>    </span><span class="hs-comment">-- FIXME: Substitute provenance for all the defined 'Typ'!.</span><span>
+</span><span id="line-109"></span><span>    </span><span id="local-6989586621679225478"><span class="annot"><span class="annottext">namesNotInScope :: Set ModuleName
+</span><a href="#local-6989586621679225478"><span class="hs-identifier hs-var hs-var">namesNotInScope</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Module -&gt; Set ModuleName
 </span><a href="Language.FineTypes.Module.html#collectNotInScope"><span class="hs-identifier hs-var">collectNotInScope</span></a></span><span> </span><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679219711"><span class="hs-identifier hs-var">mo</span></a></span><span>
-</span><span id="line-95"></span><span>
-</span><span id="line-96"></span><span>    </span><span id="local-6989586621679219723"><span class="annot"><span class="annottext">invalidImports :: Set (ModuleName, ModuleName)
-</span><a href="#local-6989586621679219723"><span class="hs-identifier hs-var hs-var">invalidImports</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map ModuleName (Set (ModuleName, ModuleName))
+</span><a href="#local-6989586621679225465"><span class="hs-identifier hs-var">mo</span></a></span><span>
+</span><span id="line-110"></span><span>
+</span><span id="line-111"></span><span>    </span><span id="local-6989586621679225477"><span class="annot"><span class="annottext">invalidImports :: Set (ModuleName, ModuleName)
+</span><a href="#local-6989586621679225477"><span class="hs-identifier hs-var hs-var">invalidImports</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Map ModuleName (Set (ModuleName, ModuleName))
 -&gt; Set (ModuleName, ModuleName)
 forall m. Monoid m =&gt; Map ModuleName m -&gt; m
 forall (t :: * -&gt; *) m. (Foldable t, Monoid m) =&gt; t m -&gt; m
@@ -312,17 +363,17 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 -&gt; Imports -&gt; Map ModuleName (Set (ModuleName, ModuleName))
 forall k a b. (k -&gt; a -&gt; b) -&gt; Map k a -&gt; Map k b
 </span><span class="hs-identifier hs-var">Map.mapWithKey</span></span><span> </span><span class="annot"><span class="annottext">ModuleName -&gt; Import -&gt; Set (ModuleName, ModuleName)
-</span><a href="#local-6989586621679219735"><span class="hs-identifier hs-var">invalidImport</span></a></span><span> </span><span class="annot"><span class="annottext">Imports
-</span><a href="#local-6989586621679219714"><span class="hs-identifier hs-var">moduleImports</span></a></span><span>
-</span><span id="line-97"></span><span>    </span><span id="local-6989586621679219735"><span class="annot"><span class="annottext">invalidImport :: ModuleName -&gt; Import -&gt; Set (ModuleName, ModuleName)
-</span><a href="#local-6989586621679219735"><span class="hs-identifier hs-var hs-var">invalidImport</span></a></span></span><span> </span><span id="local-6989586621679219740"><span class="annot"><span class="annottext">ModuleName
-</span><a href="#local-6989586621679219740"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-98"></span><span>        </span><span class="annot"><span class="annottext">(ModuleName -&gt; (ModuleName, ModuleName))
+</span><a href="#local-6989586621679225489"><span class="hs-identifier hs-var">invalidImport</span></a></span><span> </span><span class="annot"><span class="annottext">Imports
+</span><a href="#local-6989586621679225468"><span class="hs-identifier hs-var">moduleImports</span></a></span><span>
+</span><span id="line-112"></span><span>    </span><span id="local-6989586621679225489"><span class="annot"><span class="annottext">invalidImport :: ModuleName -&gt; Import -&gt; Set (ModuleName, ModuleName)
+</span><a href="#local-6989586621679225489"><span class="hs-identifier hs-var hs-var">invalidImport</span></a></span></span><span> </span><span id="local-6989586621679225494"><span class="annot"><span class="annottext">ModuleName
+</span><a href="#local-6989586621679225494"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-113"></span><span>        </span><span class="annot"><span class="annottext">(ModuleName -&gt; (ModuleName, ModuleName))
 -&gt; Set ModuleName -&gt; Set (ModuleName, ModuleName)
 forall b a. Ord b =&gt; (a -&gt; b) -&gt; Set a -&gt; Set b
 </span><span class="hs-identifier hs-var">Set.map</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ModuleName
-</span><a href="#local-6989586621679219740"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">,</span><span class="hs-special">)</span><span>
-</span><span id="line-99"></span><span>            </span><span class="annot"><span class="annottext">(Set ModuleName -&gt; Set (ModuleName, ModuleName))
+</span><a href="#local-6989586621679225494"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">,</span><span class="hs-special">)</span><span>
+</span><span id="line-114"></span><span>            </span><span class="annot"><span class="annottext">(Set ModuleName -&gt; Set (ModuleName, ModuleName))
 -&gt; (Import -&gt; Set ModuleName)
 -&gt; Import
 -&gt; Set (ModuleName, ModuleName)
@@ -333,33 +384,93 @@ forall a. (a -&gt; Bool) -&gt; Set a -&gt; Set a
 </span><span class="hs-identifier hs-var">not</span></span><span> </span><span class="annot"><span class="annottext">(Bool -&gt; Bool) -&gt; (ModuleName -&gt; Bool) -&gt; ModuleName -&gt; Bool
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">ModuleName -&gt; ModuleName -&gt; Bool
-</span><a href="#local-6989586621679219744"><span class="hs-operator hs-var">`isDefinedIn`</span></a></span><span> </span><span class="annot"><span class="annottext">ModuleName
-</span><a href="#local-6989586621679219740"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
-</span><span id="line-100"></span><span>            </span><span class="annot"><span class="annottext">(Set ModuleName -&gt; Set ModuleName)
+</span><a href="#local-6989586621679225498"><span class="hs-operator hs-var">`isDefinedIn`</span></a></span><span> </span><span class="annot"><span class="annottext">ModuleName
+</span><a href="#local-6989586621679225494"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-115"></span><span>            </span><span class="annot"><span class="annottext">(Set ModuleName -&gt; Set ModuleName)
 -&gt; (Import -&gt; Set ModuleName) -&gt; Import -&gt; Set ModuleName
 forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
 </span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Import -&gt; Set ModuleName
 </span><a href="Language.FineTypes.Module.html#getImportNames"><span class="hs-identifier hs-var">getImportNames</span></a></span><span>
-</span><span id="line-101"></span><span>
-</span><span id="line-102"></span><span>    </span><span class="annot"><a href="#local-6989586621679219744"><span class="hs-identifier hs-type">isDefinedIn</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
-</span><span id="line-103"></span><span>    </span><span id="local-6989586621679219744"><span class="annot"><span class="annottext">isDefinedIn :: ModuleName -&gt; ModuleName -&gt; Bool
-</span><a href="#local-6989586621679219744"><span class="hs-identifier hs-var hs-var">isDefinedIn</span></a></span></span><span> </span><span id="local-6989586621679219745"><span class="annot"><span class="annottext">ModuleName
-</span><a href="#local-6989586621679219745"><span class="hs-identifier hs-var">typName</span></a></span></span><span> </span><span id="local-6989586621679219746"><span class="annot"><span class="annottext">ModuleName
-</span><a href="#local-6989586621679219746"><span class="hs-identifier hs-var">modName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-104"></span><span>        </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">ModuleName -&gt; Map ModuleName Module -&gt; Maybe Module
+</span><span id="line-116"></span><span>
+</span><span id="line-117"></span><span>    </span><span class="annot"><a href="#local-6989586621679225498"><span class="hs-identifier hs-type">isDefinedIn</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Bool</span></span><span>
+</span><span id="line-118"></span><span>    </span><span id="local-6989586621679225498"><span class="annot"><span class="annottext">isDefinedIn :: ModuleName -&gt; ModuleName -&gt; Bool
+</span><a href="#local-6989586621679225498"><span class="hs-identifier hs-var hs-var">isDefinedIn</span></a></span></span><span> </span><span id="local-6989586621679225499"><span class="annot"><span class="annottext">ModuleName
+</span><a href="#local-6989586621679225499"><span class="hs-identifier hs-var">typName</span></a></span></span><span> </span><span id="local-6989586621679225500"><span class="annot"><span class="annottext">ModuleName
+</span><a href="#local-6989586621679225500"><span class="hs-identifier hs-var">modName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-119"></span><span>        </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">ModuleName
+-&gt; Map ModuleName (Either Signature Module)
+-&gt; Maybe (Either Signature Module)
 forall k a. Ord k =&gt; k -&gt; Map k a -&gt; Maybe a
 </span><span class="hs-identifier hs-var">Map.lookup</span></span><span> </span><span class="annot"><span class="annottext">ModuleName
-</span><a href="#local-6989586621679219746"><span class="hs-identifier hs-var">modName</span></a></span><span> </span><span class="annot"><span class="annottext">Map ModuleName Module
-</span><a href="#local-6989586621679219721"><span class="hs-identifier hs-var">packageModules</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-105"></span><span>            </span><span class="annot"><span class="annottext">Maybe Module
+</span><a href="#local-6989586621679225500"><span class="hs-identifier hs-var">modName</span></a></span><span> </span><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module)
+</span><a href="#local-6989586621679225475"><span class="hs-identifier hs-var">packageModules</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-120"></span><span>            </span><span class="annot"><span class="annottext">Maybe (Either Signature Module)
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">Bool
 </span><span class="hs-identifier hs-var">False</span></span><span>
-</span><span id="line-106"></span><span>            </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span class="hs-special">{</span><span class="annot"><span class="annottext">moduleDeclarations :: Module -&gt; Declarations
-</span><a href="Language.FineTypes.Module.html#moduleDeclarations"><span class="hs-identifier hs-var">moduleDeclarations</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="local-6989586621679219748"><span class="annot"><span class="annottext">Declarations
-</span><a href="#local-6989586621679219748"><span class="hs-identifier hs-var">ds</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">-&gt;</span><span>
-</span><span id="line-107"></span><span>                </span><span class="annot"><span class="annottext">ModuleName
-</span><a href="#local-6989586621679219745"><span class="hs-identifier hs-var">typName</span></a></span><span> </span><span class="annot"><span class="annottext">ModuleName -&gt; Declarations -&gt; Bool
+</span><span id="line-121"></span><span>            </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#Module"><span class="hs-identifier hs-type">Module</span></a></span><span class="hs-special">{</span><span class="annot"><span class="annottext">moduleDeclarations :: Module -&gt; Declarations
+</span><a href="Language.FineTypes.Module.html#moduleDeclarations"><span class="hs-identifier hs-var">moduleDeclarations</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="local-6989586621679225502"><span class="annot"><span class="annottext">Declarations
+</span><a href="#local-6989586621679225502"><span class="hs-identifier hs-var">ds</span></a></span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-122"></span><span>                </span><span class="annot"><span class="annottext">ModuleName
+</span><a href="#local-6989586621679225499"><span class="hs-identifier hs-var">typName</span></a></span><span> </span><span class="annot"><span class="annottext">ModuleName -&gt; Declarations -&gt; Bool
 forall k a. Ord k =&gt; k -&gt; Map k a -&gt; Bool
 </span><span class="hs-operator hs-var">`Map.member`</span></span><span> </span><span class="annot"><span class="annottext">Declarations
-</span><a href="#local-6989586621679219748"><span class="hs-identifier hs-var">ds</span></a></span><span>
-</span><span id="line-108"></span></pre></body></html>
+</span><a href="#local-6989586621679225502"><span class="hs-identifier hs-var">ds</span></a></span><span>
+</span><span id="line-123"></span><span>            </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span><span class="hs-special">{</span><span class="annot"><span class="annottext">signatureDeclarations :: Signature -&gt; Set ModuleName
+</span><a href="Language.FineTypes.Signature.html#signatureDeclarations"><span class="hs-identifier hs-var">signatureDeclarations</span></a></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="local-6989586621679225505"><span class="annot"><span class="annottext">Set ModuleName
+</span><a href="#local-6989586621679225505"><span class="hs-identifier hs-var">ds</span></a></span></span><span class="hs-special">}</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-124"></span><span>                </span><span class="annot"><span class="annottext">ModuleName
+</span><a href="#local-6989586621679225499"><span class="hs-identifier hs-var">typName</span></a></span><span> </span><span class="annot"><span class="annottext">ModuleName -&gt; Set ModuleName -&gt; Bool
+forall a. Ord a =&gt; a -&gt; Set a -&gt; Bool
+</span><span class="hs-operator hs-var">`Set.member`</span></span><span> </span><span class="annot"><span class="annottext">Set ModuleName
+</span><a href="#local-6989586621679225505"><span class="hs-identifier hs-var">ds</span></a></span><span>
+</span><span id="line-125"></span><span>
+</span><span id="line-126"></span><span class="annot"><a href="Language.FineTypes.Package.Content.html#addSignature"><span class="hs-identifier hs-type">addSignature</span></a></span><span>
+</span><span id="line-127"></span><span>    </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#ErrAddModule"><span class="hs-identifier hs-type">ErrAddModule</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
+</span><span id="line-128"></span><span id="addSignature"><span class="annot"><span class="annottext">addSignature :: Signature -&gt; Package -&gt; Either ErrAddModule Package
+</span><a href="Language.FineTypes.Package.Content.html#addSignature"><span class="hs-identifier hs-var hs-var">addSignature</span></a></span></span><span> </span><span id="local-6989586621679225507"><span class="annot"><span class="annottext">sig :: Signature
+</span><a href="#local-6989586621679225507"><span class="hs-identifier hs-var">sig</span></a></span></span><span class="hs-glyph">@</span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span><span class="hs-special">{</span><span id="local-6989586621679225508"><span id="local-6989586621679225509"><span id="local-6989586621679225510"><span class="annot"><span class="annottext">ModuleName
+Set ModuleName
+Documentation
+signatureDeclarations :: Signature -&gt; Set ModuleName
+signatureName :: ModuleName
+signatureDeclarations :: Set ModuleName
+signatureDocumentation :: Documentation
+signatureName :: Signature -&gt; ModuleName
+signatureDocumentation :: Signature -&gt; Documentation
+</span><a href="Language.FineTypes.Signature.html#signatureDeclarations"><span class="hs-glyph hs-var hs-var hs-var hs-var hs-var hs-var">..</span></a></span></span></span></span><span class="hs-special">}</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span class="hs-special">{</span><span id="local-6989586621679225513"><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module)
+packageModules :: Package -&gt; Map ModuleName (Either Signature Module)
+packageModules :: Map ModuleName (Either Signature Module)
+</span><a href="Language.FineTypes.Package.Content.html#packageModules"><span class="hs-glyph hs-var hs-var">..</span></a></span></span><span class="hs-special">}</span><span>
+</span><span id="line-129"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">ModuleName
+</span><a href="#local-6989586621679225508"><span class="hs-identifier hs-var">signatureName</span></a></span><span> </span><span class="annot"><span class="annottext">ModuleName -&gt; Map ModuleName (Either Signature Module) -&gt; Bool
+forall k a. Ord k =&gt; k -&gt; Map k a -&gt; Bool
+</span><span class="hs-operator hs-var">`Map.member`</span></span><span> </span><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module)
+</span><a href="#local-6989586621679225513"><span class="hs-identifier hs-var">packageModules</span></a></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-130"></span><span>        </span><span class="annot"><span class="annottext">ErrAddModule -&gt; Either ErrAddModule Package
+forall a b. a -&gt; Either a b
+</span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">ErrAddModule
+</span><a href="Language.FineTypes.Package.Content.html#ErrModuleAlreadyInScope"><span class="hs-identifier hs-var">ErrModuleAlreadyInScope</span></a></span><span>
+</span><span id="line-131"></span><span>    </span><span class="hs-glyph">|</span><span> </span><span class="annot"><span class="annottext">Bool
+</span><span class="hs-identifier hs-var">otherwise</span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-132"></span><span>        </span><span class="annot"><span class="annottext">Package -&gt; Either ErrAddModule Package
+forall a b. b -&gt; Either a b
+</span><span class="hs-identifier hs-var">Right</span></span><span>
+</span><span id="line-133"></span><span>            </span><span class="annot"><a href="Language.FineTypes.Package.Content.html#Package"><span class="hs-identifier hs-type">Package</span></a></span><span>
+</span><span id="line-134"></span><span>                </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">packageModules :: Map ModuleName (Either Signature Module)
+</span><a href="Language.FineTypes.Package.Content.html#packageModules"><span class="hs-identifier hs-var">packageModules</span></a></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-135"></span><span>                    </span><span class="annot"><span class="annottext">ModuleName
+-&gt; Either Signature Module
+-&gt; Map ModuleName (Either Signature Module)
+-&gt; Map ModuleName (Either Signature Module)
+forall k a. Ord k =&gt; k -&gt; a -&gt; Map k a -&gt; Map k a
+</span><span class="hs-identifier hs-var">Map.insert</span></span><span>
+</span><span id="line-136"></span><span>                        </span><span class="annot"><span class="annottext">ModuleName
+</span><a href="#local-6989586621679225508"><span class="hs-identifier hs-var">signatureName</span></a></span><span>
+</span><span id="line-137"></span><span>                        </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Signature -&gt; Either Signature Module
+forall a b. a -&gt; Either a b
+</span><span class="hs-identifier hs-var">Left</span></span><span> </span><span class="annot"><span class="annottext">Signature
+</span><a href="#local-6989586621679225507"><span class="hs-identifier hs-var">sig</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-138"></span><span>                        </span><span class="annot"><span class="annottext">Map ModuleName (Either Signature Module)
+</span><a href="#local-6989586621679225513"><span class="hs-identifier hs-var">packageModules</span></a></span><span>
+</span><span id="line-139"></span><span>                </span><span class="hs-special">}</span><span>
+</span><span id="line-140"></span></pre></body></html>

@@ -11,7 +11,7 @@
 </span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Common.html"><span class="hs-identifier">Language.FineTypes.Commands.Common</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Commands.Common.html#readInput"><span class="hs-identifier">readInput</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Log.html"><span class="hs-identifier">Language.FineTypes.Commands.Log</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Commands.Log.html#inside"><span class="hs-identifier">inside</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Export.OpenAPI.Schema.html"><span class="hs-identifier">Language.FineTypes.Export.OpenAPI.Schema</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Export.OpenAPI.Schema.html#schemaFromModule"><span class="hs-identifier">schemaFromModule</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html"><span class="hs-identifier">Language.FineTypes.Parser</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Parser.html#parseFineTypes%27"><span class="hs-identifier">parseFineTypes'</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.Parser.html"><span class="hs-identifier">Language.FineTypes.Module.Parser</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.Parser.html#ErrParseModule"><span class="hs-identifier">ErrParseModule</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.Parser.html#parseModule%27"><span class="hs-identifier">parseModule'</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Text.Megaparsec.Error</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">errorBundlePretty</span></span><span class="hs-special">)</span><span>
 </span><span id="line-16"></span><span>
 </span><span id="line-17"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.ByteString</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">B</span></span><span>
@@ -33,8 +33,8 @@
 </span><span id="line-30"></span><span>
 </span><span id="line-31"></span><span class="annot"><a href="Language.FineTypes.Commands.Convert.html#convert"><span class="hs-identifier hs-type">convert</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Tracer</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Convert.html#ConvertOptions"><span class="hs-identifier hs-type">ConvertOptions</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
 </span><span id="line-32"></span><span id="convert"><span class="annot"><span class="annottext">convert :: Tracer IO String -&gt; ConvertOptions -&gt; IO ()
-</span><a href="Language.FineTypes.Commands.Convert.html#convert"><span class="hs-identifier hs-var hs-var">convert</span></a></span></span><span> </span><span id="local-6989586621679222334"><span class="annot"><span class="annottext">Tracer IO String
-</span><a href="#local-6989586621679222334"><span class="hs-identifier hs-var">tracer</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Convert.html#ConvertOptions"><span class="hs-identifier hs-type">ConvertOptions</span></a></span><span class="hs-special">{</span><span id="local-6989586621679222335"><span id="local-6989586621679222336"><span id="local-6989586621679222337"><span class="annot"><span class="annottext">Maybe String
+</span><a href="Language.FineTypes.Commands.Convert.html#convert"><span class="hs-identifier hs-var hs-var">convert</span></a></span></span><span> </span><span id="local-6989586621679229580"><span class="annot"><span class="annottext">Tracer IO String
+</span><a href="#local-6989586621679229580"><span class="hs-identifier hs-var">tracer</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Convert.html#ConvertOptions"><span class="hs-identifier hs-type">ConvertOptions</span></a></span><span class="hs-special">{</span><span id="local-6989586621679229581"><span id="local-6989586621679229582"><span id="local-6989586621679229583"><span class="annot"><span class="annottext">Maybe String
 Schema
 optInput :: ConvertOptions -&gt; Maybe String
 optOutput :: ConvertOptions -&gt; Maybe String
@@ -43,20 +43,20 @@ optInput :: Maybe String
 optOutput :: Maybe String
 optSchema :: Schema
 </span><a href="Language.FineTypes.Commands.Convert.html#optInput"><span class="hs-glyph hs-var hs-var hs-var hs-var hs-var hs-var">..</span></a></span></span></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-33"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679222339"><span class="annot"><span class="annottext">trace :: String -&gt; IO ()
-</span><a href="#local-6989586621679222339"><span class="hs-identifier hs-var hs-var">trace</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Tracer IO String -&gt; String -&gt; IO ()
+</span><span id="line-33"></span><span>    </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679229585"><span class="annot"><span class="annottext">trace :: String -&gt; IO ()
+</span><a href="#local-6989586621679229585"><span class="hs-identifier hs-var hs-var">trace</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Tracer IO String -&gt; String -&gt; IO ()
 forall (m :: * -&gt; *) a. Monad m =&gt; Tracer m a -&gt; a -&gt; m ()
 </span><span class="hs-identifier hs-var">traceWith</span></span><span> </span><span class="annot"><span class="annottext">Tracer IO String
-</span><a href="#local-6989586621679222334"><span class="hs-identifier hs-var">tracer</span></a></span><span>
-</span><span id="line-34"></span><span>    </span><span id="local-6989586621679222340"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679222340"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Tracer IO String -&gt; Maybe String -&gt; IO String
+</span><a href="#local-6989586621679229580"><span class="hs-identifier hs-var">tracer</span></a></span><span>
+</span><span id="line-34"></span><span>    </span><span id="local-6989586621679229586"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679229586"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Tracer IO String -&gt; Maybe String -&gt; IO String
 </span><a href="Language.FineTypes.Commands.Common.html#readInput"><span class="hs-identifier hs-var">readInput</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Tracer IO String -&gt; Tracer IO String
 </span><a href="Language.FineTypes.Commands.Log.html#inside"><span class="hs-identifier hs-var">inside</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;readInput&quot;</span></span><span> </span><span class="annot"><span class="annottext">Tracer IO String
-</span><a href="#local-6989586621679222334"><span class="hs-identifier hs-var">tracer</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Maybe String
-</span><a href="#local-6989586621679222335"><span class="hs-identifier hs-var">optInput</span></a></span><span>
+</span><a href="#local-6989586621679229580"><span class="hs-identifier hs-var">tracer</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Maybe String
+</span><a href="#local-6989586621679229581"><span class="hs-identifier hs-var">optInput</span></a></span><span>
 </span><span id="line-35"></span><span>    </span><span class="annot"><span class="annottext">String -&gt; IO ()
-</span><a href="#local-6989586621679222339"><span class="hs-identifier hs-var">trace</span></a></span><span>
+</span><a href="#local-6989586621679229585"><span class="hs-identifier hs-var">trace</span></a></span><span>
 </span><span id="line-36"></span><span>        </span><span class="annot"><span class="annottext">(String -&gt; IO ()) -&gt; String -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">String
@@ -67,7 +67,7 @@ forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 forall a. a -&gt; Maybe a -&gt; a
 </span><span class="hs-identifier hs-var">fromMaybe</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;&lt;stdin&gt;&quot;</span></span><span> </span><span class="annot"><span class="annottext">Maybe String
-</span><a href="#local-6989586621679222335"><span class="hs-identifier hs-var">optInput</span></a></span><span>
+</span><a href="#local-6989586621679229581"><span class="hs-identifier hs-var">optInput</span></a></span><span>
 </span><span id="line-38"></span><span>            </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
@@ -78,38 +78,38 @@ forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 forall a. a -&gt; Maybe a -&gt; a
 </span><span class="hs-identifier hs-var">fromMaybe</span></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;&lt;stdout&gt;&quot;</span></span><span> </span><span class="annot"><span class="annottext">Maybe String
-</span><a href="#local-6989586621679222336"><span class="hs-identifier hs-var">optOutput</span></a></span><span>
+</span><a href="#local-6989586621679229582"><span class="hs-identifier hs-var">optOutput</span></a></span><span>
 </span><span id="line-40"></span><span>    </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">String -&gt; Either ErrParseModule Module
-</span><a href="Language.FineTypes.Parser.html#parseFineTypes%27"><span class="hs-identifier hs-var">parseFineTypes'</span></a></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679222340"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-41"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679222341"><span class="annot"><span class="annottext">ErrParseModule
-</span><a href="#local-6989586621679222341"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a href="Language.FineTypes.Module.Parser.html#parseModule%27"><span class="hs-identifier hs-var">parseModule'</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679229586"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-41"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.Parser.html#ErrParseModule"><span class="hs-identifier hs-type">ErrParseModule</span></a></span><span> </span><span id="local-6989586621679229588"><span class="annot"><span class="annottext">ParseErrorBundle String Void
+</span><a href="#local-6989586621679229588"><span class="hs-identifier hs-var">e</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-42"></span><span>            </span><span class="annot"><span class="annottext">String -&gt; IO ()
-</span><a href="#local-6989586621679222339"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679229585"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Failed to parse input file:&quot;</span></span><span>
 </span><span id="line-43"></span><span>            </span><span class="annot"><span class="annottext">String -&gt; IO ()
-</span><a href="#local-6989586621679222339"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">(String -&gt; IO ()) -&gt; String -&gt; IO ()
+</span><a href="#local-6989586621679229585"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">(String -&gt; IO ()) -&gt; String -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
-</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ErrParseModule -&gt; String
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ParseErrorBundle String Void -&gt; String
 forall s e.
 (VisualStream s, TraversableStream s, ShowErrorComponent e) =&gt;
 ParseErrorBundle s e -&gt; String
-</span><span class="hs-identifier hs-var">errorBundlePretty</span></span><span> </span><span class="annot"><span class="annottext">ErrParseModule
-</span><a href="#local-6989586621679222341"><span class="hs-identifier hs-var">e</span></a></span><span>
-</span><span id="line-44"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679222342"><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679222342"><span class="hs-identifier hs-var">m'</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-45"></span><span>            </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679222343"><span class="annot"><span class="annottext">schema :: OpenApi
-</span><a href="#local-6989586621679222343"><span class="hs-identifier hs-var hs-var">schema</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Module -&gt; OpenApi
+</span><span class="hs-identifier hs-var">errorBundlePretty</span></span><span> </span><span class="annot"><span class="annottext">ParseErrorBundle String Void
+</span><a href="#local-6989586621679229588"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><span id="line-44"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679229589"><span class="annot"><span class="annottext">Module
+</span><a href="#local-6989586621679229589"><span class="hs-identifier hs-var">m'</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-45"></span><span>            </span><span class="hs-keyword">let</span><span> </span><span id="local-6989586621679229590"><span class="annot"><span class="annottext">schema :: OpenApi
+</span><a href="#local-6989586621679229590"><span class="hs-identifier hs-var hs-var">schema</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Module -&gt; OpenApi
 </span><a href="Language.FineTypes.Export.OpenAPI.Schema.html#schemaFromModule"><span class="hs-identifier hs-var">schemaFromModule</span></a></span><span> </span><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679222342"><span class="hs-identifier hs-var">m'</span></a></span><span>
+</span><a href="#local-6989586621679229589"><span class="hs-identifier hs-var">m'</span></a></span><span>
 </span><span id="line-46"></span><span>            </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Schema
-</span><a href="#local-6989586621679222337"><span class="hs-identifier hs-var">optSchema</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621679229583"><span class="hs-identifier hs-var">optSchema</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-47"></span><span>                </span><span class="annot"><a href="Language.FineTypes.Commands.Convert.html#JsonSchema"><span class="hs-identifier hs-type">JsonSchema</span></a></span><span> </span><span class="annot"><span class="annottext">Format
 </span><a href="Language.FineTypes.Commands.Convert.html#Json"><span class="hs-identifier hs-var">Json</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-48"></span><span>                    </span><span class="annot"><span class="annottext">OpenApi -&gt; ByteString
 forall a. ToJSON a =&gt; a -&gt; ByteString
 </span><span class="hs-identifier hs-var">encodePretty</span></span><span> </span><span class="annot"><span class="annottext">OpenApi
-</span><a href="#local-6989586621679222343"><span class="hs-identifier hs-var">schema</span></a></span><span>
+</span><a href="#local-6989586621679229590"><span class="hs-identifier hs-var">schema</span></a></span><span>
 </span><span id="line-49"></span><span>                        </span><span class="annot"><span class="annottext">ByteString -&gt; (ByteString -&gt; IO ()) -&gt; IO ()
 forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">(ByteString -&gt; IO ())
@@ -121,14 +121,14 @@ forall b a. b -&gt; (a -&gt; b) -&gt; Maybe a -&gt; b
 </span><span class="hs-identifier hs-var">maybe</span></span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; IO ()
 </span><span class="hs-identifier hs-var">BL.putStr</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ByteString -&gt; IO ()
 </span><span class="hs-identifier hs-var">BL.writeFile</span></span><span> </span><span class="annot"><span class="annottext">Maybe String
-</span><a href="#local-6989586621679222336"><span class="hs-identifier hs-var">optOutput</span></a></span><span>
+</span><a href="#local-6989586621679229582"><span class="hs-identifier hs-var">optOutput</span></a></span><span>
 </span><span id="line-50"></span><span>                </span><span class="annot"><a href="Language.FineTypes.Commands.Convert.html#JsonSchema"><span class="hs-identifier hs-type">JsonSchema</span></a></span><span> </span><span class="annot"><span class="annottext">Format
 </span><a href="Language.FineTypes.Commands.Convert.html#Yaml"><span class="hs-identifier hs-var">Yaml</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-51"></span><span>                    </span><span class="annot"><span class="annottext">Config -&gt; OpenApi -&gt; ByteString
 forall a. ToJSON a =&gt; Config -&gt; a -&gt; ByteString
 </span><span class="hs-identifier hs-var">Y.encodePretty</span></span><span> </span><span class="annot"><span class="annottext">Config
 </span><span class="hs-identifier hs-var">Y.defConfig</span></span><span> </span><span class="annot"><span class="annottext">OpenApi
-</span><a href="#local-6989586621679222343"><span class="hs-identifier hs-var">schema</span></a></span><span>
+</span><a href="#local-6989586621679229590"><span class="hs-identifier hs-var">schema</span></a></span><span>
 </span><span id="line-52"></span><span>                        </span><span class="annot"><span class="annottext">ByteString -&gt; (ByteString -&gt; IO ()) -&gt; IO ()
 forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">(ByteString -&gt; IO ())
@@ -140,13 +140,13 @@ forall b a. b -&gt; (a -&gt; b) -&gt; Maybe a -&gt; b
 </span><span class="hs-identifier hs-var">maybe</span></span><span> </span><span class="annot"><span class="annottext">ByteString -&gt; IO ()
 </span><span class="hs-identifier hs-var">B.putStr</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ByteString -&gt; IO ()
 </span><span class="hs-identifier hs-var">B.writeFile</span></span><span> </span><span class="annot"><span class="annottext">Maybe String
-</span><a href="#local-6989586621679222336"><span class="hs-identifier hs-var">optOutput</span></a></span><span>
+</span><a href="#local-6989586621679229582"><span class="hs-identifier hs-var">optOutput</span></a></span><span>
 </span><span id="line-53"></span><span>                </span><span class="annot"><span class="annottext">Schema
 </span><a href="Language.FineTypes.Commands.Convert.html#HaskellSchema"><span class="hs-identifier hs-var">HaskellSchema</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-54"></span><span>                    </span><span class="annot"><span class="annottext">HsModule -&gt; String
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#prettyPrint"><span class="hs-identifier hs-var">Hs.prettyPrint</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Module -&gt; HsModule
 </span><a href="Language.FineTypes.Export.Haskell.Typ.html#haskellFromModule"><span class="hs-identifier hs-var">Hs.haskellFromModule</span></a></span><span> </span><span class="annot"><span class="annottext">Module
-</span><a href="#local-6989586621679222342"><span class="hs-identifier hs-var">m'</span></a></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679229589"><span class="hs-identifier hs-var">m'</span></a></span><span class="hs-special">)</span><span>
 </span><span id="line-55"></span><span>                        </span><span class="annot"><span class="annottext">String -&gt; (String -&gt; IO ()) -&gt; IO ()
 forall a b. a -&gt; (a -&gt; b) -&gt; b
 </span><span class="hs-operator hs-var">&amp;</span></span><span> </span><span class="annot"><span class="annottext">(String -&gt; IO ())
@@ -155,8 +155,8 @@ forall b a. b -&gt; (a -&gt; b) -&gt; Maybe a -&gt; b
 </span><span class="hs-identifier hs-var">maybe</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; IO ()
 </span><span class="hs-identifier hs-var">putStr</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; String -&gt; IO ()
 </span><span class="hs-identifier hs-var">writeFile</span></span><span> </span><span class="annot"><span class="annottext">Maybe String
-</span><a href="#local-6989586621679222336"><span class="hs-identifier hs-var">optOutput</span></a></span><span>
+</span><a href="#local-6989586621679229582"><span class="hs-identifier hs-var">optOutput</span></a></span><span>
 </span><span id="line-56"></span><span>            </span><span class="annot"><span class="annottext">String -&gt; IO ()
-</span><a href="#local-6989586621679222339"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679229585"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Success!&quot;</span></span><span>
 </span><span id="line-57"></span></pre></body></html>

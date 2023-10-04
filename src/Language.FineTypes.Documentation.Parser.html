@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Documentation.Parser</span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-4"></span><span>
+</span><span id="line-5"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Applicative</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-operator">(&lt;|&gt;)</span></span><span class="hs-special">)</span><span>
+</span><span id="line-6"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Map</span></span><span class="hs-special">)</span><span>
+</span><span id="line-7"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html"><span class="hs-identifier">Language.FineTypes.Documentation</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Documentation.html#DocString"><span class="hs-identifier">DocString</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Place"><span class="hs-identifier">Place</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-8"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Lexer.html"><span class="hs-identifier">Language.FineTypes.Parser.Lexer</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Parser.Lexer.html#line"><span class="hs-identifier">line</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Lexer.html#space"><span class="hs-identifier">space</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Types.html"><span class="hs-identifier">Language.FineTypes.Parser.Types</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Parser.Types.html#Parser"><span class="hs-identifier">Parser</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Text.Megaparsec</span></span><span>
+</span><span id="line-11"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier">MonadParsec</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">try</span></span><span class="hs-special">)</span><span>
+</span><span id="line-12"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">anySingle</span></span><span>
+</span><span id="line-13"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">manyTill</span></span><span>
+</span><span id="line-14"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">skipMany</span></span><span>
+</span><span id="line-15"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-16"></span><span>
+</span><span id="line-17"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Map</span></span><span>
+</span><span id="line-18"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Text.Megaparsec.Char</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">C</span></span><span>
+</span><span id="line-19"></span><span>
+</span><span id="line-20"></span><span class="annot"><a href="Language.FineTypes.Documentation.Parser.html#documentationPre"><span class="hs-identifier hs-type">documentationPre</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Types.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Place"><span class="hs-identifier hs-type">Place</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#DocString"><span class="hs-identifier hs-type">DocString</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-21"></span><span id="documentationPre"><span class="annot"><span class="annottext">documentationPre :: ParsecT Void String Identity (Map Place String)
+</span><a href="Language.FineTypes.Documentation.Parser.html#documentationPre"><span class="hs-identifier hs-var hs-var">documentationPre</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-22"></span><span>    </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Map Place String)
+-&gt; ParsecT Void String Identity (Map Place String)
+forall a.
+ParsecT Void String Identity a -&gt; ParsecT Void String Identity a
+forall e s (m :: * -&gt; *) a. MonadParsec e s m =&gt; m a -&gt; m a
+</span><span class="hs-identifier hs-var">try</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Place -&gt; String -&gt; Map Place String
+forall k a. k -&gt; a -&gt; Map k a
+</span><span class="hs-identifier hs-var">Map.singleton</span></span><span> </span><span class="annot"><span class="annottext">Place
+</span><a href="Language.FineTypes.Documentation.html#BeforeMultiline"><span class="hs-identifier hs-var">BeforeMultiline</span></a></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Map Place String)
+-&gt; ParsecT Void String Identity String
+-&gt; ParsecT Void String Identity (Map Place String)
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
+</span><a href="Language.FineTypes.Documentation.Parser.html#blockDocumentationPre"><span class="hs-identifier hs-var">blockDocumentationPre</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-23"></span><span>        </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Map Place String)
+-&gt; ParsecT Void String Identity (Map Place String)
+-&gt; ParsecT Void String Identity (Map Place String)
+forall a.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity a -&gt; ParsecT Void String Identity a
+forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
+</span><span class="hs-operator hs-var">&lt;|&gt;</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Place -&gt; String -&gt; Map Place String
+forall k a. k -&gt; a -&gt; Map k a
+</span><span class="hs-identifier hs-var">Map.singleton</span></span><span> </span><span class="annot"><span class="annottext">Place
+</span><a href="Language.FineTypes.Documentation.html#Before"><span class="hs-identifier hs-var">Before</span></a></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Map Place String)
+-&gt; ParsecT Void String Identity String
+-&gt; ParsecT Void String Identity (Map Place String)
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
+</span><a href="Language.FineTypes.Documentation.Parser.html#lineDocumentationPre"><span class="hs-identifier hs-var">lineDocumentationPre</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-24"></span><span>        </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Map Place String)
+-&gt; ParsecT Void String Identity (Map Place String)
+-&gt; ParsecT Void String Identity (Map Place String)
+forall a.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity a -&gt; ParsecT Void String Identity a
+forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
+</span><span class="hs-operator hs-var">&lt;|&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Map Place String)
+forall a. Monoid a =&gt; a
+</span><span class="hs-identifier hs-var">mempty</span></span><span>
+</span><span id="line-25"></span><span>
+</span><span id="line-26"></span><span class="annot"><a href="Language.FineTypes.Documentation.Parser.html#documentationPost"><span class="hs-identifier hs-type">documentationPost</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Types.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier hs-type">Map</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Place"><span class="hs-identifier hs-type">Place</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#DocString"><span class="hs-identifier hs-type">DocString</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-27"></span><span id="documentationPost"><span class="annot"><span class="annottext">documentationPost :: ParsecT Void String Identity (Map Place String)
+</span><a href="Language.FineTypes.Documentation.Parser.html#documentationPost"><span class="hs-identifier hs-var hs-var">documentationPost</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-28"></span><span>    </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Place -&gt; String -&gt; Map Place String
+forall k a. k -&gt; a -&gt; Map k a
+</span><span class="hs-identifier hs-var">Map.singleton</span></span><span> </span><span class="annot"><span class="annottext">Place
+</span><a href="Language.FineTypes.Documentation.html#After"><span class="hs-identifier hs-var">After</span></a></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Map Place String)
+-&gt; ParsecT Void String Identity String
+-&gt; ParsecT Void String Identity (Map Place String)
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
+</span><a href="Language.FineTypes.Documentation.Parser.html#lineDocumentationPost"><span class="hs-identifier hs-var">lineDocumentationPost</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Map Place String)
+-&gt; ParsecT Void String Identity (Map Place String)
+-&gt; ParsecT Void String Identity (Map Place String)
+forall a.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity a -&gt; ParsecT Void String Identity a
+forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
+</span><span class="hs-operator hs-var">&lt;|&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Map Place String)
+forall a. Monoid a =&gt; a
+</span><span class="hs-identifier hs-var">mempty</span></span><span>
+</span><span id="line-29"></span><span>
+</span><span id="line-30"></span><span class="annot"><a href="Language.FineTypes.Documentation.Parser.html#lineDocumentationPre"><span class="hs-identifier hs-type">lineDocumentationPre</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Types.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#DocString"><span class="hs-identifier hs-type">DocString</span></a></span><span>
+</span><span id="line-31"></span><span id="lineDocumentationPre"><span class="annot"><span class="annottext">lineDocumentationPre :: ParsecT Void String Identity String
+</span><a href="Language.FineTypes.Documentation.Parser.html#lineDocumentationPre"><span class="hs-identifier hs-var hs-var">lineDocumentationPre</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-32"></span><span>    </span><span class="annot"><span class="annottext">Tokens String -&gt; ParsecT Void String Identity (Tokens String)
+forall e s (m :: * -&gt; *).
+MonadParsec e s m =&gt;
+Tokens s -&gt; m (Tokens s)
+</span><span class="hs-identifier hs-var">C.string</span></span><span> </span><span class="annot"><span class="annottext">String
+Tokens String
+</span><span class="hs-string">&quot;--|&quot;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Tokens String)
+-&gt; ParsecT Void String Identity ()
+-&gt; ParsecT Void String Identity ()
+forall a b.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity b
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f b
+</span><span class="hs-operator hs-var">*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity () -&gt; ParsecT Void String Identity ()
+forall (m :: * -&gt; *) a. MonadPlus m =&gt; m a -&gt; m ()
+</span><span class="hs-identifier hs-var">skipMany</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity ()
+forall e s (m :: * -&gt; *).
+(MonadParsec e s m, Token s ~ Char) =&gt;
+m ()
+</span><span class="hs-identifier hs-var">C.space1</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity ()
+-&gt; ParsecT Void String Identity String
+-&gt; ParsecT Void String Identity String
+forall a b.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity b
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f b
+</span><span class="hs-operator hs-var">*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
+</span><a href="Language.FineTypes.Parser.Lexer.html#line"><span class="hs-identifier hs-var">line</span></a></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
+-&gt; ParsecT Void String Identity ()
+-&gt; ParsecT Void String Identity String
+forall a b.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity a
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f a
+</span><span class="hs-operator hs-var">&lt;*</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity ()
+</span><a href="Language.FineTypes.Parser.Lexer.html#space"><span class="hs-identifier hs-var">space</span></a></span><span>
+</span><span id="line-33"></span><span>
+</span><span id="line-34"></span><span class="annot"><a href="Language.FineTypes.Documentation.Parser.html#lineDocumentationPost"><span class="hs-identifier hs-type">lineDocumentationPost</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Types.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#DocString"><span class="hs-identifier hs-type">DocString</span></a></span><span>
+</span><span id="line-35"></span><span id="lineDocumentationPost"><span class="annot"><span class="annottext">lineDocumentationPost :: ParsecT Void String Identity String
+</span><a href="Language.FineTypes.Documentation.Parser.html#lineDocumentationPost"><span class="hs-identifier hs-var hs-var">lineDocumentationPost</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-36"></span><span>    </span><span class="annot"><span class="annottext">Tokens String -&gt; ParsecT Void String Identity (Tokens String)
+forall e s (m :: * -&gt; *).
+MonadParsec e s m =&gt;
+Tokens s -&gt; m (Tokens s)
+</span><span class="hs-identifier hs-var">C.string</span></span><span> </span><span class="annot"><span class="annottext">String
+Tokens String
+</span><span class="hs-string">&quot;--^&quot;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Tokens String)
+-&gt; ParsecT Void String Identity ()
+-&gt; ParsecT Void String Identity ()
+forall a b.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity b
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f b
+</span><span class="hs-operator hs-var">*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity () -&gt; ParsecT Void String Identity ()
+forall (m :: * -&gt; *) a. MonadPlus m =&gt; m a -&gt; m ()
+</span><span class="hs-identifier hs-var">skipMany</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity ()
+forall e s (m :: * -&gt; *).
+(MonadParsec e s m, Token s ~ Char) =&gt;
+m ()
+</span><span class="hs-identifier hs-var">C.space1</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity ()
+-&gt; ParsecT Void String Identity String
+-&gt; ParsecT Void String Identity String
+forall a b.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity b
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f b
+</span><span class="hs-operator hs-var">*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
+</span><a href="Language.FineTypes.Parser.Lexer.html#line"><span class="hs-identifier hs-var">line</span></a></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
+-&gt; ParsecT Void String Identity ()
+-&gt; ParsecT Void String Identity String
+forall a b.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity a
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f a
+</span><span class="hs-operator hs-var">&lt;*</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity ()
+</span><a href="Language.FineTypes.Parser.Lexer.html#space"><span class="hs-identifier hs-var">space</span></a></span><span>
+</span><span id="line-37"></span><span>
+</span><span id="line-38"></span><span class="annot"><a href="Language.FineTypes.Documentation.Parser.html#blockDocumentationPre"><span class="hs-identifier hs-type">blockDocumentationPre</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Types.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#DocString"><span class="hs-identifier hs-type">DocString</span></a></span><span>
+</span><span id="line-39"></span><span id="blockDocumentationPre"><span class="annot"><span class="annottext">blockDocumentationPre :: ParsecT Void String Identity String
+</span><a href="Language.FineTypes.Documentation.Parser.html#blockDocumentationPre"><span class="hs-identifier hs-var hs-var">blockDocumentationPre</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-40"></span><span>    </span><span class="annot"><span class="annottext">ParsecT Void String Identity ()
+</span><a href="#local-6989586621679225780"><span class="hs-identifier hs-var">start</span></a></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity ()
+-&gt; ParsecT Void String Identity String
+-&gt; ParsecT Void String Identity String
+forall a b.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity b
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f b
+</span><span class="hs-operator hs-var">*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity Char
+-&gt; ParsecT Void String Identity (Tokens String)
+-&gt; ParsecT Void String Identity String
+forall (m :: * -&gt; *) a end. MonadPlus m =&gt; m a -&gt; m end -&gt; m [a]
+</span><span class="hs-identifier hs-var">manyTill</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity Char
+ParsecT Void String Identity (Token String)
+forall e s (m :: * -&gt; *). MonadParsec e s m =&gt; m (Token s)
+</span><span class="hs-identifier hs-var">anySingle</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Tokens String -&gt; ParsecT Void String Identity (Tokens String)
+forall e s (m :: * -&gt; *).
+MonadParsec e s m =&gt;
+Tokens s -&gt; m (Tokens s)
+</span><span class="hs-identifier hs-var">C.string</span></span><span> </span><span class="annot"><span class="annottext">String
+Tokens String
+</span><span class="hs-string">&quot;-}&quot;</span></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
+-&gt; ParsecT Void String Identity ()
+-&gt; ParsecT Void String Identity String
+forall a b.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity a
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f a
+</span><span class="hs-operator hs-var">&lt;*</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity ()
+</span><a href="Language.FineTypes.Parser.Lexer.html#space"><span class="hs-identifier hs-var">space</span></a></span><span>
+</span><span id="line-41"></span><span>  </span><span class="hs-keyword">where</span><span>
+</span><span id="line-42"></span><span>    </span><span id="local-6989586621679225780"><span class="annot"><span class="annottext">start :: ParsecT Void String Identity ()
+</span><a href="#local-6989586621679225780"><span class="hs-identifier hs-var hs-var">start</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Tokens String -&gt; ParsecT Void String Identity (Tokens String)
+forall e s (m :: * -&gt; *).
+MonadParsec e s m =&gt;
+Tokens s -&gt; m (Tokens s)
+</span><span class="hs-identifier hs-var">C.string</span></span><span> </span><span class="annot"><span class="annottext">String
+Tokens String
+</span><span class="hs-string">&quot;{-|&quot;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Tokens String)
+-&gt; ParsecT Void String Identity ()
+-&gt; ParsecT Void String Identity ()
+forall a b.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity b
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f b
+</span><span class="hs-operator hs-var">*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity () -&gt; ParsecT Void String Identity ()
+forall (m :: * -&gt; *) a. MonadPlus m =&gt; m a -&gt; m ()
+</span><span class="hs-identifier hs-var">skipMany</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity ()
+forall e s (m :: * -&gt; *).
+(MonadParsec e s m, Token s ~ Char) =&gt;
+m ()
+</span><span class="hs-identifier hs-var">C.space1</span></span><span>
+</span><span id="line-43"></span></pre></body></html>

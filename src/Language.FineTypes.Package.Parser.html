@@ -1,60 +1,125 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Package.Parser</span><span>
-</span><span id="line-2"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier">ErrParsePackage</span></a></span><span>
-</span><span id="line-3"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#parsePackageDescription"><span class="hs-identifier">parsePackageDescription</span></a></span><span>
-</span><span id="line-4"></span><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
-</span><span id="line-5"></span><span>
-</span><span id="line-6"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE DeriveGeneric #-}</span><span>
+</span><span id="line-2"></span><span>
+</span><span id="line-3"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Package.Parser</span><span>
+</span><span id="line-4"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier">ErrParsePackage</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-5"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#parsePackageDescription"><span class="hs-identifier">parsePackageDescription</span></a></span><span>
+</span><span id="line-6"></span><span>    </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
 </span><span id="line-7"></span><span>
-</span><span id="line-8"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Void</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Void</span></span><span class="hs-special">)</span><span>
-</span><span id="line-9"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html"><span class="hs-identifier">Language.FineTypes.Package.Description</span></a></span><span>
-</span><span id="line-10"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier">PackageDescription</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier">PackageDescription</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-11"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier">PackageName</span></a></span><span>
-</span><span id="line-12"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier">Source</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-13"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier">Statement</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
-</span><span id="line-14"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html"><span class="hs-identifier">Language.FineTypes.Parser</span></a></span><span>
-</span><span id="line-16"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#moduleName"><span class="hs-identifier">moduleName</span></a></span><span>
-</span><span id="line-17"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#space"><span class="hs-identifier">space</span></a></span><span>
-</span><span id="line-18"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier">symbol</span></a></span><span>
-</span><span id="line-19"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.html#typName"><span class="hs-identifier">typName</span></a></span><span>
+</span><span id="line-8"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-9"></span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Bifunctor</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">first</span></span><span class="hs-special">)</span><span>
+</span><span id="line-11"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.TreeDiff</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">ToExpr</span></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Data.Void</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Void</span></span><span class="hs-special">)</span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">GHC.Generics</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">Generic</span></span><span class="hs-special">)</span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.Parser.html"><span class="hs-identifier">Language.FineTypes.Module.Parser</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.Parser.html#moduleName"><span class="hs-identifier">moduleName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html"><span class="hs-identifier">Language.FineTypes.Package.Description</span></a></span><span>
+</span><span id="line-16"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier">PackageDescription</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier">PackageDescription</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-17"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier">PackageName</span></a></span><span>
+</span><span id="line-18"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier">Source</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-19"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier">Statement</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
 </span><span id="line-20"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-21"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Text.Megaparsec</span></span><span>
-</span><span id="line-22"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier">ParseErrorBundle</span></span><span>
-</span><span id="line-23"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">Parsec</span></span><span>
-</span><span id="line-24"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">between</span></span><span>
-</span><span id="line-25"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">endBy</span></span><span>
-</span><span id="line-26"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">parse</span></span><span>
-</span><span id="line-27"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">takeWhileP</span></span><span>
-</span><span id="line-28"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-operator">(&lt;|&gt;)</span></span><span>
-</span><span id="line-29"></span><span>    </span><span class="hs-special">)</span><span>
-</span><span id="line-30"></span><span>
-</span><span id="line-31"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Text.Megaparsec.Char</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">C</span></span><span>
+</span><span id="line-21"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Common.html"><span class="hs-identifier">Language.FineTypes.Parser.Common</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Parser.Common.html#typName"><span class="hs-identifier">typName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-22"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Lexer.html"><span class="hs-identifier">Language.FineTypes.Parser.Lexer</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Parser.Lexer.html#space"><span class="hs-identifier">space</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Parser.Lexer.html#symbol"><span class="hs-identifier">symbol</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-23"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Text.Megaparsec</span></span><span>
+</span><span id="line-24"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier">ParseErrorBundle</span></span><span>
+</span><span id="line-25"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">Parsec</span></span><span>
+</span><span id="line-26"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">between</span></span><span>
+</span><span id="line-27"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">endBy</span></span><span>
+</span><span id="line-28"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">parse</span></span><span>
+</span><span id="line-29"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">takeWhileP</span></span><span>
+</span><span id="line-30"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-operator">(&lt;|&gt;)</span></span><span>
+</span><span id="line-31"></span><span>    </span><span class="hs-special">)</span><span>
 </span><span id="line-32"></span><span>
-</span><span id="line-33"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+</span><span id="line-33"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Text.Megaparsec.Char</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">C</span></span><span>
+</span><span id="line-34"></span><span>
+</span><span id="line-35"></span><span class="hs-comment">{-----------------------------------------------------------------------------
     Exported functions
 ------------------------------------------------------------------------------}</span><span>
-</span><span id="line-36"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#parsePackageDescription"><span class="hs-identifier hs-type">parsePackageDescription</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier hs-type">ErrParsePackage</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-type">PackageDescription</span></a></span><span>
-</span><span id="line-37"></span><span id="parsePackageDescription"><span class="annot"><span class="annottext">parsePackageDescription :: String -&gt; Either ErrParsePackage PackageDescription
-</span><a href="Language.FineTypes.Package.Parser.html#parsePackageDescription"><span class="hs-identifier hs-var hs-var">parsePackageDescription</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Parsec Void String PackageDescription
--&gt; String -&gt; String -&gt; Either ErrParsePackage PackageDescription
+</span><span id="line-38"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#parsePackageDescription"><span class="hs-identifier hs-type">parsePackageDescription</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Either</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier hs-type">ErrParsePackage</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-type">PackageDescription</span></a></span><span>
+</span><span id="line-39"></span><span id="parsePackageDescription"><span class="annot"><span class="annottext">parsePackageDescription :: String -&gt; Either ErrParsePackage PackageDescription
+</span><a href="Language.FineTypes.Package.Parser.html#parsePackageDescription"><span class="hs-identifier hs-var hs-var">parsePackageDescription</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">(ParseErrorBundle String Void -&gt; ErrParsePackage)
+-&gt; Either (ParseErrorBundle String Void) PackageDescription
+-&gt; Either ErrParsePackage PackageDescription
+forall a b c. (a -&gt; b) -&gt; Either a c -&gt; Either b c
+forall (p :: * -&gt; * -&gt; *) a b c.
+Bifunctor p =&gt;
+(a -&gt; b) -&gt; p a c -&gt; p b c
+</span><span class="hs-identifier hs-var">first</span></span><span> </span><span class="annot"><span class="annottext">ParseErrorBundle String Void -&gt; ErrParsePackage
+</span><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier hs-var">ErrParsePackage</span></a></span><span> </span><span class="annot"><span class="annottext">(Either (ParseErrorBundle String Void) PackageDescription
+ -&gt; Either ErrParsePackage PackageDescription)
+-&gt; (String
+    -&gt; Either (ParseErrorBundle String Void) PackageDescription)
+-&gt; String
+-&gt; Either ErrParsePackage PackageDescription
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">Parsec Void String PackageDescription
+-&gt; String
+-&gt; String
+-&gt; Either (ParseErrorBundle String Void) PackageDescription
 forall e s a.
 Parsec e s a -&gt; String -&gt; s -&gt; Either (ParseErrorBundle s e) a
 </span><span class="hs-identifier hs-var">parse</span></span><span> </span><span class="annot"><span class="annottext">Parsec Void String PackageDescription
 </span><a href="Language.FineTypes.Package.Parser.html#packageFull"><span class="hs-identifier hs-var">packageFull</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;&quot;</span></span><span>
-</span><span id="line-38"></span><span>
-</span><span id="line-39"></span><span class="hs-keyword">type</span><span> </span><span id="ErrParsePackage"><span class="annot"><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier hs-var">ErrParsePackage</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ParseErrorBundle</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Void</span></span><span>
 </span><span id="line-40"></span><span>
-</span><span id="line-41"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+</span><span id="line-41"></span><span class="hs-keyword">newtype</span><span> </span><span id="ErrParsePackage"><span class="annot"><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier hs-var">ErrParsePackage</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span id="ErrParsePackage"><span class="annot"><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier hs-var">ErrParsePackage</span></a></span></span><span>
+</span><span id="line-42"></span><span>    </span><span class="hs-special">{</span><span id="parseErrorBundle"><span class="annot"><span class="annottext">ErrParsePackage -&gt; ParseErrorBundle String Void
+</span><a href="Language.FineTypes.Package.Parser.html#parseErrorBundle"><span class="hs-identifier hs-var hs-var">parseErrorBundle</span></a></span></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">ParseErrorBundle</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Void</span></span><span class="hs-special">}</span><span>
+</span><span id="line-43"></span><span>    </span><span class="hs-keyword">deriving</span><span> </span><span class="hs-special">(</span><span id="local-6989586621679227805"><span id="local-6989586621679227813"><span class="annot"><span class="annottext">ErrParsePackage -&gt; ErrParsePackage -&gt; Bool
+(ErrParsePackage -&gt; ErrParsePackage -&gt; Bool)
+-&gt; (ErrParsePackage -&gt; ErrParsePackage -&gt; Bool)
+-&gt; Eq ErrParsePackage
+forall a. (a -&gt; a -&gt; Bool) -&gt; (a -&gt; a -&gt; Bool) -&gt; Eq a
+$c== :: ErrParsePackage -&gt; ErrParsePackage -&gt; Bool
+== :: ErrParsePackage -&gt; ErrParsePackage -&gt; Bool
+$c/= :: ErrParsePackage -&gt; ErrParsePackage -&gt; Bool
+/= :: ErrParsePackage -&gt; ErrParsePackage -&gt; Bool
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Eq</span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679227824"><span id="local-6989586621679227833"><span id="local-6989586621679227837"><span class="annot"><span class="annottext">Int -&gt; ErrParsePackage -&gt; ShowS
+[ErrParsePackage] -&gt; ShowS
+ErrParsePackage -&gt; String
+(Int -&gt; ErrParsePackage -&gt; ShowS)
+-&gt; (ErrParsePackage -&gt; String)
+-&gt; ([ErrParsePackage] -&gt; ShowS)
+-&gt; Show ErrParsePackage
+forall a.
+(Int -&gt; a -&gt; ShowS) -&gt; (a -&gt; String) -&gt; ([a] -&gt; ShowS) -&gt; Show a
+$cshowsPrec :: Int -&gt; ErrParsePackage -&gt; ShowS
+showsPrec :: Int -&gt; ErrParsePackage -&gt; ShowS
+$cshow :: ErrParsePackage -&gt; String
+show :: ErrParsePackage -&gt; String
+$cshowList :: [ErrParsePackage] -&gt; ShowS
+showList :: [ErrParsePackage] -&gt; ShowS
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var hs-var hs-var">Show</span></span></span></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679227845"><span id="local-6989586621679227847"><span class="annot"><span class="annottext">(forall x. ErrParsePackage -&gt; Rep ErrParsePackage x)
+-&gt; (forall x. Rep ErrParsePackage x -&gt; ErrParsePackage)
+-&gt; Generic ErrParsePackage
+forall x. Rep ErrParsePackage x -&gt; ErrParsePackage
+forall x. ErrParsePackage -&gt; Rep ErrParsePackage x
+forall a.
+(forall x. a -&gt; Rep a x) -&gt; (forall x. Rep a x -&gt; a) -&gt; Generic a
+$cfrom :: forall x. ErrParsePackage -&gt; Rep ErrParsePackage x
+from :: forall x. ErrParsePackage -&gt; Rep ErrParsePackage x
+$cto :: forall x. Rep ErrParsePackage x -&gt; ErrParsePackage
+to :: forall x. Rep ErrParsePackage x -&gt; ErrParsePackage
+</span><span class="hs-identifier hs-var hs-var hs-var hs-var hs-var hs-var">Generic</span></span></span></span><span class="hs-special">)</span><span>
+</span><span id="line-44"></span><span>
+</span><span id="line-45"></span><span class="hs-keyword">instance</span><span> </span><span id="local-6989586621679227852"><span class="annot"><span class="hs-identifier hs-type">ToExpr</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#ErrParsePackage"><span class="hs-identifier hs-type">ErrParsePackage</span></a></span></span><span> </span><span class="hs-keyword">where</span><span>
+</span><span id="line-46"></span><span>    </span><span id="local-6989586621679227860"><span class="annot"><span class="annottext">toExpr :: ErrParsePackage -&gt; Expr
+</span><a href="#local-6989586621679227860"><span class="hs-identifier hs-var hs-var hs-var hs-var">toExpr</span></a></span></span><span> </span><span class="annot"><span class="annottext">ErrParsePackage
+</span><span class="hs-identifier">_</span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">String -&gt; Expr
+forall a. ToExpr a =&gt; a -&gt; Expr
+</span><span class="hs-identifier hs-var">toExpr</span></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;ErrParsePackage&quot;</span></span><span>
+</span><span id="line-47"></span><span>
+</span><span id="line-48"></span><span class="hs-comment">{-----------------------------------------------------------------------------
     Parser
 ------------------------------------------------------------------------------}</span><span>
-</span><span id="line-44"></span><span>
-</span><span id="line-45"></span><span class="hs-keyword">type</span><span> </span><span id="Parser"><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-var">Parser</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Parsec</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Void</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
-</span><span id="line-46"></span><span>
-</span><span id="line-47"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#packageFull"><span class="hs-identifier hs-type">packageFull</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-type">PackageDescription</span></a></span><span>
-</span><span id="line-48"></span><span id="packageFull"><span class="annot"><span class="annottext">packageFull :: Parsec Void String PackageDescription
+</span><span id="line-51"></span><span>
+</span><span id="line-52"></span><span class="hs-keyword">type</span><span> </span><span id="Parser"><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-var">Parser</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Parsec</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">Void</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
+</span><span id="line-53"></span><span>
+</span><span id="line-54"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#packageFull"><span class="hs-identifier hs-type">packageFull</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-type">PackageDescription</span></a></span><span>
+</span><span id="line-55"></span><span id="packageFull"><span class="annot"><span class="annottext">packageFull :: Parsec Void String PackageDescription
 </span><a href="Language.FineTypes.Package.Parser.html#packageFull"><span class="hs-identifier hs-var hs-var">packageFull</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Parser ()
-</span><a href="Language.FineTypes.Parser.html#space"><span class="hs-identifier hs-var">space</span></a></span><span> </span><span class="annot"><span class="annottext">Parser ()
+</span><a href="Language.FineTypes.Parser.Lexer.html#space"><span class="hs-identifier hs-var">space</span></a></span><span> </span><span class="annot"><span class="annottext">Parser ()
 -&gt; Parsec Void String PackageDescription
 -&gt; Parsec Void String PackageDescription
 forall a b.
@@ -63,13 +128,13 @@ ParsecT Void String Identity a
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f b
 </span><span class="hs-operator hs-var">*&gt;</span></span><span> </span><span class="annot"><span class="annottext">Parsec Void String PackageDescription
 </span><a href="Language.FineTypes.Package.Parser.html#package"><span class="hs-identifier hs-var">package</span></a></span><span>
-</span><span id="line-49"></span><span>
-</span><span id="line-50"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#package"><span class="hs-identifier hs-type">package</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-type">PackageDescription</span></a></span><span>
-</span><span id="line-51"></span><span id="package"><span class="annot"><span class="annottext">package :: Parsec Void String PackageDescription
+</span><span id="line-56"></span><span>
+</span><span id="line-57"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#package"><span class="hs-identifier hs-type">package</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-type">PackageDescription</span></a></span><span>
+</span><span id="line-58"></span><span id="package"><span class="annot"><span class="annottext">package :: Parsec Void String PackageDescription
 </span><a href="Language.FineTypes.Package.Parser.html#package"><span class="hs-identifier hs-var hs-var">package</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-52"></span><span>    </span><span class="annot"><span class="annottext">String -&gt; [Statement] -&gt; PackageDescription
+</span><span id="line-59"></span><span>    </span><span class="annot"><span class="annottext">String -&gt; [Statement] -&gt; PackageDescription
 </span><a href="Language.FineTypes.Package.Description.html#PackageDescription"><span class="hs-identifier hs-var">PackageDescription</span></a></span><span>
-</span><span id="line-53"></span><span>        </span><span class="annot"><span class="annottext">(String -&gt; [Statement] -&gt; PackageDescription)
+</span><span id="line-60"></span><span>        </span><span class="annot"><span class="annottext">(String -&gt; [Statement] -&gt; PackageDescription)
 -&gt; ParsecT Void String Identity String
 -&gt; ParsecT
      Void String Identity (String -&gt; [Statement] -&gt; PackageDescription)
@@ -78,9 +143,9 @@ a
 -&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity a
 forall (f :: * -&gt; *) a b. Functor f =&gt; a -&gt; f b -&gt; f a
 </span><span class="hs-operator hs-var">&lt;$</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ParsecT Void String Identity String
-</span><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Language.FineTypes.Parser.Lexer.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;package&quot;</span></span><span>
-</span><span id="line-54"></span><span>        </span><span class="annot"><span class="annottext">ParsecT
+</span><span id="line-61"></span><span>        </span><span class="annot"><span class="annottext">ParsecT
   Void String Identity (String -&gt; [Statement] -&gt; PackageDescription)
 -&gt; ParsecT Void String Identity String
 -&gt; ParsecT Void String Identity ([Statement] -&gt; PackageDescription)
@@ -90,7 +155,7 @@ ParsecT Void String Identity (a -&gt; b)
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
 </span><a href="Language.FineTypes.Package.Parser.html#packageName"><span class="hs-identifier hs-var">packageName</span></a></span><span>
-</span><span id="line-55"></span><span>        </span><span class="annot"><span class="annottext">ParsecT Void String Identity ([Statement] -&gt; PackageDescription)
+</span><span id="line-62"></span><span>        </span><span class="annot"><span class="annottext">ParsecT Void String Identity ([Statement] -&gt; PackageDescription)
 -&gt; ParsecT Void String Identity String
 -&gt; ParsecT Void String Identity ([Statement] -&gt; PackageDescription)
 forall a b.
@@ -98,9 +163,9 @@ ParsecT Void String Identity a
 -&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity a
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f a -&gt; f b -&gt; f a
 </span><span class="hs-operator hs-var">&lt;*</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ParsecT Void String Identity String
-</span><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Language.FineTypes.Parser.Lexer.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;where&quot;</span></span><span>
-</span><span id="line-56"></span><span>        </span><span class="annot"><span class="annottext">ParsecT Void String Identity ([Statement] -&gt; PackageDescription)
+</span><span id="line-63"></span><span>        </span><span class="annot"><span class="annottext">ParsecT Void String Identity ([Statement] -&gt; PackageDescription)
 -&gt; ParsecT Void String Identity [Statement]
 -&gt; Parsec Void String PackageDescription
 forall a b.
@@ -109,22 +174,22 @@ ParsecT Void String Identity (a -&gt; b)
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity [Statement]
 </span><a href="Language.FineTypes.Package.Parser.html#statements"><span class="hs-identifier hs-var">statements</span></a></span><span>
-</span><span id="line-57"></span><span>
-</span><span id="line-58"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#statements"><span class="hs-identifier hs-type">statements</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier hs-type">Statement</span></a></span><span class="hs-special">]</span><span>
-</span><span id="line-59"></span><span id="statements"><span class="annot"><span class="annottext">statements :: ParsecT Void String Identity [Statement]
+</span><span id="line-64"></span><span>
+</span><span id="line-65"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#statements"><span class="hs-identifier hs-type">statements</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier hs-type">Statement</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-66"></span><span id="statements"><span class="annot"><span class="annottext">statements :: ParsecT Void String Identity [Statement]
 </span><a href="Language.FineTypes.Package.Parser.html#statements"><span class="hs-identifier hs-var hs-var">statements</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Parser Statement
 </span><a href="Language.FineTypes.Package.Parser.html#statement"><span class="hs-identifier hs-var">statement</span></a></span><span> </span><span class="annot"><span class="annottext">Parser Statement
 -&gt; ParsecT Void String Identity String
 -&gt; ParsecT Void String Identity [Statement]
 forall (m :: * -&gt; *) a sep. MonadPlus m =&gt; m a -&gt; m sep -&gt; m [a]
 </span><span class="hs-operator hs-var">`endBy`</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ParsecT Void String Identity String
-</span><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Language.FineTypes.Parser.Lexer.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;;&quot;</span></span><span>
-</span><span id="line-60"></span><span>
-</span><span id="line-61"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#statement"><span class="hs-identifier hs-type">statement</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier hs-type">Statement</span></a></span><span>
-</span><span id="line-62"></span><span id="statement"><span class="annot"><span class="annottext">statement :: Parser Statement
+</span><span id="line-67"></span><span>
+</span><span id="line-68"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#statement"><span class="hs-identifier hs-type">statement</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Statement"><span class="hs-identifier hs-type">Statement</span></a></span><span>
+</span><span id="line-69"></span><span id="statement"><span class="annot"><span class="annottext">statement :: Parser Statement
 </span><a href="Language.FineTypes.Package.Parser.html#statement"><span class="hs-identifier hs-var hs-var">statement</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-63"></span><span>    </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Source -&gt; Statement
+</span><span id="line-70"></span><span>    </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Source -&gt; Statement
 </span><a href="Language.FineTypes.Package.Description.html#Include"><span class="hs-identifier hs-var">Include</span></a></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Source -&gt; Statement)
 -&gt; ParsecT Void String Identity String
 -&gt; ParsecT Void String Identity (String -&gt; Source -&gt; Statement)
@@ -133,7 +198,7 @@ a
 -&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity a
 forall (f :: * -&gt; *) a b. Functor f =&gt; a -&gt; f b -&gt; f a
 </span><span class="hs-operator hs-var">&lt;$</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ParsecT Void String Identity String
-</span><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Language.FineTypes.Parser.Lexer.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;include&quot;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity (String -&gt; Source -&gt; Statement)
 -&gt; ParsecT Void String Identity String
 -&gt; ParsecT Void String Identity (Source -&gt; Statement)
@@ -150,7 +215,7 @@ ParsecT Void String Identity (a -&gt; b)
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity Source
 </span><a href="Language.FineTypes.Package.Parser.html#source"><span class="hs-identifier hs-var">source</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-64"></span><span>        </span><span class="annot"><span class="annottext">Parser Statement -&gt; Parser Statement -&gt; Parser Statement
+</span><span id="line-71"></span><span>        </span><span class="annot"><span class="annottext">Parser Statement -&gt; Parser Statement -&gt; Parser Statement
 forall a.
 ParsecT Void String Identity a
 -&gt; ParsecT Void String Identity a -&gt; ParsecT Void String Identity a
@@ -164,7 +229,7 @@ a
 -&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity a
 forall (f :: * -&gt; *) a b. Functor f =&gt; a -&gt; f b -&gt; f a
 </span><span class="hs-operator hs-var">&lt;$</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ParsecT Void String Identity String
-</span><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Language.FineTypes.Parser.Lexer.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;module&quot;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity (String -&gt; Source -&gt; Statement)
 -&gt; ParsecT Void String Identity String
 -&gt; ParsecT Void String Identity (Source -&gt; Statement)
@@ -173,7 +238,7 @@ ParsecT Void String Identity (a -&gt; b)
 -&gt; ParsecT Void String Identity a -&gt; ParsecT Void String Identity b
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
-</span><a href="Language.FineTypes.Parser.html#moduleName"><span class="hs-identifier hs-var">moduleName</span></a></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Source -&gt; Statement)
+</span><a href="Language.FineTypes.Module.Parser.html#moduleName"><span class="hs-identifier hs-var">moduleName</span></a></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Source -&gt; Statement)
 -&gt; ParsecT Void String Identity Source -&gt; Parser Statement
 forall a b.
 ParsecT Void String Identity (a -&gt; b)
@@ -181,7 +246,38 @@ ParsecT Void String Identity (a -&gt; b)
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity Source
 </span><a href="Language.FineTypes.Package.Parser.html#source"><span class="hs-identifier hs-var">source</span></a></span><span class="hs-special">)</span><span>
-</span><span id="line-65"></span><span>        </span><span class="annot"><span class="annottext">Parser Statement -&gt; Parser Statement -&gt; Parser Statement
+</span><span id="line-72"></span><span>        </span><span class="annot"><span class="annottext">Parser Statement -&gt; Parser Statement -&gt; Parser Statement
+forall a.
+ParsecT Void String Identity a
+-&gt; ParsecT Void String Identity a -&gt; ParsecT Void String Identity a
+forall (f :: * -&gt; *) a. Alternative f =&gt; f a -&gt; f a -&gt; f a
+</span><span class="hs-operator hs-var">&lt;|&gt;</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">String -&gt; Source -&gt; Statement
+</span><a href="Language.FineTypes.Package.Description.html#Signature"><span class="hs-identifier hs-var">Signature</span></a></span><span> </span><span class="annot"><span class="annottext">(String -&gt; Source -&gt; Statement)
+-&gt; ParsecT Void String Identity String
+-&gt; ParsecT Void String Identity (String -&gt; Source -&gt; Statement)
+forall a b.
+a
+-&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity a
+forall (f :: * -&gt; *) a b. Functor f =&gt; a -&gt; f b -&gt; f a
+</span><span class="hs-operator hs-var">&lt;$</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ParsecT Void String Identity String
+</span><a href="Language.FineTypes.Parser.Lexer.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><span class="hs-string">&quot;signature&quot;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity (String -&gt; Source -&gt; Statement)
+-&gt; ParsecT Void String Identity String
+-&gt; ParsecT Void String Identity (Source -&gt; Statement)
+forall a b.
+ParsecT Void String Identity (a -&gt; b)
+-&gt; ParsecT Void String Identity a -&gt; ParsecT Void String Identity b
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
+</span><a href="Language.FineTypes.Module.Parser.html#moduleName"><span class="hs-identifier hs-var">moduleName</span></a></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Source -&gt; Statement)
+-&gt; ParsecT Void String Identity Source -&gt; Parser Statement
+forall a b.
+ParsecT Void String Identity (a -&gt; b)
+-&gt; ParsecT Void String Identity a -&gt; ParsecT Void String Identity b
+forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity Source
+</span><a href="Language.FineTypes.Package.Parser.html#source"><span class="hs-identifier hs-var">source</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-73"></span><span>        </span><span class="annot"><span class="annottext">Parser Statement -&gt; Parser Statement -&gt; Parser Statement
 forall a.
 ParsecT Void String Identity a
 -&gt; ParsecT Void String Identity a -&gt; ParsecT Void String Identity a
@@ -194,15 +290,15 @@ a
 -&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity a
 forall (f :: * -&gt; *) a b. Functor f =&gt; a -&gt; f b -&gt; f a
 </span><span class="hs-operator hs-var">&lt;$</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ParsecT Void String Identity String
-</span><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Language.FineTypes.Parser.Lexer.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;assert&quot;</span></span><span class="hs-special">)</span><span>
-</span><span id="line-66"></span><span>
-</span><span id="line-67"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#source"><span class="hs-identifier hs-type">source</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span>
-</span><span id="line-68"></span><span id="source"><span class="annot"><span class="annottext">source :: ParsecT Void String Identity Source
+</span><span id="line-74"></span><span>
+</span><span id="line-75"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#source"><span class="hs-identifier hs-type">source</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#Source"><span class="hs-identifier hs-type">Source</span></a></span><span>
+</span><span id="line-76"></span><span id="source"><span class="annot"><span class="annottext">source :: ParsecT Void String Identity Source
 </span><a href="Language.FineTypes.Package.Parser.html#source"><span class="hs-identifier hs-var hs-var">source</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-69"></span><span>    </span><span class="annot"><span class="annottext">String -&gt; Source
+</span><span id="line-77"></span><span>    </span><span class="annot"><span class="annottext">String -&gt; Source
 </span><a href="Language.FineTypes.Package.Description.html#File"><span class="hs-identifier hs-var">File</span></a></span><span>
-</span><span id="line-70"></span><span>        </span><span class="annot"><span class="annottext">(String -&gt; Source)
+</span><span id="line-78"></span><span>        </span><span class="annot"><span class="annottext">(String -&gt; Source)
 -&gt; ParsecT Void String Identity String
 -&gt; ParsecT Void String Identity (String -&gt; Source)
 forall a b.
@@ -210,9 +306,9 @@ a
 -&gt; ParsecT Void String Identity b -&gt; ParsecT Void String Identity a
 forall (f :: * -&gt; *) a b. Functor f =&gt; a -&gt; f b -&gt; f a
 </span><span class="hs-operator hs-var">&lt;$</span></span><span> </span><span class="annot"><span class="annottext">String -&gt; ParsecT Void String Identity String
-</span><a href="Language.FineTypes.Parser.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="Language.FineTypes.Parser.Lexer.html#symbol"><span class="hs-identifier hs-var">symbol</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;from&quot;</span></span><span>
-</span><span id="line-71"></span><span>        </span><span class="annot"><span class="annottext">ParsecT Void String Identity (String -&gt; Source)
+</span><span id="line-79"></span><span>        </span><span class="annot"><span class="annottext">ParsecT Void String Identity (String -&gt; Source)
 -&gt; ParsecT Void String Identity String
 -&gt; ParsecT Void String Identity Source
 forall a b.
@@ -221,19 +317,19 @@ ParsecT Void String Identity (a -&gt; b)
 forall (f :: * -&gt; *) a b. Applicative f =&gt; f (a -&gt; b) -&gt; f a -&gt; f b
 </span><span class="hs-operator hs-var">&lt;*&gt;</span></span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
 </span><a href="Language.FineTypes.Package.Parser.html#filePath"><span class="hs-identifier hs-var">filePath</span></a></span><span>
-</span><span id="line-72"></span><span>
-</span><span id="line-73"></span><span class="hs-comment">{-----------------------------------------------------------------------------
+</span><span id="line-80"></span><span>
+</span><span id="line-81"></span><span class="hs-comment">{-----------------------------------------------------------------------------
     Lexer
 ------------------------------------------------------------------------------}</span><span>
-</span><span id="line-76"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#packageName"><span class="hs-identifier hs-type">packageName</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span>
-</span><span id="line-77"></span><span id="packageName"><span class="annot"><span class="annottext">packageName :: ParsecT Void String Identity String
+</span><span id="line-84"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#packageName"><span class="hs-identifier hs-type">packageName</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Description.html#PackageName"><span class="hs-identifier hs-type">PackageName</span></a></span><span>
+</span><span id="line-85"></span><span id="packageName"><span class="annot"><span class="annottext">packageName :: ParsecT Void String Identity String
 </span><a href="Language.FineTypes.Package.Parser.html#packageName"><span class="hs-identifier hs-var hs-var">packageName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">ParsecT Void String Identity String
-</span><a href="Language.FineTypes.Parser.html#typName"><span class="hs-identifier hs-var">typName</span></a></span><span>
-</span><span id="line-78"></span><span>
-</span><span id="line-79"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#filePath"><span class="hs-identifier hs-type">filePath</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
-</span><span id="line-80"></span><span id="filePath"><span class="annot"><span class="annottext">filePath :: ParsecT Void String Identity String
+</span><a href="Language.FineTypes.Parser.Common.html#typName"><span class="hs-identifier hs-var">typName</span></a></span><span>
+</span><span id="line-86"></span><span>
+</span><span id="line-87"></span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#filePath"><span class="hs-identifier hs-type">filePath</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Package.Parser.html#Parser"><span class="hs-identifier hs-type">Parser</span></a></span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span>
+</span><span id="line-88"></span><span id="filePath"><span class="annot"><span class="annottext">filePath :: ParsecT Void String Identity String
 </span><a href="Language.FineTypes.Package.Parser.html#filePath"><span class="hs-identifier hs-var hs-var">filePath</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
-</span><span id="line-81"></span><span>    </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Tokens String)
+</span><span id="line-89"></span><span>    </span><span class="annot"><span class="annottext">ParsecT Void String Identity (Tokens String)
 -&gt; ParsecT Void String Identity (Tokens String)
 -&gt; ParsecT Void String Identity String
 -&gt; ParsecT Void String Identity String
@@ -253,7 +349,7 @@ Tokens s -&gt; m (Tokens s)
 </span><span class="hs-identifier hs-var">C.string</span></span><span> </span><span class="annot"><span class="annottext">String
 Tokens String
 </span><span class="hs-string">&quot;\&quot;&quot;</span></span><span class="hs-special">)</span><span>
-</span><span id="line-82"></span><span>        </span><span class="annot"><span class="annottext">(ParsecT Void String Identity String
+</span><span id="line-90"></span><span>        </span><span class="annot"><span class="annottext">(ParsecT Void String Identity String
  -&gt; ParsecT Void String Identity String)
 -&gt; ParsecT Void String Identity String
 -&gt; ParsecT Void String Identity String
@@ -272,4 +368,4 @@ forall (t :: * -&gt; *) a. (Foldable t, Eq a) =&gt; a -&gt; t a -&gt; Bool
 </span><span class="hs-operator hs-var">`notElem`</span></span><span> </span><span class="annot"><span class="annottext">String
 [Token String]
 </span><span class="hs-string">&quot;\&quot;\n&quot;</span></span><span class="hs-special">)</span><span>
-</span><span id="line-83"></span></pre></body></html>
+</span><span id="line-91"></span></pre></body></html>

@@ -8,32 +8,32 @@
 </span><span id="line-8"></span><span>
 </span><span id="line-9"></span><span class="annot"><a href="Language.FineTypes.Commands.Common.html#readInput"><span class="hs-identifier hs-type">readInput</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Tracer</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Maybe</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">FilePath</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span>
 </span><span id="line-10"></span><span id="readInput"><span class="annot"><span class="annottext">readInput :: Tracer IO String -&gt; Maybe String -&gt; IO String
-</span><a href="Language.FineTypes.Commands.Common.html#readInput"><span class="hs-identifier hs-var hs-var">readInput</span></a></span></span><span> </span><span id="local-6989586621679217123"><span class="annot"><span class="annottext">Tracer IO String
-</span><a href="#local-6989586621679217123"><span class="hs-identifier hs-var">tracer</span></a></span></span><span> </span><span id="local-6989586621679217124"><span class="annot"><span class="annottext">Maybe String
-</span><a href="#local-6989586621679217124"><span class="hs-identifier hs-var">optInput</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
+</span><a href="Language.FineTypes.Commands.Common.html#readInput"><span class="hs-identifier hs-var hs-var">readInput</span></a></span></span><span> </span><span id="local-6989586621679222427"><span class="annot"><span class="annottext">Tracer IO String
+</span><a href="#local-6989586621679222427"><span class="hs-identifier hs-var">tracer</span></a></span></span><span> </span><span id="local-6989586621679222428"><span class="annot"><span class="annottext">Maybe String
+</span><a href="#local-6989586621679222428"><span class="hs-identifier hs-var">optInput</span></a></span></span><span> </span><span class="hs-glyph">=</span><span>
 </span><span id="line-11"></span><span>    </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Maybe String
-</span><a href="#local-6989586621679217124"><span class="hs-identifier hs-var">optInput</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><a href="#local-6989586621679222428"><span class="hs-identifier hs-var">optInput</span></a></span><span> </span><span class="hs-keyword">of</span><span>
 </span><span id="line-12"></span><span>        </span><span class="annot"><span class="annottext">Maybe String
 </span><span class="hs-identifier hs-var">Nothing</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-13"></span><span>            </span><span class="annot"><span class="annottext">Tracer IO String -&gt; String -&gt; IO ()
 forall (m :: * -&gt; *) a. Monad m =&gt; Tracer m a -&gt; a -&gt; m ()
 </span><span class="hs-identifier hs-var">traceWith</span></span><span> </span><span class="annot"><span class="annottext">Tracer IO String
-</span><a href="#local-6989586621679217123"><span class="hs-identifier hs-var">tracer</span></a></span><span> </span><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679222427"><span class="hs-identifier hs-var">tracer</span></a></span><span> </span><span class="annot"><span class="annottext">String
 </span><span class="hs-string">&quot;Reading from stdin&quot;</span></span><span>
 </span><span id="line-14"></span><span>            </span><span class="annot"><span class="annottext">IO String
 </span><span class="hs-identifier hs-var">getContents</span></span><span>
-</span><span id="line-15"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679217126"><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679217126"><span class="hs-identifier hs-var">inputFile</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><span id="line-15"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Just</span></span><span> </span><span id="local-6989586621679222430"><span class="annot"><span class="annottext">String
+</span><a href="#local-6989586621679222430"><span class="hs-identifier hs-var">inputFile</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span>
 </span><span id="line-16"></span><span>            </span><span class="annot"><span class="annottext">String -&gt; IO String
 </span><span class="hs-identifier hs-var">readFile</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679217126"><span class="hs-identifier hs-var">inputFile</span></a></span><span> </span><span class="annot"><span class="annottext">IO String -&gt; (IOError -&gt; IO String) -&gt; IO String
+</span><a href="#local-6989586621679222430"><span class="hs-identifier hs-var">inputFile</span></a></span><span> </span><span class="annot"><span class="annottext">IO String -&gt; (IOError -&gt; IO String) -&gt; IO String
 forall e a. Exception e =&gt; IO a -&gt; (e -&gt; IO a) -&gt; IO a
-</span><span class="hs-operator hs-var">`catch`</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679217128"><span class="annot"><span class="annottext">IOError
-</span><a href="#local-6989586621679217128"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span class="hs-operator hs-var">`catch`</span></span><span> </span><span class="hs-glyph">\</span><span id="local-6989586621679222432"><span class="annot"><span class="annottext">IOError
+</span><a href="#local-6989586621679222432"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-17"></span><span>                </span><span class="annot"><span class="annottext">Tracer IO String -&gt; String -&gt; IO ()
 forall (m :: * -&gt; *) a. Monad m =&gt; Tracer m a -&gt; a -&gt; m ()
 </span><span class="hs-identifier hs-var">traceWith</span></span><span> </span><span class="annot"><span class="annottext">Tracer IO String
-</span><a href="#local-6989586621679217123"><span class="hs-identifier hs-var">tracer</span></a></span><span>
+</span><a href="#local-6989586621679222427"><span class="hs-identifier hs-var">tracer</span></a></span><span>
 </span><span id="line-18"></span><span>                    </span><span class="annot"><span class="annottext">(String -&gt; IO ()) -&gt; String -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">String
@@ -41,7 +41,7 @@ forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span id="line-19"></span><span>                        </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
-</span><a href="#local-6989586621679217126"><span class="hs-identifier hs-var">inputFile</span></a></span><span>
+</span><a href="#local-6989586621679222430"><span class="hs-identifier hs-var">inputFile</span></a></span><span>
 </span><span id="line-20"></span><span>                        </span><span class="annot"><span class="annottext">String -&gt; String -&gt; String
 forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">String
@@ -51,7 +51,7 @@ forall a. Semigroup a =&gt; a -&gt; a -&gt; a
 </span><span class="hs-operator hs-var">&lt;&gt;</span></span><span> </span><span class="annot"><span class="annottext">IOError -&gt; String
 forall a. Show a =&gt; a -&gt; String
 </span><span class="hs-identifier hs-var">show</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">IOError
-</span><a href="#local-6989586621679217128"><span class="hs-identifier hs-var">e</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IOError</span></span><span class="hs-special">)</span><span>
+</span><a href="#local-6989586621679222432"><span class="hs-identifier hs-var">e</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IOError</span></span><span class="hs-special">)</span><span>
 </span><span id="line-22"></span><span>                </span><span class="annot"><span class="annottext">IO String
 forall a. IO a
 </span><span class="hs-identifier hs-var">exitFailure</span></span><span>

@@ -26,77 +26,77 @@
 </span><span id="line-24"></span><span>
 </span><span id="line-25"></span><span class="annot"><a href="Language.FineTypes.Commands.Check.html#check"><span class="hs-identifier hs-type">check</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Tracer</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="annot"><span class="hs-identifier hs-type">String</span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Check.html#CheckOptions"><span class="hs-identifier hs-type">CheckOptions</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="hs-identifier hs-type">IO</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
 </span><span id="line-26"></span><span id="check"><span class="annot"><span class="annottext">check :: Tracer IO FilePath -&gt; CheckOptions -&gt; IO ()
-</span><a href="Language.FineTypes.Commands.Check.html#check"><span class="hs-identifier hs-var hs-var">check</span></a></span></span><span> </span><span id="local-6989586621679220214"><span class="annot"><span class="annottext">Tracer IO FilePath
-</span><a href="#local-6989586621679220214"><span class="hs-identifier hs-var">tracer</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Check.html#CheckOptions"><span class="hs-identifier hs-type">CheckOptions</span></a></span><span class="hs-special">{</span><span id="local-6989586621679220215"><span id="local-6989586621679220216"><span class="annot"><span class="annottext">FilePath
+</span><a href="Language.FineTypes.Commands.Check.html#check"><span class="hs-identifier hs-var hs-var">check</span></a></span></span><span> </span><span id="local-6989586621679228592"><span class="annot"><span class="annottext">Tracer IO FilePath
+</span><a href="#local-6989586621679228592"><span class="hs-identifier hs-var">tracer</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Commands.Check.html#CheckOptions"><span class="hs-identifier hs-type">CheckOptions</span></a></span><span class="hs-special">{</span><span id="local-6989586621679228593"><span id="local-6989586621679228594"><span class="annot"><span class="annottext">FilePath
 Maybe FilePath
 optInput :: CheckOptions -&gt; Maybe FilePath
 optDir :: CheckOptions -&gt; FilePath
 optInput :: Maybe FilePath
 optDir :: FilePath
 </span><a href="Language.FineTypes.Commands.Check.html#optInput"><span class="hs-glyph hs-var hs-var hs-var hs-var">..</span></a></span></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
-</span><span id="line-27"></span><span>    </span><span id="local-6989586621679220217"><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679220217"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Tracer IO FilePath -&gt; Maybe FilePath -&gt; IO FilePath
+</span><span id="line-27"></span><span>    </span><span id="local-6989586621679228595"><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679228595"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Tracer IO FilePath -&gt; Maybe FilePath -&gt; IO FilePath
 </span><a href="Language.FineTypes.Commands.Common.html#readInput"><span class="hs-identifier hs-var">readInput</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">FilePath -&gt; Tracer IO FilePath -&gt; Tracer IO FilePath
 </span><a href="Language.FineTypes.Commands.Log.html#inside"><span class="hs-identifier hs-var">inside</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
 </span><span class="hs-string">&quot;readInput&quot;</span></span><span> </span><span class="annot"><span class="annottext">Tracer IO FilePath
-</span><a href="#local-6989586621679220214"><span class="hs-identifier hs-var">tracer</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Maybe FilePath
-</span><a href="#local-6989586621679220215"><span class="hs-identifier hs-var">optInput</span></a></span><span>
+</span><a href="#local-6989586621679228592"><span class="hs-identifier hs-var">tracer</span></a></span><span class="hs-special">)</span><span> </span><span class="annot"><span class="annottext">Maybe FilePath
+</span><a href="#local-6989586621679228593"><span class="hs-identifier hs-var">optInput</span></a></span><span>
 </span><span id="line-28"></span><span>    </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">FilePath -&gt; Either ErrParsePackage PackageDescription
 </span><a href="Language.FineTypes.Package.Parser.html#parsePackageDescription"><span class="hs-identifier hs-var">parsePackageDescription</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679220217"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-29"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679220218"><span class="annot"><span class="annottext">ErrParsePackage
-</span><a href="#local-6989586621679220218"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a href="#local-6989586621679228595"><span class="hs-identifier hs-var">m</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-29"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679228596"><span class="annot"><span class="annottext">ErrParsePackage
+</span><a href="#local-6989586621679228596"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-30"></span><span>            </span><span class="annot"><span class="annottext">FilePath -&gt; IO ()
-</span><a href="#local-6989586621679220219"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679228597"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
 </span><span class="hs-string">&quot;Failed to parse input file:&quot;</span></span><span>
 </span><span id="line-31"></span><span>            </span><span class="annot"><span class="annottext">FilePath -&gt; IO ()
-</span><a href="#local-6989586621679220219"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">(FilePath -&gt; IO ()) -&gt; FilePath -&gt; IO ()
+</span><a href="#local-6989586621679228597"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">(FilePath -&gt; IO ()) -&gt; FilePath -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ErrParsePackage -&gt; FilePath
 </span><a href="Language.FineTypes.Commands.Check.PrettyPrinter.html#renderParsePackageError"><span class="hs-identifier hs-var">renderParsePackageError</span></a></span><span> </span><span class="annot"><span class="annottext">ErrParsePackage
-</span><a href="#local-6989586621679220218"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><a href="#local-6989586621679228596"><span class="hs-identifier hs-var">e</span></a></span><span>
 </span><span id="line-32"></span><span>            </span><span class="annot"><span class="annottext">IO ()
 forall a. IO a
 </span><span class="hs-identifier hs-var">exitFailure</span></span><span>
-</span><span id="line-33"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679220220"><span class="annot"><span class="annottext">PackageDescription
-</span><a href="#local-6989586621679220220"><span class="hs-identifier hs-var">pd</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-33"></span><span>        </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679228598"><span class="annot"><span class="annottext">PackageDescription
+</span><a href="#local-6989586621679228598"><span class="hs-identifier hs-var">pd</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-34"></span><span>            </span><span class="annot"><span class="annottext">FilePath -&gt; IO ()
-</span><a href="#local-6989586621679220219"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679228597"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
 </span><span class="hs-string">&quot;Checking...&quot;</span></span><span>
-</span><span id="line-35"></span><span>            </span><span id="local-6989586621679220221"><span class="annot"><span class="annottext">Either ErrCompilePackage Package
-</span><a href="#local-6989586621679220221"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FilePath
+</span><span id="line-35"></span><span>            </span><span id="local-6989586621679228599"><span class="annot"><span class="annottext">Either ErrCompilePackage Package
+</span><a href="#local-6989586621679228599"><span class="hs-identifier hs-var">r</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">FilePath
 -&gt; PackageDescription -&gt; IO (Either ErrCompilePackage Package)
 </span><a href="Language.FineTypes.Package.Compile.html#compilePackageDescription"><span class="hs-identifier hs-var">compilePackageDescription</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
-</span><a href="#local-6989586621679220216"><span class="hs-identifier hs-var">optDir</span></a></span><span> </span><span class="annot"><span class="annottext">PackageDescription
-</span><a href="#local-6989586621679220220"><span class="hs-identifier hs-var">pd</span></a></span><span>
+</span><a href="#local-6989586621679228594"><span class="hs-identifier hs-var">optDir</span></a></span><span> </span><span class="annot"><span class="annottext">PackageDescription
+</span><a href="#local-6989586621679228598"><span class="hs-identifier hs-var">pd</span></a></span><span>
 </span><span id="line-36"></span><span>            </span><span class="hs-keyword">case</span><span> </span><span class="annot"><span class="annottext">Either ErrCompilePackage Package
-</span><a href="#local-6989586621679220221"><span class="hs-identifier hs-var">r</span></a></span><span> </span><span class="hs-keyword">of</span><span>
-</span><span id="line-37"></span><span>                </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679220222"><span class="annot"><span class="annottext">ErrCompilePackage
-</span><a href="#local-6989586621679220222"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
+</span><a href="#local-6989586621679228599"><span class="hs-identifier hs-var">r</span></a></span><span> </span><span class="hs-keyword">of</span><span>
+</span><span id="line-37"></span><span>                </span><span class="annot"><span class="hs-identifier hs-type">Left</span></span><span> </span><span id="local-6989586621679228600"><span class="annot"><span class="annottext">ErrCompilePackage
+</span><a href="#local-6989586621679228600"><span class="hs-identifier hs-var">e</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">do</span><span>
 </span><span id="line-38"></span><span>                    </span><span class="annot"><span class="annottext">FilePath -&gt; IO ()
-</span><a href="#local-6989586621679220219"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679228597"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
 </span><span class="hs-string">&quot;Failed to compile package description:&quot;</span></span><span>
 </span><span id="line-39"></span><span>                    </span><span class="annot"><span class="annottext">FilePath -&gt; IO ()
-</span><a href="#local-6989586621679220219"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">(FilePath -&gt; IO ()) -&gt; FilePath -&gt; IO ()
+</span><a href="#local-6989586621679228597"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">(FilePath -&gt; IO ()) -&gt; FilePath -&gt; IO ()
 forall a b. (a -&gt; b) -&gt; a -&gt; b
 </span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">ErrCompilePackage -&gt; FilePath
 </span><a href="Language.FineTypes.Commands.Check.PrettyPrinter.html#renderCompilePackageError"><span class="hs-identifier hs-var">renderCompilePackageError</span></a></span><span> </span><span class="annot"><span class="annottext">ErrCompilePackage
-</span><a href="#local-6989586621679220222"><span class="hs-identifier hs-var">e</span></a></span><span>
+</span><a href="#local-6989586621679228600"><span class="hs-identifier hs-var">e</span></a></span><span>
 </span><span id="line-40"></span><span>                    </span><span class="annot"><span class="annottext">IO ()
 forall a. IO a
 </span><span class="hs-identifier hs-var">exitFailure</span></span><span>
-</span><span id="line-41"></span><span>                </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679220223"><span class="annot"><span class="annottext">Package
-</span><a href="#local-6989586621679220223"><span class="hs-identifier hs-var">_p</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">() -&gt; IO ()
+</span><span id="line-41"></span><span>                </span><span class="annot"><span class="hs-identifier hs-type">Right</span></span><span> </span><span id="local-6989586621679228601"><span class="annot"><span class="annottext">Package
+</span><a href="#local-6989586621679228601"><span class="hs-identifier hs-var">_p</span></a></span></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><span class="annottext">() -&gt; IO ()
 forall a. a -&gt; IO a
 forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
 </span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-special">(</span><span class="hs-special">)</span><span>
 </span><span id="line-42"></span><span>    </span><span class="annot"><span class="annottext">FilePath -&gt; IO ()
-</span><a href="#local-6989586621679220219"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
+</span><a href="#local-6989586621679228597"><span class="hs-identifier hs-var">trace</span></a></span><span> </span><span class="annot"><span class="annottext">FilePath
 </span><span class="hs-string">&quot;Success!&quot;</span></span><span>
 </span><span id="line-43"></span><span>  </span><span class="hs-keyword">where</span><span>
-</span><span id="line-44"></span><span>    </span><span id="local-6989586621679220219"><span class="annot"><span class="annottext">trace :: FilePath -&gt; IO ()
-</span><a href="#local-6989586621679220219"><span class="hs-identifier hs-var hs-var">trace</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Tracer IO FilePath -&gt; FilePath -&gt; IO ()
+</span><span id="line-44"></span><span>    </span><span id="local-6989586621679228597"><span class="annot"><span class="annottext">trace :: FilePath -&gt; IO ()
+</span><a href="#local-6989586621679228597"><span class="hs-identifier hs-var hs-var">trace</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">Tracer IO FilePath -&gt; FilePath -&gt; IO ()
 forall (m :: * -&gt; *) a. Monad m =&gt; Tracer m a -&gt; a -&gt; m ()
 </span><span class="hs-identifier hs-var">traceWith</span></span><span> </span><span class="annot"><span class="annottext">Tracer IO FilePath
-</span><a href="#local-6989586621679220214"><span class="hs-identifier hs-var">tracer</span></a></span><span>
+</span><a href="#local-6989586621679228592"><span class="hs-identifier hs-var">tracer</span></a></span><span>
 </span><span id="line-45"></span></pre></body></html>

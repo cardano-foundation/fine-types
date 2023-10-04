@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE NamedFieldPuns #-}</span><span>
+</span><span id="line-2"></span><span class="hs-pragma">{-# LANGUAGE RecordWildCards #-}</span><span>
+</span><span id="line-3"></span><span>
+</span><span id="line-4"></span><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Language.FineTypes.Signature.Gen</span><span>
+</span><span id="line-5"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.Gen.html#genSignature"><span class="hs-identifier">genSignature</span></a></span><span>
+</span><span id="line-6"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.Gen.html#shrinkSignature"><span class="hs-identifier">shrinkSignature</span></a></span><span>
+</span><span id="line-7"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-8"></span><span class="hs-keyword">where</span><span>
+</span><span id="line-9"></span><span>
+</span><span id="line-10"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Prelude</span></span><span>
+</span><span id="line-11"></span><span>
+</span><span id="line-12"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad.Trans.Class</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">lift</span></span><span class="hs-special">)</span><span>
+</span><span id="line-13"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad.Trans.State</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">evalStateT</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">get</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">modify</span></span><span class="hs-special">)</span><span>
+</span><span id="line-14"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Control.Monad.Trans.Writer</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">runWriter</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">tell</span></span><span class="hs-special">)</span><span>
+</span><span id="line-15"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html"><span class="hs-identifier">Language.FineTypes.Documentation</span></a></span><span>
+</span><span id="line-16"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier">Documentation</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-17"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Identifier"><span class="hs-identifier">Identifier</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-18"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-19"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.Gen.html"><span class="hs-identifier">Language.FineTypes.Documentation.Gen</span></a></span><span>
+</span><span id="line-20"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.Gen.html#GenerateUniqueWithDocs"><span class="hs-identifier">GenerateUniqueWithDocs</span></a></span><span>
+</span><span id="line-21"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.Gen.html#genDocumentation"><span class="hs-identifier">genDocumentation</span></a></span><span>
+</span><span id="line-22"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-23"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html"><span class="hs-identifier">Language.FineTypes.Module</span></a></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier">ModuleName</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-24"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html"><span class="hs-identifier">Language.FineTypes.Signature</span></a></span><span>
+</span><span id="line-25"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Declarations"><span class="hs-identifier">Declarations</span></a></span><span>
+</span><span id="line-26"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier">Signature</span></a></span><span> </span><span class="hs-special">(</span><span class="hs-glyph">..</span><span class="hs-special">)</span><span>
+</span><span id="line-27"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-28"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html"><span class="hs-identifier">Language.FineTypes.Typ</span></a></span><span>
+</span><span id="line-29"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier">TypName</span></a></span><span>
+</span><span id="line-30"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-31"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.Gen.html"><span class="hs-identifier">Language.FineTypes.Typ.Gen</span></a></span><span>
+</span><span id="line-32"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.Gen.html#capitalise"><span class="hs-identifier">capitalise</span></a></span><span>
+</span><span id="line-33"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.Gen.html#genName"><span class="hs-identifier">genName</span></a></span><span>
+</span><span id="line-34"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.Gen.html#logScale"><span class="hs-identifier">logScale</span></a></span><span>
+</span><span id="line-35"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-36"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">QuickCheck.GenT</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">MonadGen</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="hs-identifier">liftGen</span></span><span class="hs-special">)</span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">runGenT</span></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">suchThat</span></span><span class="hs-special">)</span><span>
+</span><span id="line-37"></span><span class="hs-keyword">import</span><span> </span><span class="annot"><span class="hs-identifier">Test.QuickCheck</span></span><span>
+</span><span id="line-38"></span><span>    </span><span class="hs-special">(</span><span> </span><span class="annot"><span class="hs-identifier">Gen</span></span><span>
+</span><span id="line-39"></span><span>    </span><span class="hs-special">,</span><span> </span><span class="annot"><span class="hs-identifier">shrink</span></span><span>
+</span><span id="line-40"></span><span>    </span><span class="hs-special">)</span><span>
+</span><span id="line-41"></span><span>
+</span><span id="line-42"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Map</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Map</span></span><span>
+</span><span id="line-43"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">Data.Set</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">Set</span></span><span>
+</span><span id="line-44"></span><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="annot"><span class="hs-identifier">QuickCheck.GenT</span></span><span> </span><span class="hs-keyword">as</span><span> </span><span class="annot"><span class="hs-identifier">GenT</span></span><span>
+</span><span id="line-45"></span><span>
+</span><span id="line-46"></span><span class="annot"><a href="Language.FineTypes.Signature.Gen.html#genSignature"><span class="hs-identifier hs-type">genSignature</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span><span>
+</span><span id="line-47"></span><span id="genSignature"><span class="annot"><span class="annottext">genSignature :: Gen Signature
+</span><a href="Language.FineTypes.Signature.Gen.html#genSignature"><span class="hs-identifier hs-var hs-var">genSignature</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-48"></span><span>    </span><span id="local-6989586621679226663"><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679226663"><span class="hs-identifier hs-var">signatureName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen TypName
+</span><a href="Language.FineTypes.Signature.Gen.html#genSignatureName"><span class="hs-identifier hs-var">genSignatureName</span></a></span><span>
+</span><span id="line-49"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679226665"><span class="annot"><span class="annottext">Set TypName
+</span><a href="#local-6989586621679226665"><span class="hs-identifier hs-var">signatureDeclarations</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679226666"><span class="annot"><span class="annottext">Documentation
+</span><a href="#local-6989586621679226666"><span class="hs-identifier hs-var">signatureDocumentation</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span>
+</span><span id="line-50"></span><span>        </span><span class="annot"><span class="annottext">Double
+-&gt; Gen (Set TypName, Documentation)
+-&gt; Gen (Set TypName, Documentation)
+forall a. Double -&gt; Gen a -&gt; Gen a
+</span><a href="Language.FineTypes.Typ.Gen.html#logScale"><span class="hs-identifier hs-var">logScale</span></a></span><span> </span><span class="annot"><span class="annottext">Double
+</span><span class="hs-number">1.1</span></span><span> </span><span class="annot"><span class="annottext">Gen (Set TypName, Documentation)
+</span><a href="Language.FineTypes.Signature.Gen.html#genDeclarations"><span class="hs-identifier hs-var">genDeclarations</span></a></span><span>
+</span><span id="line-51"></span><span>    </span><span class="annot"><span class="annottext">Signature -&gt; Gen Signature
+forall a. a -&gt; Gen a
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span><span class="hs-special">{</span><span class="annot"><span class="annottext">TypName
+Set TypName
+Documentation
+signatureName :: TypName
+signatureDeclarations :: Set TypName
+signatureDocumentation :: Documentation
+signatureName :: TypName
+signatureDeclarations :: Set TypName
+signatureDocumentation :: Documentation
+</span><a href="#local-6989586621679226663"><span class="hs-glyph hs-var hs-var hs-var hs-var hs-var hs-var">..</span></a></span><span class="hs-special">}</span><span>
+</span><span id="line-52"></span><span>
+</span><span id="line-53"></span><span class="annot"><a href="Language.FineTypes.Signature.Gen.html#genDeclarations"><span class="hs-identifier hs-type">genDeclarations</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="hs-special">(</span><span class="annot"><a href="Language.FineTypes.Signature.html#Declarations"><span class="hs-identifier hs-type">Declarations</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-54"></span><span id="genDeclarations"><span class="annot"><span class="annottext">genDeclarations :: Gen (Set TypName, Documentation)
+</span><a href="Language.FineTypes.Signature.Gen.html#genDeclarations"><span class="hs-identifier hs-var hs-var">genDeclarations</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-55"></span><span>    </span><span class="hs-special">(</span><span id="local-6989586621679226672"><span class="annot"><span class="annottext">[TypName]
+</span><a href="#local-6989586621679226672"><span class="hs-identifier hs-var">ds</span></a></span></span><span class="hs-special">,</span><span> </span><span id="local-6989586621679226673"><span class="annot"><span class="annottext">Documentation
+</span><a href="#local-6989586621679226673"><span class="hs-identifier hs-var">d</span></a></span></span><span class="hs-special">)</span><span> </span><span class="hs-glyph">&lt;-</span><span>
+</span><span id="line-56"></span><span>        </span><span class="annot"><span class="annottext">(StateT (Set TypName) (Writer Documentation) [TypName]
+ -&gt; ([TypName], Documentation))
+-&gt; Gen (StateT (Set TypName) (Writer Documentation) [TypName])
+-&gt; Gen ([TypName], Documentation)
+forall a b. (a -&gt; b) -&gt; Gen a -&gt; Gen b
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-identifier hs-var">fmap</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">Writer Documentation [TypName] -&gt; ([TypName], Documentation)
+forall w a. Writer w a -&gt; (a, w)
+</span><span class="hs-identifier hs-var">runWriter</span></span><span> </span><span class="annot"><span class="annottext">(Writer Documentation [TypName] -&gt; ([TypName], Documentation))
+-&gt; (StateT (Set TypName) (Writer Documentation) [TypName]
+    -&gt; Writer Documentation [TypName])
+-&gt; StateT (Set TypName) (Writer Documentation) [TypName]
+-&gt; ([TypName], Documentation)
+forall b c a. (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c
+</span><span class="hs-operator hs-var">.</span></span><span> </span><span class="annot"><span class="annottext">(StateT (Set TypName) (Writer Documentation) [TypName]
+ -&gt; Set TypName -&gt; Writer Documentation [TypName])
+-&gt; Set TypName
+-&gt; StateT (Set TypName) (Writer Documentation) [TypName]
+-&gt; Writer Documentation [TypName]
+forall a b c. (a -&gt; b -&gt; c) -&gt; b -&gt; a -&gt; c
+</span><span class="hs-identifier hs-var">flip</span></span><span> </span><span class="annot"><span class="annottext">StateT (Set TypName) (Writer Documentation) [TypName]
+-&gt; Set TypName -&gt; Writer Documentation [TypName]
+forall (m :: * -&gt; *) s a. Monad m =&gt; StateT s m a -&gt; s -&gt; m a
+</span><span class="hs-identifier hs-var">evalStateT</span></span><span> </span><span class="annot"><span class="annottext">Set TypName
+forall a. Monoid a =&gt; a
+</span><span class="hs-identifier hs-var">mempty</span></span><span class="hs-special">)</span><span>
+</span><span id="line-57"></span><span>            </span><span class="annot"><span class="annottext">(Gen (StateT (Set TypName) (Writer Documentation) [TypName])
+ -&gt; Gen ([TypName], Documentation))
+-&gt; Gen (StateT (Set TypName) (Writer Documentation) [TypName])
+-&gt; Gen ([TypName], Documentation)
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">GenT (StateT (Set TypName) (Writer Documentation)) [TypName]
+-&gt; Gen (StateT (Set TypName) (Writer Documentation) [TypName])
+forall (m :: * -&gt; *) a. GenT m a -&gt; Gen (m a)
+</span><span class="hs-identifier hs-var">runGenT</span></span><span>
+</span><span id="line-58"></span><span>            </span><span class="annot"><span class="annottext">(GenT (StateT (Set TypName) (Writer Documentation)) [TypName]
+ -&gt; Gen (StateT (Set TypName) (Writer Documentation) [TypName]))
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) [TypName]
+-&gt; Gen (StateT (Set TypName) (Writer Documentation) [TypName])
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">GenT (StateT (Set TypName) (Writer Documentation)) TypName
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) [TypName]
+forall (m :: * -&gt; *) a. MonadGen m =&gt; m a -&gt; m [a]
+</span><span class="hs-identifier hs-var">GenT.listOf</span></span><span> </span><span class="annot"><span class="annottext">GenT (StateT (Set TypName) (Writer Documentation)) TypName
+</span><a href="Language.FineTypes.Signature.Gen.html#genDeclaration"><span class="hs-identifier hs-var">genDeclaration</span></a></span><span>
+</span><span id="line-59"></span><span>    </span><span class="annot"><span class="annottext">(Set TypName, Documentation) -&gt; Gen (Set TypName, Documentation)
+forall a. a -&gt; Gen a
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">[TypName] -&gt; Set TypName
+forall a. Ord a =&gt; [a] -&gt; Set a
+</span><span class="hs-identifier hs-var">Set.fromList</span></span><span> </span><span class="annot"><span class="annottext">[TypName]
+</span><a href="#local-6989586621679226672"><span class="hs-identifier hs-var">ds</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><span class="annottext">Documentation
+</span><a href="#local-6989586621679226673"><span class="hs-identifier hs-var">d</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-60"></span><span>
+</span><span id="line-61"></span><span class="annot"><a href="Language.FineTypes.Signature.Gen.html#genDeclaration"><span class="hs-identifier hs-type">genDeclaration</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.Gen.html#GenerateUniqueWithDocs"><span class="hs-identifier hs-type">GenerateUniqueWithDocs</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
+</span><span id="line-62"></span><span id="genDeclaration"><span class="annot"><span class="annottext">genDeclaration :: GenT (StateT (Set TypName) (Writer Documentation)) TypName
+</span><a href="Language.FineTypes.Signature.Gen.html#genDeclaration"><span class="hs-identifier hs-var hs-var">genDeclaration</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-63"></span><span>    </span><span id="local-6989586621679226679"><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679226679"><span class="hs-identifier hs-var">typName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">GenT (StateT (Set TypName) (Writer Documentation)) TypName
+</span><a href="Language.FineTypes.Signature.Gen.html#genFreshTypName"><span class="hs-identifier hs-var">genFreshTypName</span></a></span><span>
+</span><span id="line-64"></span><span>    </span><span id="local-6989586621679226681"><span class="annot"><span class="annottext">Documentation
+</span><a href="#local-6989586621679226681"><span class="hs-identifier hs-var">docs</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen Documentation
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) Documentation
+forall a.
+Gen a -&gt; GenT (StateT (Set TypName) (Writer Documentation)) a
+forall (g :: * -&gt; *) a. MonadGen g =&gt; Gen a -&gt; g a
+</span><span class="hs-identifier hs-var">liftGen</span></span><span> </span><span class="annot"><span class="annottext">(Gen Documentation
+ -&gt; GenT
+      (StateT (Set TypName) (Writer Documentation)) Documentation)
+-&gt; Gen Documentation
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) Documentation
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Identifier -&gt; Gen Documentation
+</span><a href="Language.FineTypes.Documentation.Gen.html#genDocumentation"><span class="hs-identifier hs-var">genDocumentation</span></a></span><span> </span><span class="annot"><span class="annottext">(Identifier -&gt; Gen Documentation)
+-&gt; Identifier -&gt; Gen Documentation
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">TypName -&gt; Identifier
+</span><a href="Language.FineTypes.Documentation.html#Typ"><span class="hs-identifier hs-var">Typ</span></a></span><span> </span><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679226679"><span class="hs-identifier hs-var">typName</span></a></span><span>
+</span><span id="line-65"></span><span>    </span><span class="annot"><span class="annottext">StateT (Set TypName) (Writer Documentation) ()
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) ()
+forall (m :: * -&gt; *) a. Monad m =&gt; m a -&gt; GenT m a
+forall (t :: (* -&gt; *) -&gt; * -&gt; *) (m :: * -&gt; *) a.
+(MonadTrans t, Monad m) =&gt;
+m a -&gt; t m a
+</span><span class="hs-identifier hs-var">lift</span></span><span> </span><span class="annot"><span class="annottext">(StateT (Set TypName) (Writer Documentation) ()
+ -&gt; GenT (StateT (Set TypName) (Writer Documentation)) ())
+-&gt; StateT (Set TypName) (Writer Documentation) ()
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) ()
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Writer Documentation ()
+-&gt; StateT (Set TypName) (Writer Documentation) ()
+forall (m :: * -&gt; *) a. Monad m =&gt; m a -&gt; StateT (Set TypName) m a
+forall (t :: (* -&gt; *) -&gt; * -&gt; *) (m :: * -&gt; *) a.
+(MonadTrans t, Monad m) =&gt;
+m a -&gt; t m a
+</span><span class="hs-identifier hs-var">lift</span></span><span> </span><span class="annot"><span class="annottext">(Writer Documentation ()
+ -&gt; StateT (Set TypName) (Writer Documentation) ())
+-&gt; Writer Documentation ()
+-&gt; StateT (Set TypName) (Writer Documentation) ()
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Documentation -&gt; Writer Documentation ()
+forall (m :: * -&gt; *) w. Monad m =&gt; w -&gt; WriterT w m ()
+</span><span class="hs-identifier hs-var">tell</span></span><span> </span><span class="annot"><span class="annottext">Documentation
+</span><a href="#local-6989586621679226681"><span class="hs-identifier hs-var">docs</span></a></span><span>
+</span><span id="line-66"></span><span>    </span><span class="annot"><span class="annottext">TypName
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) TypName
+forall a. a -&gt; GenT (StateT (Set TypName) (Writer Documentation)) a
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679226679"><span class="hs-identifier hs-var">typName</span></a></span><span>
+</span><span id="line-67"></span><span>
+</span><span id="line-68"></span><span class="annot"><a href="Language.FineTypes.Signature.Gen.html#genFreshTypName"><span class="hs-identifier hs-type">genFreshTypName</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.Gen.html#GenerateUniqueWithDocs"><span class="hs-identifier hs-type">GenerateUniqueWithDocs</span></a></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
+</span><span id="line-69"></span><span id="genFreshTypName"><span class="annot"><span class="annottext">genFreshTypName :: GenT (StateT (Set TypName) (Writer Documentation)) TypName
+</span><a href="Language.FineTypes.Signature.Gen.html#genFreshTypName"><span class="hs-identifier hs-var hs-var">genFreshTypName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-70"></span><span>    </span><span id="local-6989586621679226683"><span class="annot"><span class="annottext">Set TypName
+</span><a href="#local-6989586621679226683"><span class="hs-identifier hs-var">used</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">StateT (Set TypName) (Writer Documentation) (Set TypName)
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) (Set TypName)
+forall (m :: * -&gt; *) a. Monad m =&gt; m a -&gt; GenT m a
+forall (t :: (* -&gt; *) -&gt; * -&gt; *) (m :: * -&gt; *) a.
+(MonadTrans t, Monad m) =&gt;
+m a -&gt; t m a
+</span><span class="hs-identifier hs-var">lift</span></span><span> </span><span class="annot"><span class="annottext">StateT (Set TypName) (Writer Documentation) (Set TypName)
+forall (m :: * -&gt; *) s. Monad m =&gt; StateT s m s
+</span><span class="hs-identifier hs-var">get</span></span><span>
+</span><span id="line-71"></span><span>    </span><span id="local-6989586621679226684"><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679226684"><span class="hs-identifier hs-var">typName</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="annot"><span class="annottext">Gen TypName
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) TypName
+forall a.
+Gen a -&gt; GenT (StateT (Set TypName) (Writer Documentation)) a
+forall (g :: * -&gt; *) a. MonadGen g =&gt; Gen a -&gt; g a
+</span><span class="hs-identifier hs-var">liftGen</span></span><span> </span><span class="annot"><span class="annottext">Gen TypName
+</span><a href="Language.FineTypes.Signature.Gen.html#genTypName"><span class="hs-identifier hs-var">genTypName</span></a></span><span> </span><span class="annot"><span class="annottext">GenT (StateT (Set TypName) (Writer Documentation)) TypName
+-&gt; (TypName -&gt; Bool)
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) TypName
+forall (m :: * -&gt; *) a. MonadGen m =&gt; m a -&gt; (a -&gt; Bool) -&gt; m a
+</span><span class="hs-operator hs-var">`suchThat`</span></span><span> </span><span class="hs-special">(</span><span class="annot"><span class="annottext">TypName -&gt; Set TypName -&gt; Bool
+forall a. Ord a =&gt; a -&gt; Set a -&gt; Bool
+</span><span class="hs-operator hs-var">`Set.notMember`</span></span><span> </span><span class="annot"><span class="annottext">Set TypName
+</span><a href="#local-6989586621679226683"><span class="hs-identifier hs-var">used</span></a></span><span class="hs-special">)</span><span>
+</span><span id="line-72"></span><span>    </span><span class="annot"><span class="annottext">StateT (Set TypName) (Writer Documentation) ()
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) ()
+forall (m :: * -&gt; *) a. Monad m =&gt; m a -&gt; GenT m a
+forall (t :: (* -&gt; *) -&gt; * -&gt; *) (m :: * -&gt; *) a.
+(MonadTrans t, Monad m) =&gt;
+m a -&gt; t m a
+</span><span class="hs-identifier hs-var">lift</span></span><span> </span><span class="annot"><span class="annottext">(StateT (Set TypName) (Writer Documentation) ()
+ -&gt; GenT (StateT (Set TypName) (Writer Documentation)) ())
+-&gt; StateT (Set TypName) (Writer Documentation) ()
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) ()
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">(Set TypName -&gt; Set TypName)
+-&gt; StateT (Set TypName) (Writer Documentation) ()
+forall (m :: * -&gt; *) s. Monad m =&gt; (s -&gt; s) -&gt; StateT s m ()
+</span><span class="hs-identifier hs-var">modify</span></span><span> </span><span class="annot"><span class="annottext">((Set TypName -&gt; Set TypName)
+ -&gt; StateT (Set TypName) (Writer Documentation) ())
+-&gt; (Set TypName -&gt; Set TypName)
+-&gt; StateT (Set TypName) (Writer Documentation) ()
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">TypName -&gt; Set TypName -&gt; Set TypName
+forall a. Ord a =&gt; a -&gt; Set a -&gt; Set a
+</span><span class="hs-identifier hs-var">Set.insert</span></span><span> </span><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679226684"><span class="hs-identifier hs-var">typName</span></a></span><span>
+</span><span id="line-73"></span><span>    </span><span class="annot"><span class="annottext">TypName
+-&gt; GenT (StateT (Set TypName) (Writer Documentation)) TypName
+forall a. a -&gt; GenT (StateT (Set TypName) (Writer Documentation)) a
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">TypName
+</span><a href="#local-6989586621679226684"><span class="hs-identifier hs-var">typName</span></a></span><span>
+</span><span id="line-74"></span><span>
+</span><span id="line-75"></span><span class="annot"><a href="Language.FineTypes.Signature.Gen.html#genTypName"><span class="hs-identifier hs-type">genTypName</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Typ.html#TypName"><span class="hs-identifier hs-type">TypName</span></a></span><span>
+</span><span id="line-76"></span><span id="genTypName"><span class="annot"><span class="annottext">genTypName :: Gen TypName
+</span><a href="Language.FineTypes.Signature.Gen.html#genTypName"><span class="hs-identifier hs-var hs-var">genTypName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TypName -&gt; TypName
+</span><a href="Language.FineTypes.Typ.Gen.html#capitalise"><span class="hs-identifier hs-var">capitalise</span></a></span><span> </span><span class="annot"><span class="annottext">(TypName -&gt; TypName) -&gt; Gen TypName -&gt; Gen TypName
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Gen TypName
+</span><a href="Language.FineTypes.Typ.Gen.html#genName"><span class="hs-identifier hs-var">genName</span></a></span><span>
+</span><span id="line-77"></span><span>
+</span><span id="line-78"></span><span class="annot"><a href="Language.FineTypes.Signature.Gen.html#genSignatureName"><span class="hs-identifier hs-type">genSignatureName</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><span class="hs-identifier hs-type">Gen</span></span><span> </span><span class="annot"><a href="Language.FineTypes.Module.html#ModuleName"><span class="hs-identifier hs-type">ModuleName</span></a></span><span>
+</span><span id="line-79"></span><span id="genSignatureName"><span class="annot"><span class="annottext">genSignatureName :: Gen TypName
+</span><a href="Language.FineTypes.Signature.Gen.html#genSignatureName"><span class="hs-identifier hs-var hs-var">genSignatureName</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="annot"><span class="annottext">TypName -&gt; TypName
+</span><a href="Language.FineTypes.Typ.Gen.html#capitalise"><span class="hs-identifier hs-var">capitalise</span></a></span><span> </span><span class="annot"><span class="annottext">(TypName -&gt; TypName) -&gt; Gen TypName -&gt; Gen TypName
+forall (f :: * -&gt; *) a b. Functor f =&gt; (a -&gt; b) -&gt; f a -&gt; f b
+</span><span class="hs-operator hs-var">&lt;$&gt;</span></span><span> </span><span class="annot"><span class="annottext">Gen TypName
+</span><a href="Language.FineTypes.Typ.Gen.html#genName"><span class="hs-identifier hs-var">genName</span></a></span><span>
+</span><span id="line-80"></span><span>
+</span><span id="line-81"></span><span class="annot"><a href="Language.FineTypes.Signature.Gen.html#shrinkSignature"><span class="hs-identifier hs-type">shrinkSignature</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="annot"><a href="Language.FineTypes.Signature.html#Signature"><span class="hs-identifier hs-type">Signature</span></a></span><span class="hs-special">]</span><span>
+</span><span id="line-82"></span><span id="shrinkSignature"><span class="annot"><span class="annottext">shrinkSignature :: Signature -&gt; [Signature]
+</span><a href="Language.FineTypes.Signature.Gen.html#shrinkSignature"><span class="hs-identifier hs-var hs-var">shrinkSignature</span></a></span></span><span> </span><span id="local-6989586621679226689"><span class="annot"><span class="annottext">Signature
+</span><a href="#local-6989586621679226689"><span class="hs-identifier hs-var">m</span></a></span></span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">do</span><span>
+</span><span id="line-83"></span><span>    </span><span id="local-6989586621679226690"><span class="annot"><span class="annottext">Set TypName
+</span><a href="#local-6989586621679226690"><span class="hs-identifier hs-var">signatureDeclarations</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
+</span><span id="line-84"></span><span>        </span><span class="annot"><span class="annottext">Set TypName -&gt; [Set TypName]
+forall a. Arbitrary a =&gt; a -&gt; [a]
+</span><span class="hs-identifier hs-var">shrink</span></span><span>
+</span><span id="line-85"></span><span>            </span><span class="annot"><span class="annottext">(Set TypName -&gt; [Set TypName]) -&gt; Set TypName -&gt; [Set TypName]
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Signature -&gt; Set TypName
+</span><a href="Language.FineTypes.Signature.html#signatureDeclarations"><span class="hs-identifier hs-var">signatureDeclarations</span></a></span><span> </span><span class="annot"><span class="annottext">Signature
+</span><a href="#local-6989586621679226689"><span class="hs-identifier hs-var">m</span></a></span><span>
+</span><span id="line-86"></span><span>    </span><span id="local-6989586621679226691"><span class="annot"><span class="annottext">Documentation
+</span><a href="#local-6989586621679226691"><span class="hs-identifier hs-var">signatureDocumentation</span></a></span></span><span> </span><span class="hs-glyph">&lt;-</span><span>
+</span><span id="line-87"></span><span>        </span><span class="annot"><span class="annottext">Documentation -&gt; [Documentation]
+forall a. a -&gt; [a]
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span>
+</span><span id="line-88"></span><span>            </span><span class="annot"><span class="annottext">(Documentation -&gt; [Documentation])
+-&gt; Documentation -&gt; [Documentation]
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Set TypName -&gt; Documentation -&gt; Documentation
+</span><a href="Language.FineTypes.Signature.Gen.html#restrict"><span class="hs-identifier hs-var">restrict</span></a></span><span> </span><span class="annot"><span class="annottext">Set TypName
+</span><a href="#local-6989586621679226690"><span class="hs-identifier hs-var">signatureDeclarations</span></a></span><span>
+</span><span id="line-89"></span><span>            </span><span class="annot"><span class="annottext">(Documentation -&gt; Documentation) -&gt; Documentation -&gt; Documentation
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Signature -&gt; Documentation
+</span><a href="Language.FineTypes.Signature.html#signatureDocumentation"><span class="hs-identifier hs-var">signatureDocumentation</span></a></span><span> </span><span class="annot"><span class="annottext">Signature
+</span><a href="#local-6989586621679226689"><span class="hs-identifier hs-var">m</span></a></span><span>
+</span><span id="line-90"></span><span>    </span><span class="annot"><span class="annottext">Signature -&gt; [Signature]
+forall a. a -&gt; [a]
+forall (f :: * -&gt; *) a. Applicative f =&gt; a -&gt; f a
+</span><span class="hs-identifier hs-var">pure</span></span><span> </span><span class="annot"><span class="annottext">(Signature -&gt; [Signature]) -&gt; Signature -&gt; [Signature]
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">Signature
+</span><a href="#local-6989586621679226689"><span class="hs-identifier hs-var">m</span></a></span><span class="hs-special">{</span><span class="annot"><a href="Language.FineTypes.Signature.html#signatureDeclarations"><span class="hs-identifier hs-var hs-type">signatureDeclarations</span></a></span><span class="hs-special">,</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#signatureDocumentation"><span class="hs-identifier hs-var hs-type">signatureDocumentation</span></a></span><span class="hs-special">}</span><span>
+</span><span id="line-91"></span><span>
+</span><span id="line-92"></span><span class="annot"><a href="Language.FineTypes.Signature.Gen.html#restrict"><span class="hs-identifier hs-type">restrict</span></a></span><span> </span><span class="hs-glyph">::</span><span> </span><span class="annot"><a href="Language.FineTypes.Signature.html#Declarations"><span class="hs-identifier hs-type">Declarations</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span><span>
+</span><span id="line-93"></span><span id="restrict"><span class="annot"><span class="annottext">restrict :: Set TypName -&gt; Documentation -&gt; Documentation
+</span><a href="Language.FineTypes.Signature.Gen.html#restrict"><span class="hs-identifier hs-var hs-var">restrict</span></a></span></span><span> </span><span id="local-6989586621679226693"><span class="annot"><span class="annottext">Set TypName
+</span><a href="#local-6989586621679226693"><span class="hs-identifier hs-var">ds</span></a></span></span><span> </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span><span class="hs-special">{</span><span id="local-6989586621679226695"><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation
+getDocumentation :: Map Identifier IdentifierDocumentation
+getDocumentation :: Documentation -&gt; Map Identifier IdentifierDocumentation
+</span><a href="#local-6989586621679226695"><span class="hs-glyph hs-var hs-var">..</span></a></span></span><span class="hs-special">}</span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-94"></span><span>    </span><span class="annot"><a href="Language.FineTypes.Documentation.html#Documentation"><span class="hs-identifier hs-type">Documentation</span></a></span><span>
+</span><span id="line-95"></span><span>        </span><span class="hs-special">{</span><span> </span><span class="annot"><span class="annottext">getDocumentation :: Map Identifier IdentifierDocumentation
+</span><a href="Language.FineTypes.Documentation.html#getDocumentation"><span class="hs-identifier hs-var">getDocumentation</span></a></span><span> </span><span class="hs-glyph">=</span><span>
+</span><span id="line-96"></span><span>            </span><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation
+-&gt; Set Identifier -&gt; Map Identifier IdentifierDocumentation
+forall k a. Ord k =&gt; Map k a -&gt; Set k -&gt; Map k a
+</span><span class="hs-identifier hs-var">Map.restrictKeys</span></span><span> </span><span class="annot"><span class="annottext">Map Identifier IdentifierDocumentation
+</span><a href="#local-6989586621679226695"><span class="hs-identifier hs-var">getDocumentation</span></a></span><span> </span><span class="annot"><span class="annottext">(Set Identifier -&gt; Map Identifier IdentifierDocumentation)
+-&gt; Set Identifier -&gt; Map Identifier IdentifierDocumentation
+forall a b. (a -&gt; b) -&gt; a -&gt; b
+</span><span class="hs-operator hs-var">$</span></span><span> </span><span class="annot"><span class="annottext">(TypName -&gt; Identifier) -&gt; Set TypName -&gt; Set Identifier
+forall b a. Ord b =&gt; (a -&gt; b) -&gt; Set a -&gt; Set b
+</span><span class="hs-identifier hs-var">Set.map</span></span><span> </span><span class="annot"><span class="annottext">TypName -&gt; Identifier
+</span><a href="Language.FineTypes.Documentation.html#Typ"><span class="hs-identifier hs-var">Typ</span></a></span><span> </span><span class="annot"><span class="annottext">Set TypName
+</span><a href="#local-6989586621679226693"><span class="hs-identifier hs-var">ds</span></a></span><span>
+</span><span id="line-97"></span><span>        </span><span class="hs-special">}</span><span>
+</span><span id="line-98"></span></pre></body></html>
