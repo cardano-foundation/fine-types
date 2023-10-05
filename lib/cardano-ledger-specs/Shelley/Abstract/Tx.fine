@@ -1,0 +1,10 @@
+signature Tx.Abstract where
+
+{-----------------------------------------------------------------------------
+    Transactions
+    Shelley spec, Figure 10
+------------------------------------------------------------------------------}
+
+TxId  ; -- transaction identifier
+Metadatum  ; -- metadatum
+MetadataHash  ; -- hash of transaction metadata

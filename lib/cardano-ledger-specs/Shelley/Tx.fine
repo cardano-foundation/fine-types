@@ -1,19 +1,16 @@
 module Tx where
 
 import Address(Addr, Addr_rwd, Ix, Slot);
-import Crypto(VKey, Sig, ScriptHash, Script, KeyHash_G);
-import PParams(Coin, Epoch, PParamsUpdate);
+import Crypto.Abstract(VKey, Sig, ScriptHash, Script);
+import Crypto(KeyHash_G);
 import Delegation(DCert);
+import PParams(Coin, Epoch, PParamsUpdate);
+import Tx.Abstract(TxId, Metadatum, MetadataHash);
 
 {-----------------------------------------------------------------------------
     Transactions
     Shelley spec, Figure 10
 ------------------------------------------------------------------------------}
--- Abstract types
-
-TxId = _ ; -- transaction identifier
-Metadatum = _ ; -- metadatum
-MetadataHash = _ ; -- hash of transaction metadata
 
 -- Derived types
 

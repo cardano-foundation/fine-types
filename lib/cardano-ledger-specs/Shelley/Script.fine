@@ -6,6 +6,7 @@ import Crypto(KeyHash);
   Native Scripts
   Shelley spec, Figure 4
 -------------------------------------------------------------------------------}
+
 Script = MSig;
 
 MSig =

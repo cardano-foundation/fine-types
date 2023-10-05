@@ -1,61 +1,60 @@
-module Delegation where 
+module Delegation where
 
 import Address(Addr_rwd, Credential, Credential_stake);
+import Crypto.Abstract(KeyHash);
+import Crypto(KeyHash_G, KeyHash_vrf);
+import Delegation.Abstract(PoolMDHash, Url);
 import PParams(Coin, Epoch);
-import Crypto(KeyHash, KeyHash_G, KeyHash_vrf);
-
-PoolMDHash = _;
 
 {-----------------------------------------------------------------------------
     Delegation Definitions
     Shelley spec, Figure 21
 ------------------------------------------------------------------------------}
 
-Url = _ ; -- a url
 MIRPot =
     Σ{ ReservesMIR : Unit
      , TreasuryMIR : Unit
      };
 
 -- Delegation Certificate types
-DCert 
-    = DCert_regkey 
-    + DCert_deregkey 
+DCert
+    = DCert_regkey
+    + DCert_deregkey
     + DCert_delegate
-    + DCert_regpool 
-    + DCert_retirepool 
+    + DCert_regpool
+    + DCert_retirepool
     + DCert_genesis
     + DCert_mir;
 
-DCert_regkey = 
+DCert_regkey =
     { regCred : Credential
     };
 
-DCert_deregkey = 
+DCert_deregkey =
     { cwitness : Credential
     };
 
-DCert_delegate = 
+DCert_delegate =
     { cwitness : Credential
     , dpool : KeyHash
     };
 
-DCert_regpool = 
-    { cwitness : Credential 
+DCert_regpool =
+    { cwitness : Credential
     , poolParam : PoolParam
     };
 
-DCert_retirepool = 
+DCert_retirepool =
     { cwitness : Credential
     , retire : Epoch
     };
 
-DCert_genesis = 
+DCert_genesis =
     { cwitness : Credential
     , genesisDeleg : KeyHash_G × KeyHash × KeyHash_vrf
     };
 
-DCert_mir = 
+DCert_mir =
     { credCoinMap : Credential_stake ↦ Coin
     , mirPot : MIRPot
     };
@@ -63,7 +62,7 @@ DCert_mir =
 PoolMD = Url × PoolMDHash; -- stake pool metadata
 
 -- stake pool parameters
-PoolParam = 
+PoolParam =
     { poolOwners   : ℙ KeyHash -- stake pool owners
     , poolCost     : Coin -- stake pool cost
     , poolMargin   : {x : ℚ | x ∈ [0, 1]} -- stake pool margin

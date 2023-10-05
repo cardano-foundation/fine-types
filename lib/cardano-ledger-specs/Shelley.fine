@@ -1,10 +1,17 @@
 package Shelley where
 
+signature Crypto.Abstract from "./Shelley/Abstract/Crypto.fine";
 module Crypto from "./Shelley/Crypto.fine";
+
 module PParams from "./Shelley/PParams.fine";
 
 module Address from "./Shelley/Address.fine";
+
+signature Delegation.Abstract from "./Shelley/Abstract/Delegation.fine";
 module Delegation from "./Shelley/Delegation.fine";
+
+signature Tx.Abstract from "./Shelley/Abstract/Tx.fine";
 module Tx from "./Shelley/Tx.fine";
 
+signature Block.Abstract from "./Shelley/Abstract/Block.fine";
 module Block from "./Shelley/Block.fine";

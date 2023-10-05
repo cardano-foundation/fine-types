@@ -1,0 +1,10 @@
+signature Delegation.Abstract where
+
+PoolMDHash ;
+
+{-----------------------------------------------------------------------------
+    Delegation Definitions
+    Shelley spec, Figure 21
+------------------------------------------------------------------------------}
+
+Url  ; -- a url
