@@ -173,7 +173,6 @@ instance Monoid Counting where
     mempty = Counting 0 0 0 0 0 0 0 0
 
 counting :: Typ -> Counting
-counting Abstract = Counting 1 0 0 0 0 0 0 0
 counting Var{} = Counting 0 1 0 0 0 0 0 0
 counting Zero{} = Counting 0 0 1 0 0 0 0 0
 counting One{} = Counting 0 0 0 1 0 0 0 0

@@ -43,9 +43,7 @@ type VarName = String
 -- You can obtain new types from old types with mathematical constructions,
 -- such as taking disjoint sums or cartesian products.
 data Typ
-    = -- | 'Typ' which is unspecified.
-      Abstract
-    | -- | Variable
+    = -- | Variable
       Var TypName
     | -- | Known 'Typ' constant.
       Zero TypConst
@@ -126,8 +124,6 @@ everywhere f = every
   where
     every = f . recurse
 
-    recurse Abstract =
-        Abstract
     recurse a@(Var _) =
         a
     recurse a@(Zero _) =
@@ -147,8 +143,6 @@ everywhere f = every
 everything :: (r -> r -> r) -> (Typ -> r) -> (Typ -> r)
 everything combine f = recurse
   where
-    recurse x@Abstract =
-        f x
     recurse x@(Var _) =
         f x
     recurse x@(Zero _) =
@@ -172,7 +166,6 @@ depth = \case
     ProductN fields -> 1 + maximum (fmap (depth . snd) fields)
     SumN constructors -> 1 + maximum (fmap (depth . snd) constructors)
     Constrained _ a _ -> depth a
-    Abstract -> 0
     Var _ -> 0
 
 type Constraint = [Constraint1]

@@ -111,7 +111,6 @@ genTyp out = go Top
                         , ProductN <$> genTagged genFields go'
                         , SumN <$> genTagged genConstructors go'
                         ]
-                    <> (top . complete) [pure Abstract]
                     <> complete [Var <$> genVarName]
                     <> constrained [genConstrainedTyp mode]
         oneof expansion `suchThat` (not . out)
@@ -225,7 +224,6 @@ shrinkTyp = \case
         map snd constructors
             <> (SumN <$> shrinkList shrinkNamed constructors)
     Var _ -> []
-    Abstract -> []
     Constrained v typ c ->
         [typ]
             <> [Constrained v typ' c | typ' <- shrinkTyp typ]

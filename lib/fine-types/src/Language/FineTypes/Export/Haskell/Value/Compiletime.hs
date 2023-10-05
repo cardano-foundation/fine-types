@@ -268,7 +268,6 @@ var = Hs.Var . Hs.UnQual . Hs.Ident
 typeFromTyp :: Typ -> Hs.Type
 typeFromTyp = go
   where
-    go Abstract = error "Abstract is not supported by Haskell"
     go (Var name) = hsType name
     go (Zero c) = case c of
         Bool -> hsType "Prelude.Bool"

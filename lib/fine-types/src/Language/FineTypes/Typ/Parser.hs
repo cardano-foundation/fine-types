@@ -54,8 +54,7 @@ import qualified Text.Megaparsec.Char.Lexer as L
 
 parseTyp :: Parser DocumentedTyp
 parseTyp =
-    try (notDocumented <$> abstract)
-        <|> try productN
+    try productN
         <|> try sumN
         <|> (notDocumented <$> expr)
 
@@ -66,9 +65,6 @@ constrained = braces $ do
     typ <- zeroVar
     _ <- symbol "|"
     Constrained v typ <$> constraint
-
-abstract :: Parser Typ
-abstract = Abstract <$ symbol "_"
 
 data DocumentedTyp
     = DocumentedTyp

@@ -33,7 +33,6 @@ valueFromJson = JS.parseEither . parseTyp
 -- | build a Parser for a 'Typ' recursively
 parseTyp :: Typ.Typ -> Parser Value
 parseTyp = \case
-    Typ.Abstract -> const $ fail "Abstract not supported"
     Typ.Var _ -> const $ fail "Var not supported"
     Typ.Zero tc -> fmap Zero . parseZero tc
     Typ.One op t -> fmap One . parseOne op t
