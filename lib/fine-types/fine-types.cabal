@@ -54,7 +54,7 @@ library
     , base >=4.14.3.0
     , base16 >= 1.0
     , bytestring
-    , Cabal
+    , Cabal >= 3.8.1 && < 4
     , containers
     , contra-tracer
     , deepseq >= 1.4.4

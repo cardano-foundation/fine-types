@@ -18,12 +18,12 @@ copyright:          2023 Cardano Foundation
 category:           Language
 
 extra-source-files:
-  test/data/**/*.fine
+  test/**/*.fine
 
 custom-setup
   setup-depends:
     , base >=4.14.3.0
-    , Cabal >= 3.0 && < 4
+    , Cabal >= 3.8.1 && < 4
     , directory
     , fine-types
     , filepath

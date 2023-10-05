@@ -1,19 +1,19 @@
-import Distribution.PackageDescription (mkUnqualComponentName)
 import Distribution.Simple
     ( UserHooks (..)
     , defaultMainWithHooks
     , simpleUserHooks
     )
-import Distribution.Simple.BuildPaths (autogenComponentModulesDir)
+import Distribution.Simple.PreProcess
+    ( knownSuffixHandlers
+    )
 import Language.FineTypes.Commands.Convert.Haskell.Cabal
-    ( addFineTypes
-    , stdoutTracer
+    ( fineTypes
     )
 
 main :: IO ()
 main =
     defaultMainWithHooks
-        $ addFineTypes
-            stdoutTracer
-            simpleUserHooks
-            "test/data"
+        $ simpleUserHooks
+            { hookedPreProcessors =
+                knownSuffixHandlers <> [fineTypes]
+            }
