@@ -31,7 +31,7 @@ import Language.FineTypes.Typ
 import System.FilePath
     ( (</>)
     )
-import Test.HUnit (assertFailure)
+import Test.HUnit (Assertion, assertFailure)
 import Test.Hspec
     ( Spec
     , describe
@@ -47,30 +47,32 @@ import qualified Language.FineTypes.Package as Pkg
 {-----------------------------------------------------------------------------
     Tests lib
 ------------------------------------------------------------------------------}
+success :: Assertion
+success = pure ()
 
-prettyFailure :: ToExpr a => a -> a -> IO ()
+prettyFailure :: ToExpr a => a -> a -> Assertion
 prettyFailure x y = assertFailure . render . prettyEditExprCompact $ ediff x y
 
-assertWithEDiff :: (ToExpr a) => (a -> a -> Bool) -> a -> a -> IO ()
-assertWithEDiff eq x y = unless (eq x y) $ prettyFailure x y
+shouldRelateWithDiff :: (ToExpr a) => (a -> a -> Bool) -> a -> a -> Assertion
+shouldRelateWithDiff eq x y = unless (eq x y) $ prettyFailure x y
 
-assertWithEDiffOnEq :: (ToExpr a, Eq a) => a -> a -> IO ()
-assertWithEDiffOnEq = assertWithEDiff (==)
+shouldBeWithDiff :: (ToExpr a, Eq a) => a -> a -> Assertion
+shouldBeWithDiff = shouldRelateWithDiff (==)
 
-assertWithEDiffOfEither
+shouldBeWithDiff'
     :: (ToExpr a, ToExpr b, Eq b, Eq a)
     => Maybe (a -> Bool)
     -> Either a b
     -> Either a b
-    -> IO ()
-assertWithEDiffOfEither m (Left x) (Left y) = case m of
-    Nothing -> assertWithEDiffOnEq x y
-    Just m' ->
-        if m' x
-            then pure ()
+    -> Assertion
+shouldBeWithDiff' m (Left x) (Left y) = case m of
+    Nothing -> shouldBeWithDiff x y
+    Just match ->
+        if match x
+            then success
             else prettyFailure x y
-assertWithEDiffOfEither _m (Right x) (Right y) = assertWithEDiffOnEq x y
-assertWithEDiffOfEither _m x y = assertWithEDiff (\_x _y -> False) x y
+shouldBeWithDiff' _m (Right x) (Right y) = shouldBeWithDiff x y
+shouldBeWithDiff' _m x y = prettyFailure x y
 
 parserSpec
     :: FilePath
@@ -82,7 +84,7 @@ parserSpec dir filename pkgConf match =
     describe ("on package " <> fp) $ do
         it "parses" $ do
             file <- readFile fp
-            assertWithEDiffOfEither match (parsePackageDescription file) pkgConf
+            shouldBeWithDiff' match (parsePackageDescription file) pkgConf
   where
     fp = dir </> filename
 
@@ -98,7 +100,7 @@ compilationSpec dir filename compiledPackage match =
             file <- readFile fp
             Right pkg <- pure $ parsePackageDescription file
             epkg <- compilePackageDescription dir pkg
-            assertWithEDiffOfEither match epkg compiledPackage
+            shouldBeWithDiff' match epkg compiledPackage
   where
     fp = dir </> filename
 
