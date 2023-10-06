@@ -1,6 +1,6 @@
 module Value where
 
-import Crypto(ScriptHash);
+import Crypto.Abstract(ScriptHash);
 
 {-----------------------------------------------------------------------------
     Transactions

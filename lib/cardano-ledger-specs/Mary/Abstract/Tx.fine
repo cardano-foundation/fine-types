@@ -1,0 +1,11 @@
+signature Tx.Abstract where
+
+{-----------------------------------------------------------------------------
+    Transactions
+    Shelley spec, Figure 10
+    and Mary spec, Figure 5
+------------------------------------------------------------------------------}
+
+TxId                 ; --^ transaction identifier
+Metadatum            ; --^ metadatum
+AuxiliaryDataHash    ; --^ auxiliary data hash

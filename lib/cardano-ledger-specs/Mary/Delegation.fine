@@ -1,17 +1,16 @@
 module Delegation where
 
 import Address(Addr_rwd, Credential, Credential_stake);
+import Crypto.Abstract(KeyHash);
+import Crypto(KeyHash_G, KeyHash_vrf);
+import Delegation.Abstract(PoolMDHash, Url);
 import PParams(Coin, Epoch);
-import Crypto(KeyHash, KeyHash_G, KeyHash_vrf);
-
-PoolMDHash            = _;
 
 {-----------------------------------------------------------------------------
     Delegation Definitions
     Shelley spec, Figure 21
 ------------------------------------------------------------------------------}
 
-Url                   = _ ; --^ a url
 MIRPot                =
     Σ{ ReservesMIR    : Unit
      , TreasuryMIR    : Unit
