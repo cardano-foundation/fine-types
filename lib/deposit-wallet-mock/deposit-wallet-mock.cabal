@@ -1,14 +1,8 @@
 cabal-version:      3.4
 build-type:         Custom
-name:               fine-types-test
+name:               deposit-wallet-mock
 version:            0.1.0.0
-synopsis:           Tests of source code generated with fine-types
-description:
-  Tests of source code generated with fine-types.
-  .
-  This is a separate package because it uses the `fine-types` executable
-  to generate source code, and hence cannot be declared in the same
-  cabal package as `fine-types`.
+synopsis:           Mock deposit wallet
 homepage:           https://github.com/cardano-foundation/fine-types
 license:            Apache-2.0
 license-file:       LICENSE
@@ -18,16 +12,15 @@ copyright:          2023 Cardano Foundation
 category:           Language
 
 extra-source-files:
-  test/**/*.fine
+  src/**/*.fine
 
 custom-setup
   setup-depends:
     , base >=4.14.3.0
-    , Cabal >= 3.8.1 && < 4
+    , Cabal >= 3.0 && < 4
     , directory
-    , fine-types
     , filepath
-    , process
+    , fine-types
 
 common language
   default-language:
@@ -56,27 +49,37 @@ flag release
   default:     False
   manual:      True
 
-test-suite haskell
-  import:      language, opts-exe
-  type:        exitcode-stdio-1.0
+library
+  import:      language, opts-lib
   hs-source-dirs:
-    test
-  build-tool-depends:
-    , hspec-discover:hspec-discover == 2.*
+    src
   build-depends:
+    , aeson
     , base
     , bytestring
     , containers
     , filepath
     , fine-types
-    , hspec ^>= 2.11.0
-    , process
-    , QuickCheck
     , text
-  main-is:
-    Spec.hs
-  other-modules:
-    Language.FineTypes.Export.Haskell.ValueSpec
-    Language.FineTypes.Test.UTxO
+    , servant
+    , servant-server
+    , wai
+  exposed-modules:
+    Cardano.Wallet.Deposit.HTTP
+    Cardano.Wallet.Deposit.HTTP.Types.API
+    Cardano.Wallet.Deposit.HTTP.Types.JSON
+    Servant.FineTypes
   autogen-modules:
-    Language.FineTypes.Test.UTxO
+    Cardano.Wallet.Deposit.HTTP.Types.JSON
+
+executable deposit-wallet
+  import:      language, opts-exe
+  hs-source-dirs:
+    exe
+  build-depends:
+    , base
+    , deposit-wallet-mock
+    , wai
+    , warp
+  main-is:
+    deposit-wallet.hs

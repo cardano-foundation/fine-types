@@ -7,6 +7,7 @@ index-state:
 packages:
     lib/fine-types/
     lib/fine-types-test/
+    lib/deposit-wallet-mock/
 
 tests:
   True
