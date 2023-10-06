@@ -1,0 +1,4 @@
+package FailToAddModuleImportNotInScope where
+
+module Works from "./modules/Works.fine";
+module Importing from "./modules/Importing.fine";

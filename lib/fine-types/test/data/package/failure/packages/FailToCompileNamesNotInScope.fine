@@ -1,0 +1,4 @@
+
+package FailToCompileNamesNotInScope where
+
+module FailToCompile from "../modules/FailToCompile.fine";

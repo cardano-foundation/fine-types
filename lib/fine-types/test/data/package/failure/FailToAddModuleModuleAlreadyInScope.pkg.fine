@@ -1,0 +1,4 @@
+package FailToAddModuleModuleAlreadyInScope where
+
+module Works from "./modules/Works.fine";
+module Works from "./modules/Works.fine";

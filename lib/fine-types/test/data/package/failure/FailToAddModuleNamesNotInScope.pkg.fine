@@ -1,0 +1,3 @@
+package FailToAddModuleNamesNotInScope where
+
+module NamesNotInScope from "./modules/NamesNotInScope.fine";

@@ -1,0 +1,3 @@
+module NamesNotInScope where
+
+A = B;
