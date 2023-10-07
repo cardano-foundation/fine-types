@@ -1,7 +1,7 @@
 module Script where
 
 import Address(Slot);
-import Crypto(KeyHash);
+import Crypto.Abstract(KeyHash);
 
 {-------------------------------------------------------------------------------
   Native Scripts

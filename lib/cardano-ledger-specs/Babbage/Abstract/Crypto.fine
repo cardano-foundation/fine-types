@@ -1,0 +1,26 @@
+signature Crypto.Abstract where
+
+{-----------------------------------------------------------------------------
+    Cryptographic definitions
+    Shelley spec, Figure 2
+------------------------------------------------------------------------------}
+VKey           ; --^ public verifying key
+KeyHash        ; --^ hash of a public key
+Sig            ; --^ signature
+Script         ; --^ multi-signature script
+ScriptHash     ; --^ hash of a script
+DataHash       ; --^ hash of data
+
+{-----------------------------------------------------------------------------
+    KES Cryptographic definitions
+    Shelley spec, Figure 3
+------------------------------------------------------------------------------}
+
+VKey_ev       ; --^ public verifying key
+
+{-----------------------------------------------------------------------------
+    VRF definitions
+    Shelley spec, Figure 5
+------------------------------------------------------------------------------}
+
+Proof         ; --^ VRF proof

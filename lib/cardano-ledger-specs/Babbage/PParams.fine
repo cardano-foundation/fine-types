@@ -1,7 +1,8 @@
 module PParams where
 
+import CostModel.Abstract(CostModel);
+import CostModel(Language, Prices, ExUnits);
 import Crypto(Seed);
-import CostModel(CostModel, Language, Prices, ExUnits);
 
 {-----------------------------------------------------------------------------
     Protocol parameters

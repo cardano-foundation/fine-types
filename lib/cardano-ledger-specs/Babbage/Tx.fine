@@ -1,12 +1,16 @@
 module Tx where
 
 import Address(Addr, Addr_rwd, Ix, Slot, Network);
-import Crypto(VKey, Sig, ScriptHash, Script, KeyHash_G, DataHash, KeyHash);
-import PParams(Coin, Epoch, PParamsUpdate);
-import Delegation(DCert);
-import Script(Script^ph1);
-import Value(Value);
 import CostModel(ExUnits);
+import Crypto.Abstract(VKey, Sig, ScriptHash, Script, DataHash, KeyHash);
+import Crypto(KeyHash_G);
+import Delegation(DCert);
+import PParams(Coin, Epoch, PParamsUpdate);
+import Script(Script^native_v2,Script^ph1);
+import Tx.Abstract(TxId, Metadatum, AuxiliaryDataHash
+    , ScriptIntegrityHash, Data, Script_plc);
+import Value(Value);
+
 
 {-----------------------------------------------------------------------------
     Transactions
@@ -15,14 +19,7 @@ import CostModel(ExUnits);
     Alonzo spec, Figure 2
     Babbage spec, Figure 1
 ------------------------------------------------------------------------------}
--- Abstract types
 
-ScriptIntegrityHash         = _; --^ Script data hash
-Script_plc                  = _; --^ Plutus core scripts
-Data                        = _; --^ Generic script data
-TxId                        = _ ; --^ transaction identifier
-Metadatum                   = _ ; --^ metadatum
-AuxiliaryDataHash           = _ ; --^ auxiliary data hash
 
 -- Script types
 
