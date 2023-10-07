@@ -5,8 +5,6 @@ module CostModel where
     Alonzo spec, Figure 1
 ------------------------------------------------------------------------------}
 
--- Abstract types
-CostModel   = _ ; --^ Coefficients for the cost model
 
 -- Derived types
 Language    = Σ{PlutusV1 : Unit}; --^ Script Language

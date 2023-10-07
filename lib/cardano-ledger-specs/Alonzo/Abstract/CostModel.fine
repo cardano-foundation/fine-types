@@ -1,0 +1,8 @@
+signature CostModel.Abstract where
+
+{-----------------------------------------------------------------------------
+    Protocol parameters
+    Alonzo spec, Figure 1
+------------------------------------------------------------------------------}
+
+CostModel   ; --^ Coefficients for the cost model

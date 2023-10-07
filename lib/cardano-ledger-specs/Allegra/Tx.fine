@@ -7,6 +7,7 @@ import Delegation(DCert);
 import PParams(Coin, Epoch, PParamsUpdate);
 import Script(Script^native_v2);
 import Tx.Abstract(TxId, Metadatum, AuxiliaryDataHash);
+
 {-----------------------------------------------------------------------------
     Transactions
     Shelley spec, Figure 10
