@@ -1,13 +1,23 @@
 package Alonzo where
 
+signature Crypto.Abstract from "./Alonzo/Abstract/Crypto.fine";
 module Crypto from "./Alonzo/Crypto.fine";
+
+signature CostModel.Abstract from "./Alonzo/Abstract/CostModel.fine";
 module CostModel from "./Alonzo/CostModel.fine";
 module PParams from "./Alonzo/PParams.fine";
 
 module Address from "./Alonzo/Address.fine";
+
+signature Delegation.Abstract from "./Alonzo/Abstract/Delegation.fine";
 module Delegation from "./Alonzo/Delegation.fine";
+
 module Script from "./Alonzo/Script.fine";
+
 module Value from "./Alonzo/Value.fine";
+
+signature Tx.Abstract from "./Alonzo/Abstract/Tx.fine";
 module Tx from "./Alonzo/Tx.fine";
 
+signature Block.Abstract from "./Alonzo/Abstract/Block.fine";
 module Block from "./Alonzo/Block.fine";

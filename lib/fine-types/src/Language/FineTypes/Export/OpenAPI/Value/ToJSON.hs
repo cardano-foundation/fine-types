@@ -71,8 +71,6 @@ jsonFromValue = go
         JS.object ["1" .= go tb b]
     go (Typ.SumN constructors) (Sum ix a) =
         jsonFromSum constructors ix a
-    go Typ.Abstract v =
-        impossibleCase Typ.Abstract v "Only concrete types"
     go (Typ.Var _) _ = error "Var not supported"
     go (Typ.One op t) (One v) = go1 op t v
     go t@Typ.Two{} v@(Two _) =

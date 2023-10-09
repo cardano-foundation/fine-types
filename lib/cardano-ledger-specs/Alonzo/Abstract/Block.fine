@@ -1,0 +1,10 @@
+signature Block.Abstract where
+
+{-----------------------------------------------------------------------------
+    Block Definitions
+    Shelley spec, Figure 53
+------------------------------------------------------------------------------}
+
+
+HashHeader    ; --^ hash of a block header
+HashBBody     ; --^ hash of a block body

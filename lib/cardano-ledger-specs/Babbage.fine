@@ -1,13 +1,24 @@
 package Babbage where
 
+signature Crypto.Abstract from "./Babbage/Abstract/Crypto.fine";
 module Crypto from "./Babbage/Crypto.fine";
+
+signature CostModel.Abstract from "./Babbage/Abstract/CostModel.fine";
 module CostModel from "./Babbage/CostModel.fine";
+
 module PParams from "./Babbage/PParams.fine";
 
 module Address from "./Babbage/Address.fine";
+
+signature Delegation.Abstract from "./Babbage/Abstract/Delegation.fine";
 module Delegation from "./Babbage/Delegation.fine";
+
 module Script from "./Babbage/Script.fine";
+
 module Value from "./Babbage/Value.fine";
+
+signature Tx.Abstract from "./Babbage/Abstract/Tx.fine";
 module Tx from "./Babbage/Tx.fine";
 
+signature Block.Abstract from "./Babbage/Abstract/Block.fine";
 module Block from "./Babbage/Block.fine";

@@ -1,12 +1,20 @@
 package Mary where
 
+signature Crypto.Abstract from "./Mary/Abstract/Crypto.fine";
 module Crypto from "./Mary/Crypto.fine";
 module PParams from "./Mary/PParams.fine";
 
 module Address from "./Mary/Address.fine";
+
+signature Delegation.Abstract from "./Mary/Abstract/Delegation.fine";
 module Delegation from "./Mary/Delegation.fine";
+
 module Script from "./Mary/Script.fine";
+
 module Value from "./Mary/Value.fine";
+
+signature Tx.Abstract from "./Mary/Abstract/Tx.fine";
 module Tx from "./Mary/Tx.fine";
 
+signature Block.Abstract from "./Mary/Abstract/Block.fine";
 module Block from "./Mary/Block.fine";

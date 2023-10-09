@@ -133,10 +133,6 @@ convertToJSON declarations = Map.map (jsonify declarations) declarations
 schemaFromTyp :: Typ -> Schema
 schemaFromTyp = go
   where
-    go Abstract =
-        mempty
-            { _schemaType = Just OpenApiObject
-            }
     go (Var name') =
         mempty
             { _schemaAllOf = Just [Ref $ Reference $ T.pack name']

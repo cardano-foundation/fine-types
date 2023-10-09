@@ -1,0 +1,19 @@
+signature Tx.Abstract where
+
+{-----------------------------------------------------------------------------
+    Transactions
+    Shelley spec, Figure 10
+    and Mary spec, Figure 5
+------------------------------------------------------------------------------}
+
+TxId                ; -- transaction identifier
+Metadatum           ; -- metadatum
+AuxiliaryDataHash   ; -- hash of transaction metadata
+{-----------------------------------------------------------------------------
+    Transactions
+    Alonzo spec, Figure 2
+------------------------------------------------------------------------------}
+
+ScriptIntegrityHash ; --^ Script data hash
+Script_plc          ; --^ Plutus core scripts
+Data                ; --^ Generic script data

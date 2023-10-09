@@ -3,8 +3,10 @@
 ------------------------------------------------------------------------------}
 module ParseTestBabbage where
 
-Slot    = _;
-Network = _;
+import AbstractBabbage (Slot, Network, Addr, DCert
+    , VKey , Sig, Hash28, Hash32, TxId ,Script^ph1, Update
+    , Script_plc , Data,Tag,  AdaIDType, Metadatum);
+
 Ix      = ℕ;
 
 Coin    = ℕ;
@@ -14,24 +16,18 @@ ByteString = Bytes;
 {-----------------------------------------------------------------------------
     Addresses
 ------------------------------------------------------------------------------}
-Addr     = _; -- simplified in this document
 Addr_rwd = Addr;
 
-DCert    = _; -- simplified in this document
 
 {-----------------------------------------------------------------------------
     Cryptographic definitions
     Shelley spec, Figure 2, filtered
 ------------------------------------------------------------------------------}
-VKey = _;
-Sig  = _;
 
 {-----------------------------------------------------------------------------
     Hashes
     Shelley spec, Section A.1 Hashing
 ------------------------------------------------------------------------------}
-Hash28 = _; -- 28 bytes. BLAKE2b-224
-Hash32 = _; -- 32 bytes. BLAKE2b-256
 
 {-----------------------------------------------------------------------------
     Hashes
@@ -40,12 +36,10 @@ Hash32 = _; -- 32 bytes. BLAKE2b-256
 ScriptHash = Hash28;
 KeyHash    = Hash28;
 DataHash   = Hash32;
-TxId       = _; -- simplified in this document
 
 {-----------------------------------------------------------------------------
     Simple scripts
 ------------------------------------------------------------------------------}
-Script^ph1 = _; -- simplified in this document
 
 {-----------------------------------------------------------------------------
     Protocol parameters
@@ -56,7 +50,6 @@ ExUnits = ℕ × ℕ;
 {-----------------------------------------------------------------------------
     Protocol parameters update
 ------------------------------------------------------------------------------}
-Update = _; -- simplified in this document
 
 {-----------------------------------------------------------------------------
     Plutus
@@ -64,8 +57,6 @@ Update = _; -- simplified in this document
 ------------------------------------------------------------------------------}
 -- Abstract types
 ScriptIntegrityHash = Hash32;       -- `script_data_hash` in babbage.cddl
-Script_plc = _;
-Data       = _;
 
 -- Script types
 Script^ph2 = Script_plc;
@@ -77,7 +68,6 @@ Redeemer   = Data;
 -- Derived types
 ValidityInterval = Slot? × Slot?;
 -- TxOut -- defined in Babbage
-Tag        = _; -- FIXME. Enum
 RdmrPtr    = Tag × Ix;
 ScriptHash = Hash28;                -- `scripthash` in babbage.cddl
 
@@ -87,7 +77,6 @@ ScriptHash = Hash28;                -- `scripthash` in babbage.cddl
 ------------------------------------------------------------------------------}
 AssetName = ByteString;
 PolicyID  = ScriptHash;
-AdaIDType = _;
 AssetID   = AdaIDType ⊎ (PolicyID × AssetName);
 Quantity  = ℤ;
 Value     = AssetID ↦0 Quantity;
@@ -98,13 +87,12 @@ Value     = AssetID ↦0 Quantity;
 ------------------------------------------------------------------------------}
 -- Abstract types
 -- TxId -- defined elsewhere
-Metadatum = _;
 
 -- Derived types
 TxIn        = TxId × Ix;
 UTxO        = TxIn ↦ TxOut;
 Wdrl        = Addr_rwd ↦ Coin;
-Metadata    = ℕ ↦ Metadatum; 
+Metadata    = ℕ ↦ Metadatum;
 
 {-----------------------------------------------------------------------------
     Transaction Body
@@ -137,7 +125,7 @@ TxBody =
 ------------------------------------------------------------------------------}
 AuxiliaryData =
   { scripts : ℙ Script
-  , md      : Metadata? 
+  , md      : Metadata?
   };
 
 AuxiliaryDataHash = Hash32; -- `auxiliary_data_hash` in babbage.cddl

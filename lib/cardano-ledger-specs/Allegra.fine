@@ -1,11 +1,18 @@
 package Allegra where
 
+signature Crypto.Abstract from "./Allegra/Abstract/Crypto.fine";
 module Crypto from "./Allegra/Crypto.fine";
 module PParams from "./Allegra/PParams.fine";
 
 module Address from "./Allegra/Address.fine";
+
+signature Delegation.Abstract from "./Allegra/Abstract/Delegation.fine";
 module Delegation from "./Allegra/Delegation.fine";
+
 module Script from "./Allegra/Script.fine";
+
+signature Tx.Abstract from "./Allegra/Abstract/Tx.fine";
 module Tx from "./Allegra/Tx.fine";
 
+signature Block.Abstract from "./Allegra/Abstract/Block.fine";
 module Block from "./Allegra/Block.fine";

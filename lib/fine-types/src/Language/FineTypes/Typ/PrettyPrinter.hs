@@ -58,7 +58,6 @@ requireParens = \case
     ProductN _ -> False
     SumN _ -> False
     Var _ -> False
-    Abstract -> False
     Constrained{} -> False
 
 parens :: Doc ann -> Doc ann
@@ -157,7 +156,6 @@ prettyTyp docs typname = \case
     ProductN fields -> prettyProductN docs typname fields
     SumN constructors -> prettySumN docs typname constructors
     Var name -> pretty name
-    Abstract -> prettyText "_"
     Constrained v typ c -> prettyConstrainedTyp docs typname v typ c
   where
     prettyTyp' = prettyTyp docs typname

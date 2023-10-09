@@ -1,6 +1,6 @@
 module Address where
 
-import Crypto(KeyHash, ScriptHash);
+import Crypto.Abstract(KeyHash, ScriptHash);
 
 {-----------------------------------------------------------------------------
     Addresses
