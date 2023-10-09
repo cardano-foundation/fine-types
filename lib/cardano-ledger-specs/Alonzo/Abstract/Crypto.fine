@@ -9,6 +9,11 @@ KeyHash        ; --^ hash of a public key
 Sig            ; --^ signature
 Script         ; --^ multi-signature script
 ScriptHash     ; --^ hash of a script
+
+{-----------------------------------------------------------------------------
+    Definitions for transactions
+    Alonzo spec, Figure 2
+------------------------------------------------------------------------------}
 DataHash       ; --^ hash of data
 
 {-----------------------------------------------------------------------------
