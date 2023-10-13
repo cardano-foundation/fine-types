@@ -95,6 +95,7 @@ library
     Language.FineTypes.Export.OpenAPI.Value.ToJSON
     Language.FineTypes.Module
     Language.FineTypes.Module.Gen
+    Language.FineTypes.Module.Identity
     Language.FineTypes.Module.Parser
     Language.FineTypes.Module.PrettyPrinter
     Language.FineTypes.Package

@@ -32,6 +32,7 @@ import Data.Set
 import Data.TreeDiff (ToExpr)
 import GHC.Generics (Generic)
 import Language.FineTypes.Documentation (Documentation)
+import Language.FineTypes.Module.Identity (ModuleName)
 import Language.FineTypes.Typ
     ( Typ (..)
     , TypName
@@ -45,8 +46,6 @@ import qualified Data.Set as Set
 {-----------------------------------------------------------------------------
     Module type
 ------------------------------------------------------------------------------}
-type ModuleName = String
-
 -- | A 'Module' is a collection of 'Typ' definitions and documentation.
 data Module = Module
     { moduleName :: ModuleName
