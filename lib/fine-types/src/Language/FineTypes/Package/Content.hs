@@ -1,4 +1,5 @@
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE TupleSections #-}
 
@@ -29,6 +30,15 @@ import Language.FineTypes.Module
     , collectNotInScope
     , duplicatedImports
     )
+import Language.FineTypes.Module.Identity
+    ( Identity (..)
+    , ModuleIdentity
+    )
+import Language.FineTypes.Module.Instance
+    ( ModuleInstance (..)
+    , getDeclarations
+    , mkModuleInstance
+    )
 import Language.FineTypes.Signature (Signature (..))
 import Language.FineTypes.Typ (TypName)
 
@@ -36,12 +46,12 @@ import qualified Data.Map as Map
 import qualified Data.Set as Set
 
 {-----------------------------------------------------------------------------
-    Package content
+    Type
 ------------------------------------------------------------------------------}
 
 -- | A package is a collection of module or signature definitions.
 newtype Package = Package
-    { packageModules :: Map ModuleName (Either Signature Module)
+    { packageModules :: Map ModuleName (Either Signature ModuleInstance)
     }
     deriving (Eq, Show, Generic)
 
@@ -49,6 +59,11 @@ instance ToExpr Package
 
 emptyPackage :: Package
 emptyPackage = Package Map.empty
+
+{-----------------------------------------------------------------------------
+    Operations
+    Include a package
+------------------------------------------------------------------------------}
 
 newtype ErrIncludePackage
     = ErrModulesAlreadyInScope (Set ModuleName)
@@ -75,6 +90,11 @@ includePackage include package
         Map.keysSet modulesInclude
             `Set.intersection` Map.keysSet modulesPackage
 
+{-----------------------------------------------------------------------------
+    Operations
+    Add a module
+------------------------------------------------------------------------------}
+
 data ErrAddModule
     = -- | The module is already in scope.
       ErrModuleAlreadyInScope
@@ -91,7 +111,7 @@ instance ToExpr ErrAddModule
 -- | Add a module to the current package if possible.
 addModule
     :: Module -> Package -> Either ErrAddModule Package
-addModule mo@Module{..} Package{..}
+addModule mo@Module{..} pkg@Package{packageModules}
     | moduleName `Map.member` packageModules =
         Left ErrModuleAlreadyInScope
     | not (Set.null invalidImports) =
@@ -100,35 +120,64 @@ addModule mo@Module{..} Package{..}
         Left $ ErrNamesNotInScope namesNotInScope
     | not (Map.null duplicatedImports') =
         Left $ ErrDuplicatedImports duplicatedImports'
-    | otherwise =
+    | Just moduleInstance <- maybeModuleInstance =
         Right
             Package
                 { packageModules =
                     Map.insert
                         moduleName
-                        (Right mo)
+                        (Right moduleInstance)
                         packageModules
                 }
+    | otherwise =
+        error "addModule: mkModuleInstance should have succeeded"
   where
-    -- FIXME: Substitute provenance for all the defined 'Typ'!.
     namesNotInScope = collectNotInScope mo
 
     invalidImports = fold $ Map.mapWithKey invalidImport moduleImports
     invalidImport m =
         Set.map (m,)
-            . Set.filter (not . (`isDefinedIn` m))
+            . Set.filter (not . isDefinedIn pkg m)
             . getImportNames
 
-    isDefinedIn :: TypName -> ModuleName -> Bool
-    isDefinedIn typName modName =
-        case Map.lookup modName packageModules of
-            Nothing -> False
-            Just (Right Module{moduleDeclarations = ds}) ->
-                typName `Map.member` ds
-            Just (Left Signature{signatureDeclarations = ds}) ->
-                typName `Set.member` ds
+    maybeModuleInstance =
+        mkModuleInstance lookupProvenance lookupIdentity mo
+
     duplicatedImports' = duplicatedImports mo
 
+    -- Currently, every 'TypName' is import directly from the module
+    -- where it is defined — we do not allow re-exports or renamings.
+    -- Hence, the 'Provenance' is always the identity of the module
+    -- that the 'TypName' is imported from.
+    lookupProvenance (modulename, _) =
+        getIdentity <$> Map.lookup modulename packageModules
+
+    lookupIdentity modulename =
+        getIdentity <$> Map.lookup modulename packageModules
+
+-- | Get the identity of an element of 'packageModule'.
+getIdentity :: Either Signature ModuleInstance -> ModuleIdentity
+getIdentity e = case e of
+    Left Signature{signatureName} -> Const signatureName
+    Right ModuleInstance{identity} -> identity
+
+-- | Test whether a 'TypName' is defined in a module of a 'Package'.
+isDefinedIn :: Package -> ModuleName -> TypName -> Bool
+isDefinedIn Package{packageModules} modName typName =
+    case Map.lookup modName packageModules of
+        Nothing -> False
+        Just (Right moduleInstance) ->
+            let ds = getDeclarations moduleInstance
+            in  typName `Map.member` ds
+        Just (Left Signature{signatureDeclarations = ds}) ->
+            typName `Set.member` ds
+
+{-----------------------------------------------------------------------------
+    Operations
+    Add a signature
+------------------------------------------------------------------------------}
+
+-- | Add a signature to the current package if possible.
 addSignature
     :: Signature -> Package -> Either ErrAddModule Package
 addSignature sig@Signature{..} Package{..}

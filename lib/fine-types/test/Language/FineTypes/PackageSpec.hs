@@ -11,6 +11,8 @@ import Control.Monad (unless)
 import Data.TreeDiff (ToExpr (..), ediff, prettyEditExprCompact)
 import Language.FineTypes.Documentation (Documentation (..), Place (..))
 import Language.FineTypes.Module (Import (..), Module (..))
+import Language.FineTypes.Module.Identity (Identity (..))
+import Language.FineTypes.Module.Instance (ModuleInstance (..))
 import Language.FineTypes.Package
     ( ErrAddModule (..)
     , ErrCompilePackage (..)
@@ -25,9 +27,8 @@ import Language.FineTypes.Package
 import Language.FineTypes.Signature (Signature (..))
 import Language.FineTypes.Typ
     ( OpTwo (Product2, Sum2)
-    , Typ (Two, Zero)
+    , Typ (Two, Var, Zero)
     , TypConst (Bytes, Integer, Rational)
-    , var
     )
 import System.FilePath
     ( (</>)
@@ -304,42 +305,66 @@ positiveOnPackageTest = do
                 ,
                     ( "X"
                     , Right
-                        ( Module
-                            { moduleName = "X"
-                            , moduleImports = []
-                            , moduleDeclarations =
-                                [ ("A", Zero Integer)
-                                , ("B", Two Sum2 (var "A") (Zero Bytes))
-                                ]
-                            , moduleDocumentation =
-                                Documentation{getDocumentation = []}
+                        ( ModuleInstance
+                            { content =
+                                Module
+                                    { moduleName = "X"
+                                    , moduleImports = []
+                                    , moduleDeclarations =
+                                        [ ("A", Zero Integer)
+                                        ,
+                                            ( "B"
+                                            , Two
+                                                Sum2
+                                                (var moduleIdentityX "A")
+                                                (Zero Bytes)
+                                            )
+                                        ]
+                                    , moduleDocumentation =
+                                        Documentation{getDocumentation = []}
+                                    }
+                            , identity = moduleIdentityX
                             }
                         )
                     )
                 ,
                     ( "Y"
                     , Right
-                        ( Module
-                            { moduleName = "Y"
-                            , moduleImports =
-                                [
-                                    ( "X"
-                                    , ImportNames
-                                        { getImportNames =
-                                            ["A", "B"]
-                                        }
-                                    )
-                                ]
-                            , moduleDeclarations =
-                                [
-                                    ( "C"
-                                    , Two Product2 (Zero Rational) (var "B")
-                                    )
-                                ]
-                            , moduleDocumentation =
-                                Documentation{getDocumentation = []}
+                        ( ModuleInstance
+                            { content =
+                                Module
+                                    { moduleName = "Y"
+                                    , moduleImports =
+                                        [
+                                            ( "X"
+                                            , ImportNames
+                                                { getImportNames =
+                                                    ["A", "B"]
+                                                }
+                                            )
+                                        ]
+                                    , moduleDeclarations =
+                                        [
+                                            ( "C"
+                                            , Two
+                                                Product2
+                                                (Zero Rational)
+                                                (var moduleIdentityX "B")
+                                            )
+                                        ]
+                                    , moduleDocumentation =
+                                        Documentation{getDocumentation = []}
+                                    }
+                            , identity = moduleIdentityY
                             }
                         )
                     )
                 ]
             }
+
+    var mid typname = Var (Just mid, typname)
+
+    moduleIdentityX =
+        Const "X"
+    moduleIdentityY =
+        Apply (Const "Y") [Const "X"]

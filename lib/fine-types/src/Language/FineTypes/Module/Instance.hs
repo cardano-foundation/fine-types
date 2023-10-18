@@ -141,9 +141,11 @@ mkModuleIdentity
     -> Module
     -> Maybe ModuleIdentity
 mkModuleIdentity lookupIdentity m =
-    Apply
-        (Const $ moduleName m)
-        <$> mapM lookupIdentity (Map.keys $ moduleImports m)
+    if null (moduleImports m)
+        then Just c
+        else Apply c <$> mapM lookupIdentity (Map.keys $ moduleImports m)
+  where
+    c = Const $ moduleName m
 
 {-----------------------------------------------------------------------------
     Helpers
