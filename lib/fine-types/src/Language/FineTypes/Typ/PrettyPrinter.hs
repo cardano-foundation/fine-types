@@ -155,7 +155,7 @@ prettyTyp docs typname = \case
             <+> withParens prettyTyp' typ2
     ProductN fields -> prettyProductN docs typname fields
     SumN constructors -> prettySumN docs typname constructors
-    Var name -> pretty name
+    Var (_, name) -> pretty name
     Constrained v typ c -> prettyConstrainedTyp docs typname v typ c
   where
     prettyTyp' = prettyTyp docs typname

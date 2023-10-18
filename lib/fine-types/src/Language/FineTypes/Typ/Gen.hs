@@ -23,6 +23,7 @@ import Language.FineTypes.Typ
     , Typ (..)
     , TypConst (..)
     , TypName
+    , var
     )
 import Test.QuickCheck
     ( Gen
@@ -111,7 +112,7 @@ genTyp out = go Top
                         , ProductN <$> genTagged genFields go'
                         , SumN <$> genTagged genConstructors go'
                         ]
-                    <> complete [Var <$> genVarName]
+                    <> complete [var <$> genVarName]
                     <> constrained [genConstrainedTyp mode]
         oneof expansion `suchThat` (not . out)
       where
@@ -151,7 +152,7 @@ genConstrainedTyp mode = do
         oneof
             $ []
                 <> always [Zero <$> genConst]
-                <> complete [Var <$> genVarName]
+                <> complete [var <$> genVarName]
 
 genTagged :: Gen [a] -> Gen Typ -> Gen [(a, Typ)]
 genTagged gen f = do

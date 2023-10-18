@@ -25,8 +25,9 @@ import Language.FineTypes.Package
 import Language.FineTypes.Signature (Signature (..))
 import Language.FineTypes.Typ
     ( OpTwo (Product2, Sum2)
-    , Typ (Two, Var, Zero)
+    , Typ (Two, Zero)
     , TypConst (Bytes, Integer, Rational)
+    , var
     )
 import System.FilePath
     ( (</>)
@@ -308,7 +309,7 @@ positiveOnPackageTest = do
                             , moduleImports = []
                             , moduleDeclarations =
                                 [ ("A", Zero Integer)
-                                , ("B", Two Sum2 (Var "A") (Zero Bytes))
+                                , ("B", Two Sum2 (var "A") (Zero Bytes))
                                 ]
                             , moduleDocumentation =
                                 Documentation{getDocumentation = []}
@@ -332,7 +333,7 @@ positiveOnPackageTest = do
                             , moduleDeclarations =
                                 [
                                     ( "C"
-                                    , Two Product2 (Zero Rational) (Var "B")
+                                    , Two Product2 (Zero Rational) (var "B")
                                     )
                                 ]
                             , moduleDocumentation =

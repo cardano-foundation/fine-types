@@ -15,6 +15,9 @@ module Language.FineTypes.Typ
     , Constraint1 (..)
     , Constraint
 
+      -- * Smart constructors
+    , var
+
       -- * Traversals
     , everywhere
     , everything
@@ -25,6 +28,7 @@ import Prelude
 
 import Data.TreeDiff (ToExpr)
 import GHC.Generics (Generic)
+import Language.FineTypes.Module.Identity (Provenance)
 
 import qualified Data.List as L
 
@@ -44,7 +48,7 @@ type VarName = String
 -- such as taking disjoint sums or cartesian products.
 data Typ
     = -- | Variable
-      Var TypName
+      Var (Maybe Provenance, TypName)
     | -- | Known 'Typ' constant.
       Zero TypConst
     | -- | Apply an unary operation to a 'Typ'.
@@ -58,6 +62,10 @@ data Typ
     | -- | A type with a value constraint
       Constrained VarName Typ Constraint
     deriving (Eq, Ord, Show, Generic)
+
+-- | Smart constructor: 'Var' without 'Provenance'.
+var :: TypName -> Typ
+var n = Var (Nothing, n)
 
 instance ToExpr Typ
 
