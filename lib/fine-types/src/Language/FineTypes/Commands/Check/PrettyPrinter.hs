@@ -9,11 +9,12 @@ import Data.Foldable (toList)
 import Language.FineTypes.Module.Parser (ErrParseModule (..))
 import Language.FineTypes.Package
     ( ErrAddModule (..)
+    , ErrAssertion (..)
     , ErrCompilePackage (..)
     , ErrIncludePackage (..)
-    , ErrParsePackage
+    , ErrParsePackage (..)
     )
-import Language.FineTypes.Package.Parser (ErrParsePackage (..))
+import Language.FineTypes.Package.PrettyPrinter (prettyAssertion)
 import Prettyprinter
     ( Doc
     , Pretty (pretty)
@@ -68,6 +69,10 @@ prettyPrintCompilePackage = \case
             <+> pretty mn
             <+> prettyString "vs"
             <+> pretty mn'
+    ErrAssertFailed assertion e ->
+        prettyString "Assertion failed:"
+            <+> prettyAssertion assertion
+                </> indent 4 (prettyPrintCheckAssertion e)
 
 prettyPrintAddModule :: ErrAddModule -> Doc ann
 prettyPrintAddModule = \case
@@ -102,6 +107,22 @@ prettyPrintIncludePackage = \case
     ErrModulesAlreadyInScope ms ->
         prettyString "Modules already in scope:" <+> pretty (toList ms)
 
+prettyPrintCheckAssertion :: ErrAssertion -> Doc ann
+prettyPrintCheckAssertion = \case
+    ErrNameNotInScope n ->
+        prettyString "Module name not in scope:" <+> pretty n
+    ErrUnequal ida idb ->
+        prettyString "Module identities are not equal:"
+            </> indent
+                4
+                ( pretty (show ida)
+                    </> prettyString "=/="
+                    </> pretty (show idb)
+                )
+
+{-----------------------------------------------------------------------------
+    Utilities
+------------------------------------------------------------------------------}
 (</>) :: Doc ann -> Doc ann -> Doc ann
 x </> y = x <> line <> y
 

@@ -42,4 +42,8 @@ instance ToExpr Source
 {-----------------------------------------------------------------------------
     Assertions
 ------------------------------------------------------------------------------}
-type Assertion = ()
+data Assertion
+    = Equal ModuleName ModuleName
+    deriving (Eq, Show, Generic)
+
+instance ToExpr Assertion

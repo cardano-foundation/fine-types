@@ -5,3 +5,5 @@ module Y from "Y.fine";
 
 module Xoops renaming X from "X.fine";
 module Z from "Z.fine";
+
+assert X == Xoops;

@@ -9,17 +9,20 @@ module Language.FineTypes.Package.Content
     , emptyPackage
     , includePackage
     , addModule
+    , addSignature
+    , checkAssertion
 
       -- * Error types
     , ErrIncludePackage (..)
     , ErrAddModule (..)
-    , addSignature
+    , ErrAssertion (..)
     ) where
 
 import Prelude
 
 import Data.Foldable (fold)
 import Data.Map (Map)
+import Data.Maybe (isNothing)
 import Data.Set (Set)
 import Data.TreeDiff (ToExpr)
 import GHC.Generics (Generic)
@@ -38,6 +41,9 @@ import Language.FineTypes.Module.Instance
     ( ModuleInstance (..)
     , getDeclarations
     , mkModuleInstance
+    )
+import Language.FineTypes.Package.Description
+    ( Assertion (..)
     )
 import Language.FineTypes.Signature (Signature (..))
 import Language.FineTypes.Typ (TypName)
@@ -192,3 +198,34 @@ addSignature sig@Signature{..} Package{..}
                         (Left sig)
                         packageModules
                 }
+
+{-----------------------------------------------------------------------------
+    Operations
+    Check an assertion
+------------------------------------------------------------------------------}
+
+data ErrAssertion
+    = -- | Name not in scope
+      ErrNameNotInScope ModuleName
+    | -- | The two modules are not equal.
+      ErrUnequal ModuleIdentity ModuleIdentity
+    deriving (Eq, Show, Generic)
+
+instance ToExpr ErrAssertion
+
+-- | Check whether an 'Assertion' on the current 'Package' holds.
+checkAssertion :: Package -> Assertion -> Either ErrAssertion ()
+checkAssertion Package{packageModules} (Equal a b)
+    | mida == midb = Right ()
+    | isNothing mida =
+        Left $ ErrNameNotInScope a
+    | isNothing midb =
+        Left $ ErrNameNotInScope b
+    | Just ida <- mida
+    , Just idb <- midb =
+        Left $ ErrUnequal ida idb
+    | otherwise =
+        error "impossible"
+  where
+    mida = getIdentity <$> Map.lookup a packageModules
+    midb = getIdentity <$> Map.lookup b packageModules

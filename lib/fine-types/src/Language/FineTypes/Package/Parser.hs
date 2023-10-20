@@ -13,7 +13,8 @@ import Data.Void (Void)
 import GHC.Generics (Generic)
 import Language.FineTypes.Module.Parser (moduleName)
 import Language.FineTypes.Package.Description
-    ( PackageDescription (PackageDescription)
+    ( Assertion (..)
+    , PackageDescription (PackageDescription)
     , PackageName
     , Source (..)
     , Statement (..)
@@ -68,12 +69,29 @@ statements = statement `endBy` symbol ";"
 
 statement :: Parser Statement
 statement =
-    (Include <$ symbol "include" <*> packageName <*> source)
-        <|> (Module <$ symbol "module" <*> moduleName <*> renaming <*> source)
-        <|> (Signature <$ symbol "signature" <*> moduleName <*> source)
-        <|> (Assert () <$ symbol "assert")
-  where
-    renaming = optional (symbol "renaming" *> moduleName)
+    include
+        <|> module'
+        <|> signature'
+        <|> assert
+
+include :: Parser Statement
+include = Include <$ symbol "include" <*> packageName <*> source
+
+module' :: Parser Statement
+module' =
+    Module
+        <$ symbol "module"
+        <*> moduleName
+        <*> optional (symbol "renaming" *> moduleName)
+        <*> source
+
+signature' :: Parser Statement
+signature' = Signature <$ symbol "signature" <*> moduleName <*> source
+
+assert :: Parser Statement
+assert =
+    (Assert <$ symbol "assert")
+        <*> (Equal <$> moduleName <* symbol "==" <*> moduleName)
 
 source :: Parser Source
 source =
