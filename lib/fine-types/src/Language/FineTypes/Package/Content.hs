@@ -108,11 +108,11 @@ data ErrAddModule
 
 instance ToExpr ErrAddModule
 
--- | Add a module to the current package if possible.
+-- | Add a module (under a given name) to the current 'Package' if possible.
 addModule
-    :: Module -> Package -> Either ErrAddModule Package
-addModule mo@Module{..} pkg@Package{packageModules}
-    | moduleName `Map.member` packageModules =
+    :: ModuleName -> Module -> Package -> Either ErrAddModule Package
+addModule name mo@Module{..} pkg@Package{packageModules}
+    | name `Map.member` packageModules =
         Left ErrModuleAlreadyInScope
     | not (Set.null invalidImports) =
         Left $ ErrImportNotInScope invalidImports
@@ -125,7 +125,7 @@ addModule mo@Module{..} pkg@Package{packageModules}
             Package
                 { packageModules =
                     Map.insert
-                        moduleName
+                        name
                         (Right moduleInstance)
                         packageModules
                 }

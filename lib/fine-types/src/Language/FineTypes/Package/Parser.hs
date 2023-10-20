@@ -25,6 +25,7 @@ import Text.Megaparsec
     , Parsec
     , between
     , endBy
+    , optional
     , parse
     , takeWhileP
     , (<|>)
@@ -68,9 +69,11 @@ statements = statement `endBy` symbol ";"
 statement :: Parser Statement
 statement =
     (Include <$ symbol "include" <*> packageName <*> source)
-        <|> (Module <$ symbol "module" <*> moduleName <*> source)
+        <|> (Module <$ symbol "module" <*> moduleName <*> renaming <*> source)
         <|> (Signature <$ symbol "signature" <*> moduleName <*> source)
         <|> (Assert () <$ symbol "assert")
+  where
+    renaming = optional (symbol "renaming" *> moduleName)
 
 source :: Parser Source
 source =

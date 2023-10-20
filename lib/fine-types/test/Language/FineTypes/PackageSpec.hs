@@ -304,28 +304,11 @@ positiveOnPackageTest = do
                     )
                 ,
                     ( "X"
-                    , Right
-                        ( ModuleInstance
-                            { content =
-                                Module
-                                    { moduleName = "X"
-                                    , moduleImports = []
-                                    , moduleDeclarations =
-                                        [ ("A", Zero Integer)
-                                        ,
-                                            ( "B"
-                                            , Two
-                                                Sum2
-                                                (var moduleIdentityX "A")
-                                                (Zero Bytes)
-                                            )
-                                        ]
-                                    , moduleDocumentation =
-                                        Documentation{getDocumentation = []}
-                                    }
-                            , identity = moduleIdentityX
-                            }
-                        )
+                    , Right moduleInstanceX
+                    )
+                ,
+                    ( "Xoops"
+                    , Right moduleInstanceX
                     )
                 ,
                     ( "Y"
@@ -359,12 +342,71 @@ positiveOnPackageTest = do
                             }
                         )
                     )
+                ,
+                    ( "Z"
+                    , Right
+                        ( ModuleInstance
+                            { content =
+                                Module
+                                    { moduleName = "Z"
+                                    , moduleImports =
+                                        [
+                                            ( "Xoops"
+                                            , ImportNames
+                                                { getImportNames =
+                                                    ["A", "B"]
+                                                }
+                                            )
+                                        ]
+                                    , moduleDeclarations =
+                                        [
+                                            ( "C"
+                                            , Two
+                                                Sum2
+                                                (var moduleIdentityXoops "A")
+                                                (var moduleIdentityXoops "B")
+                                            )
+                                        ]
+                                    , moduleDocumentation =
+                                        Documentation{getDocumentation = []}
+                                    }
+                            , identity = moduleIdentityZ
+                            }
+                        )
+                    )
                 ]
             }
+
+    moduleInstanceX =
+        ( ModuleInstance
+            { content =
+                Module
+                    { moduleName = "X"
+                    , moduleImports = []
+                    , moduleDeclarations =
+                        [ ("A", Zero Integer)
+                        ,
+                            ( "B"
+                            , Two
+                                Sum2
+                                (var moduleIdentityX "A")
+                                (Zero Bytes)
+                            )
+                        ]
+                    , moduleDocumentation =
+                        Documentation{getDocumentation = []}
+                    }
+            , identity = moduleIdentityX
+            }
+        )
 
     var mid typname = Var (Just mid, typname)
 
     moduleIdentityX =
         Const "X"
+    moduleIdentityXoops =
+        moduleIdentityX
     moduleIdentityY =
         Apply (Const "Y") [Const "X"]
+    moduleIdentityZ =
+        Apply (Const "Z") [moduleIdentityXoops]
