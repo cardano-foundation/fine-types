@@ -14,6 +14,7 @@ module Language.FineTypes.Module
     , collectNotInScope
     , resolveVars
     , redundantImports
+    , duplicatedImports
     ) where
 
 import Prelude
@@ -132,3 +133,14 @@ redundantImports Module{moduleImports, moduleDeclarations} =
             name <- Set.toList names
             guard $ name `Set.notMember` needed
             pure (moduleName, name)
+
+-- | Group modules by the names they import,
+-- and filter those names which are imported from multiple modules.
+duplicatedImports :: Module -> Map TypName (Set ModuleName)
+duplicatedImports Module{moduleImports} =
+    Map.filter ((> 1) . Set.size)
+        $ Map.fromListWith (<>)
+        $ do
+            (moduleName, ImportNames names) <- Map.toList moduleImports
+            name <- Set.toList names
+            pure (name, Set.singleton moduleName)
