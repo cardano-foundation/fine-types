@@ -1,0 +1,6 @@
+package FailToAddModuleNameMismatch where
+
+module Works from "./modules/Works.fine";
+module WorksCopy from "./modules/WorksCopy.fine";
+
+module DuplicatedImports from "./modules/DuplicatedImports.fine";
