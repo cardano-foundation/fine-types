@@ -27,6 +27,7 @@ import Language.FineTypes.Module
     , Module (..)
     , ModuleName
     , collectNotInScope
+    , duplicatedImports
     )
 import Language.FineTypes.Signature (Signature (..))
 import Language.FineTypes.Typ (TypName)
@@ -81,6 +82,8 @@ data ErrAddModule
       ErrImportNotInScope (Set (ModuleName, TypName))
     | -- | The added module uses a type which is not defined.
       ErrNamesNotInScope (Set TypName)
+    | -- | The module has duplicated imports.
+      ErrDuplicatedImports (Map TypName (Set ModuleName))
     deriving (Eq, Ord, Show, Generic)
 
 instance ToExpr ErrAddModule
@@ -95,6 +98,8 @@ addModule mo@Module{..} Package{..}
         Left $ ErrImportNotInScope invalidImports
     | not (Set.null namesNotInScope) =
         Left $ ErrNamesNotInScope namesNotInScope
+    | not (Map.null duplicatedImports') =
+        Left $ ErrDuplicatedImports duplicatedImports'
     | otherwise =
         Right
             Package
@@ -122,6 +127,7 @@ addModule mo@Module{..} Package{..}
                 typName `Map.member` ds
             Just (Left Signature{signatureDeclarations = ds}) ->
                 typName `Set.member` ds
+    duplicatedImports' = duplicatedImports mo
 
 addSignature
     :: Signature -> Package -> Either ErrAddModule Package
