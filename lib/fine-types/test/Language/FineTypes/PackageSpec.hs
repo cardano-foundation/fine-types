@@ -123,6 +123,7 @@ spec = do
         failToAddModuleImportNotInScope
         failToAddModuleNamesNotInScope
         failToAddModuleNameMismatch
+        failToAddModuleDuplicatedImports
 
 failToParse :: Spec
 failToParse =
@@ -234,6 +235,19 @@ failToAddModuleNameMismatch =
         "test/data/package/failure"
         "FailToAddModuleNameMismatch.pkg.fine"
         (Left $ ErrAddModuleNameMismatch "NameMismatch" "MameMismatch")
+        Nothing
+
+failToAddModuleDuplicatedImports :: Spec
+failToAddModuleDuplicatedImports =
+    compilationSpec
+        "test/data/package/failure"
+        "FailToAddModuleDuplicatedImports.pkg.fine"
+        ( Left
+            $ ErrAddModule
+                "DuplicatedImports"
+            $ ErrDuplicatedImports
+                [("A", ["Works", "WorksCopy"])]
+        )
         Nothing
 
 positiveOnPackageTest :: Spec

@@ -27,6 +27,7 @@ import Prettyprinter
 import Prettyprinter.Render.String (renderString)
 import Text.Megaparsec (errorBundlePretty)
 
+import qualified Data.Map as Map
 import qualified Language.FineTypes.Package as Pkg
 
 prettyString :: String -> Doc ann
@@ -80,6 +81,21 @@ prettyPrintAddModule = \case
             ]
     ErrNamesNotInScope ns ->
         prettyString "Names not in scope:" <+> pretty (toList ns)
+    ErrDuplicatedImports is ->
+        concatWith
+            (</>)
+            [ "Duplicated imports of name" <+> pretty n
+                <> ":"
+                    </> indent
+                        4
+                        ( concatWith
+                            (</>)
+                            [ pretty m
+                            | m <- toList ms
+                            ]
+                        )
+            | (n, ms) <- Map.toList is
+            ]
 
 prettyPrintIncludePackage :: ErrIncludePackage -> Doc ann
 prettyPrintIncludePackage = \case

@@ -1,0 +1,4 @@
+module DuplicatedImports where
+
+import Works(A);
+import WorksCopy(A);
