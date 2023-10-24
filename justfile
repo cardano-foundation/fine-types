@@ -49,3 +49,9 @@ prepare: format lint build0 test
 @run *args='--help':
     just build0
     cabal exec -v0 -O0 -j fine-types -- $@
+
+pushf:
+    git push -f origin HEAD
+
+push:
+    git push origin HEAD
