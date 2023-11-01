@@ -124,7 +124,7 @@ import' =
     importedNames = parens (typName `sepBy` symbol ",")
     toImport = ImportNames . Set.fromList
 
-type DocumentedDeclarations = (Declarations, Documentation)
+type DocumentedDeclarations = (Declarations TypName, Documentation)
 
 declarations :: Parser DocumentedDeclarations
 declarations = mconcat <$> many declaration

@@ -11,7 +11,8 @@ import Language.FineTypes.Export.OpenAPI.Value.FromJSON (valueFromJson)
 import Language.FineTypes.Export.OpenAPI.Value.ToJSON (jsonFromValue)
 import Language.FineTypes.Typ
     ( OpTwo (FiniteSupport, PartialFunction)
-    , Typ (..)
+    , Typ
+    , TypV (..)
     )
 import Language.FineTypes.Typ.Gen
     ( Mode (..)

@@ -33,10 +33,10 @@ import Language.FineTypes.Typ
     , FieldName
     , OpOne (..)
     , OpTwo (..)
-    , Typ (..)
     , TypConst (..)
+    , TypName
+    , TypV (..)
     , VarName
-    , var
     )
 import Text.Megaparsec
     ( many
@@ -59,7 +59,7 @@ parseTyp =
         <|> try sumN
         <|> (notDocumented <$> expr)
 
-constrained :: Parser Typ
+constrained :: Parser (TypV TypName)
 constrained = braces $ do
     v <- varName
     _ <- symbol ":"
@@ -69,11 +69,11 @@ constrained = braces $ do
 
 data DocumentedTyp
     = DocumentedTyp
-        Typ
+        (TypV TypName)
         [(FieldName, Map Place DocString)]
         [(ConstructorName, Map Place DocString)]
 
-notDocumented :: Typ -> DocumentedTyp
+notDocumented :: TypV TypName -> DocumentedTyp
 notDocumented typ = DocumentedTyp typ [] []
 
 mkProductN :: [DocumentedField] -> DocumentedTyp
@@ -87,7 +87,7 @@ productN :: Parser DocumentedTyp
 productN = mkProductN <$> braces (field `sepBy` symbol ",")
 
 data DocumentedField
-    = DocumentedField FieldName Typ (Map Place DocString)
+    = DocumentedField FieldName (TypV TypName) (Map Place DocString)
 
 field :: Parser DocumentedField
 field =
@@ -112,7 +112,10 @@ sumN :: Parser DocumentedTyp
 sumN = mkSumN <$> sumBraces (constructor `sepBy` symbol ",")
 
 data DocumentedConstructor
-    = DocumentedConstructor ConstructorName Typ (Map Place DocString)
+    = DocumentedConstructor
+        ConstructorName
+        (TypV TypName)
+        (Map Place DocString)
 
 constructor :: Parser DocumentedConstructor
 constructor =
@@ -127,7 +130,7 @@ constructor =
         DocumentedConstructor b c (a <> d)
 
 -- | Parse an expression.
-expr :: Parser Typ
+expr :: Parser (TypV TypName)
 expr = Parser.Expr.makeExprParser atom tableOfOperators <?> "expression"
 
 constraint :: Parser Constraint
@@ -142,10 +145,10 @@ constraint = some constraint1
         $ satisfy
         $ \c -> not (c `elem` "{}" || isSpace c)
 
-zeroVar :: Parser Typ
-zeroVar = try (Zero <$> constants) <|> (var <$> typName)
+zeroVar :: Parser (TypV TypName)
+zeroVar = try (Zero <$> constants) <|> (Var <$> typName)
 
-atom :: Parser Typ
+atom :: Parser (TypV TypName)
 atom =
     parens expr
         <|> zeroVar
@@ -162,7 +165,7 @@ constants =
         <|> (Text <$ symbol "Text")
         <|> (Unit <$ symbol "Unit")
 
-tableOfOperators :: [[Parser.Expr.Operator Parser Typ]]
+tableOfOperators :: [[Parser.Expr.Operator Parser (TypV TypName)]]
 tableOfOperators =
     [
         [ postfix "*" (One Sequence)

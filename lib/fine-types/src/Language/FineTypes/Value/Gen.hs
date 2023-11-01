@@ -14,7 +14,7 @@ import Control.Monad.Trans.Class (MonadTrans, lift)
 import Control.Monad.Trans.Except (ExceptT (..), runExceptT)
 import Data.ByteString (ByteString)
 import Data.Text (Text)
-import Language.FineTypes.Typ (Typ)
+import Language.FineTypes.Typ (TypV)
 import Language.FineTypes.Typ.Gen
     ( DepthGen
     , Mode (..)
@@ -54,7 +54,7 @@ genBytes :: Gen ByteString
 genBytes = B.pack <$> listOf arbitrary
 
 -- | Generate a random 'Value' of the given 'Typ' and fail if it is not possible.
-exceptGenValue :: Typ -> ExceptT Typ Gen Value
+exceptGenValue :: TypV var -> ExceptT (TypV var) Gen Value
 exceptGenValue = ExceptT . genTypValue
 
 -- | Generate a random list of the given length under a monad transformer.
@@ -65,7 +65,7 @@ listOfT f = do
 
 -- | Generate a random 'Value' of the given 'Typ' or report the first 'Typ' that
 -- cannot be generated down the tree.
-genTypValue :: Typ -> Gen (Either Typ Value)
+genTypValue :: TypV var -> Gen (Either (TypV var) Value)
 genTypValue typ =
     case typ of
         Typ.Zero typ' ->
@@ -123,12 +123,12 @@ genTypValue typ =
         typ' -> pure $ Left typ'
 
 genTypAndValue
-    :: (Typ -> Bool)
-    -> (Typ -> Bool)
+    :: (TypV var -> Bool)
+    -> (TypV var -> Bool)
     -> WithConstraints
-    -> Mode
+    -> Mode var
     -> DepthGen
-    -> Gen (Typ, Either Typ Value)
+    -> Gen (TypV var, Either (TypV var) Value)
 genTypAndValue topLevelFilterIn filteringOut contraints concreteness depth = do
     typ <-
         genTyp filteringOut contraints concreteness depth

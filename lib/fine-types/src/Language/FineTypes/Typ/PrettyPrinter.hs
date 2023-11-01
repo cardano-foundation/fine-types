@@ -26,9 +26,9 @@ import Language.FineTypes.Typ
     , FieldName
     , OpOne (..)
     , OpTwo (..)
-    , Typ (..)
     , TypConst (..)
     , TypName
+    , TypV (..)
     , VarName
     )
 import Prettyprinter
@@ -50,7 +50,7 @@ type QueryDocumentation = Identifier -> IdentifierDocumentation
 prettyText :: T.Text -> Doc ann
 prettyText = pretty
 
-requireParens :: Typ -> Bool
+requireParens :: TypV var -> Bool
 requireParens = \case
     Zero _ -> False
     One _ _ -> True
@@ -63,14 +63,14 @@ requireParens = \case
 parens :: Doc ann -> Doc ann
 parens doc = encloseSep "(" ")" " " [doc]
 
-withParens :: (Typ -> Doc ann) -> Typ -> Doc ann
+withParens :: (TypV var -> Doc ann) -> TypV var -> Doc ann
 withParens f x = if requireParens x then parens (f x) else f x
 
 prettyConstrainedTyp
     :: QueryDocumentation
     -> TypName
     -> VarName
-    -> Typ
+    -> TypV TypName
     -> Constraint
     -> Doc ann
 prettyConstrainedTyp docs typname _v typ [] = prettyTyp docs typname typ
@@ -145,7 +145,7 @@ d </> d' = d <> line <> d'
 
 -- | Pretty print a 'Typ'.
 prettyTyp
-    :: QueryDocumentation -> TypName -> Typ -> Doc ann
+    :: QueryDocumentation -> TypName -> TypV TypName -> Doc ann
 prettyTyp docs typname = \case
     Zero tc -> prettyConst tc
     One op typ -> prettyOpOne op $ withParens prettyTyp' typ
@@ -155,7 +155,7 @@ prettyTyp docs typname = \case
             <+> withParens prettyTyp' typ2
     ProductN fields -> prettyProductN docs typname fields
     SumN constructors -> prettySumN docs typname constructors
-    Var (_, name) -> pretty name
+    Var name -> pretty name
     Constrained v typ c -> prettyConstrainedTyp docs typname v typ c
   where
     prettyTyp' = prettyTyp docs typname
@@ -166,7 +166,7 @@ structures
     -> (TypName -> String -> Identifier)
     -> Doc ann
     -> Doc ann
-    -> [(String, Typ)]
+    -> [(String, TypV TypName)]
     -> Doc ann
 structures docs typname field o c xs = line <> content <> line <> c
   where
@@ -181,14 +181,14 @@ structures docs typname field o c xs = line <> content <> line <> c
 prettyProductN
     :: QueryDocumentation
     -> TypName
-    -> [(FieldName, Typ)]
+    -> [(FieldName, TypV TypName)]
     -> Doc ann
 prettyProductN docs typname = structures docs typname Field "{" "}"
 
 prettySumN
     :: QueryDocumentation
     -> TypName
-    -> [(ConstructorName, Typ)]
+    -> [(ConstructorName, TypV TypName)]
     -> Doc ann
 prettySumN docs typname = structures docs typname Constructor "Σ{ " "}"
 

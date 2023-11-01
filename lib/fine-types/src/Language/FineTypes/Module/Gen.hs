@@ -27,8 +27,8 @@ import Language.FineTypes.Module
     , ModuleName
     )
 import Language.FineTypes.Typ
-    ( Typ (..)
-    , TypName
+    ( TypName
+    , TypV (..)
     , everything
     )
 import Language.FineTypes.Typ.Gen
@@ -68,7 +68,7 @@ genImport = do
     imports <- ImportNames . Set.fromList <$> listOf genTypName
     pure (moduleName, imports)
 
-genDeclarations :: Gen (Declarations, Documentation)
+genDeclarations :: Gen (Declarations TypName, Documentation)
 genDeclarations = do
     (ds, d) <-
         fmap (runWriter . flip evalStateT mempty)
@@ -76,7 +76,7 @@ genDeclarations = do
             $ GenT.listOf genDeclaration
     pure (Map.fromList ds, d)
 
-genDeclaration :: GenerateUniqueWithDocs (TypName, Typ)
+genDeclaration :: GenerateUniqueWithDocs (TypName, TypV TypName)
 genDeclaration = do
     typName <- genFreshTypName
     typ <- liftGen $ genTyp (const False) WithConstraints Complete 6
@@ -99,7 +99,7 @@ genModuleName :: Gen ModuleName
 genModuleName = capitalise <$> genName
 
 -- | Set of possible identifiers associated with a given 'Typ'.
-identifiersForTyp :: TypName -> Typ -> Set Identifier
+identifiersForTyp :: TypName -> TypV var -> Set Identifier
 identifiersForTyp typName = \case
     ProductN fields ->
         Set.fromList $ map (Field typName . fst) fields
@@ -118,7 +118,7 @@ shrinkModule m = do
             $ moduleDocumentation m
     pure $ m{moduleDeclarations, moduleDocumentation}
 
-restrict :: Declarations -> Documentation -> Documentation
+restrict :: Declarations var -> Documentation -> Documentation
 restrict ds Documentation{..} =
     Documentation
         { getDocumentation =
@@ -129,7 +129,7 @@ restrict ds Documentation{..} =
         foldMap (\(name, typ) -> everything (<>) (identifiersForTyp name) typ)
             $ Map.assocs ds
 
-shrinkDeclarations :: Declarations -> [Declarations]
+shrinkDeclarations :: Declarations var -> [Declarations var]
 shrinkDeclarations xs = fmap Map.fromList $ shrinkList f $ Map.toList xs
   where
     f (k, v) = [(k, v') | v' <- shrinkTyp v]

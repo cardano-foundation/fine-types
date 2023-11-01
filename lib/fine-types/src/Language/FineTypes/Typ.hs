@@ -8,15 +8,14 @@ module Language.FineTypes.Typ
     , ConstructorName
     , FieldName
     , VarName
-    , Typ (..)
+    , Typ
+    , Void
+    , TypV (..)
     , TypConst (..)
     , OpOne (..)
     , OpTwo (..)
     , Constraint1 (..)
     , Constraint
-
-      -- * Smart constructors
-    , var
 
       -- * Traversals
     , everywhere
@@ -26,9 +25,10 @@ module Language.FineTypes.Typ
 
 import Prelude
 
+import Data.Bifunctor (second)
 import Data.TreeDiff (ToExpr)
+import Data.Void (Void)
 import GHC.Generics (Generic)
-import Language.FineTypes.Module.Identity (Provenance)
 
 import qualified Data.List as L
 
@@ -46,28 +46,29 @@ type VarName = String
 --
 -- You can obtain new types from old types with mathematical constructions,
 -- such as taking disjoint sums or cartesian products.
-data Typ
+type Typ = TypV Void
+
+-- | Typ that may contain variables of type @v@.
+--
+-- For a 'Typ' without variables, use @v = @'Void'.
+data TypV var
     = -- | Variable
-      Var (Maybe Provenance, TypName)
+      Var var
     | -- | Known 'Typ' constant.
       Zero TypConst
     | -- | Apply an unary operation to a 'Typ'.
-      One OpOne Typ
+      One OpOne (TypV var)
     | -- | Apply a binary operation to two 'Typ's.
-      Two OpTwo Typ Typ
+      Two OpTwo (TypV var) (TypV var)
     | -- | Cartesian product with component names.
-      ProductN [(FieldName, Typ)]
+      ProductN [(FieldName, TypV var)]
     | -- | Disjoint union with constructor names.
-      SumN [(ConstructorName, Typ)]
+      SumN [(ConstructorName, TypV var)]
     | -- | A type with a value constraint
-      Constrained VarName Typ Constraint
+      Constrained VarName (TypV var) Constraint
     deriving (Eq, Ord, Show, Generic)
 
--- | Smart constructor: 'Var' without 'Provenance'.
-var :: TypName -> Typ
-var n = Var (Nothing, n)
-
-instance ToExpr Typ
+instance ToExpr v => ToExpr (TypV v)
 
 -- | Predefined 'Typ'.
 data TypConst
@@ -127,7 +128,7 @@ instance ToExpr OpTwo
 ------------------------------------------------------------------------------}
 
 -- | Apply a transformation everywhere; bottom-up.
-everywhere :: (Typ -> Typ) -> Typ -> Typ
+everywhere :: (TypV v -> TypV v) -> TypV v -> TypV v
 everywhere f = every
   where
     every = f . recurse
@@ -148,7 +149,7 @@ everywhere f = every
         Constrained v (every typ) c
 
 -- | Summarise all nodes; top-down, left-to-right.
-everything :: (r -> r -> r) -> (Typ -> r) -> (Typ -> r)
+everything :: (r -> r -> r) -> (TypV v -> r) -> (TypV v -> r)
 everything combine f = recurse
   where
     recurse x@(Var _) =
@@ -166,7 +167,17 @@ everything combine f = recurse
     recurse x@(Constrained _ typ _) =
         f x `combine` recurse typ
 
-depth :: Typ -> Int
+instance Functor TypV where
+    fmap f = \case
+        Var v -> Var (f v)
+        Zero a -> Zero a
+        One o a -> One o (fmap f a)
+        Two o a b -> Two o (fmap f a) (fmap f b)
+        ProductN fields -> ProductN $ map (second (fmap f)) fields
+        SumN constructors -> SumN $ map (second (fmap f)) constructors
+        Constrained a b c -> Constrained a (fmap f b) c
+
+depth :: TypV v -> Int
 depth = \case
     Zero{} -> 0
     One _ a -> 1 + depth a

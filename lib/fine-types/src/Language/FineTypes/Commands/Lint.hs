@@ -17,7 +17,7 @@ import Language.FineTypes.Commands.Check.PrettyPrinter
 import Language.FineTypes.Commands.Common (readInput)
 import Language.FineTypes.Commands.Log (inside)
 import Language.FineTypes.Module (redundantImports)
-import Language.FineTypes.Module.Instance (content)
+import Language.FineTypes.Module.Instance (source)
 import Language.FineTypes.Package
     ( Package (..)
     , compilePackageDescription
@@ -59,7 +59,7 @@ lint tracer LintOptions{..} = do
                             Right module' ->
                                 toList
                                     $ redundantImports
-                                    $ content module'
+                                    $ source module'
                         pure
                             $ traceWith
                                 (inside ("module " <> mname) tracer)

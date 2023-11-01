@@ -27,7 +27,7 @@ import Language.FineTypes.Module.Parser
     )
 import Language.FineTypes.Module.PrettyPrinter (prettyPrintModule)
 import Language.FineTypes.Typ
-    ( Typ (..)
+    ( TypV (..)
     , everything
     )
 import Test.Hspec
@@ -172,7 +172,7 @@ instance Semigroup Counting where
 instance Monoid Counting where
     mempty = Counting 0 0 0 0 0 0 0 0
 
-counting :: Typ -> Counting
+counting :: TypV var -> Counting
 counting Var{} = Counting 0 1 0 0 0 0 0 0
 counting Zero{} = Counting 0 0 1 0 0 0 0 0
 counting One{} = Counting 0 0 0 1 0 0 0 0

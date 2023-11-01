@@ -60,9 +60,9 @@ import Language.FineTypes.Typ
     , FieldName
     , OpOne (..)
     , OpTwo (..)
-    , Typ (..)
     , TypConst (..)
     , TypName
+    , TypV (..)
     , VarName
     , everything
     , everywhere
@@ -92,7 +92,7 @@ schemaFromModule m = mempty{_openApiComponents = ds, _openApiInfo = info'}
             }
     ds = mapDeclarations (moduleDocumentation m) (moduleDeclarations m)
 
-mapDeclarations :: Documentation -> Declarations -> Components
+mapDeclarations :: Documentation -> Declarations TypName -> Components
 mapDeclarations doc ds = mkComponents $ do
     (typName, typ) <- Map.toList ds
     let schema0 = schemaFromTyp typ
@@ -123,17 +123,17 @@ supportsJSON =
 -- we recommend that you explicitly define a second 'Typ'
 -- which is apparently compatible with JSON,
 -- and show that the first 'Typ' can be embedded into the second 'Typ'.
-convertToJSON :: Declarations -> Declarations
+convertToJSON :: Declarations TypName -> Declarations TypName
 convertToJSON declarations = Map.map (jsonify declarations) declarations
 
 {-----------------------------------------------------------------------------
     Convert Typ to JSON schema
 ------------------------------------------------------------------------------}
 
-schemaFromTyp :: Typ -> Schema
+schemaFromTyp :: TypV TypName -> Schema
 schemaFromTyp = go
   where
-    go (Var (_, name')) =
+    go (Var name') =
         mempty
             { _schemaAllOf = Just [Ref $ Reference $ T.pack name']
             }
@@ -207,7 +207,7 @@ schemaFromTyp = go
     go (Constrained v t c) =
         schemaFromConstraint v t c
 
-schemaFromConstraint :: VarName -> Typ -> Constraint -> Schema
+schemaFromConstraint :: VarName -> TypV TypName -> Constraint -> Schema
 schemaFromConstraint v t c = (schemaFromTyp t){_schemaFormat = Just format}
   where
     format =
@@ -220,7 +220,7 @@ schemaFromConstraint v t c = (schemaFromTyp t){_schemaFormat = Just format}
 -- | Map a record type to a JSON schema.
 --
 -- Field that are option types (@?@) will be mapped to optional fields.
-schemaFromProductN :: [(FieldName, Typ)] -> Schema
+schemaFromProductN :: [(FieldName, TypV TypName)] -> Schema
 schemaFromProductN fields =
     mempty
         { _schemaType = Just OpenApiObject
@@ -240,18 +240,18 @@ schemaFromProductN fields =
         , not (isOption typ)
         ]
 
-stripOption :: Typ -> Typ
+stripOption :: TypV var -> TypV var
 stripOption (One Option a) = a
 stripOption a = a
 
-isOption :: Typ -> Bool
+isOption :: TypV var -> Bool
 isOption (One Option _) = True
 isOption _ = False
 
 -- | Map a union type to a JSON.
 --
 -- The encoding corresponds to the 'ObjectWithSingleField' encoding.
-schemaFromSumN :: [(ConstructorName, Typ)] -> Schema
+schemaFromSumN :: [(ConstructorName, TypV TypName)] -> Schema
 schemaFromSumN constructors =
     mempty
         { _schemaOneOf =
@@ -276,7 +276,8 @@ schemaFromSumN constructors =
 ------------------------------------------------------------------------------}
 
 -- | Postprocess a 'Schema' to add documentation where appropriate.
-addDocumentation :: Documentation -> (TypName, Typ) -> Schema -> Schema
+addDocumentation
+    :: Documentation -> (TypName, TypV TypName) -> Schema -> Schema
 addDocumentation (Documentation doc) (tname, typ) =
     describeTyp . decribeConstructorsOrFields
   where
@@ -324,11 +325,11 @@ addDescription doc schema =
 ------------------------------------------------------------------------------}
 
 -- | Modify the 'Typ' to be closer to JSON.
-jsonify :: Declarations -> Typ -> Typ
+jsonify :: Declarations TypName -> TypV TypName -> TypV TypName
 jsonify declarations =
     mergeRecords . representFiniteMaps . resolveVars declarations
 
-representFiniteMaps :: Typ -> Typ
+representFiniteMaps :: TypV var -> TypV var
 representFiniteMaps = everywhere represent
   where
     represent x@(Two op a b)
@@ -338,7 +339,7 @@ representFiniteMaps = everywhere represent
             x
     represent x = x
 
-mergeRecords :: Typ -> Typ
+mergeRecords :: TypV var -> TypV var
 mergeRecords = everywhere merge
   where
     merge (Two Product2 (ProductN a) (ProductN b)) =

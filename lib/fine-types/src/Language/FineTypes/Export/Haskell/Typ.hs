@@ -30,8 +30,8 @@ import Language.FineTypes.Module
 import Language.FineTypes.Typ
     ( ConstructorName
     , FieldName
-    , Typ (..)
     , TypName
+    , TypV (..)
     )
 
 import qualified Data.Map as Map
@@ -94,7 +94,7 @@ haskellFromModule m =
 {-----------------------------------------------------------------------------
     Convert Typ to Haskell declaration
 ------------------------------------------------------------------------------}
-declarationFromTyp :: TypName -> Typ -> [Hs.Decl]
+declarationFromTyp :: TypName -> TypV TypName -> [Hs.Decl]
 declarationFromTyp name typ = case typ of
     ProductN fields ->
         [ Hs.DataDecl
@@ -160,7 +160,7 @@ derivingEqOrdGeneric =
 
 declareProduct
     :: TypName
-    -> [(FieldName, Typ)]
+    -> [(FieldName, TypV TypName)]
     -> [Hs.QualConDecl]
 declareProduct name fields =
     [ Hs.QualConDecl Nothing Nothing
@@ -175,7 +175,7 @@ declareProduct name fields =
 -- TODO: What about enumerations, i.e. when the arguments are 'Unit'?
 declareSum
     :: TypName
-    -> [(ConstructorName, Typ)]
+    -> [(ConstructorName, TypV TypName)]
     -> [Hs.QualConDecl]
 declareSum _ constructors =
     [ Hs.QualConDecl Nothing Nothing

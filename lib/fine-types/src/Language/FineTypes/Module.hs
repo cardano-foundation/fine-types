@@ -34,8 +34,8 @@ import GHC.Generics (Generic)
 import Language.FineTypes.Documentation (Documentation)
 import Language.FineTypes.Module.Identity (ModuleName)
 import Language.FineTypes.Typ
-    ( Typ (..)
-    , TypName
+    ( TypName
+    , TypV (..)
     , everything
     , everywhere
     )
@@ -51,14 +51,14 @@ import qualified Data.Set as Set
 data Module = Module
     { moduleName :: ModuleName
     , moduleImports :: Imports
-    , moduleDeclarations :: Declarations
+    , moduleDeclarations :: Declarations TypName
     , moduleDocumentation :: Documentation
     }
     deriving (Eq, Show, Generic)
 
 instance ToExpr Module
 
-type Declarations = Map TypName Typ
+type Declarations var = Map TypName (TypV var)
 
 type Imports = Map ModuleName Import
 
@@ -75,10 +75,10 @@ instance ToExpr Import
 -- using the given declarations.
 --
 -- This function will loop in the case of recursive definitions.
-resolveVars :: Declarations -> Typ -> Typ
+resolveVars :: Declarations TypName -> TypV TypName -> TypV TypName
 resolveVars declarations = everywhere resolve
   where
-    resolve v@(Var (_, name)) = case Map.lookup name declarations of
+    resolve v@(Var name) = case Map.lookup name declarations of
         Nothing -> v
         Just typ -> everywhere resolve typ
     resolve a = a
@@ -90,7 +90,7 @@ resolveVars declarations = everywhere resolve
 resolveImports
     :: Map ModuleName Module
     -> Module
-    -> Maybe Declarations
+    -> Maybe (Declarations TypName)
 resolveImports modulesInScope m0 =
     (moduleDeclarations m0 <>) . Map.fromList <$> resolve
   where
@@ -118,10 +118,10 @@ collectNotInScope Module{moduleDeclarations, moduleImports} =
     needed = mconcat . map collectVars $ Map.elems moduleDeclarations
 
 -- | Collect all 'Var' in a 'Typ'.
-collectVars :: Typ -> Set TypName
+collectVars :: Ord var => TypV var -> Set var
 collectVars = everything (<>) vars
   where
-    vars (Var (_, name)) = Set.singleton name
+    vars (Var name) = Set.singleton name
     vars _ = Set.empty
 
 -- | Find all imports that are not needed.

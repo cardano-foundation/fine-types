@@ -27,8 +27,8 @@ import Language.FineTypes.Package
 import Language.FineTypes.Signature (Signature (..))
 import Language.FineTypes.Typ
     ( OpTwo (Product2, Sum2)
-    , Typ (Two, Var, Zero)
     , TypConst (Bytes, Integer, Rational)
+    , TypV (Two, Var, Zero)
     )
 import System.FilePath
     ( (</>)
@@ -314,7 +314,7 @@ positiveOnPackageTest = do
                     ( "Y"
                     , Right
                         ( ModuleInstance
-                            { content =
+                            { source =
                                 Module
                                     { moduleName = "Y"
                                     , moduleImports =
@@ -332,12 +332,21 @@ positiveOnPackageTest = do
                                             , Two
                                                 Product2
                                                 (Zero Rational)
-                                                (var moduleIdentityX "B")
+                                                (Var "B")
                                             )
                                         ]
                                     , moduleDocumentation =
                                         Documentation{getDocumentation = []}
                                     }
+                            , declarations =
+                                [
+                                    ( "C"
+                                    , Two
+                                        Product2
+                                        (Zero Rational)
+                                        (var moduleIdentityX "B")
+                                    )
+                                ]
                             , identity = moduleIdentityY
                             }
                         )
@@ -346,7 +355,7 @@ positiveOnPackageTest = do
                     ( "Z"
                     , Right
                         ( ModuleInstance
-                            { content =
+                            { source =
                                 Module
                                     { moduleName = "Z"
                                     , moduleImports =
@@ -363,13 +372,22 @@ positiveOnPackageTest = do
                                             ( "C"
                                             , Two
                                                 Sum2
-                                                (var moduleIdentityXoops "A")
-                                                (var moduleIdentityXoops "B")
+                                                (Var "A")
+                                                (Var "B")
                                             )
                                         ]
                                     , moduleDocumentation =
                                         Documentation{getDocumentation = []}
                                     }
+                            , declarations =
+                                [
+                                    ( "C"
+                                    , Two
+                                        Sum2
+                                        (var moduleIdentityXoops "A")
+                                        (var moduleIdentityXoops "B")
+                                    )
+                                ]
                             , identity = moduleIdentityZ
                             }
                         )
@@ -379,7 +397,7 @@ positiveOnPackageTest = do
 
     moduleInstanceX =
         ( ModuleInstance
-            { content =
+            { source =
                 Module
                     { moduleName = "X"
                     , moduleImports = []
@@ -389,18 +407,28 @@ positiveOnPackageTest = do
                             ( "B"
                             , Two
                                 Sum2
-                                (var moduleIdentityX "A")
+                                (Var "A")
                                 (Zero Bytes)
                             )
                         ]
                     , moduleDocumentation =
                         Documentation{getDocumentation = []}
                     }
+            , declarations =
+                [ ("A", Zero Integer)
+                ,
+                    ( "B"
+                    , Two
+                        Sum2
+                        (var moduleIdentityX "A")
+                        (Zero Bytes)
+                    )
+                ]
             , identity = moduleIdentityX
             }
         )
 
-    var mid typname = Var (Just mid, typname)
+    var mid typname = Var (mid, typname)
 
     moduleIdentityX =
         Const "X"

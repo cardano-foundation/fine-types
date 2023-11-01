@@ -23,7 +23,8 @@ import Language.FineTypes.Module.Parser
     )
 import Language.FineTypes.Typ
     ( OpTwo (FiniteSupport, PartialFunction)
-    , Typ (Two)
+    , Typ
+    , TypV (Two)
     , depth
     )
 import Language.FineTypes.Typ.Gen
@@ -73,7 +74,7 @@ spec = do
                     $ case evalue of
                         Left _ -> error "should not happen"
                         Right value ->
-                            let schema = schemaFromTyp typ
+                            let schema = schemaFromTyp ("" <$ typ)
                                 json = jsonFromValue typ value
                             in  validateJSON mempty schema json `shouldBe` []
 

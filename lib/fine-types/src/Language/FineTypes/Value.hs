@@ -22,7 +22,7 @@ import Data.Text
     ( Text
     )
 import Language.FineTypes.Typ
-    ( Typ
+    ( TypV
     )
 import Numeric.Natural
     ( Natural
@@ -75,7 +75,7 @@ newtype TwoF a b
 ------------------------------------------------------------------------------}
 
 -- | Check whether a 'Value' inhabits the given 'Typ'.
-hasTyp :: Value -> Typ -> Bool
+hasTyp :: Value -> TypV var -> Bool
 hasTyp z (Typ.Constrained _ t _) =
     z `hasTyp` t
 hasTyp (Zero a) (Typ.Zero b) =
@@ -117,7 +117,7 @@ typOf0 a = case a of
     Unit -> Typ.Unit
     Rational{} -> Typ.Rational
 
-hasTyp1 :: OneF Value -> Typ.OpOne -> Typ -> Bool
+hasTyp1 :: OneF Value -> Typ.OpOne -> TypV var -> Bool
 hasTyp1 (Option a) Typ.Option t =
     all (`hasTyp` t) a
 hasTyp1 (Option _) _ _ =
@@ -131,7 +131,7 @@ hasTyp1 (PowerSet as) Typ.PowerSet t =
 hasTyp1 (PowerSet _) _ _ =
     False
 
-hasTyp2 :: TwoF Value Value -> Typ.OpTwo -> Typ -> Typ -> Bool
+hasTyp2 :: TwoF Value Value -> Typ.OpTwo -> TypV var -> TypV var -> Bool
 hasTyp2 (FiniteMap m) Typ.PartialFunction ta tb =
     all (`hasTyp` ta) (Map.keys m)
         && all (`hasTyp` tb) (Map.elems m)

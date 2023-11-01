@@ -17,8 +17,8 @@ import Language.FineTypes.Module
     , ModuleName
     )
 import Language.FineTypes.Typ
-    ( Typ (..)
-    , TypName
+    ( TypName
+    , TypV (..)
     )
 import Language.FineTypes.Typ.PrettyPrinter
     ( QueryDocumentation
@@ -90,10 +90,10 @@ prettyImport (name, ImportNames names) =
     listing = group (line <> "(" <+> list <> line <> ")")
     list = concatWith (\a b -> a <> line' <> comma <> space <> b) docs
 
-prettyDeclarations :: QueryDocumentation -> Declarations -> Doc ann
+prettyDeclarations :: QueryDocumentation -> Declarations TypName -> Doc ann
 prettyDeclarations docs = vsep . map (prettyDeclaration docs) . Map.toList
 
-prettyDeclaration :: QueryDocumentation -> (TypName, Typ) -> Doc ann
+prettyDeclaration :: QueryDocumentation -> (TypName, TypV TypName) -> Doc ann
 prettyDeclaration docs (name, typ) =
     addDocs docs (Documentation.Typ name)
         $ pretty name

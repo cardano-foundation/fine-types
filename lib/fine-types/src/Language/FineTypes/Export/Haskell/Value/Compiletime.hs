@@ -26,9 +26,9 @@ import Language.FineTypes.Typ
     , FieldName
     , OpOne (..)
     , OpTwo (..)
-    , Typ (..)
     , TypConst (..)
     , TypName
+    , TypV (..)
     )
 
 import qualified Language.Haskell.Exts.Simple as Hs
@@ -66,7 +66,7 @@ declareInstanceFromValue = declareInstance "FromValue"
 -- | Declare the funcion `toValue` for a record type.
 declareToValueFunProduct
     :: TypName
-    -> [(FieldName, Typ)]
+    -> [(FieldName, TypV TypName)]
     -> Hs.Decl
 declareToValueFunProduct constructor fields =
     Hs.FunBind
@@ -88,7 +88,7 @@ declareToValueFunProduct constructor fields =
 -- | Declare the function `toTyp` for a record type.
 declareToTypFunProduct
     :: TypName
-    -> [(FieldName, Typ)]
+    -> [(FieldName, TypV TypName)]
     -> Hs.Decl
 declareToTypFunProduct _ fields =
     Hs.FunBind
@@ -118,7 +118,7 @@ declareToTypFunProduct _ fields =
 -- | Declare the function `fromValue` for a record type.
 declareFromValueFunProduct
     :: TypName
-    -> [(FieldName, Typ)]
+    -> [(FieldName, TypV TypName)]
     -> Hs.Decl
 declareFromValueFunProduct constructor fields =
     Hs.FunBind
@@ -166,7 +166,7 @@ errorE msg =
 -- | Declare the function `toValue` for a sum type.
 declareToValueFunSum
     :: TypName
-    -> [(ConstructorName, Typ)]
+    -> [(ConstructorName, TypV TypName)]
     -> Hs.Decl
 declareToValueFunSum _ constructors =
     Hs.FunBind
@@ -192,7 +192,7 @@ declareToValueFunSum _ constructors =
 -- | Declare the function `toTyp` for a sum type.
 declareToTypFunSum
     :: TypName
-    -> [(ConstructorName, Typ)]
+    -> [(ConstructorName, TypV TypName)]
     -> Hs.Decl
 declareToTypFunSum _ constructors =
     Hs.FunBind
@@ -222,7 +222,7 @@ declareToTypFunSum _ constructors =
 -- | Declare the function `fromValue` for a sum type.
 declareFromValueFunSum
     :: TypName
-    -> [(ConstructorName, Typ)]
+    -> [(ConstructorName, TypV TypName)]
     -> Hs.Decl
 declareFromValueFunSum _ constructors =
     let positives = do
@@ -265,10 +265,10 @@ runtimeTyp = Hs.Qual (Hs.ModuleName "FineTypes.Typ") . Hs.Ident
 var :: String -> Hs.Exp
 var = Hs.Var . Hs.UnQual . Hs.Ident
 
-typeFromTyp :: Typ -> Hs.Type
+typeFromTyp :: TypV TypName -> Hs.Type
 typeFromTyp = go
   where
-    go (Var (_, name)) = hsType name
+    go (Var name) = hsType name
     go (Zero c) = case c of
         Bool -> hsType "Prelude.Bool"
         Bytes -> hsType "Data.ByteString.ByteString"

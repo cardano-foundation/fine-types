@@ -1,3 +1,4 @@
+{-# LANGUAGE GADTs #-}
 {-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE TupleSections #-}
 
@@ -20,10 +21,9 @@ import Language.FineTypes.Typ
     , FieldName
     , OpOne (..)
     , OpTwo (..)
-    , Typ (..)
     , TypConst (..)
     , TypName
-    , var
+    , TypV (..)
     )
 import Test.QuickCheck
     ( Gen
@@ -40,16 +40,18 @@ import Test.QuickCheck
     , vectorOf
     )
 
--- | If the generated 'Typ' should be concrete or not. 'Concrete' will not contain
--- 'Abstract' or 'Var' leaves
-data Mode = Complete | Concrete
+-- | If the generated 'Typ' should be concrete or not.
+-- 'Concrete' will not contain 'Var' leaves
+data Mode v where
+    Complete :: Mode TypName
+    Concrete :: Mode v
 
-onComplete :: (Monoid p) => Mode -> p -> p
-onComplete Complete f = f
-onComplete Concrete _ = mempty
+genVar :: Mode v -> [Gen (TypV v)]
+genVar Complete = [Var <$> genVarName]
+genVar Concrete = []
 
 -- | Minimum depth of the generated 'Typ'. Shorter than depth branches are still
--- possible if the actual  'Typ' is Zero or Abstract or Var
+-- possible if the actual 'Typ' is Zero or Var
 type DepthGen = Int
 
 -- | Whether the generated 'Typ' will be Zero or more complex
@@ -82,21 +84,20 @@ onTop Rest _ = mempty
 
 -- | Generate a random 'Typ'.
 genTyp
-    :: (Typ -> Bool)
+    :: (TypV var -> Bool)
     -- ^ Whether the generated 'Typ' should be filtered out
     -> WithConstraints
     -- ^ Whether the generated 'Typ' can have constraints or not
-    -> Mode
+    -> Mode var
     -- ^ Whether the generated 'Typ' should be concrete or not
     -> DepthGen
     -- ^ Maximum depth of the generated 'Typ'
-    -> Gen Typ
+    -> Gen (TypV var)
 genTyp out = go Top
   where
     go round hasC mode depth = do
         branching <- onWill <$> willBranch depth
         let top = onTop round
-            complete = onComplete mode
             always = id
             constrained = onConstraints hasC
             expansion =
@@ -112,7 +113,7 @@ genTyp out = go Top
                         , ProductN <$> genTagged genFields go'
                         , SumN <$> genTagged genConstructors go'
                         ]
-                    <> complete [var <$> genVarName]
+                    <> genVar mode
                     <> constrained [genConstrainedTyp mode]
         oneof expansion `suchThat` (not . out)
       where
@@ -138,7 +139,7 @@ goodChar :: Char -> Bool
 goodChar x =
     (isSymbol x || isAlphaNum x || isPunctuation x) && x `notElem` " {}"
 
-genConstrainedTyp :: Mode -> Gen Typ
+genConstrainedTyp :: Mode v -> Gen (TypV v)
 genConstrainedTyp mode = do
     constraintDepth <- choose (1, 2)
     c <- genConstraint constraintDepth
@@ -146,15 +147,14 @@ genConstrainedTyp mode = do
     v <- genName
     pure $ Constrained v typ c
   where
-    complete = onComplete mode
     always = id
     genTyp' =
         oneof
             $ []
                 <> always [Zero <$> genConst]
-                <> complete [var <$> genVarName]
+                <> genVar mode
 
-genTagged :: Gen [a] -> Gen Typ -> Gen [(a, Typ)]
+genTagged :: Gen [a] -> Gen (TypV var) -> Gen [(a, TypV var)]
 genTagged gen f = do
     names <- gen
     forM names $ \name -> (,) name <$> f
@@ -213,7 +213,7 @@ logScale n = scale logN
   where
     logN x = floor $ logBase n $ 1 + fromIntegral x
 
-shrinkTyp :: Typ -> [Typ]
+shrinkTyp :: TypV var -> [TypV var]
 shrinkTyp = \case
     Zero _ -> []
     One _ typ -> typ : shrinkTyp typ
@@ -230,7 +230,7 @@ shrinkTyp = \case
             <> [Constrained v typ' c | typ' <- shrinkTyp typ]
             <> [Constrained v typ c' | c' <- shrinkConstraint c]
 
-shrinkNamed :: (t, Typ) -> [(t, Typ)]
+shrinkNamed :: (t, TypV var) -> [(t, TypV var)]
 shrinkNamed (f, t) = (f,) <$> shrinkTyp t
 
 shrinkConstraint :: Constraint -> [Constraint]

@@ -14,7 +14,10 @@ import Data.Map (Map)
 import Data.Set (Set)
 import Data.TreeDiff (ToExpr)
 import GHC.Generics (Generic)
-import Language.FineTypes.Module (Module (..))
+import Language.FineTypes.Module
+    ( Declarations
+    , Module (..)
+    )
 import Language.FineTypes.Module.Identity
     ( Identity (..)
     , ModuleIdentity
@@ -22,14 +25,13 @@ import Language.FineTypes.Module.Identity
     , Provenance
     )
 import Language.FineTypes.Typ
-    ( Typ (..)
-    , TypName
+    ( TypName
+    , TypV (..)
     )
 
 import qualified Data.Map as Map
 import qualified Data.Set as Set
 import qualified Language.FineTypes.Module as Module
-import qualified Language.FineTypes.Typ as Typ
 
 {-----------------------------------------------------------------------------
     Types
@@ -43,7 +45,8 @@ import qualified Language.FineTypes.Typ as Typ
 -- 'Typ' contain a 'ModuleIdentity' that records where the 'TypName' was
 -- originally defined.
 data ModuleInstance = ModuleInstance
-    { content :: Module
+    { source :: Module
+    , declarations :: Declarations (Provenance, TypName)
     , identity :: ModuleIdentity
     }
     deriving (Eq, Show, Generic)
@@ -58,8 +61,8 @@ instance ToExpr ModuleInstance
 
 -- | Get the 'Declarations' defined in a 'ModuleInstance'.
 -- These include provenance information.
-getDeclarations :: ModuleInstance -> Module.Declarations
-getDeclarations = Module.moduleDeclarations . content
+getDeclarations :: ModuleInstance -> Declarations (Provenance, TypName)
+getDeclarations = declarations
 
 {-----------------------------------------------------------------------------
     Constructors
@@ -74,14 +77,13 @@ mkModuleInstance
     -> Module
     -- ^ Module to instantiate
     -> Maybe ModuleInstance
-mkModuleInstance lookupProvenance lookupIdentity m = do
-    identity <- mkModuleIdentity lookupIdentity m
-    let content =
-            m{moduleDeclarations = declarationsWithProvenance identity}
-    pure ModuleInstance{content, identity}
+mkModuleInstance lookupProvenance lookupIdentity source = do
+    identity <- mkModuleIdentity lookupIdentity source
+    let declarations = declarationsWithProvenance identity
+    pure ModuleInstance{source, identity, declarations}
   where
     declarationsWithProvenance self =
-        addProvenancesToTypNames self lookupProvenance m
+        addProvenancesToTypNames self lookupProvenance source
 
 -- | Add provenance information to every 'TypName'.
 -- i.e. add the 'ModuleIdentity' of the module in which the 'TypName'
@@ -93,23 +95,22 @@ addProvenancesToTypNames
     -- ^ Provenances for each imported 'TypName'.
     -> Module
     -- ^ 'Module' without provenance information.
-    -> Module.Declarations
+    -> Declarations (Provenance, TypName)
     -- ^ Declarations with provenances information.
 addProvenancesToTypNames self lookupProvenance m =
     Map.map addProvenance (moduleDeclarations m)
   where
-    addProvenance :: Typ -> Typ
-    addProvenance = Typ.everywhere addProvenanceToVar
+    addProvenance :: TypV TypName -> TypV (Provenance, TypName)
+    addProvenance = fmap addProvenanceToVar
 
-    addProvenanceToVar :: Typ -> Typ
-    addProvenanceToVar t@(Var (_, typname)) =
+    addProvenanceToVar :: TypName -> (Provenance, TypName)
+    addProvenanceToVar typname =
         case lookupImportProvenance typname of
-            Just provenance -> Var (Just provenance, typname)
+            Just provenance -> (provenance, typname)
             Nothing ->
                 if isDeclaredHere typname
-                    then Var (Just self, typname)
-                    else t
-    addProvenanceToVar t = t
+                    then (self, typname)
+                    else error "unknown identififer"
 
     isDeclaredHere typname =
         typname `Map.member` moduleDeclarations m
