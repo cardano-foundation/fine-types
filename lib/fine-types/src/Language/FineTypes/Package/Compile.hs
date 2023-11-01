@@ -16,21 +16,25 @@ import Control.Monad.Trans.Except
     , throwE
     , withExceptT
     )
+import Data.Maybe (fromMaybe)
 import Data.TreeDiff (ToExpr)
 import GHC.Generics (Generic)
 import Language.FineTypes.Module (ModuleName, moduleName)
 import Language.FineTypes.Module.Parser (ErrParseModule (..), parseModule')
 import Language.FineTypes.Package.Content
     ( ErrAddModule
+    , ErrAssertion
     , ErrIncludePackage
     , Package (..)
     , addModule
     , addSignature
+    , checkAssertion
     , emptyPackage
     , includePackage
     )
 import Language.FineTypes.Package.Description
-    ( PackageDescription (..)
+    ( Assertion (..)
+    , PackageDescription (..)
     , PackageName
     , Source (..)
     , Statement (..)
@@ -69,6 +73,8 @@ data ErrCompilePackage
     | -- | The module name in the module statement does
       -- not match the included module name
       ErrAddModuleNameMismatch ModuleName ModuleName
+    | -- | Checking the given assertion failed.
+      ErrAssertFailed Assertion ErrAssertion
     deriving (Eq, Show, Generic)
 
 instance ToExpr ErrCompilePackage
@@ -108,16 +114,17 @@ execStatement dir pkg (Include includeName source) = do
                 description
     exceptT (ErrIncludePackage includeName)
         $ includePackage include pkg
-execStatement dir pkg (Module modName source) = do
+execStatement dir pkg (Module modName mOriginalName source) = do
     file <- loadSource dir source
+    let originalName = fromMaybe modName mOriginalName
     m <-
-        exceptT (ErrParseModuleError modName)
+        exceptT (ErrParseModuleError originalName)
             $ parseModule' file
     guardExceptT
-        (ErrAddModuleNameMismatch modName $ moduleName m)
-        $ modName == moduleName m
+        (ErrAddModuleNameMismatch originalName $ moduleName m)
+        $ originalName == moduleName m
     exceptT (ErrAddModule modName)
-        $ addModule m pkg
+        $ addModule modName m pkg
 execStatement dir pkg (Signature modName source) = do
     file <- loadSource dir source
     m <-
@@ -128,7 +135,9 @@ execStatement dir pkg (Signature modName source) = do
         $ modName == signatureName m
     exceptT (ErrAddModule modName)
         $ addSignature m pkg
-execStatement _ pkg (Assert _) =
+execStatement _ pkg (Assert assertion) = do
+    exceptT (ErrAssertFailed assertion)
+        $ checkAssertion pkg assertion
     pure pkg
 
 loadSource

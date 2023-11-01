@@ -36,6 +36,7 @@ import Language.FineTypes.Typ
     , Typ (..)
     , TypConst (..)
     , VarName
+    , var
     )
 import Text.Megaparsec
     ( many
@@ -142,7 +143,7 @@ constraint = some constraint1
         $ \c -> not (c `elem` "{}" || isSpace c)
 
 zeroVar :: Parser Typ
-zeroVar = try (Zero <$> constants) <|> (Var <$> typName)
+zeroVar = try (Zero <$> constants) <|> (var <$> typName)
 
 atom :: Parser Typ
 atom =

@@ -6,6 +6,8 @@ module Language.FineTypes.Package
     , emptyPackage
     , includePackage
     , addModule
+    , addSignature
+    , checkAssertion
 
       -- * Package descriptions
     , PackageDescription (..)
@@ -20,6 +22,7 @@ module Language.FineTypes.Package
     , ErrCompilePackage (..)
     , ErrIncludePackage (..)
     , ErrAddModule (..)
+    , ErrAssertion (..)
     ) where
 
 import Language.FineTypes.Package.Compile

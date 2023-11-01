@@ -1,0 +1,5 @@
+module Z where
+
+import Xoops(A,B);
+
+C = A + B;

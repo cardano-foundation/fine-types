@@ -11,6 +11,8 @@ import Control.Monad (unless)
 import Data.TreeDiff (ToExpr (..), ediff, prettyEditExprCompact)
 import Language.FineTypes.Documentation (Documentation (..), Place (..))
 import Language.FineTypes.Module (Import (..), Module (..))
+import Language.FineTypes.Module.Identity (Identity (..))
+import Language.FineTypes.Module.Instance (ModuleInstance (..))
 import Language.FineTypes.Package
     ( ErrAddModule (..)
     , ErrCompilePackage (..)
@@ -302,43 +304,109 @@ positiveOnPackageTest = do
                     )
                 ,
                     ( "X"
-                    , Right
-                        ( Module
-                            { moduleName = "X"
-                            , moduleImports = []
-                            , moduleDeclarations =
-                                [ ("A", Zero Integer)
-                                , ("B", Two Sum2 (Var "A") (Zero Bytes))
-                                ]
-                            , moduleDocumentation =
-                                Documentation{getDocumentation = []}
-                            }
-                        )
+                    , Right moduleInstanceX
+                    )
+                ,
+                    ( "Xoops"
+                    , Right moduleInstanceX
                     )
                 ,
                     ( "Y"
                     , Right
-                        ( Module
-                            { moduleName = "Y"
-                            , moduleImports =
-                                [
-                                    ( "X"
-                                    , ImportNames
-                                        { getImportNames =
-                                            ["A", "B"]
-                                        }
-                                    )
-                                ]
-                            , moduleDeclarations =
-                                [
-                                    ( "C"
-                                    , Two Product2 (Zero Rational) (Var "B")
-                                    )
-                                ]
-                            , moduleDocumentation =
-                                Documentation{getDocumentation = []}
+                        ( ModuleInstance
+                            { content =
+                                Module
+                                    { moduleName = "Y"
+                                    , moduleImports =
+                                        [
+                                            ( "X"
+                                            , ImportNames
+                                                { getImportNames =
+                                                    ["A", "B"]
+                                                }
+                                            )
+                                        ]
+                                    , moduleDeclarations =
+                                        [
+                                            ( "C"
+                                            , Two
+                                                Product2
+                                                (Zero Rational)
+                                                (var moduleIdentityX "B")
+                                            )
+                                        ]
+                                    , moduleDocumentation =
+                                        Documentation{getDocumentation = []}
+                                    }
+                            , identity = moduleIdentityY
+                            }
+                        )
+                    )
+                ,
+                    ( "Z"
+                    , Right
+                        ( ModuleInstance
+                            { content =
+                                Module
+                                    { moduleName = "Z"
+                                    , moduleImports =
+                                        [
+                                            ( "Xoops"
+                                            , ImportNames
+                                                { getImportNames =
+                                                    ["A", "B"]
+                                                }
+                                            )
+                                        ]
+                                    , moduleDeclarations =
+                                        [
+                                            ( "C"
+                                            , Two
+                                                Sum2
+                                                (var moduleIdentityXoops "A")
+                                                (var moduleIdentityXoops "B")
+                                            )
+                                        ]
+                                    , moduleDocumentation =
+                                        Documentation{getDocumentation = []}
+                                    }
+                            , identity = moduleIdentityZ
                             }
                         )
                     )
                 ]
             }
+
+    moduleInstanceX =
+        ( ModuleInstance
+            { content =
+                Module
+                    { moduleName = "X"
+                    , moduleImports = []
+                    , moduleDeclarations =
+                        [ ("A", Zero Integer)
+                        ,
+                            ( "B"
+                            , Two
+                                Sum2
+                                (var moduleIdentityX "A")
+                                (Zero Bytes)
+                            )
+                        ]
+                    , moduleDocumentation =
+                        Documentation{getDocumentation = []}
+                    }
+            , identity = moduleIdentityX
+            }
+        )
+
+    var mid typname = Var (Just mid, typname)
+
+    moduleIdentityX =
+        Const "X"
+    moduleIdentityXoops =
+        moduleIdentityX
+    moduleIdentityY =
+        Apply (Const "Y") [Const "X"]
+    moduleIdentityZ =
+        Apply (Const "Z") [moduleIdentityXoops]

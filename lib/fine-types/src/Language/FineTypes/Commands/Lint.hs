@@ -17,6 +17,7 @@ import Language.FineTypes.Commands.Check.PrettyPrinter
 import Language.FineTypes.Commands.Common (readInput)
 import Language.FineTypes.Commands.Log (inside)
 import Language.FineTypes.Module (redundantImports)
+import Language.FineTypes.Module.Instance (content)
 import Language.FineTypes.Package
     ( Package (..)
     , compilePackageDescription
@@ -55,7 +56,10 @@ lint tracer LintOptions{..} = do
                         (mname, sigOrMod) <- Map.assocs ms
                         (imodule, iname) <- case sigOrMod of
                             Left _ -> []
-                            Right module' -> toList $ redundantImports module'
+                            Right module' ->
+                                toList
+                                    $ redundantImports
+                                    $ content module'
                         pure
                             $ traceWith
                                 (inside ("module " <> mname) tracer)

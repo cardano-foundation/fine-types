@@ -32,6 +32,7 @@ import Data.Set
 import Data.TreeDiff (ToExpr)
 import GHC.Generics (Generic)
 import Language.FineTypes.Documentation (Documentation)
+import Language.FineTypes.Module.Identity (ModuleName)
 import Language.FineTypes.Typ
     ( Typ (..)
     , TypName
@@ -45,7 +46,6 @@ import qualified Data.Set as Set
 {-----------------------------------------------------------------------------
     Module type
 ------------------------------------------------------------------------------}
-type ModuleName = String
 
 -- | A 'Module' is a collection of 'Typ' definitions and documentation.
 data Module = Module
@@ -78,8 +78,8 @@ instance ToExpr Import
 resolveVars :: Declarations -> Typ -> Typ
 resolveVars declarations = everywhere resolve
   where
-    resolve (Var name) = case Map.lookup name declarations of
-        Nothing -> Var name
+    resolve v@(Var (_, name)) = case Map.lookup name declarations of
+        Nothing -> v
         Just typ -> everywhere resolve typ
     resolve a = a
 
@@ -121,7 +121,7 @@ collectNotInScope Module{moduleDeclarations, moduleImports} =
 collectVars :: Typ -> Set TypName
 collectVars = everything (<>) vars
   where
-    vars (Var name) = Set.singleton name
+    vars (Var (_, name)) = Set.singleton name
     vars _ = Set.empty
 
 -- | Find all imports that are not needed.

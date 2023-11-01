@@ -26,7 +26,7 @@ instance ToExpr PackageDescription
 
 data Statement
     = Include PackageName Source
-    | Module ModuleName Source
+    | Module ModuleName (Maybe ModuleName) Source
     | Signature ModuleName Source
     | Assert Assertion
     deriving (Eq, Show, Generic)
@@ -42,4 +42,8 @@ instance ToExpr Source
 {-----------------------------------------------------------------------------
     Assertions
 ------------------------------------------------------------------------------}
-type Assertion = ()
+data Assertion
+    = Equal ModuleName ModuleName
+    deriving (Eq, Show, Generic)
+
+instance ToExpr Assertion

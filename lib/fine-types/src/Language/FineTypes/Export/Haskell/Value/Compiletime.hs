@@ -268,7 +268,7 @@ var = Hs.Var . Hs.UnQual . Hs.Ident
 typeFromTyp :: Typ -> Hs.Type
 typeFromTyp = go
   where
-    go (Var name) = hsType name
+    go (Var (_, name)) = hsType name
     go (Zero c) = case c of
         Bool -> hsType "Prelude.Bool"
         Bytes -> hsType "Data.ByteString.ByteString"

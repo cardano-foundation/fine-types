@@ -133,7 +133,7 @@ convertToJSON declarations = Map.map (jsonify declarations) declarations
 schemaFromTyp :: Typ -> Schema
 schemaFromTyp = go
   where
-    go (Var name') =
+    go (Var (_, name')) =
         mempty
             { _schemaAllOf = Just [Ref $ Reference $ T.pack name']
             }
