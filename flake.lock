@@ -16,6 +16,62 @@
         "type": "github"
       }
     },
+    "agda": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1696540558,
+        "narHash": "sha256-fqYyjgOFQrU4ryGcLyz5gMYMdPk1P24ra7kQiUrbilg=",
+        "owner": "agda",
+        "repo": "agda",
+        "rev": "f42acb696e43d382639f04f869e9a99ab36a91c6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "agda",
+        "ref": "v2.6.4",
+        "repo": "agda",
+        "type": "github"
+      }
+    },
+    "agda-stdlib": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1700966885,
+        "narHash": "sha256-fGgOAvTWqVWE2kap2WQtsAwMSJDi3fK/V3lJ6ttDcGo=",
+        "owner": "agda",
+        "repo": "agda-stdlib",
+        "rev": "53c36cd0e0d6dd361e50757d90fc887375dec523",
+        "type": "github"
+      },
+      "original": {
+        "owner": "agda",
+        "ref": "v2.0-rc2",
+        "repo": "agda-stdlib",
+        "type": "github"
+      }
+    },
+    "agda2hs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1701096344,
+        "narHash": "sha256-quN9bcMH6+qyf7jlG/Q2ICIk0YimgNUBQ0CzyCrW4fE=",
+        "owner": "agda",
+        "repo": "agda2hs",
+        "rev": "e4bca5833042f7e18dd278e3a9eaa33fdfc8792d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "agda",
+        "ref": "e4bca5833042f7e18dd278e3a9eaa33fdfc8792d",
+        "repo": "agda2hs",
+        "type": "github"
+      }
+    },
     "blst": {
       "flake": false,
       "locked": {
@@ -118,6 +174,21 @@
       }
     },
     "flake-utils": {
+      "locked": {
+        "lastModified": 1678901627,
+        "narHash": "sha256-U02riOqrKKzwjsxc/400XnElV+UtPUQWpANPlyazjH0=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "93a2b84fc4b70d9e089d029deacc3583435c2ed6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_2": {
       "inputs": {
         "systems": "systems"
       },
@@ -193,11 +264,11 @@
     "hackage": {
       "flake": false,
       "locked": {
-        "lastModified": 1701044613,
-        "narHash": "sha256-OdiZwE4on2vev78bykz4pm9zsapWrzdPcxvrAki48vI=",
+        "lastModified": 1701130974,
+        "narHash": "sha256-0ykM3chRG8TXHhfEytU1IerNq5vN5rluaOnLNCJUZ6s=",
         "owner": "input-output-hk",
         "repo": "hackage.nix",
-        "rev": "7fa495d9f3beec14b32ea20f3388516aa2e64481",
+        "rev": "618294813c33cc6c8b98c1ec5570bc48864b13ec",
         "type": "github"
       },
       "original": {
@@ -241,11 +312,11 @@
         "stackage": "stackage"
       },
       "locked": {
-        "lastModified": 1701053834,
-        "narHash": "sha256-4sH4//POARjeKJv1mu8aU4W4A28GYqrj9KB3PqusHis=",
+        "lastModified": 1701132614,
+        "narHash": "sha256-xQd40g4P4NN38i2Z6esGpwiHp256H60uGqSm5Y4+WiA=",
         "owner": "input-output-hk",
         "repo": "haskell.nix",
-        "rev": "7c491c55157208575c70c7b8434e9d4a1cf173a6",
+        "rev": "c713f9448947520e65974f942c0d906202ffdf7a",
         "type": "github"
       },
       "original": {
@@ -381,7 +452,9 @@
     "iohkNix": {
       "inputs": {
         "blst": "blst",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "secp256k1": "secp256k1",
         "sodium": "sodium"
       },
@@ -597,22 +670,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1684171562,
-        "narHash": "sha256-BMUWjVWAUdyMWKk0ATMC9H0Bv4qAV/TXwwPUvTiC5IQ=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "55af203d468a6f5032a519cba4f41acf5a74b638",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "release-22.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "old-ghc-nix": {
       "flake": false,
       "locked": {
@@ -632,7 +689,10 @@
     },
     "root": {
       "inputs": {
-        "flake-utils": "flake-utils",
+        "agda": "agda",
+        "agda-stdlib": "agda-stdlib",
+        "agda2hs": "agda2hs",
+        "flake-utils": "flake-utils_2",
         "haskellNix": "haskellNix",
         "iohkNix": "iohkNix",
         "nixpkgs": [
@@ -678,11 +738,11 @@
     "stackage": {
       "flake": false,
       "locked": {
-        "lastModified": 1701043780,
-        "narHash": "sha256-d5CYT7WGEaL6IFNmUg4JUb+onxI/tO1qgHs/TCIKB3A=",
+        "lastModified": 1701130167,
+        "narHash": "sha256-Mdzljtmfe6lg8lo7BAMXPRay0fH17MVoBQJBPzt3s+w=",
         "owner": "input-output-hk",
         "repo": "stackage.nix",
-        "rev": "cb49435b81adf0549589c51f39b5b38b4369f106",
+        "rev": "4396102706df8636afae08806984e03f4afd381e",
         "type": "github"
       },
       "original": {
