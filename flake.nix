@@ -2,10 +2,18 @@
 # https://github.com/input-output-hk/cardano-base/blob/master/flake.nix
 {
   inputs = {
-    haskellNix.url = "github:input-output-hk/haskell.nix";
+    nixpkgs.url = "github:NixOS/nixpkgs";
     nixpkgs.follows = "haskellNix/nixpkgs-unstable";
+
+    haskellNix.url = "github:input-output-hk/haskell.nix";
+    # We need the latest nixpkgs in order to get Agda 2.6.4
+    # haskellNix.inputs.nixpkgs-unstable.follows = "nixpkgs";
     iohkNix.url = "github:input-output-hk/iohk-nix";
+    iohkNix.inputs.nixpkgs.follows = "nixpkgs";
+
     flake-utils.url = "github:hamishmack/flake-utils/hkm/nested-hydraJobs";
+
+    agda-tools.url = "path:./nix/agda";
   };
 
   outputs = inputs:
@@ -23,10 +31,12 @@
         # setup our nixpkgs with the haskell.nix overlays, and the iohk-nix
         # overlays...
         nixpkgs = import inputs.nixpkgs {
-          overlays = [inputs.haskellNix.overlay] ++ builtins.attrValues inputs.iohkNix.overlays;
+          overlays = [inputs.haskellNix.overlay]
+            ++ builtins.attrValues inputs.iohkNix.overlays;
           inherit system;
           inherit (inputs.haskellNix) config;
         };
+
         # ... and construct a flake from the cabal.project file.
         # We use cabalProject' to ensure we don't build the plan for
         # all systems.
@@ -43,14 +53,19 @@
             hlint = {};
             fourmolu = "0.13.1.0";
           };
-          # Now we use pkgsBuildBuild, to make sure that even in the cross
-          # compilation setting, we don't run into issues where we pick tools
-          # for the target.
-          shell.buildInputs = with nixpkgs.pkgsBuildBuild; [
-            just
-            gitAndTools.git
-          ];
           shell.withHoogle = true;
+
+          shell.buildInputs = [
+            nixpkgs.just
+            nixpkgs.gitAndTools.git
+
+            inputs.agda-tools.packages.${system}.agda
+            inputs.agda-tools.packages.${system}.agda2hs
+          ];
+
+          shell.shellHook = ''
+            export AGDA_DIR=${inputs.agda-tools.packages.${system}.agda-dir.outPath}
+          '';
         }).flake (
           # we also want cross compilation to windows.
           nixpkgs.lib.optionalAttrs (system == "x86_64-linux") {
