@@ -47,10 +47,20 @@ steps:
       system: ${linux}
     env:
       TMPDIR: "/cache"
+
   - label: "Check cardano-ledger-specs"
     depends_on: linux-nix
     command: |
       ${nix} --command bash -c scripts/cardano-ledger-specs.sh
+    agents:
+      system: ${linux}
+    env:
+      TMPDIR: "/cache"
+
+  - label: "Check agda2hs"
+    depends_on: linux-nix
+    command: |
+      ${nix} --command bash -c '.buildkite/check-agda.sh'
     agents:
       system: ${linux}
     env:
