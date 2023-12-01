@@ -2,17 +2,18 @@
 # https://github.com/input-output-hk/cardano-base/blob/master/flake.nix
 {
   inputs = {
-    haskellNix.url = "github:input-output-hk/haskell.nix";
+    nixpkgs.url = "github:NixOS/nixpkgs";
     nixpkgs.follows = "haskellNix/nixpkgs-unstable";
+
+    haskellNix.url = "github:input-output-hk/haskell.nix";
+    # We need the latest nixpkgs in order to get Agda 2.6.4
+    # haskellNix.inputs.nixpkgs-unstable.follows = "nixpkgs";
     iohkNix.url = "github:input-output-hk/iohk-nix";
+    iohkNix.inputs.nixpkgs.follows = "nixpkgs";
+
     flake-utils.url = "github:hamishmack/flake-utils/hkm/nested-hydraJobs";
 
-    CHaP.url = "github:input-output-hk/cardano-haskell-packages?ref=repo";
-    CHaP.flake = false;
-
-    # non-flake nix compatibility
-    flake-compat.url = "github:edolstra/flake-compat";
-    flake-compat.flake = false;
+    agda-tools.url = "path:./nix/agda";
   };
 
   outputs = inputs:
@@ -30,10 +31,12 @@
         # setup our nixpkgs with the haskell.nix overlays, and the iohk-nix
         # overlays...
         nixpkgs = import inputs.nixpkgs {
-          overlays = [inputs.haskellNix.overlay] ++ builtins.attrValues inputs.iohkNix.overlays;
+          overlays = [inputs.haskellNix.overlay]
+            ++ builtins.attrValues inputs.iohkNix.overlays;
           inherit system;
           inherit (inputs.haskellNix) config;
         };
+
         # ... and construct a flake from the cabal.project file.
         # We use cabalProject' to ensure we don't build the plan for
         # all systems.
@@ -41,15 +44,6 @@
           src = ./.;
           name = "fine-type";
           compiler-nix-name = "ghc928";
-
-          # CHaP input map, so we can find CHaP packages (needs to be more
-          # recent than the index-state we set!). Can be updated with
-          #
-          #  nix flake lock --update-input CHaP
-          #
-          inputMap = {
-            "https://input-output-hk.github.io/cardano-haskell-packages" = inputs.CHaP;
-          };
 
           # tools we want in our shell
           shell.tools = {
@@ -59,59 +53,25 @@
             hlint = {};
             fourmolu = "0.13.1.0";
           };
-          # Now we use pkgsBuildBuild, to make sure that even in the cross
-          # compilation setting, we don't run into issues where we pick tools
-          # for the target.
-          shell.buildInputs = with nixpkgs.pkgsBuildBuild; [
-            just
-            gitAndTools.git
-          ];
           shell.withHoogle = true;
 
-          # package customizations as needed. Where cabal.project is not
-          # specific enough, or doesn't allow setting these.
-          modules = [
-            ({pkgs, ...}: {
-              # Packages we wish to ignore version bounds of.
-              # This is similar to jailbreakCabal, however it
-              # does not require any messing with cabal files.
-              packages.katip.doExactConfig = true;
+          shell.buildInputs = [
+            nixpkgs.just
+            nixpkgs.gitAndTools.git
 
-              # split data output for ekg to reduce closure size
-              packages.ekg.components.library.enableSeparateDataOutput = true;
-              packages.cardano-binary.configureFlags = [ "--ghc-option=-Werror" ];
-              packages.cardano-crypto-class.configureFlags = [ "--ghc-option=-Werror" ];
-              packages.slotting.configureFlags = [ "--ghc-option=-Werror" ];
-              enableLibraryProfiling = profiling;
-            })
-            ({pkgs, ...}: with pkgs; nixpkgs.lib.mkIf stdenv.hostPlatform.isWindows {
-              packages.text.flags.simdutf = false;
-              # Disable cabal-doctest tests by turning off custom setups
-              packages.comonad.package.buildType = lib.mkForce "Simple";
-              packages.distributive.package.buildType = lib.mkForce "Simple";
-              packages.lens.package.buildType = lib.mkForce "Simple";
-              packages.nonempty-vector.package.buildType = lib.mkForce "Simple";
-              packages.semigroupoids.package.buildType = lib.mkForce "Simple";
-
-              # Make sure we use a buildPackages version of happy
-              # packages.pretty-show.components.library.build-tools = [ (pkgsBuildBuild.haskell-nix.tool compiler-nix-name "happy" "1.20.1.1") ];
-
-              # Remove hsc2hs build-tool dependencies (suitable version will be available as part of the ghc derivation)
-              packages.Win32.components.library.build-tools = lib.mkForce [];
-              packages.terminal-size.components.library.build-tools = lib.mkForce [];
-              packages.network.components.library.build-tools = lib.mkForce [];
-            })
+            inputs.agda-tools.packages.${system}.agda
+            inputs.agda-tools.packages.${system}.agda2hs
           ];
+
+          shell.shellHook = ''
+            export AGDA_DIR=${inputs.agda-tools.packages.${system}.agda-dir.outPath}
+          '';
         }).flake (
           # we also want cross compilation to windows.
           nixpkgs.lib.optionalAttrs (system == "x86_64-linux") {
           crossPlatforms = p: [p.mingwW64];
         });
-      in nixpkgs.lib.recursiveUpdate flake {
-        # add a required job, that's basically all hydraJobs.
-        # hydraJobs = nixpkgs.callPackages inputs.iohkNix.utils.ciJobsAggregates
-        #  { ciJobs = flake.hydraJobs; };
-      }
+      in flake
     );
 
   nixConfig = {
