@@ -28,9 +28,6 @@ import Servant.API
     , MimeRender (..)
     , MimeUnrender (..)
     )
-import Servant.API.ContentTypes
-    ( eitherDecodeLenient
-    )
 
 import Data.Aeson as JS
 
@@ -52,6 +49,6 @@ instance forall a. ToValue a => MimeRender FineJSON a where
 
 instance forall a. FromValue a => MimeUnrender FineJSON a where
     mimeUnrender _ bs =
-        fmap fromValue . valueFromJson typ =<< eitherDecodeLenient bs
+        fmap fromValue . valueFromJson typ =<< JS.eitherDecode bs
       where
         typ = toTyp (Proxy :: Proxy a)

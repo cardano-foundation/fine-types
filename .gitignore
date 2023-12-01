@@ -15,6 +15,10 @@
 *.hp
 *.eventlog
 
+### agda2hs ###
+_build
+*.agdai
+
 ### Cabal ###
 dist
 dist-*
